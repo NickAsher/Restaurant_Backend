@@ -1,0 +1,30 @@
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    overflow-y: scroll;
+}
+
+
+.navbar-space{
+    margin-left: 50px;
+    margin-right: 50px;
+
+}
+
+.navbar-height-big{
+
+}
+
+.ytext-heading{
+    color: #555555;
+    color: #1CA8DD;
+
+
+}
+
+.td-clickable, .tr-clickable{
+    cursor:pointer
+}

@@ -1,0 +1,30 @@
+
+/* ************************ Body ********************************* */
+
+#mainContainer{
+    background-color: #ffffff;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#mainContent_Footer{
+    background: -webkit-linear-gradient(45deg, #00B8D4, #00C853, #00BFA5);
+    padding: 20px 0;
+}
+
+#mainContent_Footer  div{
+    background-color: inherit;
+    color: #ffffff;
+    text-align: center;
+    font-size: 16px ;
+}

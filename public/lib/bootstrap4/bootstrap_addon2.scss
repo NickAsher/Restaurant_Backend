@@ -1,0 +1,49 @@
+
+.addon-btn-toggle {
+  // Pure CSS switcher.
+  // This is a better than using JavaScript-based switchers:
+  // * More efficient and less prone to weird and hard to debug behaviors than JavaScript.
+  // * JavaScript components are usually tied to the author's use case, instead of ours.
+  // * Gracefully supports button groups and `label for` options.
+  // * Inpired by: https://github.com/abpetkov/switchery/issues/13
+
+  // I have changed the name of the class from rb-swticher to addon-btn-toggle
+  input {
+    display: none;
+  }
+  i {
+    display: inline-block;
+    cursor: pointer;
+    padding-right: 20px;
+    transition: all ease 0.2s;
+    -webkit-transition: all ease 0.2s;
+    border-radius: 20px;
+    //box-shadow: inset 0 0 1px rgba(0,0,0,.5);
+    box-shadow: inset 0 0 1px rgba(0,0,0,.5), inset 0 0 40px red;
+    -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,.5), inset 0 0 40px red;
+
+  }
+  i:before {
+    display: block;
+    content: '';
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    background: white;
+    box-shadow: 0 1px 2px rgba(0,0,0,.5);
+
+  }
+  :checked + i {
+    padding-right: 0;
+    padding-left: 20px;
+    box-shadow: inset 0 0 1px rgba(0,0,0,.5), inset 0 0 40px lightgreen;
+    -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,.5), inset 0 0 40px lightgreen;
+  }
+  // An example of how `<label class="rb-switcher red">...</label>` would tweak it's style.
+  &.red :checked + i {
+    box-shadow: inset 0 0 1px rgba(0,0,0,.5), inset 0 0 40px red;
+    -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,.5), inset 0 0 40px red;
+  }
+
+
+}
