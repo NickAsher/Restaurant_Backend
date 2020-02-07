@@ -97,6 +97,24 @@ exports.getAllGalleryItems = async ()=>{
 } ;
 
 
+exports.getSingleGalleryItem = async (galleryItemId)=>{
+  try{
+    let dbData = await dbConnection.execute(
+      `SELECT * FROM  gallery_table WHERE gallery_item_id =  ${galleryItemId} `
+    ) ;
+    return {
+      status : true,
+      data : dbData['0']['0']
+    } ;
+  }catch (e) {
+    return {
+      status : false,
+      data : e,
+    } ;
+  }
+} ;
+
+
 exports.getContactData = async ()=>{
   try {
     let dbData = await dbConnection.execute(

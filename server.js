@@ -134,6 +134,70 @@ app.get('/blog/:blogId/edit', async (req, res)=>{
 
 
 
+
+app.get('/gallery', async(req, res)=>{
+
+  try{
+
+
+    let galleryData = await dbRepository.getAllGalleryItems() ;
+    if(galleryData['status'] === false){throw galleryData ;}
+
+    res.render('gallery/all_images.hbs', {
+      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
+      galleryData : galleryData['data'],
+    }) ;
+  }catch (e) {
+    res.send({
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      e_toString2 : e.toString,
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+}) ;
+
+app.get('/gallery/add-new-image', async (req, res)=>{
+  try{
+    res.render('gallery/add_new_image.hbs', {
+      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
+    }) ;
+  }catch (e) {
+    res.send({
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      e_toString2 : e.toString,
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+}) ;
+
+app.get('/gallery/:galleryItemId', async (req, res)=>{
+  try{
+    // TODO check that galleryItemId is valid
+
+    let galleryData = await dbRepository.getSingleGalleryItem(req.params.galleryItemId) ;
+    if(galleryData['status'] === false){throw galleryData ;}
+
+    res.render('gallery/single_image.hbs', {
+      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
+      galleryData : galleryData['data'],
+    }) ;
+  }catch (e) {
+    res.send({
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      e_toString2 : e.toString,
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+}) ;
+
+
+
 app.listen(3002, ()=>{
     console.log("The server is listening on port 3002") ;
 }) ;
