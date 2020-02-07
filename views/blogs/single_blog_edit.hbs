@@ -1,0 +1,228 @@
+<html>
+<head>
+    <title>HomeFlavor | Backend</title>
+    <meta charset="utf-8">
+
+
+
+    <link rel="stylesheet" href="/lib/reset/reset.css" >
+
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap_addon.css" >
+
+
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
+
+    <link rel="stylesheet" href="/lib/t3/t3.css" />
+
+    <link rel="stylesheet" href="/css/my_general_classes.css">
+    <link rel="stylesheet" href="/css/default_style.css">
+    <link rel="stylesheet" href="/css/my_personal.css">
+</head>
+<body>
+
+{{>header}}
+<section>
+
+    {{>sidebar}}
+
+    <div class="container-fluid t3-push" id="mainContainer">
+        <div class="row">
+            <div id = "main_Content " class="col-md-12 bg-grey">
+
+                <br><br><br><br>
+                <div class="page-title bg-light">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <h1 class="">Edit Blog</h1>
+                        </div>
+                    </div>
+                </div>
+                <br><br><br>
+
+
+
+
+
+
+                <div class="row">
+                    <!--<div class = col-md-</div>-->
+                    <div class="col-md-10 push-1" >
+                        <form action="process-edit-blogpost.php" method="post" enctype="multipart/form-data">
+
+
+                            <input type="hidden" name="__blog_id" value="{{blogData.blog_id}}">
+
+
+
+
+                            <div class="card">
+                                <div class="card-block">
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div id="Div_BlogDate">
+                                                <label for="input-blog-date" class="col-form-label">Creation Date:</label>
+                                                <div>
+                                                    <input name = '__new_blog_date' id="input-blog-date" class="form-control" type="text" value="{{blogData.blog_creation_date}}" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div id="Div_BlogAuthor">
+                                                <label for="input-blog-date" class="col-form-label">Author Name:</label>
+                                                <div>
+                                                    <input id="input-blog-date" class="form-control" type="text" value="Rafique Gagneja" readonly >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            <br>
+
+
+                                    <div id="Div_BlogTitle">
+                                        <label for="input-blog-title" class="col-form-label">Blog Title:</label>
+                                        <div>
+                                            <input name = '__new_blog_title' id="input-blog-title" class="form-control" type="text" value="{{blogData.blog_title}}" >
+                                        </div>
+                                        <br><br>
+                                    </div>
+
+
+
+
+
+                                    <div id="Div_BlogDisplayImage">
+                                        <label for="presentation-only-field-display" class="col-form-label">Blog DisplayImage: </label>
+
+                                        <div class="row form-control" style="margin-left: 0px">
+                                            <div class="col-6">
+                                                <img class="img-fluid" src='{{IMAGE_BACKENDFRONT_LINK_PATH}}{{blogData.blog_display_image}}' alt="blog image here"  />
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="row input-group">
+                                                    <input type="file" name="__new_blog_display_image" style="width:0;" id="hidden-file-chooser-display">
+                                                    <input type="text" id="presentation-only-field-display" placeholder="Choose image ..." class="form-control"  readonly>
+                                                    <button id="btn-file-choose-display" class="input-group-addon">Browse</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br><br>
+                                    </div>
+
+
+
+                                    <div id="Div_BlogContent">
+                                        <label for="input-blog-description" class="col-form-label">Blog Content:</label>
+                                        <div>
+                                            <textarea name="__new_blog_content" id="input-blog-content" class="form-control">{{{blogData.blog_content}}}</textarea>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+
+
+
+
+
+
+                            <br><br>
+                            <div class="form-group row">
+                                <div class="col-4" ></div>
+                                <input type="submit" class=" col-4 btn btn-outline-info" value="Save this Post">
+                                <div class="col-4" ></div>
+                            </div>
+
+
+
+
+                        </form>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+
+
+
+
+
+                <div id="space_before_footer">
+                    <br><br><br><br><br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+{{>footer}}
+
+
+</body>
+<script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
+<script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
+<script type="text/javascript" src="/lib/bootstrap4/bootstrap_addon.js" ></script>
+<script type="text/javascript" src="/lib/t3/t3.js"></script>
+<script type="text/javascript" src="/lib/tinymce/js/tinymce/tinymce.min.js"></script>
+
+
+<script >
+
+    function handleBrowseButton(ButtonId, HiddenInputId, PresentationInputId){
+        $('#'+ButtonId).click(function (event) {
+            event.preventDefault() ;
+            $('#'+HiddenInputId).click();
+
+            $('#'+HiddenInputId).change(function(){
+                $('#'+PresentationInputId).val($(this).val());
+                return false ;
+            });
+
+
+        }) ;
+    }
+
+    handleBrowseButton("btn-file-choose-display","hidden-file-chooser-display","presentation-only-field-display") ;
+
+
+    tinymce.init({
+        selector: '#input-blog-content',
+        height: 500,
+        theme: 'modern',
+        plugins: [
+            'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+            'searchreplace wordcount visualblocks visualchars code fullscreen',
+            'insertdatetime media nonbreaking save table contextmenu directionality',
+            'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc'
+        ],
+        toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+        toolbar2: 'print preview media | forecolor backcolor emoticons | codesample',
+        image_advtab: true,
+        templates: [
+            { title: 'Test template 1', content: 'Test 1' },
+            { title: 'Test template 2', content: 'Test 2' }
+        ]
+    });
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+</html>

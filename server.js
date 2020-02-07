@@ -31,18 +31,6 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(cookieParser()) ;
 
 
-
-app.use((req, res, next)=>{
-  // check if client has the cookie
-  if (req.cookies.cart === undefined) {
-    res.cookie('logged_in', true, {httpOnly : true, maxAge : 60*60*24*7 }) ;
-    console.log("cookies have been set") ;
-  }
-  next();
-});
-
-
-
 app.get('/clear', (req, res)=>{
   res.cookie('logged_in', true, {httpOnly : true, maxAge : 60*60*24*7 }) ;
 
@@ -83,6 +71,66 @@ app.get('/blogs', async(req, res)=>{
   }) ;
 }) ;
 
+app.get('/blogs/add-new-blog', async(req, res)=>{
+  try{
+    res.render('blogs/add_new_blog.hbs', {
+      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
+    }) ;
+  }catch (e) {
+    res.send({
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      e_toString2 : e.toString,
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+}) ;
+
+app.get('/blog/:blogId', async (req, res)=>{
+  try{
+    // TODO check that blogId is valid
+
+    let blogData = await dbRepository.getSingleBlog(req.params.blogId) ;
+    if(blogData['status'] === false){throw blogData ;}
+
+    res.render('blogs/single_blog.hbs', {
+      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
+      blogData : blogData['data']['0'],
+    }) ;
+  }catch (e) {
+    res.send({
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      e_toString2 : e.toString,
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+}) ;
+
+
+app.get('/blog/:blogId/edit', async (req, res)=>{
+  try{
+    // TODO check that blogId is valid
+
+    let blogData = await dbRepository.getSingleBlog(req.params.blogId) ;
+    if(blogData['status'] === false){throw blogData ;}
+
+    res.render('blogs/single_blog_edit.hbs', {
+      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
+      blogData : blogData['data']['0'],
+    }) ;
+  }catch (e) {
+    res.send({
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      e_toString2 : e.toString,
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+}) ;
 
 
 

@@ -34,16 +34,17 @@
 
 
 
-                <div id="space_below_header">
-                    <br><br><br><br><br>
+                <br><br><br><br>
+                <div class="page-title bg-light">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <h1 class="">All Blogs</h1>
+                        </div>
+                    </div>
                 </div>
+                <br><br><br>
 
 
-
-
-
-
-                <br><br>
                 <table  class='table table-bordered table-hover' >
 
                     <tr class='table-info'>
@@ -61,11 +62,9 @@
 
                         <td>
                             <div style='display: inline-block'>
-                                <form action='edit-blogpost.php' method='get'>
-                                    <input type='hidden' name='__blog_id' value='$BlogId'>
+                                <a href="/blog/{{blog_id}}/edit">
                                     <button type='submit' class='btn btn-info' ><span><i class='fa fa-edit'></i></span></button>
-
-                                </form>
+                                </a>
                             </div>
                             <div style='display: inline-block'>
                                 <form action='confirm-delete-blogpost.php' method='post'>
@@ -91,7 +90,7 @@
                 <br><br>
                 <div class="row">
                     <div class="col-4"></div>
-                    <a class="col-4 btn btn-outline-info" href="add-new-blogpost.php">
+                    <a class="col-4 btn btn-outline-info" href="/blogs/add-new-blog">
                         Add New Item
                     </a>
                     <div class="col-4"></div>
