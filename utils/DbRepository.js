@@ -174,7 +174,7 @@ exports.getAboutData = async ()=>{
 
 
 
-exports.getOfferSpecialData = async ()=>{
+exports.getAllOfferSpecialData = async ()=>{
   try {
     let dbData = await dbConnection.execute(
         `SELECT * FROM offer_special_table ORDER BY sr_no ASC `
@@ -182,6 +182,24 @@ exports.getOfferSpecialData = async ()=>{
     return {
       status : true,
       data : dbData['0']
+    } ;
+  }catch (e) {
+    return {
+      status : false,
+      data : e,
+    } ;
+  }
+} ;
+
+
+exports.getSingleOfferSpecial = async (offerId)=>{
+  try {
+    let dbData = await dbConnection.execute(
+      `SELECT * FROM offer_special_table WHERE id = ${offerId}`
+    ) ;
+    return {
+      status : true,
+      data : dbData['0']['0']
     } ;
   }catch (e) {
     return {

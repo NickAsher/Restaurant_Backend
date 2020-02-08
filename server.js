@@ -117,7 +117,7 @@ app.get('/blog/:blogId/edit', async (req, res)=>{
     let blogData = await dbRepository.getSingleBlog(req.params.blogId) ;
     if(blogData['status'] === false){throw blogData ;}
 
-    res.render('blogs/single_blog_edit.hbs', {
+    res.render('blogs/single_edit_blog.hbs', {
       IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
       blogData : blogData['data']['0'],
     }) ;
@@ -195,6 +195,93 @@ app.get('/gallery/:galleryItemId', async (req, res)=>{
     }) ;
   }
 }) ;
+
+
+app.get('/specials', async (req, res)=>{
+  try{
+
+    let offerData = await dbRepository.getAllOfferSpecialData() ;
+    if(offerData['status'] === false){throw offerData ;}
+
+    res.render('specials/all_offerspecial.hbs', {
+      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
+      offerData : offerData['data'],
+    }) ;
+  }catch (e) {
+    res.send({
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      e_toString2 : e.toString,
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+}) ;
+
+
+app.get('/specials/add', async (req, res)=>{
+  try{
+
+    res.render('specials/add_new_offerspecial.hbs', {
+      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
+    }) ;
+  }catch (e) {
+    res.send({
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      e_toString2 : e.toString,
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+
+}) ;
+
+app.get('/specials/:offerId', async (req, res)=>{
+  try{
+    //TODO check that offferId is valid
+    let offerId = req.params.offerId ;
+    let offerData = await dbRepository.getSingleOfferSpecial(offerId) ;
+    if(offerData['status'] === false){throw offerData ;}
+
+    res.render('specials/single_offerspecial.hbs', {
+      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
+      offerData : offerData['data'],
+    }) ;
+  }catch (e) {
+    res.send({
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      e_toString2 : e.toString,
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+}) ;
+
+app.get('/specials/:offerId/edit', async (req, res)=>{
+  try{
+    //TODO check that offer id is valid
+    let offerId = req.params.offerId ;
+    let offerData = await dbRepository.getSingleOfferSpecial(offerId) ;
+    if(offerData['status'] === false){throw offerData ;}
+
+    res.render('specials/edit_offerspecial.hbs', {
+      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
+      offerData : offerData['data'],
+    }) ;
+  }catch (e) {
+    res.send({
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      e_toString2 : e.toString,
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+}) ;
+
+
 
 
 
