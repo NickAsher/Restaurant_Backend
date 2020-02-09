@@ -21,7 +21,7 @@ exports.getCount_Blogs = async()=>{
       data : e.toString()
     } ;
   }
-}
+} ;
 exports.getAllBlogs = async ()=>{
   try{
     let dbData = await dbConnection.execute(
@@ -168,6 +168,27 @@ exports.getAboutData = async ()=>{
     return {
       status : false,
       data : e,
+    } ;
+  }
+} ;
+
+
+exports.editAboutData = async (newAboutUsData)=>{
+  try {
+    let returnData = await dbConnection.execute(
+      `UPDATE info_about_table SET about_us1 = :aboutData WHERE restaurant_id = 1`, {
+        aboutData : newAboutUsData
+      }
+    );
+
+    return {
+      status: true,
+      data: returnData,
+    };
+  }catch (e) {
+    return {
+      status : false,
+      data : e
     } ;
   }
 } ;

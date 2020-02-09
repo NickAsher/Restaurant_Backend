@@ -1,0 +1,211 @@
+<html>
+<head>
+    <title>HomeFlavor | Backend</title>
+    <meta charset="utf-8">
+
+
+
+    <link rel="stylesheet" href="/lib/reset/reset.css" >
+
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap_addon.css" >
+
+
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
+
+    <link rel="stylesheet" href="/lib/t3/t3.css" />
+
+    <link rel="stylesheet" href="/css/my_general_classes.css">
+    <link rel="stylesheet" href="/css/default_style.css">
+    <link rel="stylesheet" href="/css/my_personal.css">
+</head>
+<body>
+
+{{>header}}
+<section>
+
+    {{>sidebar}}
+
+    <div class="container-fluid t3-push" id="mainContainer">
+        <div class="row">
+            <div id = "main_Content" class="col-md-12">
+
+                <br><br><br><br>
+                <div class="page-title bg-light">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <h1 class="">Contact Us</h1>
+                        </div>
+                    </div>
+                </div>
+                <br><br><br>
+
+
+
+
+
+                <div class="row">
+                    <div id="Section_AddNewItemForm" class="col-md-10 push-1" >
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="ytext-heading">Address</h3>
+                            </div>
+                            <div class="card-block">
+
+
+                                <div class="form-group row">
+                                    <label for="input-rest-name" class="col-3 col-form-label">Restaurant Name</label>
+                                    <div class="col-md-9">
+                                        <input name="__restaurant_image" class="form-control" type="text" placeholder="ex. My Restaurant" id="input-rest-name" value="{{contactData.restaurant_name}}" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="input-rest-addr1" class="col-3 col-form-label">Address Line 1 </label>
+                                    <div class="col-md-9">
+                                        <input name="__newitem_name" class="form-control" type="text" placeholder="" id="input-rest-addr1" value="{{contactData.restaurant_addr_1}}" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="input-rest-addr2" class="col-3 col-form-label">Address Line 2</label>
+                                    <div class="col-md-9">
+                                        <input name="__" class="form-control" type="text" placeholder="" id="input-rest-addr2" value="{{contactData.restaurant_addr_2}}" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="input-rest-addr3" class="col-3 col-form-label">Address Line 3</label>
+                                    <div class="col-md-9">
+                                        <input name="__newitem_name" class="form-control" type="text" placeholder="" id="input-rest-addr3" value="{{contactData.restaurant_addr_3}}" disabled>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <br><br>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="ytext-heading">Contact</h3>
+                                    </div>
+                                    <div class="card-block">
+
+                                        <div class="form-group row">
+                                            <label for="input-rest-phone" class="col-3 col-form-label">Phone no</label>
+                                            <div class="col-md-9">
+                                                <input name="__" class="form-control" type="text" placeholder="ex. 9780045712" id="input-rest-phone" value="{{contactData.restaurant_phone}}" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="input-rest-email" class="col-3 col-form-label">Email Id</label>
+                                            <div class="col-md-9">
+                                                <input name="__newitem_name" class="form-control" type="text" placeholder="ex. example@gmail.com" id="input-rest-email" value="{{contactData.restaurant_email}}" disabled>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="ytext-heading">Google Maps</h3>
+                                    </div>
+                                    <div class="card-block">
+
+                                        <div class="form-group row">
+                                            <label for="input-rest-latitude" class="col-3 col-form-label">Latitude</label>
+                                            <div class="col-md-9">
+                                                <input name="__" class="form-control" type="text" placeholder="ex. 94.147" id="input-rest-latitude" value="{{contactData.latitude}}" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="input-rest-longitude" class="col-3 col-form-label">Longitude</label>
+                                            <div class="col-md-9">
+                                                <input name="__" class="form-control" type="text" placeholder="ex. 120.745" id="input-rest-longitude" value="{{contactData.longitude}}" disabled>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <br><br>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="ytext-heading">Opening Hours</h3>
+                            </div>
+                                <div id="input-rest-hours" class="form-control bg-faded" disabled>{{{contactData.restaurant_hours}}}</div>
+                        </div>
+
+                        <br><br><br><br><br><br>
+
+                        <div class="form-group row">
+                            <div class="col-4" ></div>
+                            <a class="col-4 btn btn-outline-info" href="/contact/edit" > Edit</a>
+                            <div class="col-4" ></div>
+                        </div>
+
+
+
+
+
+
+                        <div id="space_before_footer">
+                            <br><br><br><br><br>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+
+
+
+
+                <div id="space_before_footer">
+                    <br><br><br><br><br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+{{>footer}}
+
+
+</body>
+<script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
+<script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
+<script type="text/javascript" src="/lib/bootstrap4/bootstrap_addon.js" ></script>
+<script type="text/javascript" src="/lib/t3/t3.js"></script>
+
+
+
+
+
+
+
+
+</html>
