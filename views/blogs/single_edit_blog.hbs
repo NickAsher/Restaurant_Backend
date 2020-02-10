@@ -50,87 +50,54 @@
                 <div class="row">
                     <!--<div class = col-md-</div>-->
                     <div class="col-md-10 push-1" >
-                        <form action="process-edit-blogpost.php" method="post" enctype="multipart/form-data">
+                        <form action="/blog/edit/save" method="post" enctype="multipart/form-data">
 
 
-                            <input type="hidden" name="__blog_id" value="{{blogData.blog_id}}">
+                            <input type="hidden" name="post_BlogId" value="{{blogData.blog_id}}">
+                            <input type="hidden" name="post_OldImageFileName" value="{{blogData.blog_display_image}}">
 
 
-
-
-                            <div class="card">
-                                <div class="card-block">
-
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div id="Div_BlogDate">
-                                                <label for="input-blog-date" class="col-form-label">Creation Date:</label>
-                                                <div>
-                                                    <input name = '__new_blog_date' id="input-blog-date" class="form-control" type="text" value="{{blogData.blog_creation_date}}" >
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div id="Div_BlogAuthor">
-                                                <label for="input-blog-date" class="col-form-label">Author Name:</label>
-                                                <div>
-                                                    <input id="input-blog-date" class="form-control" type="text" value="Rafique Gagneja" readonly >
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div id="Div_BlogAuthor">
+                                <label for="input-blog-date" class="col-form-label">Author Name:</label>
+                                <div>
+                                    <input id="input-blog-date" name="post_BlogAuthor" class="form-control" type="text" value="Rafique Gagneja" >
+                                </div>
+                            </div>
                             <br>
 
-
-                                    <div id="Div_BlogTitle">
-                                        <label for="input-blog-title" class="col-form-label">Blog Title:</label>
-                                        <div>
-                                            <input name = '__new_blog_title' id="input-blog-title" class="form-control" type="text" value="{{blogData.blog_title}}" >
-                                        </div>
-                                        <br><br>
-                                    </div>
-
-
-
-
-
-                                    <div id="Div_BlogDisplayImage">
-                                        <label for="presentation-only-field-display" class="col-form-label">Blog DisplayImage: </label>
-
-                                        <div class="row form-control" style="margin-left: 0px">
-                                            <div class="col-6">
-                                                <img class="img-fluid" src='{{IMAGE_BACKENDFRONT_LINK_PATH}}{{blogData.blog_display_image}}' alt="blog image here"  />
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="row input-group">
-                                                    <input type="file" name="__new_blog_display_image" style="width:0;" id="hidden-file-chooser-display">
-                                                    <input type="text" id="presentation-only-field-display" placeholder="Choose image ..." class="form-control"  readonly>
-                                                    <button id="btn-file-choose-display" class="input-group-addon">Browse</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <br><br>
-                                    </div>
-
-
-
-                                    <div id="Div_BlogContent">
-                                        <label for="input-blog-description" class="col-form-label">Blog Content:</label>
-                                        <div>
-                                            <textarea name="__new_blog_content" id="input-blog-content" class="form-control">{{{blogData.blog_content}}}</textarea>
-                                        </div>
-                                    </div>
-
-
-
-
+                            <div id="Div_BlogTitle">
+                                <label for="input-blog-title" class="col-form-label">Blog Title:</label>
+                                <div>
+                                    <input name = 'post_BlogTitle' id="input-blog-title" class="form-control" type="text" value="{{blogData.blog_title}}" >
                                 </div>
+                                <br><br>
                             </div>
 
 
+                            <div id="Div_BlogDisplayImage">
+                                <label for="presentation-only-field-display" class="col-form-label">Blog DisplayImage: </label>
 
+                                <div class="row form-control" style="margin-left: 0px">
+                                    <div class="col-6">
+                                        <img class="img-fluid" src='{{IMAGE_BACKENDFRONT_LINK_PATH}}{{blogData.blog_display_image}}' alt="blog image here"  />
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row input-group">
+                                            <input type="file" name="post_Image" style="width:0;" id="hidden-file-chooser-display">
+                                            <input type="text" id="presentation-only-field-display" placeholder="Choose image ..." class="form-control"  readonly>
+                                            <button id="btn-file-choose-display" class="input-group-addon">Browse</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br><br>
+                            </div>
 
-
+                            <div id="Div_BlogContent">
+                                <label for="input-blog-description" class="col-form-label">Blog Content:</label>
+                                <div>
+                                    <textarea name="post_BlogContent" id="input-blog-content" class="form-control">{{{blogData.blog_content}}}</textarea>
+                                </div>
+                            </div>
 
                             <br><br>
                             <div class="form-group row">
@@ -140,11 +107,8 @@
                             </div>
 
 
-
-
                         </form>
                     </div>
-                    <div class="col-md-1"></div>
                 </div>
 
 

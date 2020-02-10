@@ -58,7 +58,7 @@
                     <tr>
                         <td class='addon-link' data-href='/blog/{{blog_id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{blog_display_image}}' class='img-fluid' width='90px' ></td>
                         <td class='addon-link' data-href='/blog/{{blog_id}}'>  {{blog_title}}  </td>
-                        <td class='addon-link' data-href='$DetailPageLink'>  {{blog_creation_date}}</td>
+                        <td class='addon-link' data-href='/blog/{{blog_id}}'>  {{blog_creation_date}}</td>
 
                         <td>
                             <div style='display: inline-block'>
@@ -67,8 +67,9 @@
                                 </a>
                             </div>
                             <div style='display: inline-block'>
-                                <form action='confirm-delete-blogpost.php' method='post'>
-                                    <input type='hidden' name='__blog_id' value='$BlogId'>
+                                <form action='blogs/delete' method='post'>
+                                    <input type='hidden' name='post_BlogId' value='{{blog_id}}'>
+                                    <input type="hidden" name="post_ImageFileName" value="{{blog_display_image}}" >
                                     <button type='submit' class='btn btn-danger' ><span><i class='fa fa-trash'></i></span></button>
                                 </form>
                             </div>
@@ -90,7 +91,7 @@
                 <br><br>
                 <div class="row">
                     <div class="col-4"></div>
-                    <a class="col-4 btn btn-outline-info" href="/blogs/add-new-blog">
+                    <a class="col-4 btn btn-outline-info" href="/blogs/add">
                         Add New Item
                     </a>
                     <div class="col-4"></div>

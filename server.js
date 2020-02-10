@@ -9,7 +9,7 @@ const fs = require('fs') ;
 const Paginator = require('./utils/Paginator') ;
 const multer = require('multer') ;
 
-// const controllerBlogs = require('./controller/blogs') ;
+const controllerBlogs = require('./controller/blogs') ;
 // const controllerGallery = require('./controller/gallery') ;
 const controllerInfo = require('./controller/info') ;
 // const controllerHome = require('./controller/home') ;
@@ -72,87 +72,13 @@ app.get('/', async (req, res)=>{
   res.send("YOLO") ;
 }) ;
 
-app.get('/blogs', async(req, res)=>{
-
-  let countData = await dbRepository.getCount_Blogs() ;
-  if(countData.status == false){throw countData ;}
-
-  let totalNoOfItems = countData.data.total ;
-  let itemsPerPage  = 10 ;
-  let myPaginator = new Paginator(totalNoOfItems, itemsPerPage, req.query.page) ;
-  let parsedPaginatorHtml = myPaginator.getPaginatedHTML("") ;
-
-  let blogsData = await dbRepository.getBlogs_Paginated(myPaginator.getPageNo(), itemsPerPage) ;
-  if(blogsData['status'] === false){throw blogsData ;}
-
-
-  res.render('blogs/all_blogs.hbs', {
-    IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
-    blogsData : blogsData['data'],
-    parsedPaginatorHtml,
-  }) ;
-}) ;
-
-app.get('/blogs/add-new-blog', async(req, res)=>{
-  try{
-    res.render('blogs/add_new_blog.hbs', {
-      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
-    }) ;
-  }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      e_toString2 : e.toString,
-      yo : "Beta ji koi error hai"
-    }) ;
-  }
-}) ;
-
-app.get('/blog/:blogId', async (req, res)=>{
-  try{
-    // TODO check that blogId is valid
-
-    let blogData = await dbRepository.getSingleBlog(req.params.blogId) ;
-    if(blogData['status'] === false){throw blogData ;}
-
-    res.render('blogs/single_blog.hbs', {
-      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
-      blogData : blogData['data']['0'],
-    }) ;
-  }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      e_toString2 : e.toString,
-      yo : "Beta ji koi error hai"
-    }) ;
-  }
-}) ;
-
-
-app.get('/blog/:blogId/edit', async (req, res)=>{
-  try{
-    // TODO check that blogId is valid
-
-    let blogData = await dbRepository.getSingleBlog(req.params.blogId) ;
-    if(blogData['status'] === false){throw blogData ;}
-
-    res.render('blogs/single_edit_blog.hbs', {
-      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
-      blogData : blogData['data']['0'],
-    }) ;
-  }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      e_toString2 : e.toString,
-      yo : "Beta ji koi error hai"
-    }) ;
-  }
-}) ;
+app.get('/blogs', controllerBlogs.getAllBlogsPage) ;
+app.get('/blogs/add', controllerBlogs.getAddNewBlogPage) ;
+app.post('/blogs/add/save', upload.single('post_Image'), controllerBlogs.postAddNewBlogPage) ;
+app.post('/blogs/delete', upload.none(), controllerBlogs.postDeleteBlogPage) ;
+app.get('/blog/:blogId', controllerBlogs.getSingleBlogPage) ;
+app.get('/blog/:blogId/edit', controllerBlogs.getSingleBlogEditPage) ;
+app.post('/blog/edit/save', upload.single('post_Image'), controllerBlogs.postEditBlogPage) ;
 
 
 
@@ -219,10 +145,10 @@ app.get('/gallery/:galleryItemId', async (req, res)=>{
 app.get('/specials', controllerOfferSpecial.getAllOfferSpecials) ;
 app.get('/specials/add', controllerOfferSpecial.getAddOfferSpecial) ;
 app.post('/specials/add/save', upload.single('post_Image'), controllerOfferSpecial.postAddOfferSpecial) ;
+app.post('/specials/delete', upload.none(), controllerOfferSpecial.postDeleteOfferSpecial) ;
 app.get('/specials/:offerId', controllerOfferSpecial.getSingleOfferSpecial) ;
 app.get('/specials/:offerId/edit', controllerOfferSpecial.getEditOfferSpecial) ;
 app.post('/specials/edit/save', upload.single('post_Image'), controllerOfferSpecial.postEditOfferSpecial) ;
-app.post('/specials/delete', upload.none(), controllerOfferSpecial.postDeleteOfferSpecial) ;
 
 app.get('/about', controllerInfo.getAboutPage) ;
 app.get('/about/edit', controllerInfo.getAboutEditPage) ;
