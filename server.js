@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser") ;
 const fs = require('fs') ;
 const Paginator = require('./utils/Paginator') ;
+const multer = require('multer') ;
 
 // const controllerBlogs = require('./controllers/blogs') ;
 // const controllerGallery = require('./controllers/gallery') ;
@@ -29,6 +30,24 @@ app.use(express.static("public"));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(cookieParser()) ;
+
+let multerStorage = multer.diskStorage({
+  destination : function(req, file, cb) {
+    cb(null, './images');
+  },
+  filename: function (req, file, cb) {
+    let newFileName = Date.now() + "_" + file.originalname ;
+    req.myFileName = newFileName ; // adding the newly created filename to my request
+    cb(null , newFileName);
+  }
+}) ;
+let upload = multer({storage : multerStorage}) ;
+
+
+
+
+
+
 
 
 app.get('/clear', (req, res)=>{
@@ -234,8 +253,44 @@ app.get('/specials/add', async (req, res)=>{
       yo : "Beta ji koi error hai"
     }) ;
   }
-
 }) ;
+
+
+app.post('/specials/add/save', upload.single('post_Image'), async (req, res)=>{
+  try {
+    let fileName = req.myFileName ;
+    let title = req.body.post_OfferTitle ;
+    let message = req.body.post_OfferMessage ;
+
+    let dbData = await dbConnection.execute(
+      `INSERT INTO offer_special_table ( sr_no, title, image, message, creation_datetime)
+        SELECT COALESCE( (MAX( sr_no ) + 1), 1) ,  :title, :image, :message, :creation_datetime
+        FROM offer_special_table 
+      `, {
+        title : title,
+        image : fileName,
+        message,
+        creation_datetime : new Date()
+      }
+    ) ;
+
+    res.send({
+      dbData,
+      link : "http://localhost:3002/specials"
+    }) ;
+
+  }catch (e) {
+    res.send({
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      e_toString2 : e.toString,
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+}) ;
+
+
 
 app.get('/specials/:offerId', async (req, res)=>{
   try{
@@ -269,6 +324,62 @@ app.get('/specials/:offerId/edit', async (req, res)=>{
     res.render('specials/edit_offerspecial.hbs', {
       IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
       offerData : offerData['data'],
+    }) ;
+  }catch (e) {
+    res.send({
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      e_toString2 : e.toString,
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+}) ;
+
+
+app.post('/specials/edit/save', upload.none(), async(req, res)=>{
+  try{
+    // let fileName = req.myFileName ;
+    let title = req.body.post_OfferTitle ;
+    let message = req.body.post_OfferMessage ;
+    let id = req.body.post_Id ;
+
+    let dbData = await dbConnection.execute(
+      `UPDATE offer_special_table  SET title = :title, message = :message
+        WHERE id = :id
+      `, {
+        title,
+        message,
+        id,
+      }
+    ) ;
+    res.send({
+      dbData,
+      link : "http://localhost:3002/specials"
+
+    }) ;
+
+  }catch (e) {
+    res.send({
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      e_toString2 : e.toString,
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+}) ;
+
+app.post('/specials/delete', upload.none(), async (req, res)=>{
+  try{
+    let offerId = req.body.post_OfferId ;
+    let dbData = await dbConnection.execute(`DELETE FROM offer_special_table WHERE id = :id `, {
+      id : offerId
+    }) ;
+
+    res.send({
+      dbData,
+      link : "http://localhost:3002/specials"
     }) ;
   }catch (e) {
     res.send({

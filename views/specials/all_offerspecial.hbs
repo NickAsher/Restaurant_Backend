@@ -76,8 +76,8 @@
                         </td>
 
                         <td>
-                            <form action='/specials/{{id}}/delete' method='post'>
-                                <input type='hidden' name='__offer_id' value='$Id'>
+                            <form action='/specials/delete' method='post'>
+                                <input type='hidden' name='post_OfferId' value='{{id}}'>
                                 <button type='submit' class='btn btn-danger' ><span><i class='fa fa-trash'></i></span> Delete Offer</button>
                             </form>
 

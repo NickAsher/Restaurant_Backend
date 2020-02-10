@@ -47,13 +47,13 @@
                     <div class = col-md-1></div>
 
                     <div id="Section_AddNewItemForm" class="col-md-10" >
-                        <form action="process-add-offerspecial.php" method="post" enctype="multipart/form-data">
+                        <form action="/specials/add/save" method="post" enctype="multipart/form-data">
 
 
                             <div class="form-group row">
                                 <label for="input-offer-message" class="col-3 col-form-label">Offer Title</label>
                                 <div class="col-md-9">
-                                    <input name="__offer_title" id="input-offer-message" class="form-control" type="text" >
+                                    <input name="post_OfferTitle" id="input-offer-message" class="form-control" type="text" >
                                 </div>
                             </div>
 
@@ -61,7 +61,7 @@
                             <div class="form-group row">
                                 <label for="input-offer-message" class="col-3 col-form-label">Offer Message</label>
                                 <div class="col-md-9">
-                                    <textarea name='__offer_message' id="input-offer-message" class="form-control" rows="3"  ></textarea>
+                                    <textarea name='post_OfferMessage' id="input-offer-message" class="form-control" rows="3"  ></textarea>
                                 </div>
                             </div>
 
@@ -69,7 +69,7 @@
                             <div class="form-group row">
                                 <label class="col-3 col-form-label">Offer Image</label>
                                 <div class="col-md-9 input-group">
-                                    <input type="file" name="__offer_image" style="width:0;padding:0px;" id="hidden-file-chooser">
+                                    <input type="file" name="post_Image" style="width:0;padding:0px;" id="hidden-file-chooser">
                                     <input type="text" id="presentation-only-field" class="form-control" >
                                     <button id="btn-file-choose" class="input-group-addon">Browse</button>
                                 </div>
