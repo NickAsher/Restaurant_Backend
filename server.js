@@ -43,6 +43,7 @@ let multerStorage = multer.diskStorage({
 }) ;
 let upload = multer({storage : multerStorage}) ;
 
+const IMAGE_PATH = path.join(__dirname, './images/') ;
 
 
 
@@ -258,6 +259,9 @@ app.get('/specials/add', async (req, res)=>{
 
 app.post('/specials/add/save', upload.single('post_Image'), async (req, res)=>{
   try {
+    if(!req.file){
+      throw "Image is not uploaded" ;
+    }
     let fileName = req.myFileName ;
     let title = req.body.post_OfferTitle ;
     let message = req.body.post_OfferMessage ;
@@ -337,22 +341,42 @@ app.get('/specials/:offerId/edit', async (req, res)=>{
 }) ;
 
 
-app.post('/specials/edit/save', upload.none(), async(req, res)=>{
+app.post('/specials/edit/save', upload.single('post_Image'), async(req, res)=>{
   try{
     // let fileName = req.myFileName ;
     let title = req.body.post_OfferTitle ;
     let message = req.body.post_OfferMessage ;
     let id = req.body.post_Id ;
-
-    let dbData = await dbConnection.execute(
-      `UPDATE offer_special_table  SET title = :title, message = :message
+    let dbData ;
+    if(!req.file){
+      // a new file is not uploaded, means we only update title and message
+      dbData = await dbConnection.execute(
+        `UPDATE offer_special_table  SET title = :title, message = :message
         WHERE id = :id
       `, {
-        title,
-        message,
-        id,
-      }
-    ) ;
+          title,
+          message,
+          id,
+        }
+      ) ;
+    } else {
+      // a new file is uploaded, so we delete the previous file and upload a new file
+      let oldImageFileName = req.body.post_OldImageFileName ;
+      let newImageFileName = req.myFileName ;
+
+      fs.unlinkSync(IMAGE_PATH+oldImageFileName) ;
+      dbData = await dbConnection.execute(
+        `UPDATE offer_special_table  SET title = :title, message = :message,
+            image = :image WHERE id = :id
+      `, {
+          title,
+          message,
+          image : newImageFileName,
+          id,
+        }
+      ) ;
+    }
+
     res.send({
       dbData,
       link : "http://localhost:3002/specials"
@@ -373,6 +397,9 @@ app.post('/specials/edit/save', upload.none(), async(req, res)=>{
 app.post('/specials/delete', upload.none(), async (req, res)=>{
   try{
     let offerId = req.body.post_OfferId ;
+    let imageFileName = req.body.post_ImageFileName ;
+
+    fs.unlinkSync(IMAGE_PATH+imageFileName) ;
     let dbData = await dbConnection.execute(`DELETE FROM offer_special_table WHERE id = :id `, {
       id : offerId
     }) ;
