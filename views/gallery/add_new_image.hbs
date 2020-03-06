@@ -43,56 +43,26 @@
                 <br><br><br>
 
 
+                <form action="/gallery/add/save" method="post" enctype="multipart/form-data">
 
-
-
-                <div id="Section_AddNewItemForm" class="card w-70" >
-                    <div class="card-header">
-                        <h3 class="ytext-heading">New Image Details</h3>
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Image</label>
+                        <div class="col-md-9 input-group">
+                            <input type="file" name="post_Image" style="width:0;" id="hidden-file-chooser">
+                            <button id="btn-file-choose" class="input-group-addon">Choose Image</button>
+                            <img id="preview-image"/>
+                        </div>
                     </div>
-                    <div class="card-block">
-                        <form action="process-add-new-gallery-item.php" method="post" enctype="multipart/form-data">
-                            <div class="form-group row">
-                                <label for="input-image-title" class="col-3 col-form-label">Image Title</label>
-                                <div class="col-md-9">
-                                    <input type="text" name="__newimage_title" class="form-control" placeholder="...." id="input-image-title" >
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-3 col-form-label">Image</label>
-                                <div class="col-md-9 input-group">
-                                    <input type="file" name="__newimage_imageFile" style="width:0;" id="hidden-file-chooser">
-                                    <button id="btn-file-choose" class="input-group-addon">Choose Image</button>
-                                    <input type="text" id="presentation-only-field" class="form-control" readonly>
-                                </div>
-                            </div>
-
-                            <br><br>
-
-
-
-                            <div class="form-group row">
-                                <div class="col-4" ></div>
-                                <input type="submit" class="col-4 btn btn-outline-info" value="Add">
-                                <div class="col-4" ></div>
-                            </div>
-
-
-
-
-
-
-
-
-
-
-                        </form>
+                    <br>
+                    <br>
+                    <div class="form-group row">
+                        <div class="col-4" ></div>
+                        <input type="submit" class="col-4 btn btn-outline-info" value="Add">
+                        <div class="col-4" ></div>
                     </div>
-                </div>
 
 
-
-
+                </form>
 
                 <div id="space_before_footer">
                     <br><br><br><br><br>
@@ -116,13 +86,16 @@
 
 
 <script>
-    function handleBrowseButton(ButtonId, HiddenInputId, PresentationInputId){
+    function handleBrowseButton_Preview(ButtonId, HiddenInputId, previewImageId){
         $('#'+ButtonId).click(function (event) {
-            event.preventDefault() ;
-            $('#'+HiddenInputId).click();
+            event.preventDefault() ; // prevents the form from automatically submitting
+            $('#'+HiddenInputId).click(); // actually clicks the file upload browse button
 
-            $('#'+HiddenInputId).change(function(){
-                $('#'+PresentationInputId).val($(this).val());
+
+            $('#'+HiddenInputId).change(function(event){
+              // this function is run when file is successfully selected by user
+                console.log("yolo man") ;
+                $('#preview-image').attr('src', URL.createObjectURL(event.target.files[0]));
                 return false ;
             });
 
@@ -130,7 +103,7 @@
         }) ;
     }
 
-    handleBrowseButton("btn-file-choose","hidden-file-chooser","presentation-only-field") ;
+    handleBrowseButton_Preview("btn-file-choose","hidden-file-chooser", "preview-image") ;
 </script>
 
 

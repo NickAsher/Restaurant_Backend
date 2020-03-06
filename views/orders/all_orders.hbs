@@ -1,0 +1,303 @@
+<html>
+<head>
+    <title>HomeFlavor | Orders</title>
+    <meta charset="utf-8">
+    <meta http-equiv="refresh" content="30">
+
+
+    <!-- CSS Plugins -->
+    <link rel = "stylesheet" href="/lib/reset/reset.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap_addon.css" >
+    <link rel = "stylesheet" href="/lib/toastr/toastr.min.css" />
+    <link rel = "stylesheet" href="/lib/t3/t3.css" />
+
+    <!-- CSS Icons -->
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
+
+    <!-- CSS Theme -->
+    <link rel="stylesheet" href="/css/my_general_classes.css">
+    <link rel="stylesheet" href="/css/default_style.css">
+    <link rel="stylesheet" href="/css/my_personal.css">
+</head>
+<body>
+
+{{>header}}
+<section>
+
+    {{>sidebar}}
+
+    <div class="container-fluid t3-push" id="mainContainer">
+        <div class="row">
+            <div id = "main_Content" class="col-12">
+
+                <div id="TabPanel_Header">
+                    <div id="space_below_header" class="row" style="height: 50px;background-color: #333;"></div>
+                    <div id="NavTabsPanel" class="row" style="background-color: #333;">
+                        <div class="col-12" >
+
+                            <div class="card-header" style="background-color: #333">
+                                <ul class="nav nav-tabs card-header-tabs nav-fill ">
+                                    <li class="nav-item">
+                                        <a id="navTab_NewOrders" class="nav-link active text-info" data-toggle="tab" href="#new_orders">
+                                            New orders <span id="span_count_NewOrders" class="badge badge-info"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a id="navTab_WorkingOrders" class="nav-link text-warning" data-toggle="tab" href="#working_orders">
+                                            Working orders <span id="span_count_WorkingOrders" class="badge badge-warning"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a id="navTab_CompletedOrders" class="nav-link text-success" data-toggle="tab" href="#complete_orders">
+                                            Completed orders <span id="span_count_CompletedOrders" class="badge badge-success"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a id="navTab_CancelledOrders" class="nav-link text-danger" data-toggle="tab" href="#cancelled_orders">
+                                            Cancelled orders <span id="span_count_CancelledOrders" class="badge badge-danger"></span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+                <table id="table-orders" class="table table-bordered table-hover" >
+                    <tr id="tr_heading" class="table-info">
+                        <th>Order No </th>
+                        <th>User Details </th>
+                        <th>User Address</th>
+                        <th>Description</th>
+                        <th>Total Amount</th>
+                        <th>Comments</th>
+                        <th>Order Time</th>
+                        <th class="order-action-accept">Accept</th>
+                        <th class="order-action-complete">Complete</th>
+                        <th class="order-action-cancel">Cancel</th>
+                    </tr>
+                    {{#each orderData}}
+                        <tr data-order-status="{{status}}">
+                            <td class='text-sm-center'> {{id}} </td>
+                            <td class='text-sm-center'>{{userDetails.firstname}} {{userDetails.lastname}} <br> {{userDetails.email}} <br> {{userDetails.phone}}</td>
+                            <td class='text-size-small'> {{address.addressLine1}}<br>{{address.addressLine2}}<br>{{address.addressLine3}} </td>
+                            <td>{{cart}}</td>
+                            <td class='text-size-small'>{{totalPrice}} </td>
+                            <td class='text-size-small'> </td>
+                            <td class='text-size-small'> {{datetime}} </td>
+                            <td class="order-action-accept">
+                                <button data-order-id="{{id}}" data-operation="accept" class='btn btn-info btn-sm text-white order-btn'>
+                                    Accept
+                                </button>
+                            </td>
+                            <td class="order-action-complete">
+                                <button data-order-id="{{id}}" data-operation="complete" class='btn btn-warning btn-sm text-white order-btn'>
+                                    Complete
+                                </button>
+                            </td>
+                            <td class="order-action-cancel">
+                                <button data-order-id="{{id}}" data-operation="cancel" class='btn btn-danger btn-sm text-white order-btn'>
+                                    Cancel
+                                </button>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </table>
+                <br><br>
+
+
+
+
+                <div id="space_before_footer">
+                    <br><br><br><br><br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+{{>footer}}
+
+
+</body>
+<script src="/lib/jquery/jquery.js" ></script>
+<script src="/lib/tether/dist/js/tether.min.js"></script>
+<script src="/lib/bootstrap4/bootstrap.min.js" ></script>
+<script src="/lib/bootstrap4/bootstrap_addon.js" ></script>
+<script src="/lib/toastr/toastr.min.js" ></script>
+
+<script src="/lib/t3/t3.js"></script>
+
+<script src="/js/my_personal.js" ></script>
+
+<script>
+
+
+
+
+    function setupOrderTabs(){
+      /* When page loads, we hide all the table rows
+       * All the table rows i.e. 'tr' have an attribute called 'data-order-status'
+       * This data-order-status contains 1 of 4 possible order status values PENDING, PREPARING, COMPLETED, CANCELLED
+       *
+       * So at the beginning we hide all the table rows,
+       * Then for new orders, we show only those tr which have 'data-order-status'='PENDING' along with heading row
+       *
+       * the order-action-* is also assigned to all the buttons where * can be accept, complete or cancelled
+       * So for New Orders, we show accept button and cancel button, and hide the complete button
+       * Similarly for working orders, show complete button and cancel button, hide the accept button
+       * Don't show any buttons for complete or cancel.
+       *
+       * So whenever we click on any tab,
+       *    Firstly we hide all rows
+       *    Then show the rows with class corresponding to that tab, using data-order-status
+       *    show the buttons needed and hide other buttons
+       */
+        $('#navTab_NewOrders').click(function () {
+            $('tr').hide() ;
+            $('#tr_heading, tr[data-order-status=PENDING]').show() ;
+            $('.order-action-complete').hide() ;
+            $('.order-action-accept, .order-action-cancel').show() ;
+        }) ;
+        $('#navTab_WorkingOrders').click(function () {
+            $('tr').hide() ;
+            $('#tr_heading, tr[data-order-status=PREPARING]').show() ;
+            $('.order-action-accept').hide() ;
+            $('.order-action-complete, .order-action-cancel').show() ;
+        }) ;
+        $('#navTab_CompletedOrders').click(function () {
+            $('tr').hide() ;
+            $('#tr_heading, tr[data-order-status=COMPLETED]').show() ;
+            $('td.order-action-complete, td.order-action-accept, .order-action-cancel').hide() ;
+        }) ;
+        $('#navTab_CancelledOrders').click(function () {
+            $('tr').hide() ;
+            $('#tr_heading, tr[data-order-status=CANCELLED]').show() ;
+            $('.order-action-complete, .order-action-accept, .order-action-cancel').hide() ;
+        }) ;
+
+        showOrderCounts() ; //shows the order counts
+        clickActiveTab() // clicks on the current active tab
+    }
+    setupOrderTabs() ;
+
+
+    function showOrderCounts(){
+        /* This method shows the number of orders for a particular status(PENDING/PREPARING/COMPLETED/CANCELLED)
+         * As every table row tr has as attribute data-order-status,
+         * We simply count the no of elements the that attribute
+         * For example, to calculate number of Cancelled Orders => $('tr[data-order-status=CANCELLED]').length
+         * Then simply put the count inside the span element
+         */
+        $('#span_count_NewOrders').text($('tr[data-order-status=PENDING]').length) ;
+        $('#span_count_WorkingOrders').text($('tr[data-order-status=PREPARING]').length) ;
+        $('#span_count_CompletedOrders').text($('tr[data-order-status=COMPLETED]').length) ;
+        $('#span_count_CancelledOrders').text($('tr[data-order-status=CANCELLED]').length) ;
+        document.title = "(" + $('tr[data-order-status=PENDING]').length + ") New Orders" ;
+    }
+
+    function clickActiveTab(){
+        // basically performs a click on the active tab
+        if($('#navTab_NewOrders').hasClass('active')){
+            $('#navTab_NewOrders').trigger('click') ;
+        }
+        else if($('#navTab_WorkingOrders').hasClass('active')){
+            $('#navTab_WorkingOrders').trigger('click') ;
+        }
+        else if($('#navTab_CompletedOrders').hasClass('active')){
+            $('#navTab_CompletedOrders').trigger('click') ;
+        }
+        else if($('#navTab_CancelledOrders').hasClass('active')){
+            $('#navTab_CancelledOrders').trigger('click') ;
+        }
+    }
+
+
+
+
+
+
+    $('.order-btn').click(function () {
+        let thisOrderButton = $(this) ;
+        let orderId = $(this).attr('data-order-id') ;
+        let operation = $(this).attr('data-operation') ;
+
+
+        fetch('/orders/operation',{
+            method : 'POST',
+            headers : {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify({
+               id : orderId,
+               operation : operation
+            }),
+        })
+        .then((response)=>response.json())
+        .then((data)=>{
+            if(data.status == true){
+                console.log(data) ;
+                // TODO success in changing the order status
+                switch (operation){
+                    case "accept" :
+                        thisOrderButton.parent().parent().attr('data-order-status', "PREPARING") ;
+                        console.log(`Order: ${orderId} has been accepted, Added to working orders`) ;
+                        makeToast("info", `Order: ${orderId} has been accepted \n Added to working orders`) ;
+                        break;
+                    case "complete" :
+                        thisOrderButton.parent().parent().attr('data-order-status', "COMPLETED") ;
+                        console.log(`Order: ${orderId} has been served, Added to completed orders`) ;
+                        makeToast("info", `Order: ${orderId} has been served \n Added to completed orders`) ;
+                        break;
+                    case "cancel" :
+                        thisOrderButton.parent().parent().attr('data-order-status', "CANCELLED") ;
+                        console.log(`Order: ${orderId} has been cancelled, Added to cancelled orders`) ;
+                        makeToast("error", `Order: ${orderId} has been cancelled \n Added to cancelled orders`) ;
+                        break;
+                }
+                showOrderCounts() ;
+                clickActiveTab() ;
+            }else{
+                console.log(data) ;
+                throw data.e ;
+            }
+        })
+        .catch((err)=>{
+            console.log(err) ;
+            makeToast('error', "Error in Changing order status") ;
+        }) ;
+    }) ;
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+</html>

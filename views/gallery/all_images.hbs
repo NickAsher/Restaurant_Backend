@@ -50,17 +50,16 @@
                     <tr class="table-info">
                         <th>Sr No </th>
                         <th>Item </th>
-                        <th>Title</th>
                         <th>Delete</th>
                     </tr>
                     {{#each galleryData}}
                     <tr>
                         <td class='td-link' data-href='/gallery/{{gallery_item_id}}'>{{gallery_item_sr_no}}</td>
                         <td class='td-link' data-href='/gallery/{{gallery_item_id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{gallery_item_image_name}}' width='90px' class='img-fluid' ></td>
-                        <td class='td-link' data-href='/gallery/{{gallery_item_id}}'> {{gallery_item_title}} </td>
                         <td>
-                            <form method='post' action='confirm-delete-gallery-item.php'>
-                                <input type='hidden' name='__gallery_id' value='$Id'>
+                            <form method='post' action='/gallery/delete'>
+                                <input type='hidden' name='post_GalleryImageId' value='{{gallery_item_id}}'>
+                                <input type='hidden' name='post_GalleryImageName' value='{{gallery_item_image_name}}'>
                                 <input type='submit' class='btn btn-danger' value='Delete'>
                             </form>
                         </td>
@@ -73,9 +72,7 @@
 
                 <div class="row">
                     <div class="col-4"></div>
-                    <a class="col-4 btn btn-outline-info" href="/gallery/add-new-image">
-                        Add New Item
-                    </a>
+                    <a class="col-4 btn btn-outline-info" href="/gallery/add">Add New Item</a>
                     <div class="col-4"></div>
                 </div>
                 <div id="space_before_footer">

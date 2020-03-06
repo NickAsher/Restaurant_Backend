@@ -10,8 +10,9 @@ const Paginator = require('./utils/Paginator') ;
 const multer = require('multer') ;
 
 const controllerBlogs = require('./controller/blogs') ;
-// const controllerGallery = require('./controller/gallery') ;
+const controllerGallery = require('./controller/gallery') ;
 const controllerInfo = require('./controller/info') ;
+const controllerOrders =  require('./controller/orders') ;
 // const controllerHome = require('./controller/home') ;
 // const controllerMenu = require('./controller/menu') ;
 const controllerOfferSpecial = require('./controller/offers') ;
@@ -48,7 +49,11 @@ let upload = multer({storage : multerStorage}) ;
 const IMAGE_PATH = path.join(__dirname, './images/') ;
 
 
-
+app.use((req, res, next)=>{
+  res.locals.IMAGE_BACKENDFRONT_LINK_PATH = Constants.IMAGE_BACKENDFRONT_LINK_PATH ;
+  // res.locals.signedIn = req.session.isLoggedIn ;
+  next() ;
+}) ;
 
 
 
@@ -80,67 +85,11 @@ app.get('/blog/:blogId', controllerBlogs.getSingleBlogPage) ;
 app.get('/blog/:blogId/edit', controllerBlogs.getSingleBlogEditPage) ;
 app.post('/blog/edit/save', upload.single('post_Image'), controllerBlogs.postEditBlogPage) ;
 
-
-
-
-app.get('/gallery', async(req, res)=>{
-  try{
-    let galleryData = await dbRepository.getAllGalleryItems() ;
-    if(galleryData['status'] === false){throw galleryData ;}
-
-    res.render('gallery/all_images.hbs', {
-      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
-      galleryData : galleryData['data'],
-    }) ;
-  }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      e_toString2 : e.toString,
-      yo : "Beta ji koi error hai"
-    }) ;
-  }
-}) ;
-
-app.get('/gallery/add-new-image', async (req, res)=>{
-  try{
-    res.render('gallery/add_new_image.hbs', {
-      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
-    }) ;
-  }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      e_toString2 : e.toString,
-      yo : "Beta ji koi error hai"
-    }) ;
-  }
-}) ;
-
-app.get('/gallery/:galleryItemId', async (req, res)=>{
-  try{
-    // TODO check that galleryItemId is valid
-
-    let galleryData = await dbRepository.getSingleGalleryItem(req.params.galleryItemId) ;
-    if(galleryData['status'] === false){throw galleryData ;}
-
-    res.render('gallery/single_image.hbs', {
-      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
-      galleryData : galleryData['data'],
-    }) ;
-  }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      e_toString2 : e.toString,
-      yo : "Beta ji koi error hai"
-    }) ;
-  }
-}) ;
-
+app.get('/gallery', controllerGallery.getAllGalleryItemPage) ;
+app.get('/gallery/add', controllerGallery.getAddGalleryItemPage) ;
+app.post('/gallery/add/save', upload.single('post_Image'), controllerGallery.postAddGalleryItemPage) ;
+app.post('/gallery/delete', upload.none(), controllerGallery.postDeleteGalleryItemPage) ;
+app.get('/gallery/:galleryItemId', controllerGallery.getSingleGalleryItemPage) ;
 
 app.get('/specials', controllerOfferSpecial.getAllOfferSpecials) ;
 app.get('/specials/add', controllerOfferSpecial.getAddOfferSpecial) ;
@@ -157,8 +106,8 @@ app.get('/contact', controllerInfo.getContactPage) ;
 app.get('/contact/edit', controllerInfo.getContactEditPage) ;
 app.post('/contact/edit/save', controllerInfo.postContactEditPage) ;
 
-
-
+app.get('/orders', controllerOrders.getOrderPage) ;
+app.post('/orders/operation', controllerOrders.postOrderOperation) ;
 
 app.listen(3002, ()=>{
     console.log("The server is listening on port 3002") ;

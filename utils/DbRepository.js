@@ -1,6 +1,7 @@
 const express = require('express') ;
 const dbConnection  = require('./database') ;
 const _ = require('lodash') ;
+const moment = require('moment') ;
 
 
 
@@ -230,7 +231,45 @@ exports.getSingleOfferSpecial = async (offerId)=>{
   }
 } ;
 
+/* ********************************************** Orders ************************************ */
+exports.getAllOrders_OfToday = async()=>{
+  try{
+    // let todayDate = moment(new Date()).format('YYYY-MM-DD hh:mm:ss') ;
+    let todayDate = '2020-03-04 00:00:00' ;
 
+
+    let dbData = await dbConnection.execute(
+      `SELECT * FROM order_table2 WHERE datetime > '${todayDate}'`
+    ) ;
+    return {
+      status : true,
+      data : dbData['0']
+    } ;
+  }catch (e) {
+    return {
+      status : false,
+      data : e,
+    } ;
+  }
+} ;
+
+exports.changeOrderStatus = async(orderId, newOrderStatus)=>{
+  try{
+    let dbData = await dbConnection.execute(
+      ` UPDATE order_table2 SET status = :newOrderStatus WHERE id = :orderId`, {
+        newOrderStatus,
+        orderId
+    }) ;
+    return {
+      status : true
+    } ;
+  }catch (e) {
+    return {
+      status : false,
+      data : e,
+    } ;
+  }
+}
 
 
 exports.getAllMenuCategories = async ()=>{
