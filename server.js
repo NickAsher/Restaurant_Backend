@@ -77,6 +77,9 @@ app.get('/', async (req, res)=>{
   res.send("YOLO") ;
 }) ;
 
+app.get('/login', async (req, res)=>{
+  res.render('general/login.hbs') ;
+}) ;
 app.get('/blogs', controllerBlogs.getAllBlogsPage) ;
 app.get('/blogs/add', controllerBlogs.getAddNewBlogPage) ;
 app.post('/blogs/add/save', upload.single('post_Image'), controllerBlogs.postAddNewBlogPage) ;

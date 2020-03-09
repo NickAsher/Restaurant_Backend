@@ -44,3 +44,14 @@ function makeToast(toastStyle, toastMessage) {
   } ;
   toastr[toastStyle](toastMessage) ;
 }
+
+$(".td-link").click(function() {
+  window.location = $(this).data("href");
+});
+$(".tr-link").click(function() {
+  window.location = $(this).data("href");
+});
+
+$(".addon-link").click(function() {
+  window.location = $(this).data("href");
+});

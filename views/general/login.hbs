@@ -1,0 +1,141 @@
+<html>
+<head>
+    <title>HomeFlavor | Backend</title>
+    <meta charset="utf-8">
+
+
+
+    <link rel="stylesheet" href="/lib/reset/reset.css" >
+
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
+
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
+
+    <link rel="stylesheet" href="/lib/t3/t3.css" />
+
+    <link rel="stylesheet" href="/css/my_personal.css">
+    <link rel="stylesheet" href="/css/login.css">
+
+</head>
+<body>
+
+
+<section>
+
+
+
+    <div id="content ">
+        <section class="section">
+            <div class="fullscreen-bg bg-dark dark">
+                <img src="/img/login_background.jpg" style="background-size: contain" />
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-8 offset-lg-4 offset-md-3 offset-sm-2">
+                    <br><br><br><br>
+                    <div class="card ">
+                        <div class="card-block" style="margin: 40px">
+                            <div class="row">
+                                <div class="col-6 offset-3">
+                                    <img src="/img/logo-horizontal-dark.png" class="img-fluid" alt="brand-logo">
+                                </div>
+                            </div>
+                            <br>
+
+                            <div id="div_SectionSignIn" class="panel-login">
+                                <div class="text-center ">
+                                    <b>Login to your account</b>
+                                </div>
+                                <br><br>
+                                <form id="form-Login" >
+                                    <div class="form-group wrap-input">
+                                        <input id="input-login-email" name="post_Email" type="email" class="form-control email" placeholder="Email address">
+                                        <span id="input-login-email-line" class="focus-input"></span>
+                                    </div>
+                                    <div class="form-group wrap-input pwdMask">
+                                        <input id="input-login-password" name="post_Password" type="password" class="form-control password"  placeholder="Password">
+                                        <span class="focus-input"></span>
+                                        <span class="fa fa-eye-slash pwd-toggle"></span>
+                                    </div>
+                                    <br>
+                                    <button id="Btn_Login" class="btn btn-lg btn-outline-primary btn-block btn-bg-dark" type="button" onclick="normalSignIn();"><span class="text-white">Login</span></button>
+                                </form>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--These br tags are added so that when we click on some other page, the scroll up animation works correctly -->
+            <!-- Try Removing these br tags and then go from home page to about page and you will see -->
+            <br><br><br><br><br><br><br><br><br><br>
+
+        </section>
+    </div>
+</section>
+
+
+
+
+
+</body>
+<script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
+<script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" >
+    <script type="text/javascript" src="/js/my_personal.js"></script>
+</script><script type="text/javascript" src="/lib/t3/t3.js"></script>
+
+<script>
+    function setupPwdToggle(){
+        /* so basically pwd looks like this
+        <div class="pwdMask">
+            <input id="input-login-password" name="post_Password" type="password" class="form-control password"  placeholder="Password">
+            <span class="focus-input"></span>
+            <span class="fa fa-eye-slash pwd-toggle"></span>
+        </div>
+
+         * So the show password button is basically a span element with fa-eye-slash class
+         * on clicking it, we change the class to fa-eye and vice versa
+         * so then we check if it fa-eye or fa-eye-slash
+         * if it is fa-eye, we then change the our input type from password to text, thus making it visible.
+         */
+        $('.pwd-toggle').click(function(event){
+            event.preventDefault() ;
+            $(this).toggleClass('fa-eye-slash fa-eye') ;
+            if($(this).hasClass("fa-eye")){
+                $('.pwdMask > .form-control').attr("type","text")
+            }else{
+                $('.pwdMask > .form-control').attr("type","password")
+            }
+        }) ;
+    }
+    setupPwdToggle() ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+</html>
