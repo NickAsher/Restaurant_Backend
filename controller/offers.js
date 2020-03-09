@@ -29,6 +29,56 @@ exports.getAllOfferSpecials = async (req, res)=>{
   }
 } ;
 
+exports.getArrangeOfferSpecialsPage = async (req, res)=>{
+  try{
+
+    let offerData = await dbRepository.getAllOfferSpecialData() ;
+    if(offerData['status'] === false){throw offerData ;}
+
+    res.render('specials/arrange_offerspecial.hbs', {
+      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
+      offerData : offerData['data'],
+    }) ;
+  }catch (e) {
+    res.send({
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      e_toString2 : e.toString,
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+exports.postOfferSpecialsPage = async (req, res)=>{
+  try{
+    let newArray = JSON.parse(req.body.sortedArray);
+
+    let sqlCaseString = "UPDATE offer_special_table SET sr_no = CASE " ;
+    newArray.forEach((element, index)=>{
+      // element is gallery_item_id
+      sqlCaseString += ` WHEN id = ${element} THEN ${index} ` ;
+    }) ;
+    sqlCaseString += " END" ;
+
+    let dbData = await dbConnection.execute(sqlCaseString) ;
+    res.send({
+      status : true,
+      msg : "ORDER_CHANGED"
+    }) ;
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      e_toString2 : e.toString,
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
 exports.getAddOfferSpecial = async (req, res)=>{
   try{
 

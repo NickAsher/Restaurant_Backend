@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>HomeFlavor | Backend</title>
+    <title>Admin | Gagneja</title>
     <meta charset="utf-8">
 
 
@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="/lib/t3/t3.css" />
 
     <link rel="stylesheet" href="/css/my_personal.css">
+    <link rel="stylesheet" href="/css/gallery.css">
+
 </head>
 <body>
 
@@ -31,38 +33,44 @@
                 <br><br><br><br>
                 <div class="page-title bg-light">
                     <div class="container">
-                        <div class="row justify-content-center">
-                            <h1 class="">Gallery Images</h1>
+                        <div class="text-center">
+                            <h1>Gallery Images</h1>
+                            <a href='\gallery\arrange' class="mytheme-anchor">Change Order</a>
                         </div>
                     </div>
                 </div>
                 <br><br><br>
 
 
-                <a href="sort-gallery-item.php" style="float: right" class="btn btn-primary">Change Order</a>
 
 
                 <table  class="table table-bordered table-hover" >
                     <tr class="table-info">
                         <th>Sr No </th>
-                        <th>Item </th>
-                        <th>Delete</th>
+                        <th class="text-center">Item </th>
+                        <th class="text-center">Delete</th>
                     </tr>
                     {{#each galleryData}}
                     <tr>
-                        <td class='td-link' data-href='/gallery/{{gallery_item_id}}'>{{gallery_item_sr_no}}</td>
-                        <td class='td-link' data-href='/gallery/{{gallery_item_id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{gallery_item_image_name}}' width='90px' class='img-fluid' ></td>
+                        <td>{{gallery_item_sr_no}}</td>
+                        <td class='gallery-image text-center'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{gallery_item_image_name}}' width='280px' class='img-fluid' ></td>
                         <td>
-                            <form method='post' action='/gallery/delete'>
+                            <form class="text-center" method='post' action='/gallery/delete'>
                                 <input type='hidden' name='post_GalleryImageId' value='{{gallery_item_id}}'>
                                 <input type='hidden' name='post_GalleryImageName' value='{{gallery_item_image_name}}'>
-                                <input type='submit' class='btn btn-danger' value='Delete'>
+                                <input type='submit' class='btn btn-danger ' value='Delete'>
                             </form>
                         </td>
                     </tr>
                     {{/each}}
                 </table>
                 <br><br>
+
+
+
+                <div id="myModal" class="modal">
+                    <img class="modal-content" id="image_Enlarged">
+                </div>
 
 
 
@@ -90,6 +98,19 @@
 <script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
 <script type="text/javascript" src="/js/my_personal.js"></script>
 <script type="text/javascript" src="/lib/t3/t3.js"></script>
+
+<script>
+
+    $('.gallery-image').click(function () {
+        $('#myModal').css({"display":"block"}) ;
+        $('#image_Enlarged').attr('src', $(this).find('img').attr('src')) ;
+    }) ;
+
+
+    $('#image_Enlarged').click(function() {
+        $('#myModal').css({"display":"none"}) ;
+    }) ;
+</script>
 
 
 

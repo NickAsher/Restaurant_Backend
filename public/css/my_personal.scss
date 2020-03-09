@@ -125,6 +125,34 @@
 
 }
 
+
+.td-link, .tr-link, .addon-link{
+  cursor:pointer
+}
+
+.bg-black{
+  background-color: #000;  }
+.bg-whitegrey{
+  background-color: #fcfcfc;  }
+.bg-white{
+  background-color: #fff;  }
+.bg-grey{
+  background-color: #eee;  }
+
 .btn-bg-dark{
   background-color: #282b2e;
+}
+
+
+
+
+$themeColorPrimary : #ddae71;
+
+.mytheme-anchor{
+  color: $themeColorPrimary ;
+
+  &:hover{
+    color: darken($themeColorPrimary, 20%);
+    text-decoration: none;
+  }
 }

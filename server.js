@@ -92,9 +92,13 @@ app.get('/gallery', controllerGallery.getAllGalleryItemPage) ;
 app.get('/gallery/add', controllerGallery.getAddGalleryItemPage) ;
 app.post('/gallery/add/save', upload.single('post_Image'), controllerGallery.postAddGalleryItemPage) ;
 app.post('/gallery/delete', upload.none(), controllerGallery.postDeleteGalleryItemPage) ;
-app.get('/gallery/:galleryItemId', controllerGallery.getSingleGalleryItemPage) ;
+app.get('/gallery/arrange', controllerGallery.getArrangeGalleryItemsPage) ;
+app.post('/gallery/arrange', upload.none(), controllerGallery.postArrangeGalleryItemsPage) ;
+
 
 app.get('/specials', controllerOfferSpecial.getAllOfferSpecials) ;
+app.get('/specials/arrange', controllerOfferSpecial.getArrangeOfferSpecialsPage) ;
+app.post('/specials/arrange', upload.none(), controllerOfferSpecial.postOfferSpecialsPage) ;
 app.get('/specials/add', controllerOfferSpecial.getAddOfferSpecial) ;
 app.post('/specials/add/save', upload.single('post_Image'), controllerOfferSpecial.postAddOfferSpecial) ;
 app.post('/specials/delete', upload.none(), controllerOfferSpecial.postDeleteOfferSpecial) ;
