@@ -47,7 +47,8 @@
                         <th>Blog Display Image</th>
                         <th>Blog Title</th>
                         <th>Creation Date/Time</th>
-                        <th>Action</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
 
                     {{#each blogsData}}
@@ -55,20 +56,15 @@
                         <td class='addon-link' data-href='/blog/{{blog_id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{blog_display_image}}' class='img-fluid' width='90px' ></td>
                         <td class='addon-link' data-href='/blog/{{blog_id}}'>  {{blog_title}}  </td>
                         <td class='addon-link' data-href='/blog/{{blog_id}}'>  {{blog_creation_date}}</td>
-
                         <td>
-                            <div style='display: inline-block'>
-                                <a href="/blog/{{blog_id}}/edit">
-                                    <button type='submit' class='btn btn-info' ><span><i class='fa fa-edit'></i></span></button>
-                                </a>
-                            </div>
-                            <div style='display: inline-block'>
-                                <form action='blogs/delete' method='post'>
-                                    <input type='hidden' name='post_BlogId' value='{{blog_id}}'>
-                                    <input type="hidden" name="post_ImageFileName" value="{{blog_display_image}}" >
-                                    <button type='submit' class='btn btn-danger' ><span><i class='fa fa-trash'></i></span></button>
-                                </form>
-                            </div>
+                            <a href="/blog/{{blog_id}}/edit">
+                                <button type='submit' class='btn btn-info' ><span><i class='fa fa-edit'></i></span> Edit Blog</button>
+                            </a>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger button_Delete" type="button" data-blog-id="{{blog_id}}" data-blog-image-name="{{blog_display_image}}" data-toggle="modal" data-target="#modal_Delete" >
+                                <span><i class='fa fa-trash'></i></span> Delete Blog
+                            </button>
                         </td>
                     </tr>
 
@@ -93,7 +89,28 @@
                     <div class="col-4"></div>
                 </div>
 
+                <div class="modal fade" id="modal_Delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this Blog</h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
 
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                <form class="text-center" method='post' action='/blogs/delete' enctype="multipart/form-data">
+                                    <input id="input_BlogId" type='hidden' name='post_BlogId'>
+                                    <input id="input_BlogImageName" type='hidden' name='post_ImageFileName'>
+                                    <input type="hidden" name="_csrf" value="some csrf token here">
+                                    <input type='submit' class='btn btn-danger ' value='Yes'>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
 
@@ -121,6 +138,17 @@
 <script type="text/javascript" src="/js/my_personal.js"></script>
 <script type="text/javascript" src="/lib/t3/t3.js"></script>
 
+<script>
+    $('#modal_Delete').on('show.bs.modal', function (event) {
+        let button = $(event.relatedTarget) ; // Button that triggered the modal
+        let blogId = button.attr('data-blog-id') ;
+        let blogImageName= button.attr('data-blog-image-name') ;
+
+
+        $(this).find('#input_BlogId').val(blogId) ;
+        $(this).find('#input_BlogImageName').val(blogImageName) ;
+    })
+</script>
 
 
 

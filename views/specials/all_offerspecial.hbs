@@ -73,11 +73,10 @@
                         </td>
 
                         <td>
-                            <form action='/specials/delete' method='post'>
-                                <input type='hidden' name='post_OfferId' value='{{id}}'>
-                                <input type="hidden" name='post_ImageFileName' value="{{image}}" >
-                                <button type='submit' class='btn btn-danger' ><span><i class='fa fa-trash'></i></span> Delete Offer</button>
-                            </form>
+                            <button class="btn btn-danger button_Delete" type="button" data-offer-id="{{id}}" data-offer-image-name="{{image}}" data-toggle="modal" data-target="#modal_Delete" >
+                                <span><i class='fa fa-trash'></i></span>
+                                Delete Offer
+                            </button>
 
                         </td>
                     </tr>
@@ -97,7 +96,28 @@
                 </div>
 
 
+                <div class="modal fade" id="modal_Delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this offer</h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
 
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                <form class="text-center" method='post' action='/specials/delete' enctype="multipart/form-data">
+                                    <input id="input_OfferId" type='hidden' name='post_OfferId'>
+                                    <input id="input_OfferImageName" type='hidden' name='post_ImageFileName'>
+                                    <input type="hidden" name="_csrf" value="some csrf token here">
+                                    <input type='submit' class='btn btn-danger ' value='Yes'>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
 
@@ -122,7 +142,17 @@
 <script type="text/javascript" src="/js/my_personal.js"></script>
 <script type="text/javascript" src="/lib/t3/t3.js"></script>
 
+<script>
+    $('#modal_Delete').on('show.bs.modal', function (event) {
+        let button = $(event.relatedTarget) ; // Button that triggered the modal
+        let offerItemId = button.attr('data-offer-id') ;
+        let offerImageName = button.attr('data-offer-image-name') ;
 
+
+        $(this).find('#input_OfferId').val(offerItemId) ;
+        $(this).find('#input_OfferImageName').val(offerImageName) ;
+    })
+</script>
 
 
 
