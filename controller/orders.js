@@ -4,20 +4,27 @@ const dbConnection = require('../utils/database') ;
 const dbRepository = require('../utils/DbRepository') ;
 const Constants = require('../utils/Constants') ;
 const moment = require('moment') ;
+const orderParseUtils = require('../utils/order_parse_utils') ;
 
 exports.getOrderPage = async (req, res)=>{
   try{
     let dbReturnData = await dbRepository.getAllOrders_OfToday() ;
     if(dbReturnData.status == false){throw `${dbReturnData.data} : unable to get orders from db` ;}
 
+    let menuNameData = await orderParseUtils.getMenuNameData() ;
+    if(menuNameData.status!= true){throw menuNameData.e ;}
 
-    let orderData = dbReturnData.data.map(row=>{
+
+    dbReturnData.data.map(row=>{
       row.userDetails = JSON.parse(row.userDetails) ;
       row.address = JSON.parse(row.address) ;
-      row.cart = JSON.parse(row.cart) ;
+      row.cart =   orderParseUtils.parseCartFromBackendToAdminOrder(menuNameData,  JSON.parse(row.cart)) ;
       row.paymentData = JSON.parse(row.paymentData) ;
       row.datetime = moment(row.datetime).format('h:mm a') ;
     }) ;
+
+
+
 
     res.render('orders/all_orders.hbs', {
       orderData : dbReturnData.data

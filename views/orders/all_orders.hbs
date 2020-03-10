@@ -87,9 +87,14 @@
                     {{#each orderData}}
                         <tr data-order-status="{{status}}">
                             <td class='text-sm-center'> {{id}} </td>
-                            <td class='text-sm-center'>{{userDetails.firstname}} {{userDetails.lastname}} <br> {{userDetails.email}} <br> {{userDetails.phone}}</td>
-                            <td class='text-size-small'> {{address.addressLine1}}<br>{{address.addressLine2}}<br>{{address.addressLine3}} </td>
-                            <td>{{cart}}</td>
+                            <td class=''>{{userDetails.firstname}} {{userDetails.lastname}} <br> {{userDetails.email}} <br> {{userDetails.phone}}</td>
+                            <td class='small'> {{address.addressLine1}}<br>{{address.addressLine2}}<br>{{address.addressLine3}} </td>
+                            <td class="small">
+                                {{#each cart as |descriptionString|}}
+                                    {{{descriptionString}}}
+                                {{/each}}
+
+                            </td>
                             <td class='text-size-small'>{{totalPrice}} </td>
                             <td class='text-size-small'> </td>
                             <td class='text-size-small'> {{datetime}} </td>
