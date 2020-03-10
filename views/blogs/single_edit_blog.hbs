@@ -78,10 +78,10 @@
                                         <img class="img-fluid" src='{{IMAGE_BACKENDFRONT_LINK_PATH}}{{blogData.blog_display_image}}' alt="blog image here"  />
                                     </div>
                                     <div class="col-6">
-                                        <div class="row input-group">
-                                            <input type="file" name="post_Image" style="width:0;" id="hidden-file-chooser-display">
-                                            <input type="text" id="presentation-only-field-display" placeholder="Choose image ..." class="form-control"  readonly>
-                                            <button id="btn-file-choose-display" class="input-group-addon">Browse</button>
+                                        <div class="justify-content-center input-group ">
+                                            <input type="file" name="post_Image" style="width:0;" id="hidden-file-chooser">
+                                            <button id="btn-file-choose" class="input-group-addon" style="cursor: pointer">Choose Image</button>
+                                            <img id="preview-image"/>
                                         </div>
                                     </div>
                                 </div>
@@ -135,21 +135,23 @@
 
 <script >
 
-    function handleBrowseButton(ButtonId, HiddenInputId, PresentationInputId){
+    function handleBrowseButton_Preview(ButtonId, HiddenInputId, previewImageId){
         $('#'+ButtonId).click(function (event) {
-            event.preventDefault() ;
-            $('#'+HiddenInputId).click();
+            event.preventDefault() ; // prevents the form from automatically submitting
+            $('#'+HiddenInputId).click(); // actually clicks the file upload browse button
 
-            $('#'+HiddenInputId).change(function(){
-                $('#'+PresentationInputId).val($(this).val());
+
+            $('#'+HiddenInputId).change(function(event){
+                // this function is run when file is successfully selected by user
+                console.log("yolo man") ;
+                $('#preview-image').attr('src', URL.createObjectURL(event.target.files[0]));
                 return false ;
             });
 
 
         }) ;
     }
-
-    handleBrowseButton("btn-file-choose-display","hidden-file-chooser-display","presentation-only-field-display") ;
+    handleBrowseButton_Preview("btn-file-choose","hidden-file-chooser", "preview-image") ;
 
 
     tinymce.init({
