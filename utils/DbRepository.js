@@ -275,10 +275,15 @@ exports.changeOrderStatus = async(orderId, newOrderStatus)=>{
 exports.getAllMenuCategories = async ()=>{
   try{
     let dbData = await dbConnection.execute(
-        "SELECT * FROM `menu_meta_category_table` ORDER BY `category_id` ASC") ;
+        "SELECT * FROM `menu_meta_category_table` ORDER BY `category_sr_no` ASC"
+    ) ;
+    let categoryData = dbData['0'] ;
+    categoryData.map(row=>{
+      row.category_is_active = row.category_is_active == 1 ? true : false ;
+    }) ;
     return {
       status : true,
-      data : dbData['0'],
+      data : categoryData,
     } ;
 
   }catch (e) {
@@ -295,10 +300,14 @@ exports.getAllMenuCategories = async ()=>{
 exports.getSingleMenuCategory = async (categoryId)=>{
   try{
     let dbData = await dbConnection.execute(
-        `SELECT * FROM menu_meta_category_table WHERE category_id = ${categoryId} `) ;
+        `SELECT * FROM menu_meta_category_table WHERE category_id = :categoryId `,{
+          categoryId
+      }) ;
+    let categoryData = dbData['0']['0'] ;
+    categoryData.category_is_active = categoryData.category_is_active == 1 ? true : false ;
     return {
       status : true,
-      data : dbData['0'],
+      data : categoryData,
     } ;
 
   }catch (e) {

@@ -40,7 +40,7 @@
                 <div class="page-title bg-light">
                     <div class="container">
                         <div class="text-center">
-                            <h1>Arrange Gallery Images</h1>
+                            <h1>Arrange Category Items</h1>
                         </div>
                     </div>
                 </div>
@@ -52,13 +52,15 @@
                         <div class="card">
                             <div class="card-block text-center">
                                 <ol id="" class="hidden-list-numbering" style="display: inline-block;float: left;">
-                                {{#each galleryData}}
-                                    <li style='height: 102px;'></li>
-                                {{/each}}
+                                    {{#each categoryData}}
+                                        <li style='height: 102px;'></li>
+                                    {{/each}}
                                 </ol>
                                 <ol id="sorting" class="my-sortable-list" style="display: inline-block">
-                                    {{#each galleryData}}
-                                        <li id='{{gallery_item_id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{gallery_item_image_name}}' width='160px' height='90px' > </li>
+                                    {{#each categoryData}}
+                                        <li id='{{category_id}}'>
+                                            <img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{category_image}}' width='160px' height='90px' >
+                                        </li>
                                     {{/each}}
                                 </ol>
                             </div>
@@ -85,13 +87,12 @@
 
 
 </body>
-<script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
-<script type="text/javascript" src="/lib/jquery_ui/jquery-ui.js" ></script>
-<script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
+<script src="/lib/jquery/jquery.js" ></script>
+<script src="/lib/jquery_ui/jquery-ui.js" ></script>
+<script src="/lib/bootstrap4/bootstrap.min.js" ></script>
 <script src="/lib/toastr/toastr.min.js" ></script>
-
-<script type="text/javascript" src="/lib/t3/t3.js"></script>
-<script type="text/javascript" src="/js/my_personal.js"></script>
+<script src="/lib/t3/t3.js"></script>
+<script src="/js/my_personal.js"></script>
 
 <script>
     $('#sorting').sortable({
@@ -104,7 +105,7 @@
     function saveSortOrder() {
         let sortedArray = $('#sorting').sortable("toArray") ;
         console.log(sortedArray) ;
-        fetch('/gallery/arrange', {
+        fetch('/menu/category/arrange', {
             method: 'POST',
             body: new URLSearchParams({
                 _csrf : "some csrf string here",
@@ -114,17 +115,17 @@
         .then((response)=>response.json())
         .then((data)=>{
             if(data.status == true){
-                makeToast('success', "New Order is saved \n taking you back to gallery page")
+                makeToast('success', "New Order is saved \n taking you back to category page")
                 setTimeout(function () {
-                    window.location.href="/gallery" ;
+                    window.location.href="/menu/category" ;
                 }, 1000)
             }else{
-              throw data ;
+                throw data ;
             }
         })
         .catch((err)=>{
-          console.log(err) ;
-          makeToast('error', "Error in saving the new order") ;
+            console.log(err) ;
+            makeToast('error', "Error in saving the new order") ;
         }) ;
 
 

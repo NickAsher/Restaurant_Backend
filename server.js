@@ -14,7 +14,7 @@ const controllerGallery = require('./controller/gallery') ;
 const controllerInfo = require('./controller/info') ;
 const controllerOrders =  require('./controller/orders') ;
 // const controllerHome = require('./controller/home') ;
-// const controllerMenu = require('./controller/menu') ;
+const controllerMenu = require('./controller/menu') ;
 const controllerOfferSpecial = require('./controller/offers') ;
 
 const dbRepository = require('./utils/DbRepository') ;
@@ -115,6 +115,21 @@ app.post('/contact/edit/save', controllerInfo.postContactEditPage) ;
 
 app.get('/orders', controllerOrders.getOrderPage) ;
 app.post('/orders/operation', controllerOrders.postOrderOperation) ;
+
+
+app.get('/menu/category', controllerMenu.getAllCategoryPage) ;
+app.get('/menu/category/view/:categoryId', controllerMenu.getViewCategoryPage) ;
+app.get('/menu/category/edit/:categoryId', controllerMenu.getEditCategoryPage) ;
+app.post('/menu/category/edit/save', upload.single('post_Image'), controllerMenu.postEditCategoryPage) ;
+// app.get('/menu/category/manage/:categoryId', controllerMenu.getEditCategoryPage) ;
+// app.post('/menu/category/manage/save', controllerMenu.getEditCategoryPage) ;
+app.get('/menu/category/arrange', controllerMenu.getArrangeCategoryPage) ;
+app.post('/menu/category/arrange', upload.none(), controllerMenu.postArrangeCategoryPage) ;
+
+// app.post('/menu/category/delete', controllerMenu.getViewCategoryPage) ;
+
+
+
 
 app.listen(3002, ()=>{
     console.log("The server is listening on port 3002") ;
