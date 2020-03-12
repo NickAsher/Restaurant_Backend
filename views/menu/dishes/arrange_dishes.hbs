@@ -40,7 +40,7 @@
                 <div class="page-title bg-light">
                     <div class="container">
                         <div class="text-center">
-                            <h1>Arrange Category Items</h1>
+                            <h1>Arrange Dishes</h1>
                         </div>
                     </div>
                 </div>
@@ -52,14 +52,15 @@
                         <div class="card">
                             <div class="card-block text-center">
                                 <ol id="" class="hidden-list-numbering" style="display: inline-block;float: left;">
-                                    {{#each categoryData}}
-                                        <li style='height: 102px;'></li>
+                                    {{#each itemData}}
+                                        <li style='height: 125px;'></li>
                                     {{/each}}
                                 </ol>
                                 <ol id="sorting" class="my-sortable-list" style="display: inline-block">
-                                    {{#each categoryData}}
-                                        <li id='{{category_id}}'>
-                                            <img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{category_image}}' width='160px' height='90px' >
+                                    {{#each itemData}}
+                                        <li id='{{item_id}}'>
+                                            <img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{item_image_name}}'  height='90px'>
+                                            <div class="text-center">{{item_name}}</div>
                                         </li>
                                     {{/each}}
                                 </ol>
@@ -105,28 +106,29 @@
     function saveSortOrder() {
         let sortedArray = $('#sorting').sortable("toArray") ;
         console.log(sortedArray) ;
-        fetch('/menu/category/arrange', {
+        fetch('/menu/dishes/arrange', {
             method: 'POST',
             body: new URLSearchParams({
                 _csrf : "some csrf string here",
                 sortedArray : JSON.stringify(sortedArray)
             })
         })
-        .then((response)=>response.json())
-        .then((data)=>{
-            if(data.status == true){
-                makeToast('success', "New Order is saved \n taking you back to category page")
-                setTimeout(function () {
-                    window.location.href="/menu/category" ;
-                }, 1000)
-            }else{
-                throw data ;
-            }
-        })
-        .catch((err)=>{
-            console.log(err) ;
-            makeToast('error', "Error in saving the new order") ;
-        }) ;
+                .then((response)=>response.json())
+                .then((data)=>{
+                  console.log(data) ;
+                    if(data.status == true){
+                        makeToast('success', "New Order is saved \n taking you back to category page") ;
+                        setTimeout(function () {
+                            window.location.href="/menu/dishes" ;
+                        }, 1000)
+                    }else{
+                        throw data ;
+                    }
+                })
+                .catch((err)=>{
+                    console.log(err) ;
+                    makeToast('error', "Error in saving the new order") ;
+                }) ;
 
 
 

@@ -121,14 +121,22 @@ app.get('/menu/category', controllerMenu.getAllCategoryPage) ;
 app.get('/menu/category/view/:categoryId', controllerMenu.getViewCategoryPage) ;
 app.get('/menu/category/edit/:categoryId', controllerMenu.getEditCategoryPage) ;
 app.post('/menu/category/edit/save', upload.single('post_Image'), controllerMenu.postEditCategoryPage) ;
-// app.get('/menu/category/manage/:categoryId', controllerMenu.getEditCategoryPage) ;
-// app.post('/menu/category/manage/save', controllerMenu.getEditCategoryPage) ;
 app.get('/menu/category/arrange', controllerMenu.getArrangeCategoryPage) ;
 app.post('/menu/category/arrange', upload.none(), controllerMenu.postArrangeCategoryPage) ;
 
 // app.post('/menu/category/delete', controllerMenu.getViewCategoryPage) ;
+// app.get('/menu/category/manage/:categoryId', controllerMenu.getEditCategoryPage) ;
+// app.post('/menu/category/manage/save', controllerMenu.getEditCategoryPage) ;
 
-
+app.get('/menu/dishes', controllerMenu.getAllDishesPage) ;
+app.get('/menu/dishes/view/:menuItemId', controllerMenu.getViewSingleDishPage) ;
+app.get('/menu/dishes/edit/:menuItemId', controllerMenu.getEditSingleDishPage) ;
+app.post('/menu/dishes/edit/save', upload.single('post_Image'), controllerMenu.postEditDishesPage) ;
+app.get('/menu/dishes/add/:categoryId', controllerMenu.getAddDishPage) ;
+app.post('/menu/dishes/add/save', upload.single('post_Image'), controllerMenu.postAddDishPage) ;
+app.post('/menu/dishes/delete', upload.none(), controllerMenu.postDeleteDishPage ) ;
+app.get('/menu/dishes/arrange/:categoryId', controllerMenu.getArrangeDishesPage) ;
+app.post('/menu/dishes/arrange/', upload.none(), controllerMenu.postArrangeDishesPage) ;
 
 
 app.listen(3002, ()=>{

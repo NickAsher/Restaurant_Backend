@@ -512,10 +512,24 @@ exports.getSingleAddonItem = async (categoryId, addonItemId)=>{
 
 
 
-exports.getAllSizesInCategory = async (categoryId)=>{
+exports.getAllSizesInCategory = async (categoryId, activeOnly=false)=>{
+  /* Returns all the sizes in a category
+   * @param categoryId : The category for which the sizes are needed
+   * @param activeOnly : a boolean indicating, if whether all sizes should be retreived or those marked as active
+   *                     by default, all sizes will be returned
+   */
   try{
-    let dbData = await dbConnection.execute(
-        `SELECT * FROM menu_meta_size_table WHERE size_category_id = '${categoryId}' AND size_is_active = 'yes' ORDER BY size_sr_no ASC `) ;
+    let sqlString ;
+    if(activeOnly){
+      sqlString = `SELECT * FROM menu_meta_size_table
+          WHERE size_category_id = '${categoryId}' AND size_is_active = '1'
+          ORDER BY size_sr_no ASC ` ;
+    }else{
+      sqlString = `SELECT * FROM menu_meta_size_table
+          WHERE size_category_id = '${categoryId}'
+          ORDER BY size_sr_no ASC ` ;
+    }
+    let dbData = await dbConnection.execute(sqlString) ;
     return {
       status : true,
       data : dbData['0'],
@@ -529,6 +543,7 @@ exports.getAllSizesInCategory = async (categoryId)=>{
   }
 
 } ;
+
 
 exports.getAllSizes_NamesOnly = async()=>{
   try{
@@ -548,12 +563,32 @@ exports.getAllSizes_NamesOnly = async()=>{
 } ;
 
 
+exports.getAllMenuItems = async()=>{
+  try{
+    let dbData = await dbConnection.execute(
+      `SELECT * FROM menu_items_table ORDER BY item_category_id ASC, item_sr_no ASC `
+    ) ;
+    let menuData = dbData['0'] ;
+    menuData.forEach((menuItem)=>{
+      menuItem.item_is_active = menuItem.item_is_active == '1' ? true : false ;
+    }) ;
+    return {
+      status : true,
+      data : dbData['0'],
+    } ;
 
+  }catch (e) {
+    return {
+      status : false,
+      data : e,
+    } ;
+  }
+} ;
 
 exports.getAllMenuItemsInCategory = async (categoryId)=>{
   try{
     let dbData = await dbConnection.execute(
-        `SELECT * FROM menu_items_table WHERE item_category_id = '${categoryId}' ORDER BY item_id ASC `) ;
+        `SELECT * FROM menu_items_table WHERE item_category_id = '${categoryId}' ORDER BY item_sr_no ASC `) ;
     return {
       status : true,
       data : dbData['0'],
@@ -603,15 +638,20 @@ exports.getAllMenuItems_NameOnly = async()=>{
   }
 } ;
 
-exports.getSingleMenuItem = async (categoryId, itemId)=>{
+
+exports.getSingleMenuItem = async (itemId)=>{
   try{
     let dbData = await dbConnection.execute(
-        `SELECT * FROM menu_items_table, menu_meta_category_table 
-         WHERE menu_items_table.item_id = '${itemId}' AND menu_meta_category_table.category_id = ${categoryId} `
+        `SELECT * FROM menu_items_table, menu_meta_category_table
+        WHERE menu_items_table.item_id = '${itemId}'
+        AND menu_meta_category_table.category_id = menu_items_table.item_category_id `
     ) ;
+
+    let itemData = dbData['0']['0'] ;
+    itemData.item_is_active = itemData.item_is_active == '1' ? true : false ;
     return {
       status : true,
-      data : dbData['0'],
+      data : itemData,
     } ;
 
   }catch (e) {
@@ -623,17 +663,22 @@ exports.getSingleMenuItem = async (categoryId, itemId)=>{
 
 } ;
 
-exports.getSingleMenuItem_PriceData = async (categoryId, itemId)=>{
+exports.getSingleMenuItem_PriceData = async (itemId)=>{
   try{
     let dbData = await dbConnection.execute(
         `SELECT * FROM menu_meta_rel_size_items_table, menu_meta_size_table 
          WHERE menu_meta_rel_size_items_table.item_id = '${itemId}'
          AND menu_meta_rel_size_items_table.size_id = menu_meta_size_table.size_id
-         AND item_size_active = 'yes' `
+         `
     ) ;
+    let itemSizePriceData = dbData['0'] ;
+    itemSizePriceData.forEach((element)=>{
+      element.item_size_active = element.item_size_active == '1' ? true : false ;
+      element.size_is_active = element.size_is_active == '1' ? true : false ;
+    }) ;
     return {
       status : true,
-      data : dbData['0'],
+      data : itemSizePriceData,
     } ;
 
   }catch (e) {
@@ -643,48 +688,30 @@ exports.getSingleMenuItem_PriceData = async (categoryId, itemId)=>{
     } ;
   }
 } ;
-
-exports.getAllMenuItems_SeperatedByCategory2 = async (itemId)=>{
-  try{
-    let dbData = await dbConnection.execute(`SELECT * FROM menu_items_table`) ;
-    dbData = dbData['0'] ;
-
-
-    return {
-      status : true,
-      data : dbData['0'],
-    } ;
-
-  }catch (e) {
-    return {
-      status : false,
-      data : e,
-    } ;
-  }
-
-} ;
-
 
 exports.getAllMenuItems_SeperatedByCategory = async ()=>{
   try{
-    let categoryArray = await this.getAllMenuCategories() ;
-    if(!categoryArray['status']){
-      throw categoryArray['data'] ;
-    }
-    categoryArray = categoryArray['data'] ;
-    for(let i=0;i<categoryArray.length; i++){
-      let menuItemsInCategoryArray = await this.getAllMenuItemsInCategory(categoryArray[i]['category_id']) ;
-      categoryArray[i]['items'] = menuItemsInCategoryArray['data'] ;
-    }
+    let dbCategoryData = await this.getAllMenuCategories() ;
+    if(dbCategoryData.status != true){throw dbCategoryData.data ;}
 
+    let dbMenuData = await this.getAllMenuItems() ;
+    if(dbMenuData.status != true ){throw dbMenuData.data ;}
+
+    let categoryData = dbCategoryData.data ;
+    let menuData = dbMenuData.data ;
+
+    categoryData.forEach((categoryElement)=>{
+      categoryElement.items = menuData.filter((menuItem)=>{
+        return categoryElement.category_id == menuItem.item_category_id ;
+      }) ;
+    }) ;
 
     return {
       status : true,
-      data : categoryArray,
+      data : categoryData
     } ;
 
   }catch (e) {
-    console.log(e) ;
     return {
       status : false,
       data : e,
@@ -692,5 +719,7 @@ exports.getAllMenuItems_SeperatedByCategory = async ()=>{
   }
 
 } ;
+
+
 
 
