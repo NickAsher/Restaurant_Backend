@@ -357,6 +357,37 @@ exports.getSingleSubCategory = async (subcategoryId)=>{
 } ;
 
 
+exports.getAllAddonGroups_SeperatedByCategory = async()=>{
+  try{
+    let dbCategoryData = await this.getAllMenuCategories() ;
+    if(dbCategoryData.status != true){throw dbCategoryData.data ;}
+
+    let dbAddonGroupData = await dbConnection.execute(
+      `SELECT * FROM menu_meta_addongroups_table ORDER BY category_id ASC, addon_group_sr_no ASC `
+    ) ;
+
+    let categoryData = dbCategoryData.data ;
+    let addonGroupData = dbAddonGroupData[0] ;
+
+    categoryData.forEach((categoryElement)=>{
+      categoryElement.addonGroups = addonGroupData.filter((addonGroupItem)=>{
+        return addonGroupItem.category_id == categoryElement.category_id ;
+      }) ;
+    }) ;
+
+    return {
+      status : true,
+      data : categoryData
+    } ;
+
+  }catch (e) {
+    return {
+      status : false,
+      data : e,
+    } ;
+  }
+} ;
+
 exports.getAllAddonGroupsInCategory = async (categoryId)=>{
   try{
     let dbData = await dbConnection.execute(
@@ -394,13 +425,17 @@ exports.getAllAddonGroups_NamesOnly = async()=>{
 } ;
 
 
-exports.getSingleAddonGroup = async (addonGroupRelId)=>{
+exports.getSingleAddonGroup = async (addonGroupId)=>{
   try{
     let dbData = await dbConnection.execute(
-        `SELECT * FROM menu_meta_addongroups_table WHERE rel_id = '${addonGroupRelId}' `) ;
+        `SELECT * FROM menu_meta_addongroups_table
+         INNER JOIN menu_meta_category_table
+         ON menu_meta_addongroups_table.category_id = menu_meta_category_table.category_id 
+         WHERE menu_meta_addongroups_table.rel_id = '${addonGroupId}' 
+     `) ;
     return {
       status : true,
-      data : dbData['0'],
+      data : dbData[0][0]
     } ;
 
   }catch (e) {
@@ -410,6 +445,46 @@ exports.getSingleAddonGroup = async (addonGroupRelId)=>{
     } ;
   }
 
+} ;
+
+/**
+ * Gives back all the addon items which are seperated by category and then addon groups
+ *
+ * @returns {Promise<{status: boolean, data: *}>}
+ * @returns {boolean} status Whether the request for data failed or succeeded
+ * @returns {object} all addon items which are seperated by category and addon groups
+ */
+exports.getAllAddonItems_Seperated = async()=>{
+  try{
+    let dbAddonGroupCategoryData = await this.getAllAddonGroups_SeperatedByCategory() ;
+    if(dbAddonGroupCategoryData.status != true){throw dbAddonGroupCategoryData.data ;}
+
+    let dbAddonItemData = await dbConnection.execute(
+      `SELECT * FROM menu_addons_table ORDER BY item_addon_group_rel_id ASC, item_sr_no ASC`
+    ) ;
+
+
+    let addonGroupCategoryData = dbAddonGroupCategoryData.data ;
+    let addonItemData = dbAddonItemData[0] ;
+
+    addonGroupCategoryData.forEach((categoryElement)=>{
+      categoryElement.addonGroups.forEach((addonGroupElement)=>{
+        addonGroupElement.addonItems = addonItemData.filter((addonItem)=>{
+          return addonItem.item_addon_group_rel_id == addonGroupElement.rel_id ;
+        }) ;
+      }) ;
+    }) ;
+
+    return {
+      status : true,
+      data : addonGroupCategoryData
+    } ;
+  }catch (e) {
+    return {
+      status : false,
+      data : e,
+    } ;
+  }
 } ;
 
 
@@ -491,14 +566,40 @@ exports.getAddonDataInCategory = async (categoryId)=>{
 
 
 
-
-exports.getSingleAddonItem = async (categoryId, addonItemId)=>{
+exports.getSingleAddonItem = async(addonItemId)=>{
   try{
-    let dbData = await dbConnection.execute(
-        `SELECT * FROM menu_addons_table WHERE item_category_id = '${categoryId}' AND rel_id = '${addonItemId}' `) ;
+    let dbData = await dbConnection.execute(`
+    SELECT menu_addons_table.*, menu_meta_addongroups_table.*, menu_meta_category_table.*
+    FROM menu_addons_table INNER JOIN menu_meta_addongroups_table
+    ON menu_addons_table.item_addon_group_rel_id = menu_meta_addongroups_table.rel_id
+    INNER JOIN menu_meta_category_table
+    ON menu_meta_category_table.category_id = menu_meta_addongroups_table.category_id
+    WHERE menu_addons_table.item_id = '${addonItemId}'
+    `) ;
+
     return {
       status : true,
-      data : dbData['0'],
+      data : dbData[0][0]
+    } ;
+  }catch (e) {
+    return {
+      status : false,
+      data : e,
+    } ;
+  }
+
+} ;
+exports.getSingleAddonItem_PriceData = async (addonItemId)=>{
+  try{
+    let dbData = await dbConnection.execute(`
+      SELECT * FROM menu_meta_rel_size_addons_table
+      INNER JOIN menu_meta_size_table 
+      ON  menu_meta_rel_size_addons_table.size_id = menu_meta_size_table.size_id
+      WHERE menu_meta_rel_size_addons_table.addon_id = '${addonItemId}'
+    `) ;
+    return {
+      status : true,
+      data : dbData[0]
     } ;
 
   }catch (e) {
@@ -665,20 +766,15 @@ exports.getSingleMenuItem = async (itemId)=>{
 
 exports.getSingleMenuItem_PriceData = async (itemId)=>{
   try{
-    let dbData = await dbConnection.execute(
-        `SELECT * FROM menu_meta_rel_size_items_table, menu_meta_size_table 
-         WHERE menu_meta_rel_size_items_table.item_id = '${itemId}'
-         AND menu_meta_rel_size_items_table.size_id = menu_meta_size_table.size_id
-         `
-    ) ;
-    let itemSizePriceData = dbData['0'] ;
-    itemSizePriceData.forEach((element)=>{
-      element.item_size_active = element.item_size_active == '1' ? true : false ;
-      element.size_is_active = element.size_is_active == '1' ? true : false ;
-    }) ;
+    let dbData = await dbConnection.execute(`
+      SELECT * FROM menu_meta_rel_size_items_table
+      INNER JOIN menu_meta_size_table 
+      ON  menu_meta_rel_size_items_table.size_id = menu_meta_size_table.size_id
+      WHERE menu_meta_rel_size_items_table.item_id = '${itemId}'
+    `) ;
     return {
       status : true,
-      data : itemSizePriceData,
+      data : dbData[0],
     } ;
 
   }catch (e) {

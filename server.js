@@ -139,6 +139,19 @@ app.get('/menu/dishes/arrange/:categoryId', controllerMenu.getArrangeDishesPage)
 app.post('/menu/dishes/arrange/', upload.none(), controllerMenu.postArrangeDishesPage) ;
 
 
+app.get('/menu/addons', controllerMenu.getAllAddonItemsPage) ;
+app.get('/menu/addons/view/:addonItemId', controllerMenu.getViewSingleAddonPage) ;
+app.get('/menu/addons/edit/:addonItemId', controllerMenu.getEditSingleAddonPage) ;
+app.post('/menu/addons/edit/save', upload.none(), controllerMenu.postEditAddonPage) ;
+app.get('/menu/addons/add/:categoryId/:addonGroupId', controllerMenu.getAddNewAddonPage) ;
+app.post('/menu/addons/add/save', upload.none(), controllerMenu.postAddNewAddonPage) ;
+app.post('/menu/addons/delete', upload.none(), controllerMenu.postDeleteAddonPage ) ;
+// app.get('/menu/addons/arrange/:addonGroupId', controllerMenu.getArrangeAddonPage) ;
+// app.post('/menu/addons/arrange/', upload.none(), controllerMenu.postArrangeAddonPage) ;
+// app.get('/menu/addons/change-default/:addonGroupId', controllerMenu.getChangeDefaultAddonPage) ;
+// app.post('/menu/addons/change-default/save', upload.none(), controllerMenu.postChangeDefaultAddonPage) ;
+
+
 app.listen(3002, ()=>{
     console.log("The server is listening on port 3002") ;
 }) ;

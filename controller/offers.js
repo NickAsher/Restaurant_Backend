@@ -23,7 +23,7 @@ exports.getAllOfferSpecials = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -44,7 +44,7 @@ exports.getArrangeOfferSpecialsPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -73,7 +73,7 @@ exports.postOfferSpecialsPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -90,7 +90,7 @@ exports.getAddOfferSpecial = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -128,7 +128,7 @@ exports.postAddOfferSpecial = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -151,7 +151,7 @@ exports.getSingleOfferSpecial = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -174,7 +174,7 @@ exports.getEditOfferSpecial = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -225,7 +225,7 @@ exports.postEditOfferSpecial = async(req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -251,7 +251,7 @@ exports.postDeleteOfferSpecial = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }

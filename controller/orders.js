@@ -39,7 +39,7 @@ exports.getOrderPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -75,7 +75,7 @@ exports.postOrderOperation = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }

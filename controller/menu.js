@@ -19,7 +19,6 @@ exports.getAllCategoryPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -42,7 +41,6 @@ exports.getViewCategoryPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -66,7 +64,6 @@ exports.getEditCategoryPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -116,7 +113,6 @@ exports.postEditCategoryPage = async (req,res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -139,7 +135,6 @@ exports.getArrangeCategoryPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -168,7 +163,6 @@ exports.postArrangeCategoryPage = async (req,res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -196,7 +190,6 @@ exports.getAllDishesPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -231,7 +224,6 @@ exports.getViewSingleDishPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -265,7 +257,6 @@ exports.getEditSingleDishPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -276,7 +267,7 @@ exports.postEditDishesPage = async (req, res)=>{
     let itemId = req.body.itemId ;
     let itemName = req.body.itemName ;
     let itemDescription = req.body.itemDescription ;
-    let itemIsActive = req.body.isItemActive == 'true' ? true : false ;
+    let itemIsActive = req.body.isItemActive == 'true' ? 1 : 0 ;
 
     let dbItemData ;
     if(!req.file){
@@ -347,7 +338,7 @@ exports.postEditDishesPage = async (req, res)=>{
     sqlCaseString += ' END, item_size_active = CASE ' ;
     sizeData.forEach((element, index)=>{
       let newIsItemActiveForSize = req['body'][`isItemSizeActive_${element.size_id}`] ;
-      newIsItemActiveForSize = newIsItemActiveForSize == 'true' ? true : false ;
+      newIsItemActiveForSize = newIsItemActiveForSize == 'true' ? 1 : 0 ;
       sqlCaseString += ` WHEN size_id = ${element.size_id} THEN ${newIsItemActiveForSize} ` ;
     }) ;
     sqlCaseString += ` END WHERE item_id = ${itemId} ` ;
@@ -367,7 +358,6 @@ exports.postEditDishesPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -394,7 +384,6 @@ exports.getAddDishPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -412,8 +401,8 @@ exports.postAddDishPage = async (req, res)=>{
 
     let dbItemData = await dbConnection.execute(`
       INSERT INTO menu_items_table 
-      (item_sr_no, item_id, item_name, item_description, item_image_name, item_category_id, item_is_active )
-      SELECT COALESCE( (MAX( item_sr_no ) + 1), 1) , '', :itemName, :itemDescription, :itemImageFileName, :categoryId, :isItemActive 
+      (item_sr_no, item_name, item_description, item_image_name, item_category_id, item_is_active )
+      SELECT COALESCE( (MAX( item_sr_no ) + 1), 1) , :itemName, :itemDescription, :itemImageFileName, :categoryId, :isItemActive 
       FROM menu_items_table WHERE item_category_id = :categoryId `, {
       itemName,
       itemDescription,
@@ -428,17 +417,16 @@ exports.postAddDishPage = async (req, res)=>{
     if(dbSizeData.status != true){throw dbSizeData.data ;}
 
     let sqlInsertString = ` INSERT INTO menu_meta_rel_size_items_table 
-      (size_rel_id, item_id, item_price, item_size_active, size_id, item_category_id) VALUES ` ;
+      ( item_id, item_price, item_size_active, size_id, item_category_id) VALUES ` ;
 
     dbSizeData.data.forEach((element)=>{
       let itemSizePrice = req.body[`itemSizePrice_${element.size_id}`] ;
       let isItemSizeActive = req.body[`isItemSizeActive_${element.size_id}`] ;
-      isItemSizeActive = isItemSizeActive == 'true' ? true : false ;
+      isItemSizeActive = isItemSizeActive == 'true' ? 1 : 0 ;
 
-      sqlInsertString += ` ('', '${itemInsertId}', '${itemSizePrice}', '${isItemSizeActive}', '${element.size_id}', '${categoryId}' ), ` ;
+      sqlInsertString += ` ( '${itemInsertId}', '${itemSizePrice}', '${isItemSizeActive}', '${element.size_id}', '${categoryId}' ), ` ;
     }) ;
     sqlInsertString = sqlInsertString.slice(0,-2) ;
-    sqlInsertString += ' ;' ;
 
     let dbSizeInsertData = await dbConnection.execute(sqlInsertString) ;
 
@@ -457,7 +445,6 @@ exports.postAddDishPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -491,7 +478,6 @@ exports.postDeleteDishPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -516,7 +502,6 @@ exports.getArrangeDishesPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -547,14 +532,268 @@ exports.postArrangeDishesPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
       yo : "Beta ji koi error hai"
     }) ;
   }
 } ;
 
 
+/* *********************************************** Addons ******************************************/
 
+exports.getAllAddonItemsPage = async (req, res)=>{
+  try{
+    let dbData = await dbRepository.getAllAddonItems_Seperated() ;
+    if(dbData.status != true){throw dbData.data ;}
+
+    let addonData = dbData.data ;
+    res.render('menu/addons/all_addons.hbs', {
+      status : true,
+      addonData
+    }) ;
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+exports.getViewSingleAddonPage = async (req, res)=>{
+  try{
+    let addonItemId = req.params.addonItemId ;
+    let dbAddonData = await dbRepository.getSingleAddonItem(addonItemId) ;
+    if(dbAddonData.status != true){throw dbAddonData.data ;}
+
+    let dbAddonSizePriceData = await dbRepository.getSingleAddonItem_PriceData(addonItemId) ;
+    if(dbAddonSizePriceData.status != true){throw dbAddonSizePriceData.data ;}
+
+    res.render('menu/addons/view_single_addon.hbs', {
+      status : true,
+      addonData : dbAddonData.data,
+      addonSizePriceData : dbAddonSizePriceData.data
+    }) ;
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+exports.getEditSingleAddonPage = async(req, res)=>{
+ try{
+   let addonItemId = req.params.addonItemId ;
+   let dbAddonData = await dbRepository.getSingleAddonItem(addonItemId) ;
+   if(dbAddonData.status != true){throw dbAddonData.data ;}
+
+   let dbAddonSizePriceData = await dbRepository.getSingleAddonItem_PriceData(addonItemId) ;
+   if(dbAddonSizePriceData.status != true){throw dbAddonSizePriceData.data ;}
+
+   res.render('menu/addons/edit_single_addon.hbs', {
+     status : true,
+     addonData : dbAddonData.data,
+     addonSizePriceData : dbAddonSizePriceData.data
+   }) ;
+ }catch (e) {
+   res.send({
+     status : false,
+     e,
+     e_message : e.message,
+     e_toString : e.toString(),
+     yo : "Beta ji koi error hai"
+   }) ;
+ }
+} ;
+
+exports.postEditAddonPage = async (req, res)=>{
+
+  try {
+    let itemId = req.body.itemId;
+    let itemName = req.body.itemName;
+    let itemIsActive = req.body.isItemActive ;
+
+    let dbItemData  = await dbConnection.execute(`
+        UPDATE menu_addons_table 
+        SET item_name = :itemName, item_is_active = :itemIsActive WHERE item_id = :itemId `, {
+        itemName,
+        itemIsActive,
+        itemId
+      });
+
+    /*
+     * now that  imenu_addons_table data is taken care of, let's update the price data
+     * So from the form, the data for addonPrice is received like this
+     * price data for a size is in form  req.body.itemSizePrice_sizeId
+     *         sizeId=1 =>  req.body.itemSizePrice_1
+     *         sizeId=2 =>  req.body.itemSizePrice_2
+     *
+     *   Similarly the isItemActive for a particular size is in  req.body.isItemSizeActive_sizeId
+     *        for sizeId=1  => req.body.isItemSizeActive_1
+     *        for sizeId=1  => req.body.isItemSizeActive_2
+     *
+     *  The sql statement uses two CASE statements. ex :
+     *
+     *  UPDATE `menu_meta_rel_size_addons_table`
+     *    SET `addon_price` = CASE
+     *        WHEN `size_id` = '1' THEN '99.0000'
+     *        WHEN `size_id` = '2' THEN '194.0000'
+     *        WHEN `size_id` = '3' THEN '394.0000'
+     *    END,
+     *    `addon_size_active` = CASE
+     *        WHEN `size_id` = '1' THEN true     (1 for true, 0 for false)
+     *        WHEN `size_id` = '2' THEN true
+     *        WHEN `size_id` = '3' THEN true
+     *    END
+     *    WHERE `item_id` = '48001'
+     */
+
+    let categoryId = req.body.categoryId;
+    let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId, false);
+    if (dbSizeData.status != true) {throw dbSizeData.data; }
+    let sizeData = dbSizeData.data;
+
+    let sqlCaseString = 'UPDATE menu_meta_rel_size_addons_table  SET addon_price = CASE ';
+    sizeData.forEach((element, index) => {
+      let newItemPriceForSize = req['body'][`itemSizePrice_${element.size_id}`];
+      sqlCaseString += ` WHEN size_id = ${element.size_id} THEN ${newItemPriceForSize} `;
+    });
+    sqlCaseString += ' END, addon_size_active = CASE ';
+    sizeData.forEach((element, index) => {
+      let newIsItemActiveForSize = req['body'][`isItemSizeActive_${element.size_id}`];
+      sqlCaseString += ` WHEN size_id = ${element.size_id} THEN ${newIsItemActiveForSize} `;
+    });
+    sqlCaseString += ` END WHERE addon_id = ${itemId} `;
+
+    let dbItemPriceData = await dbConnection.execute(sqlCaseString);
+
+
+    res.send({
+      dbItemData,
+      dbItemPriceData,
+      sqlCaseString,
+      link: "http://localhost:3002/menu/addons"
+    });
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+exports.getAddNewAddonPage = async (req, res)=> {
+  try {
+    let categoryId = req.params.categoryId;
+    let addonGroupId = req.params.addonGroupId ;
+
+    let dbAddonGroupData = await dbRepository.getSingleAddonGroup(addonGroupId);
+    if (dbAddonGroupData.status != true) {throw dbAddonGroupData.data; }
+
+    let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId, false);
+    if (dbSizeData.status != true) {throw dbSizeData.data;}
+
+    res.render('menu/addons/add_new_addon.hbs', {
+      addonGroupData: dbAddonGroupData.data,
+      sizeData: dbSizeData.data
+    });
+
+
+  } catch (e) {
+    res.send({
+      status: false,
+      e,
+      e_message: e.message,
+      e_toString: e.toString(),
+      yo: "Beta ji koi error hai"
+    });
+  }
+} ;
+
+exports.postAddNewAddonPage = async (req, res)=>{
+  let categoryId = req.body.categoryId ;
+  let addonGroupId = req.body.addonGroupId ;
+  let itemName = req.body.itemName ;
+  let isItemActive = req.body.isItemActive ;
+
+
+
+  let dbItemData = await dbConnection.execute(`
+      INSERT INTO menu_addons_table 
+      (item_sr_no, item_name, item_category_id, item_addon_group_rel_id, item_is_active )
+      SELECT COALESCE( (MAX( item_sr_no ) + 1), 1) , :itemName, :categoryId, :addonGroupId, :isItemActive 
+      FROM menu_addons_table WHERE item_addon_group_rel_id = :addonGroupId `, {
+    itemName,
+    categoryId,
+    addonGroupId,
+    isItemActive
+  }) ;
+
+
+  let itemInsertId = dbItemData[0].insertId ;
+  let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId) ;
+  if(dbSizeData.status != true){throw dbSizeData.data ;}
+
+  let sqlInsertString = ` INSERT INTO menu_meta_rel_size_addons_table 
+      (addon_id, addon_price, addon_size_active, size_id, category_id) VALUES ` ;
+
+  dbSizeData.data.forEach((element)=>{
+    let itemSizePrice = req.body[`itemSizePrice_${element.size_id}`] ;
+    let isItemSizeActive = req.body[`isItemSizeActive_${element.size_id}`] ;
+
+    sqlInsertString += ` ('${itemInsertId}', '${itemSizePrice}', '${isItemSizeActive}', '${element.size_id}', '${categoryId}' ), ` ;
+  }) ;
+  sqlInsertString = sqlInsertString.slice(0,-2) ;
+
+  let dbSizeInsertData = await dbConnection.execute(sqlInsertString) ;
+
+  res.send({
+    status : true,
+    dbItemData,
+    itemInsertId,
+    sqlInsertString,
+    dbSizeInsertData,
+    link : "http://localhost:3002/menu/addons"
+  }) ;
+} ;
+
+exports.postDeleteAddonPage = async (req, res)=>{
+  try{
+    let itemId = req.body.itemId ;
+
+    let dbItemData = await dbConnection.execute(`DELETE FROM menu_addons_table WHERE item_id = :id `, {
+      id : itemId
+    }) ;
+
+    let dbItemSizePriceData = await dbConnection.execute(`DELETE FROM menu_meta_rel_size_addons_table WHERE addon_id = :id `, {
+      id : itemId
+    }) ;
+
+    res.send({
+      status : true,
+      dbItemData,
+      dbItemSizePriceData,
+      link : "http://localhost:3002/menu/addons"
+    }) ;
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
 
 
 

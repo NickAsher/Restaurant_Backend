@@ -18,7 +18,7 @@ exports.getAboutPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -39,7 +39,7 @@ exports.getAboutEditPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -63,7 +63,7 @@ exports.postAboutEditPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -84,7 +84,7 @@ exports.getContactPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -105,7 +105,7 @@ exports.getContactEditPage =  async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -152,7 +152,7 @@ exports.postContactEditPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }

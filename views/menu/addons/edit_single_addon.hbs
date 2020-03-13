@@ -1,0 +1,157 @@
+<html>
+<head>
+    <title>Admin | Gagneja</title>
+    <meta charset="utf-8">
+
+
+
+    <link rel="stylesheet" href="/lib/reset/reset.css" >
+
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap-toggle/bootstrap-toggle.css" >
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
+
+    <link rel="stylesheet" href="/lib/t3/t3.css" />
+
+    <link rel="stylesheet" href="/css/my_personal.css">
+</head>
+<body>
+
+{{>header}}
+<section>
+
+    {{>sidebar}}
+
+    <div class="container-fluid t3-push" id="mainContainer">
+        <div class="row">
+            <div id = "main_Content" class="col-md-12 bg-grey">
+
+                <br><br><br><br>
+                <div class="page-title bg-light">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <h1 class="">Edit Addon</h1>
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+
+                <div class="row">
+                    <div class="push-md-1 col-md-10" >
+                        <div class="card">
+                            <div class="card-block">
+                                <form action="/menu/addons/edit/save" method="post" >
+                                    <input name="categoryId" type="hidden" value="{{addonData.category_id}}">
+                                    <input name="itemId" type="hidden" value="{{addonData.item_id}}">
+                                    <br>
+
+
+                                    <div class="form-group row">
+                                        <label for="input-item-name" class="col-3 col-form-label">Item Name</label>
+                                        <div class="col-md-9">
+                                            <input id="input-item-name" name="itemName" class="form-control" type="text" value="{{addonData.item_name}}" >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="input-item-category" class="col-3 col-form-label">Item Category</label>
+                                        <div class="col-md-9">
+                                            <input id="input-item-category" class="form-control" type="text" value="{{addonData.category_name}}" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="input-item-addongroup" class="col-3 col-form-label">Item Addon-Group</label>
+                                        <div class="col-md-9">
+                                            <input id="input-item-addongroup" class="form-control" type="text" value="{{addonData.addon_group_display_name}}" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="input-item-isActive" class="col-3 col-form-label">Item Active</label>
+                                        <div class="col-md-9">
+                                            <input id="input-item-isActive-hidden" name="isItemActive" class="form-control" type="hidden" value="{{addonData.item_is_active}}"  >
+                                            <input id="input-item-isActive-presentation" type="checkbox" class="form-control"  {{#if addonData.item_is_active}} checked="checked"{{/if}} data-toggle="toggle" data-width="100" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
+                                        </div>
+                                    </div>
+
+                                    <br>
+                                    <br>
+                                    <br>
+
+                                    {{#each addonSizePriceData}}
+                                        <div class="form-group row">
+                                            <label  class="col-3 col-form-label">Item Price ({{size_name}}) </label>
+                                            <div class="col-md-9 input-group">
+                                                <input id='input-itemSize-isActive-hidden-{{size_id}}' name="isItemSizeActive_{{size_id}}" type="hidden" class="form-control"  value="{{addon_size_active}}"  >
+                                                <input id='input-itemSize-isActive-presentation-{{size_id}}' type='checkbox' class='form-control' {{#if addon_size_active}}checked="checked"{{/if}}  data-toggle='toggle' data-width='50' data-onstyle='success' data-offstyle='danger' data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
+                                                <input name="itemSizePrice_{{size_id}}" type='number' class='form-control'  style='margin-left: 20px; ; ' placeholder="Nan" value="{{addon_price}}"  >
+                                            </div>
+                                        </div>
+                                    {{/each}}
+
+                                    <br><br><br>
+                                    <div class="form-group row">
+                                        <div class="col-4" ></div>
+                                        <input type="submit" class=" col-4 btn btn-info" value="Save Changes">
+                                        <div class="col-4" ></div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <br><br><br><br><br>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+{{>footer}}
+
+
+</body>
+<script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
+<script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
+<script type="text/javascript" src="/lib/bootstrap-toggle/bootstrap-toggle.js" ></script>
+
+<script type="text/javascript" src="/js/my_personal.js"></script>
+<script type="text/javascript" src="/lib/t3/t3.js"></script>
+
+
+<script>
+    function setupCheckboxToggleButton(PresentationToggleInputId, HiddenInputId){
+
+        $('#' + PresentationToggleInputId).on('change', function() {
+            if(this.checked){
+                $('#' + HiddenInputId).val('1') ;
+            } else {
+                // this is necessary if user checked it and then unchecked it.
+                $('#' + HiddenInputId).val('0') ;
+            }
+        });
+    }
+    setupCheckboxToggleButton('input-item-isActive-presentation', 'input-item-isActive-hidden') ;
+        {{#each addonSizePriceData}}
+        setupCheckboxToggleButton('input-itemSize-isActive-presentation-{{size_id}}', 'input-itemSize-isActive-hidden-{{size_id}}' ) ;
+        {{/each}}
+</script>
+
+
+
+
+
+</html>

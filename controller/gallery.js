@@ -19,7 +19,7 @@ exports.getAllGalleryItemPage = async(req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -39,7 +39,7 @@ exports.getArrangeGalleryItemsPage = async(req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -88,7 +88,7 @@ exports.postArrangeGalleryItemsPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -105,7 +105,7 @@ exports.getAddGalleryItemPage = async (req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -135,7 +135,7 @@ exports.postAddGalleryItemPage = async(req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }
@@ -161,7 +161,7 @@ exports.postDeleteGalleryItemPage = async(req, res)=>{
       e,
       e_message : e.message,
       e_toString : e.toString(),
-      e_toString2 : e.toString,
+
       yo : "Beta ji koi error hai"
     }) ;
   }

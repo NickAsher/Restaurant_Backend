@@ -90,7 +90,7 @@
                                         <div class="col-md-9 input-group">
                                             <input id="input-itemSize-isActive-hidden-{{size_id}}" name="isItemSizeActive_{{size_id}}" type="hidden" class="form-control"  value="{{item_size_active}}"  >
                                             <input id="input-itemSize-isActive-presentation-{{size_id}}" type='checkbox' class='form-control' {{#if item_size_active}}checked="checked"{{/if}}  data-toggle='toggle' data-width='50' data-onstyle='success' data-offstyle='danger' data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
-                                            <input name="itemSizePrice_{{size_id}}" type='text' class='form-control'  style='margin-left: 20px; ; ' placeholder="Nan" value="{{item_price}}"  >
+                                            <input name="itemSizePrice_{{size_id}}" type='number' class='form-control'  style='margin-left: 20px; ; ' placeholder="Nan" value="{{item_price}}"  >
                                         </div>
                                     </div>
                                 {{/each}}
