@@ -40,7 +40,7 @@
                 <div class="page-title bg-light">
                     <div class="container">
                         <div class="text-center">
-                            <h1>Arrange Dishes</h1>
+                            <h1>Arrange Addons ({{addonGroupData.addon_group_display_name}})</h1>
                         </div>
                     </div>
                 </div>
@@ -53,13 +53,12 @@
                             <div class="card-block text-center">
                                 <ol id="" class="hidden-list-numbering" style="display: inline-block;float: left;">
                                     {{#each itemData}}
-                                        <li style='height: 125px;'></li>
+                                        <li style="height: 35px"></li>
                                     {{/each}}
                                 </ol>
                                 <ol id="sorting" class="my-sortable-list" style="display: inline-block">
                                     {{#each itemData}}
                                         <li id='{{item_id}}'>
-                                            <img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{item_image_name}}'  height='90px'>
                                             <div class="text-center">{{item_name}}</div>
                                         </li>
                                     {{/each}}
@@ -106,7 +105,7 @@
     function saveSortOrder() {
         let sortedArray = $('#sorting').sortable("toArray") ;
         console.log(sortedArray) ;
-        fetch('/menu/dishes/arrange', {
+        fetch('/menu/addons/arrange', {
             method: 'POST',
             body: new URLSearchParams({
                 _csrf : "some csrf string here",
@@ -117,9 +116,9 @@
                 .then((data)=>{
                   console.log(data) ;
                     if(data.status == true){
-                        makeToast('success', "New Order is saved \n taking you back to dishes page") ;
+                        makeToast('success', "New Order is saved \n taking you back to addons page") ;
                         setTimeout(function () {
-                            window.location.href="/menu/dishes" ;
+                            window.location.href="/menu/addons" ;
                         }, 1000)
                     }else{
                         throw data ;

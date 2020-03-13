@@ -271,7 +271,10 @@ exports.changeOrderStatus = async(orderId, newOrderStatus)=>{
   }
 } ;
 
-/************************ Menu ****************************/
+/***************************************** Menu *********************************************/
+/***************************************** Menu *********************************************/
+/***************************************** Menu *********************************************/
+
 exports.getAllMenuCategories = async ()=>{
   try{
     let dbData = await dbConnection.execute(
@@ -447,6 +450,8 @@ exports.getSingleAddonGroup = async (addonGroupId)=>{
 
 } ;
 
+
+
 /**
  * Gives back all the addon items which are seperated by category and then addon groups
  *
@@ -491,15 +496,11 @@ exports.getAllAddonItems_Seperated = async()=>{
 exports.getAllAddonItemsInAddonGroup = async (addonGroupRelId)=>{
   try{
     let dbData = await dbConnection.execute(
-        "SELECT * FROM `menu_meta_rel_size_addons_table`, `menu_addons_table` " +
-        "WHERE `menu_meta_rel_size_addons_table`.`addon_id` = `menu_addons_table`.`item_id`  " +
-        "AND `addon_size_active` = 'yes' AND `item_is_active` = 'yes' " +
-        "AND `menu_addons_table`.`item_addon_group_rel_id` = '" + addonGroupRelId  +
-        "' ORDER BY `item_sr_no` ASC " );
-
+        `SELECT * FROM  menu_addons_table WHERE item_addon_group_rel_id = '${addonGroupRelId}' ORDER BY item_sr_no ASC `
+    );
     return {
       status : true,
-      data : dbData['0'],
+      data : dbData[0],
     } ;
 
   }catch (e) {
@@ -508,7 +509,6 @@ exports.getAllAddonItemsInAddonGroup = async (addonGroupRelId)=>{
       data : e,
     } ;
   }
-
 } ;
 
 exports.getAllAddonItems_NamesOnly = async()=>{
@@ -527,42 +527,6 @@ exports.getAllAddonItems_NamesOnly = async()=>{
     } ;
   }
 } ;
-
-exports.getAddonDataInCategory = async (categoryId)=>{
-  try{
-    let categoryAddonGroupData = await dbConnection.execute(
-        `SELECT * FROM menu_meta_addongroups_table WHERE category_id = '${categoryId}' ORDER BY addon_group_sr_no ASC `) ;
-    categoryAddonGroupData = categoryAddonGroupData['0'] ;
-
-
-    for(let i=0;i<categoryAddonGroupData.length; i++){
-      let addonItemData = await this.getAllAddonItemsInAddonGroup(categoryAddonGroupData[i]['rel_id']) ;
-      addonItemData = addonItemData['data'] ;
-
-      addonItemData = addonItemData.reduce((result, currentObj)=>{
-        if(result[currentObj['addon_id']] == null){
-          result[currentObj['addon_id']] = [];
-        }
-        result[currentObj['addon_id']].push(currentObj);
-        return result ;
-      }, {}) ;
-
-      categoryAddonGroupData[i]['addon_items_data'] = Object.values(addonItemData) ; // only keep the values of a key:value object and values are stored in an array structure
-    }
-
-    return {
-      status : true,
-      data : categoryAddonGroupData,
-    } ;
-
-  }catch (e) {
-    return {
-      status : false,
-      data : e,
-    } ;
-  }
-} ;
-
 
 
 

@@ -146,10 +146,10 @@ app.post('/menu/addons/edit/save', upload.none(), controllerMenu.postEditAddonPa
 app.get('/menu/addons/add/:categoryId/:addonGroupId', controllerMenu.getAddNewAddonPage) ;
 app.post('/menu/addons/add/save', upload.none(), controllerMenu.postAddNewAddonPage) ;
 app.post('/menu/addons/delete', upload.none(), controllerMenu.postDeleteAddonPage ) ;
-// app.get('/menu/addons/arrange/:addonGroupId', controllerMenu.getArrangeAddonPage) ;
-// app.post('/menu/addons/arrange/', upload.none(), controllerMenu.postArrangeAddonPage) ;
-// app.get('/menu/addons/change-default/:addonGroupId', controllerMenu.getChangeDefaultAddonPage) ;
-// app.post('/menu/addons/change-default/save', upload.none(), controllerMenu.postChangeDefaultAddonPage) ;
+app.get('/menu/addons/arrange/:addonGroupId', controllerMenu.getArrangeAddonsPage) ;
+app.post('/menu/addons/arrange/', upload.none(), controllerMenu.postArrangeAddonsPage) ;
+app.get('/menu/addons/change-default/:addonGroupId', controllerMenu.getChangeDefaultAddonPage) ;
+app.post('/menu/addons/change-default/save', upload.none(), controllerMenu.postChangeDefaultAddonsPage) ;
 
 
 app.listen(3002, ()=>{

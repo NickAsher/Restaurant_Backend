@@ -40,7 +40,8 @@
                 <div class="page-title bg-light">
                     <div class="container">
                         <div class="text-center">
-                            <h1>Arrange Dishes</h1>
+                            <h1>Change Default {{addonGroupData.addon_group_display_name}}</h1>
+                            <h5 class="text-gray-dark">Choose the default selected value for "{{addonGroupData.addon_group_display_name}}" </h5>
                         </div>
                     </div>
                 </div>
@@ -51,19 +52,13 @@
                     <div class="col-12 col-md-8 col-lg-6 push-md-2 push-lg-3">
                         <div class="card">
                             <div class="card-block text-center">
-                                <ol id="" class="hidden-list-numbering" style="display: inline-block;float: left;">
-                                    {{#each itemData}}
-                                        <li style='height: 125px;'></li>
-                                    {{/each}}
-                                </ol>
-                                <ol id="sorting" class="my-sortable-list" style="display: inline-block">
-                                    {{#each itemData}}
-                                        <li id='{{item_id}}'>
-                                            <img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{item_image_name}}'  height='90px'>
-                                            <div class="text-center">{{item_name}}</div>
-                                        </li>
-                                    {{/each}}
-                                </ol>
+
+                                <div>
+                                {{#each itemData}}
+                                    <input id="someId" name='defaultItemId'  type='radio' value='{{item_id}}' {{#if item_is_default}} checked="checked" {{/if}}>
+                                    {{item_name}}<br>
+                                {{/each}}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -72,8 +67,9 @@
                 <br>
                 <div class="row">
                     <div class="col-4"></div>
-                    <button class="col-4 btn btn-outline-info"  onclick="saveSortOrder();">Save order</button>
+                    <button class="col-4 btn btn-outline-info" onclick="saveDefaultValue()" >Save</button>
                     <div class="col-4"></div>
+
                 </div>
                 <div id="space_before_footer">
                     <br><br><br><br><br>
@@ -96,39 +92,33 @@
 <script src="/js/my_personal.js"></script>
 
 <script>
-    $('#sorting').sortable({
-        placeholder: "highlight",
-        forcePlaceholderSize: true,
-        axis:'y',
-        opacity:0.7
-    }) ;
 
-    function saveSortOrder() {
-        let sortedArray = $('#sorting').sortable("toArray") ;
-        console.log(sortedArray) ;
-        fetch('/menu/dishes/arrange', {
+
+    function saveDefaultValue() {
+        let defaultItemId = $('input[name=defaultItemId]:checked').val() ;
+        fetch('/menu/addons/change-default/save', {
             method: 'POST',
             body: new URLSearchParams({
                 _csrf : "some csrf string here",
-                sortedArray : JSON.stringify(sortedArray)
+                defaultItemId,
+                addonGroupId : '{{addonGroupData.rel_id}}'
             })
         })
-                .then((response)=>response.json())
-                .then((data)=>{
-                  console.log(data) ;
-                    if(data.status == true){
-                        makeToast('success', "New Order is saved \n taking you back to dishes page") ;
-                        setTimeout(function () {
-                            window.location.href="/menu/dishes" ;
-                        }, 1000)
-                    }else{
-                        throw data ;
-                    }
-                })
-                .catch((err)=>{
-                    console.log(err) ;
-                    makeToast('error', "Error in saving the new order") ;
-                }) ;
+        .then((response)=>response.json())
+        .then((data)=>{
+            if(data.status == true){
+                makeToast('success', "Default value is changed <br> taking you back to addons page") ;
+                setTimeout(function () {
+                    window.location.href="/menu/addons" ;
+                }, 1000)
+            }else{
+                throw data ;
+            }
+        })
+        .catch((err)=>{
+            console.log(err) ;
+            makeToast('error', "Error in changing the default value") ;
+        }) ;
 
 
 

@@ -539,6 +539,8 @@ exports.postArrangeDishesPage = async (req, res)=>{
 
 
 /* *********************************************** Addons ******************************************/
+/* *********************************************** Addons ******************************************/
+/* *********************************************** Addons ******************************************/
 
 exports.getAllAddonItemsPage = async (req, res)=>{
   try{
@@ -796,8 +798,129 @@ exports.postDeleteAddonPage = async (req, res)=>{
 } ;
 
 
+exports.getArrangeAddonsPage = async (req, res)=>{
+  try{
+    let addonGroupId = req.params.addonGroupId ;
+
+    let dbAddonGroupData = await dbRepository.getSingleAddonGroup(addonGroupId);
+    if (dbAddonGroupData.status != true) {throw dbAddonGroupData.data; }
+
+    let dbItemData = await dbRepository.getAllAddonItemsInAddonGroup(addonGroupId) ;
+    if(dbItemData.status != true){throw dbItemData.data ;}
+
+    let itemData = dbItemData.data ;
+    res.render('menu/addons/arrange_addons.hbs',{
+      addonGroupData : dbAddonGroupData.data,
+      itemData
+    }) ;
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+exports.postArrangeAddonsPage = async (req, res)=>{
+  try{
+
+    let newArray = JSON.parse(req.body.sortedArray);
+
+    let sqlCaseString = "UPDATE menu_addons_table SET item_sr_no = CASE " ;
+    newArray.forEach((element, index)=>{
+      // element is just the addonItemId
+      sqlCaseString += ` WHEN item_id = ${element} THEN ${index} ` ;
+    }) ;
+    sqlCaseString += " END" ;
+
+    let dbData = await dbConnection.execute(sqlCaseString) ;
+    res.send({
+      status : true,
+      dbData,
+      msg : "ORDER_CHANGED"
+    }) ;
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
 
 
+exports.getChangeDefaultAddonPage = async (req, res)=>{
+  try{
+    let addonGroupId = req.params.addonGroupId ;
+
+    let dbAddonGroupData = await dbRepository.getSingleAddonGroup(addonGroupId);
+    if (dbAddonGroupData.status != true) {throw dbAddonGroupData.data; }
+
+    let dbItemData = await dbRepository.getAllAddonItemsInAddonGroup(addonGroupId) ;
+    if(dbItemData.status != true){throw dbItemData.data ;}
+
+    let itemData = dbItemData.data ;
+    res.render('menu/addons/change_default_addon.hbs',{
+      addonGroupData : dbAddonGroupData.data,
+      itemData
+    }) ;
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+
+exports.postChangeDefaultAddonsPage = async (req, res)=>{
+  try{
+    let addonGroupId = req.body.addonGroupId ;
+    let newDefaultItemId = req.body.defaultItemId;
+
+    let dbAddonItemData = await dbRepository.getAllAddonItemsInAddonGroup(addonGroupId) ;
+    if(dbAddonItemData.status != true){throw dbAddonItemData.data ;}
+
+
+    let sqlCaseString = "UPDATE menu_addons_table SET item_is_default = CASE " ;
+    dbAddonItemData.data.forEach((element, index)=>{
+      // element is an addon
+      if(element.item_id == newDefaultItemId){
+        sqlCaseString += ` WHEN item_id = ${element.item_id} THEN 1 ` ;
+      }else{
+        sqlCaseString += ` WHEN item_id = ${element.item_id} THEN 0 ` ;
+      }
+    }) ;
+    sqlCaseString += ` END WHERE item_addon_group_rel_id = '${addonGroupId}' ` ;
+
+    let dbData = await dbConnection.execute(sqlCaseString) ;
+    res.send({
+      status : true,
+      dbData,
+      msg : "ORDER_CHANGED"
+    }) ;
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
 
 
 
