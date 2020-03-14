@@ -1287,7 +1287,7 @@ exports.getAllAddonGroupsPage = async (req, res)=>{
     let dbAddonGroupData = await dbRepository.getAllAddonGroupsInCategory(categoryId) ;
     if(dbAddonGroupData.status != true){throw dbAddonGroupData.data;}
 
-    res.render('menu/addonGroup/all_addongroups.hbs', {
+    res.render('menu/addonGroup/all_addongroup.hbs', {
       categoryData : dbCategoryData.data,
       addonGroupData : dbAddonGroupData.data
     }) ;
@@ -1431,12 +1431,68 @@ exports.postDeleteAddonGroupPage = async (req, res)=>{
         addonGroupId
       }) ;
 
-
-
     res.send({
       status : true,
       dbDeleteData,
       link : `http://localhost:3002/menu/addonGroup/${categoryId}`
+    }) ;
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+
+
+exports.getArrangeAddonGroupPage = async (req, res)=>{
+  try{
+    let categoryId = req.params.categoryId ;
+
+    let dbCategoryData = await dbRepository.getSingleMenuCategory(categoryId);
+    if (dbCategoryData.status != true) {throw dbCategoryData.data; }
+
+    let dbAddonGroupData = await dbRepository.getAllAddonGroupsInCategory(categoryId) ;
+    if(dbAddonGroupData.status != true){throw dbAddonGroupData.data ;}
+
+    res.render('menu/addonGroup/arrange_addongroup.hbs',{
+      categoryData : dbCategoryData.data,
+      addonGroupList : dbAddonGroupData.data
+    }) ;
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+exports.postArrangeAddonGroupPage = async (req, res)=>{
+  try{
+    let categoryId = req.body.categoryId ;
+    let newArray = JSON.parse(req.body.sortedArray);
+
+    let sqlCaseString = "UPDATE menu_meta_addongroups_table SET addon_group_sr_no = CASE " ;
+    newArray.forEach((element, index)=>{
+      // element is just the addonGroupId
+      sqlCaseString += ` WHEN rel_id = ${element} THEN ${index} ` ;
+    }) ;
+    sqlCaseString += ` END WHERE category_id = ${categoryId}` ;
+
+    let dbData = await dbConnection.execute(sqlCaseString) ;
+    res.send({
+      status : true,
+      dbData,
+      msg : "ORDER_CHANGED"
     }) ;
 
   }catch (e) {
