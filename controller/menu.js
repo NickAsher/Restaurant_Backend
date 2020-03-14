@@ -1146,6 +1146,126 @@ exports.postDeleteSizePage = async(req, res)=>{
 
 
 
+exports.getArrangeSizePage = async (req, res)=>{
+  try{
+    let categoryId = req.params.categoryId ;
+
+    let dbCategoryData = await dbRepository.getSingleMenuCategory(categoryId);
+    if (dbCategoryData.status != true) {throw dbCategoryData.data; }
+
+    let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId) ;
+    if(dbSizeData.status != true){throw dbSizeData.data ;}
+
+    res.render('menu/size/arrange_size.hbs',{
+      categoryData : dbCategoryData.data,
+      sizeList : dbSizeData.data
+    }) ;
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+exports.postArrangeSizePage = async (req, res)=>{
+  try{
+    let categoryId = req.body.categoryId ;
+    let newArray = JSON.parse(req.body.sortedArray);
+
+    let sqlCaseString = "UPDATE menu_meta_size_table SET size_sr_no = CASE " ;
+    newArray.forEach((element, index)=>{
+      // element is just the sizeId
+      sqlCaseString += ` WHEN size_id = ${element} THEN ${index} ` ;
+    }) ;
+    sqlCaseString += ` END WHERE size_category_id = ${categoryId}` ;
+
+    let dbData = await dbConnection.execute(sqlCaseString) ;
+    res.send({
+      status : true,
+      dbData,
+      msg : "ORDER_CHANGED"
+    }) ;
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+
+exports.getChangeDefaultSizePage = async (req, res)=>{
+  try{
+    let categoryId = req.params.categoryId ;
+
+    let dbCategoryData = await dbRepository.getSingleMenuCategory(categoryId);
+    if (dbCategoryData.status != true) {throw dbCategoryData.data; }
+
+    let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId) ;
+    if(dbSizeData.status != true){throw dbSizeData.data ;}
+
+    res.render('menu/size/change_default_size.hbs',{
+      categoryData : dbCategoryData.data,
+      sizeList : dbSizeData.data
+    }) ;
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+
+exports.postChangeDefaultSizePage = async (req, res)=>{
+  try{
+    let categoryId = req.body.categoryId ;
+    let newDefaultSizeId = req.body.defaultSizeId;
+
+    let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId, false) ;
+    if(dbSizeData.status != true){throw dbSizeData.data ;}
+
+    let sqlCaseString = "UPDATE menu_meta_size_table SET size_is_default = CASE " ;
+    dbSizeData.data.forEach((element)=>{
+      // element is an sizeElement
+      if(element.size_id == newDefaultSizeId){
+        sqlCaseString += ` WHEN size_id = ${element.size_id} THEN 1 ` ;
+      }else{
+        sqlCaseString += ` WHEN size_id = ${element.size_id} THEN 0 ` ;
+      }
+    }) ;
+    sqlCaseString += ` END WHERE size_category_id = '${categoryId}' ` ;
+
+    let dbData = await dbConnection.execute(sqlCaseString) ;
+    res.send({
+      status : true,
+      dbData,
+      msg : "ORDER_CHANGED"
+    }) ;
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
 
 
 

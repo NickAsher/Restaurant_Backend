@@ -50,6 +50,11 @@ const IMAGE_PATH = path.join(__dirname, './images/') ;
 
 
 app.use((req, res, next)=>{
+  console.log(`[${req.method} ${req.originalUrl} ]`) ;
+  next() ;
+}) ;
+
+app.use((req, res, next)=>{
   res.locals.IMAGE_BACKENDFRONT_LINK_PATH = Constants.IMAGE_BACKENDFRONT_LINK_PATH ;
   // res.locals.signedIn = req.session.isLoggedIn ;
   next() ;
@@ -155,6 +160,10 @@ app.post('/menu/size/edit/save', upload.none(), controllerMenu.postEditSizePage)
 app.get('/menu/size/add/:categoryId', controllerMenu.getAddSizePage) ;
 app.post('/menu/size/add/save', upload.none(), controllerMenu.postAddSizePage) ;
 app.post('/menu/size/delete', controllerMenu.postDeleteSizePage);
+app.get('/menu/size/arrange/:categoryId', controllerMenu.getArrangeSizePage) ;
+app.post('/menu/size/arrange/save', controllerMenu.postArrangeSizePage) ;
+app.get('/menu/size/change-default/:categoryId', controllerMenu.getChangeDefaultSizePage) ;
+app.post('/menu/size/change-default/save', controllerMenu.postChangeDefaultSizePage) ;
 
 
 app.get('/menu/addonGroups/:categoryId', controllerMenu.getAllAddonGroupsPage) ;
