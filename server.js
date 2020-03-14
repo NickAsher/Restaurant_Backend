@@ -123,10 +123,7 @@ app.get('/menu/category/edit/:categoryId', controllerMenu.getEditCategoryPage) ;
 app.post('/menu/category/edit/save', upload.single('post_Image'), controllerMenu.postEditCategoryPage) ;
 app.get('/menu/category/arrange', controllerMenu.getArrangeCategoryPage) ;
 app.post('/menu/category/arrange', upload.none(), controllerMenu.postArrangeCategoryPage) ;
-
 // app.post('/menu/category/delete', controllerMenu.getViewCategoryPage) ;
-// app.get('/menu/category/manage/:categoryId', controllerMenu.getEditCategoryPage) ;
-// app.post('/menu/category/manage/save', controllerMenu.getEditCategoryPage) ;
 
 app.get('/menu/dishes', controllerMenu.getAllDishesPage) ;
 app.get('/menu/dishes/view/:menuItemId', controllerMenu.getViewSingleDishPage) ;
@@ -150,6 +147,17 @@ app.get('/menu/addons/arrange/:addonGroupId', controllerMenu.getArrangeAddonsPag
 app.post('/menu/addons/arrange/', upload.none(), controllerMenu.postArrangeAddonsPage) ;
 app.get('/menu/addons/change-default/:addonGroupId', controllerMenu.getChangeDefaultAddonPage) ;
 app.post('/menu/addons/change-default/save', upload.none(), controllerMenu.postChangeDefaultAddonsPage) ;
+
+
+app.get('/menu/size/:categoryId', controllerMenu.getAllSizesPage) ;
+app.get('/menu/size/edit/:sizeId', controllerMenu.getEditSizePage) ;
+app.post('/menu/size/edit/save', upload.none(), controllerMenu.postEditSizePage) ;
+app.get('/menu/size/add/:categoryId', controllerMenu.getAddSizePage) ;
+app.post('/menu/size/add/save', upload.none(), controllerMenu.postAddSizePage) ;
+app.post('/menu/size/delete', controllerMenu.postDeleteSizePage);
+
+
+app.get('/menu/addonGroups/:categoryId', controllerMenu.getAllAddonGroupsPage) ;
 
 
 app.listen(3002, ()=>{

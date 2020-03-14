@@ -394,7 +394,9 @@ exports.getAllAddonGroups_SeperatedByCategory = async()=>{
 exports.getAllAddonGroupsInCategory = async (categoryId)=>{
   try{
     let dbData = await dbConnection.execute(
-        `SELECT * FROM menu_meta_addongroups_table WHERE category_id = '${categoryId}' ORDER BY addon_group_sr_no ASC `) ;
+        `SELECT * FROM menu_meta_addongroups_table WHERE category_id = :categoryId ORDER BY addon_group_sr_no ASC `,{
+          categoryId
+      }) ;
     return {
       status : true,
       data : dbData['0'],
@@ -492,6 +494,25 @@ exports.getAllAddonItems_Seperated = async()=>{
   }
 } ;
 
+exports.getAllAddonItemsInCategory = async(categoryId)=>{
+  try{
+    let dbData =await dbConnection.execute(
+      `SELECT * FROM  menu_addons_table WHERE item_category_id = :categoryId ORDER BY item_sr_no `,{
+        categoryId
+    }) ;
+
+    return {
+      status : true,
+      data : dbData[0]
+    } ;
+
+  }catch (e) {
+    return {
+      status : false,
+      data : e
+    } ;
+  }
+} ;
 
 exports.getAllAddonItemsInAddonGroup = async (addonGroupRelId)=>{
   try{
@@ -619,6 +640,24 @@ exports.getAllSizes_NamesOnly = async()=>{
       data : dbData['0'],
     } ;
 
+  }catch (e) {
+    return {
+      status : false,
+      data : e,
+    } ;
+  }
+} ;
+
+exports.getSingleSize = async (sizeId)=>{
+  try{
+    let dbData = await dbConnection.execute(
+      `SELECT * FROM menu_meta_size_table WHERE size_id = :sizeId`,{
+      sizeId
+    }) ;
+    return {
+      status : true,
+      data : dbData[0][0],
+    } ;
   }catch (e) {
     return {
       status : false,

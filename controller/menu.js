@@ -171,6 +171,7 @@ exports.postArrangeCategoryPage = async (req,res)=>{
 
 
 
+
 /************************************************** Dishes **************************************************** */
 
 
@@ -923,6 +924,275 @@ exports.postChangeDefaultAddonsPage = async (req, res)=>{
 } ;
 
 
+
+
+/************************************* Sizes *********************************/
+exports.getAllSizesPage = async (req, res)=>{
+  try{
+    let categoryId = req.params.categoryId ;
+
+    let dbCategoryData = await dbRepository.getSingleMenuCategory(categoryId);
+    if(dbCategoryData.status != true){throw dbCategoryData.data;}
+
+    let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId, false) ;
+    if(dbSizeData.status != true){throw dbSizeData.data;}
+
+
+    res.render('menu/size/all_sizes.hbs', {
+      categoryData : dbCategoryData.data,
+      sizeData : dbSizeData.data,
+    }) ;
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+
+exports.getEditSizePage = async (req, res)=>{
+  try{
+
+    let sizeId = req.params.sizeId ;
+
+    let dbSizeData = await dbRepository.getSingleSize(sizeId);
+    if(dbSizeData.status != true){throw dbSizeData.data;}
+
+    let sizeData = dbSizeData.data ;
+
+    let dbCategoryData = await dbRepository.getSingleMenuCategory(sizeData.size_category_id) ;
+    if(dbCategoryData.status != true){throw dbCategoryData.data;}
+
+    res.render('menu/size/edit_single_size.hbs', {
+      sizeData,
+      categoryData : dbCategoryData.data
+    }) ;
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+exports.postEditSizePage = async (req, res)=>{
+  try{
+    let categoryId = req.body.categoryId ;
+    let sizeId = req.body.sizeId ;
+    let sizeName = req.body.sizeName ;
+    let sizeNameAbbreviated = req.body.sizeNameAbbreviated ;
+    let isSizeActive = req.body.isSizeActive ;
+
+    let dbData = await dbConnection.execute(`
+    UPDATE menu_meta_size_table
+     SET size_name = :sizeName, size_name_short = :sizeNameAbbreviated, size_is_active = :isSizeActive
+     WHERE size_id = :sizeId`,{
+      sizeName,
+      sizeNameAbbreviated,
+      isSizeActive,
+      sizeId
+    }) ;
+
+    res.send({
+      dbData,
+      link : `http://localhost:3002/menu/size/${categoryId}`
+    }) ;
+
+  }catch (e) {
+
+  }
+} ;
+
+exports.getAddSizePage = async(req, res)=>{
+  try{
+    let categoryId = req.params.categoryId ;
+
+    let dbCategoryData = await dbRepository.getSingleMenuCategory(categoryId) ;
+    if(dbCategoryData.status != true){throw dbCategoryData.data;}
+
+    res.render('menu/size/add_new_size.hbs', {
+      categoryData : dbCategoryData.data
+    }) ;
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+exports.postAddSizePage = async(req, res)=>{
+  try{
+    let categoryId = req.body.categoryId ;
+    let sizeName = req.body.sizeName ;
+    let sizeNameAbbreviated = req.body.sizeNameAbbreviated ;
+    let isSizeActive = req.body.isSizeActive ;
+
+
+
+    let dbItemAddonData = await dbRepository.getAllAddonItemsInCategory(categoryId) ;
+    if(dbItemAddonData.status != true){throw dbItemAddonData.data; }
+    let addonsList = dbItemAddonData.data ;
+
+    let dbItemDishesData = await dbRepository.getAllMenuItemsInCategory(categoryId) ;
+    if(dbItemDishesData.status != true){throw dbItemDishesData ;}
+    let dishList = dbItemDishesData.data ;
+
+
+    let dbData = await dbConnection.execute(`
+    INSERT INTO menu_meta_size_table
+    (size_sr_no, size_category_id, size_name, size_name_short, size_is_active)
+    SELECT COALESCE( (MAX( size_sr_no ) + 1), 1), :categoryId , :sizeName , :sizeNameAbbreviated , :isSizeActive 
+    FROM menu_meta_size_table WHERE size_category_id = :categoryId `,{
+      categoryId,
+      sizeName,
+      sizeNameAbbreviated,
+      isSizeActive
+    }) ;
+
+    let sizeInsertId = dbData[0].insertId ;
+
+    //need to insert entries for size in menu_meta_rel_size_items_table and menu_meta_rel_size_addons_table
+    let sqlInsertDishesString = `INSERT INTO menu_meta_rel_size_items_table
+     (item_id, item_price, item_size_active, size_id, item_category_id) VALUES ` ;
+    addonsList.forEach((dish)=>{
+      sqlInsertDishesString += `('${dish.item_id}', '0', '0', '${sizeInsertId}', '${categoryId}'), ` ;
+    }) ;
+    sqlInsertDishesString = sqlInsertDishesString.slice(0,-2) ;
+
+
+    let sqlInsertAddonsString = `INSERT INTO menu_meta_rel_size_addons_table
+     (addon_id, addon_price, addon_size_active, size_id, category_id) VALUES ` ;
+    dishList.forEach((addon)=>{
+      sqlInsertAddonsString += `('${addon.item_id}', '0', '0', '${sizeInsertId}', '${categoryId}'), ` ;
+    }) ;
+    sqlInsertAddonsString = sqlInsertAddonsString.slice(0,-2) ;
+
+
+    let dbInsertDishesData = await dbConnection.execute(sqlInsertDishesString) ;
+    let dbInsertAddonsData = await dbConnection.execute(sqlInsertAddonsString) ;
+
+    res.send({
+      dbData,
+      dbInsertDishesData,
+      dbInsertAddonsData,
+      link : `http://localhost:3002/menu/size/${categoryId}`
+    }) ;
+
+
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+exports.postDeleteSizePage = async(req, res)=>{
+  try{
+    let categoryId = req.body.categoryId ;
+    let sizeId = req.body.sizeId ;
+
+    let dbSizeData = await dbConnection.execute(
+      `DELETE FROM menu_meta_size_table WHERE size_id = :sizeId`,{
+      sizeId
+    }) ;
+
+    let dbSizeDishesData = await dbConnection.execute(
+      `DELETE FROM menu_meta_rel_size_items_table WHERE size_id = :sizeId`,{
+      sizeId
+    }) ;
+
+    let dbSizeAddonsData = await dbConnection.execute(
+      `DELETE FROM menu_meta_rel_size_addons_table WHERE size_id = :sizeId`,{
+      sizeId
+    }) ;
+
+    res.send({
+      status : true,
+      dbSizeData,
+      dbSizeDishesData,
+      dbSizeAddonsData,
+      link : `http://localhost:3002/menu/size/${categoryId}`
+    }) ;
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+exports.getAllAddonGroupsPage = async (req, res)=>{
+  try{
+    let categoryId = req.params.categoryId ;
+
+    let dbCategoryData = await dbRepository.getSingleMenuCategory(categoryId);
+    if(dbCategoryData.status != true){throw dbCategoryData.data;}
+
+    let dbAddonGroupData = await dbRepository.getAllAddonGroupsInCategory(categoryId) ;
+    if(dbAddonGroupData.status != true){throw dbAddonGroupData.data;}
+
+    res.render('menu/addongroup/all_addongroups.hbs', {
+      categoryData : dbCategoryData.data,
+      addonGroupData : dbAddonGroupData.data
+    }) ;
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
 
 
 

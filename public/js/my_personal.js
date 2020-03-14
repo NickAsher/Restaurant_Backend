@@ -55,3 +55,15 @@ $(".tr-link").click(function() {
 $(".addon-link").click(function() {
   window.location = $(this).data("href");
 });
+
+function setupCheckboxToggleButton(PresentationToggleInputId, HiddenInputId){
+
+  $('#' + PresentationToggleInputId).on('change', function() {
+    if(this.checked){
+      $('#' + HiddenInputId).val('1') ;
+    } else {
+      // this is necessary if user checked it and then unchecked it.
+      $('#' + HiddenInputId).val('0') ;
+    }
+  });
+}

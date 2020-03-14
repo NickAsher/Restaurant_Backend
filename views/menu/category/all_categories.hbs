@@ -50,9 +50,11 @@
                         <th>Image</th>
                         <th>Category Name</th>
                         <th>Is Active</th>
+                        <th>Manage Sizes</th>
+                        <th>Manage Addon Groups</th>
                         <th>Edit</th>
                         <th>Delete</th>
-                        <th>Manage</th>
+
                     </tr>
 
                     {{#each categoryData}}
@@ -68,6 +70,25 @@
                                 <button class='btn btn-danger' ><i class='fa fa-times'></i></button>
                             {{/if}}
                             </td>
+
+                            <td>
+                                <a href='/menu/size/{{category_id}}'>
+                                    <button class="btn btn-secondary" type="button">
+                                        <span><i class='fa fa-cog'></i></span> Size
+                                    </button>
+                                </a>
+                            </td>
+
+                            <td>
+
+                                <a href='/menu/addongroups/{{category_id}}'>
+                                    <button class="btn btn-secondary" type="button">
+                                        <span><i class='fa fa-cogs'></i></span> Addon-Groups
+                                    </button>
+                                </a>
+                            </td>
+
+
                             <td>
                                 <a href="/menu/category/edit/{{category_id}}">
                                     <button type='submit' class='btn btn-info' ><span><i class='fa fa-edit'></i></span> Edit Category</button>
@@ -78,11 +99,7 @@
                                     <span><i class='fa fa-trash'></i></span> Delete Category
                                 </button>
                             </td>
-                            <td>
-                                <a class='btn btn-lg btn-default' href='/menu/category/manage/{{category_id}}'>
-                                    <i class='fa fa-cog'></i>
-                                </a>
-                            </td>
+
 
                         </tr>
 
