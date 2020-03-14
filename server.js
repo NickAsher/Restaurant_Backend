@@ -156,9 +156,9 @@ app.post('/menu/addons/change-default/save', upload.none(), controllerMenu.postC
 
 app.get('/menu/size/:categoryId', controllerMenu.getAllSizesPage) ;
 app.get('/menu/size/edit/:sizeId', controllerMenu.getEditSizePage) ;
-app.post('/menu/size/edit/save', upload.none(), controllerMenu.postEditSizePage) ;
+app.post('/menu/size/edit/save', controllerMenu.postEditSizePage) ;
 app.get('/menu/size/add/:categoryId', controllerMenu.getAddSizePage) ;
-app.post('/menu/size/add/save', upload.none(), controllerMenu.postAddSizePage) ;
+app.post('/menu/size/add/save', controllerMenu.postAddSizePage) ;
 app.post('/menu/size/delete', controllerMenu.postDeleteSizePage);
 app.get('/menu/size/arrange/:categoryId', controllerMenu.getArrangeSizePage) ;
 app.post('/menu/size/arrange/save', controllerMenu.postArrangeSizePage) ;
@@ -166,7 +166,16 @@ app.get('/menu/size/change-default/:categoryId', controllerMenu.getChangeDefault
 app.post('/menu/size/change-default/save', controllerMenu.postChangeDefaultSizePage) ;
 
 
-app.get('/menu/addonGroups/:categoryId', controllerMenu.getAllAddonGroupsPage) ;
+app.get('/menu/addonGroup/:categoryId', controllerMenu.getAllAddonGroupsPage) ;
+app.get('/menu/addonGroup/edit/:addonGroupId', controllerMenu.getEditAddonGroupPage) ;
+app.post('/menu/addonGroup/edit/save', controllerMenu.postEditAddonGroupPage) ;
+app.get('/menu/addonGroup/add/:categoryId', controllerMenu.getAddAddonGroupPage) ;
+app.post('/menu/addonGroup/add/save', controllerMenu.postAddAddonGroupPage) ;
+app.post('/menu/addonGroup/delete', controllerMenu.postDeleteAddonGroupPage);
+// app.get('/menu/addonGroup/arrange/:categoryId', controllerMenu.getArrangeAddonGroupPage) ;
+// app.post('/menu/addonGroup/arrange/save', controllerMenu.postArrangeAddonGroupPage) ;
+// app.get('/menu/addonGroup/change-default/:categoryId', controllerMenu.getChangeDefaultAddonGroupPage) ;
+// app.post('/menu/addonGroup/change-default/save', controllerMenu.postChangeDefaultAddonGroupPage) ;
 
 
 app.listen(3002, ()=>{

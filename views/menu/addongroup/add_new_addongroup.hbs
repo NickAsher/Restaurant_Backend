@@ -1,0 +1,134 @@
+<html>
+<head>
+    <title>Admin | Gagneja</title>
+    <meta charset="utf-8">
+
+
+
+    <link rel="stylesheet" href="/lib/reset/reset.css" >
+
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap-toggle/bootstrap-toggle.css" >
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
+
+    <link rel="stylesheet" href="/lib/t3/t3.css" />
+
+    <link rel="stylesheet" href="/css/my_personal.css">
+</head>
+<body>
+
+{{>header}}
+<section>
+
+    {{>sidebar}}
+
+    <div class="container-fluid t3-push" id="mainContainer">
+        <div class="row">
+            <div id = "main_Content" class="col-md-12 bg-grey">
+
+                <br><br><br><br>
+                <div class="page-title bg-light">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <h1 class="">Edit Addon-Group</h1>
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+
+                <div class="row">
+                    <div class="push-md-1 col-md-10" >
+                        <div class="card">
+                            <div class="card-block">
+                                <form action="/menu/addonGroup/add/save" method="post" >
+                                    <input name="categoryId" type="hidden" value="{{categoryData.category_id}}">
+                                    <br>
+
+                                    <div class="form-group row">
+                                        <label for="input-addonGroup-category" class="col-3 col-form-label">Category</label>
+                                        <div class="col-md-9">
+                                            <input id="input-addonGroup-category" class="form-control" type="text" value="{{categoryData.category_name}}" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="input-addonGroup-name" class="col-3 col-form-label">Addon-Group Name</label>
+                                        <div class="col-md-9">
+                                            <input id="input-addonGroup-name" name="addonGroupName" class="form-control" type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="input-addonGroup-type" class="col-3 col-form-label">Addon-Group Type</label>
+                                        <div class="col-md-9">
+                                            <select name = "addonGroupType" id="input-addonGroup-type" class="form-control"  >
+                                                <option selected disabled>Choose a Type</option>
+                                                <option value="radio" >Single-Select</option>
+                                                <option value="checkbox" >Multi-Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group row">
+                                        <label for="input-item-isActive" class="col-3 col-form-label">Is Active</label>
+                                        <div class="col-md-9">
+                                            <input id="input-addonGroup-isActive-hidden" name="isAddonGroupActive" class="form-control" type="hidden" value="1"  >
+                                            <input id="input-addonGroup-isActive-presentation" type="checkbox" class="form-control" checked="checked" data-toggle="toggle" data-width="100" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
+                                        </div>
+                                    </div>
+
+                                    <br><br><br>
+                                    <div class="form-group row">
+                                        <div class="col-4" ></div>
+                                        <input type="submit" class=" col-4 btn btn-info" value="Save Changes">
+                                        <div class="col-4" ></div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <br><br><br><br><br>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+{{>footer}}
+
+
+</body>
+<script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
+<script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
+<script type="text/javascript" src="/lib/bootstrap-toggle/bootstrap-toggle.js" ></script>
+
+<script type="text/javascript" src="/js/my_personal.js"></script>
+<script type="text/javascript" src="/lib/t3/t3.js"></script>
+
+
+<script>
+
+    setupCheckboxToggleButton('input-addonGroup-isActive-presentation', 'input-addonGroup-isActive-hidden') ;
+
+</script>
+
+
+
+
+
+</html>

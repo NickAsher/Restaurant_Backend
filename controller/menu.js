@@ -1269,20 +1269,9 @@ exports.postChangeDefaultSizePage = async (req, res)=>{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/************************************************* Addon-Group ****************************************/
+/************************************************* Addon-Group ****************************************/
+/************************************************* Addon-Group ****************************************/
 
 
 
@@ -1298,7 +1287,7 @@ exports.getAllAddonGroupsPage = async (req, res)=>{
     let dbAddonGroupData = await dbRepository.getAllAddonGroupsInCategory(categoryId) ;
     if(dbAddonGroupData.status != true){throw dbAddonGroupData.data;}
 
-    res.render('menu/addongroup/all_addongroups.hbs', {
+    res.render('menu/addonGroup/all_addongroups.hbs', {
       categoryData : dbCategoryData.data,
       addonGroupData : dbAddonGroupData.data
     }) ;
@@ -1314,10 +1303,152 @@ exports.getAllAddonGroupsPage = async (req, res)=>{
   }
 } ;
 
+exports.getEditAddonGroupPage = async(req, res)=>{
+  try{
+    let addonGroupId = req.params.addonGroupId ;
+
+    let dbAddonGroupData = await dbRepository.getSingleAddonGroup(addonGroupId);
+    if(dbAddonGroupData.status != true){throw dbAddonGroupData.data;}
+
+    let addonGroupData = dbAddonGroupData.data ;
+
+    let dbCategoryData = await dbRepository.getSingleMenuCategory(addonGroupData.category_id) ;
+    if(dbCategoryData.status != true){throw dbCategoryData.data;}
+
+    res.render('menu/addonGroup/edit_single_addongroup.hbs', {
+      addonGroupData,
+      categoryData : dbCategoryData.data
+    }) ;
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+exports.postEditAddonGroupPage = async (req, res)=>{
+  try{
+    let categoryId = req.body.categoryId ;
+    let addonGroupId = req.body.addonGroupId ;
+    let addonGroupName = req.body.addonGroupName ;
+    let addonGroupType = req.body.addonGroupType ;
+    let isAddonGroupActive = req.body.isAddonGroupActive ;
+
+    let dbData = await dbConnection.execute(
+      `UPDATE menu_meta_addongroups_table
+      SET addon_group_display_name = :addonGroupName, addon_group_type = :addonGroupType, addon_group_is_active = :isAddonGroupActive
+      WHERE rel_id = :addonGroupId`,{
+        addonGroupName,
+        addonGroupType,
+        isAddonGroupActive,
+        addonGroupId
+    }) ;
+
+    res.send({
+      dbData,
+      link : `http://localhost:3002/menu/addonGroup/${categoryId}`
+    }) ;
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+
+exports.getAddAddonGroupPage = async(req, res)=>{
+  try{
+    let categoryId = req.params.categoryId ;
+
+    let dbCategoryData = await dbRepository.getSingleMenuCategory(categoryId) ;
+    if(dbCategoryData.status != true){throw dbCategoryData.data;}
+
+    res.render('menu/addonGroup/add_new_addongroup.hbs', {
+      categoryData : dbCategoryData.data
+    }) ;
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+
+exports.postAddAddonGroupPage = async(req, res)=> {
+  try {
+    let categoryId = req.body.categoryId ;
+    let addonGroupName = req.body.addonGroupName ;
+    let addonGroupType = req.body.addonGroupType ;
+    let isAddonGroupActive = req.body.isAddonGroupActive ;
+
+
+    let dbData = await dbConnection.execute(`
+    INSERT INTO menu_meta_addongroups_table
+    (addon_group_sr_no, category_id, addon_group_display_name, addon_group_type, addon_group_is_active)
+    SELECT COALESCE( (MAX( addon_group_sr_no ) + 1), 1), :categoryId , :addonGroupName , :addonGroupType , :isAddonGroupActive 
+    FROM menu_meta_addongroups_table WHERE category_id = :categoryId `, {
+      categoryId,
+      addonGroupName,
+      addonGroupType,
+      isAddonGroupActive
+    });
+
+    res.send({
+      dbData,
+      link : `http://localhost:3002/menu/addonGroup/${categoryId}`
+    }) ;
+  } catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+exports.postDeleteAddonGroupPage = async (req, res)=>{
+  try{
+    let categoryId = req.body.categoryId ;
+    let addonGroupId = req.body.addonGroupId ;
+
+    let dbDeleteData = await dbConnection.execute(
+      `DELETE FROM menu_meta_addongroups_table WHERE rel_id = :addonGroupId`,{
+        addonGroupId
+      }) ;
 
 
 
+    res.send({
+      status : true,
+      dbDeleteData,
+      link : `http://localhost:3002/menu/addonGroup/${categoryId}`
+    }) ;
 
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
 
 
 
