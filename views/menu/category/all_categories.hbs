@@ -134,17 +134,20 @@
                             </div>
                             <div class="modal-body">
                                 <p>
-                                    Deleting a category will also delete all the dishes associated with the category.
-                                    All the addons and the size data for this category will also be delete
+                                    Deleting a category will also delete the following data.
                                 </p>
-
+                                <ul>
+                                    <li>All the Dishes for this category</li>
+                                    <li>All the Addon-groups and their items for this category</li>
+                                    <li>All the Size Information for this category</li>
+                                </ul>
                             </div>
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                <form class="text-center" method='post' action='/menu/category/delete' enctype="multipart/form-data">
-                                    <input id="input_BlogId" type='hidden' name='post_BlogId'>
-                                    <input id="input_BlogImageName" type='hidden' name='post_ImageFileName'>
+                                <form class="text-center" method='post' action='/menu/category/delete'>
+                                    <input id="input-category-id" type='hidden' name='categoryId'>
+                                    <input id="input-category-imageFileName" type='hidden' name='categoryImageFileName'>
                                     <input type="hidden" name="_csrf" value="some csrf token here">
                                     <input type='submit' class='btn btn-danger ' value='Yes'>
                                 </form>
@@ -180,15 +183,14 @@
 <script type="text/javascript" src="/lib/t3/t3.js"></script>
 
 <script>
-    // $('#modal_Delete').on('show.bs.modal', function (event) {
-    //     let button = $(event.relatedTarget) ; // Button that triggered the modal
-    //     let blogId = button.attr('data-blog-id') ;
-    //     let blogImageName= button.attr('data-blog-image-name') ;
-    //
-    //
-    //     $(this).find('#input_BlogId').val(blogId) ;
-    //     $(this).find('#input_BlogImageName').val(blogImageName) ;
-    // })
+    $('#modal_Delete').on('show.bs.modal', function (event) {
+        let button = $(event.relatedTarget) ; // Button that triggered the modal
+
+        $('#input-category-id').val(button.attr('data-category-id')) ;
+        $('#input-category-imageFileName').val(button.attr('data-category-image-name')) ;
+    }) ;
+
+
 </script>
 
 

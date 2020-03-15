@@ -56,6 +56,24 @@ $(".addon-link").click(function() {
   window.location = $(this).data("href");
 });
 
+
+function handleBrowseButton_Preview(ButtonId, HiddenInputId, previewImageId){
+  $('#'+ButtonId).click(function (event) {
+    event.preventDefault() ; // prevents the form from automatically submitting
+    $('#'+HiddenInputId).click(); // actually clicks the file upload browse button
+
+
+    $('#'+HiddenInputId).change(function(event){
+      // this function is run when file is successfully selected by user
+      console.log("yolo man") ;
+      $('#' + previewImageId).attr('src', URL.createObjectURL(event.target.files[0]));
+      return false ;
+    });
+
+
+  }) ;
+}
+
 function setupCheckboxToggleButton(PresentationToggleInputId, HiddenInputId){
 
   $('#' + PresentationToggleInputId).on('change', function() {

@@ -126,14 +126,16 @@ app.get('/menu/category', controllerMenu.getAllCategoryPage) ;
 app.get('/menu/category/view/:categoryId', controllerMenu.getViewCategoryPage) ;
 app.get('/menu/category/edit/:categoryId', controllerMenu.getEditCategoryPage) ;
 app.post('/menu/category/edit/save', upload.single('post_Image'), controllerMenu.postEditCategoryPage) ;
+app.get('/menu/category/add', controllerMenu.getAddCategoryPage) ;
+app.post('/menu/category/add/save', upload.single('post_Image'), controllerMenu.postAddCategoryPage) ;
+app.post('/menu/category/delete', controllerMenu.postDeleteCategoryPage) ;
+app.post('/menu/category/arrange', controllerMenu.postArrangeCategoryPage) ;
 app.get('/menu/category/arrange', controllerMenu.getArrangeCategoryPage) ;
-app.post('/menu/category/arrange', upload.none(), controllerMenu.postArrangeCategoryPage) ;
-// app.post('/menu/category/delete', controllerMenu.getViewCategoryPage) ;
 
 app.get('/menu/dishes', controllerMenu.getAllDishesPage) ;
-app.get('/menu/dishes/view/:menuItemId', controllerMenu.getViewSingleDishPage) ;
-app.get('/menu/dishes/edit/:menuItemId', controllerMenu.getEditSingleDishPage) ;
-app.post('/menu/dishes/edit/save', upload.single('post_Image'), controllerMenu.postEditDishesPage) ;
+app.get('/menu/dishes/view/:menuItemId', controllerMenu.getViewDishPage) ;
+app.get('/menu/dishes/edit/:menuItemId', controllerMenu.getEditDishPage) ;
+app.post('/menu/dishes/edit/save', upload.single('post_Image'), controllerMenu.postEditDishPage) ;
 app.get('/menu/dishes/add/:categoryId', controllerMenu.getAddDishPage) ;
 app.post('/menu/dishes/add/save', upload.single('post_Image'), controllerMenu.postAddDishPage) ;
 app.post('/menu/dishes/delete', upload.none(), controllerMenu.postDeleteDishPage ) ;
@@ -142,16 +144,16 @@ app.post('/menu/dishes/arrange/', upload.none(), controllerMenu.postArrangeDishe
 
 
 app.get('/menu/addons', controllerMenu.getAllAddonItemsPage) ;
-app.get('/menu/addons/view/:addonItemId', controllerMenu.getViewSingleAddonPage) ;
-app.get('/menu/addons/edit/:addonItemId', controllerMenu.getEditSingleAddonPage) ;
+app.get('/menu/addons/view/:addonItemId', controllerMenu.getViewAddonPage) ;
+app.get('/menu/addons/edit/:addonItemId', controllerMenu.getEditAddonPage) ;
 app.post('/menu/addons/edit/save', upload.none(), controllerMenu.postEditAddonPage) ;
-app.get('/menu/addons/add/:categoryId/:addonGroupId', controllerMenu.getAddNewAddonPage) ;
-app.post('/menu/addons/add/save', upload.none(), controllerMenu.postAddNewAddonPage) ;
+app.get('/menu/addons/add/:categoryId/:addonGroupId', controllerMenu.getAddAddonPage) ;
+app.post('/menu/addons/add/save', upload.none(), controllerMenu.postAddAddonPage) ;
 app.post('/menu/addons/delete', upload.none(), controllerMenu.postDeleteAddonPage ) ;
 app.get('/menu/addons/arrange/:addonGroupId', controllerMenu.getArrangeAddonsPage) ;
 app.post('/menu/addons/arrange/', upload.none(), controllerMenu.postArrangeAddonsPage) ;
 app.get('/menu/addons/change-default/:addonGroupId', controllerMenu.getChangeDefaultAddonPage) ;
-app.post('/menu/addons/change-default/save', upload.none(), controllerMenu.postChangeDefaultAddonsPage) ;
+app.post('/menu/addons/change-default/save', upload.none(), controllerMenu.postChangeDefaultAddonPage) ;
 
 
 app.get('/menu/size/:categoryId', controllerMenu.getAllSizesPage) ;
@@ -160,8 +162,8 @@ app.post('/menu/size/edit/save', controllerMenu.postEditSizePage) ;
 app.get('/menu/size/add/:categoryId', controllerMenu.getAddSizePage) ;
 app.post('/menu/size/add/save', controllerMenu.postAddSizePage) ;
 app.post('/menu/size/delete', controllerMenu.postDeleteSizePage);
-app.get('/menu/size/arrange/:categoryId', controllerMenu.getArrangeSizePage) ;
-app.post('/menu/size/arrange/save', controllerMenu.postArrangeSizePage) ;
+app.get('/menu/size/arrange/:categoryId', controllerMenu.getArrangeSizesPage) ;
+app.post('/menu/size/arrange/save', controllerMenu.postArrangeSizesPage) ;
 app.get('/menu/size/change-default/:categoryId', controllerMenu.getChangeDefaultSizePage) ;
 app.post('/menu/size/change-default/save', controllerMenu.postChangeDefaultSizePage) ;
 

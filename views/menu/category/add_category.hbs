@@ -1,0 +1,125 @@
+<html>
+<head>
+    <title>Admin | Gagneja</title>
+    <meta charset="utf-8">
+
+
+
+    <link rel="stylesheet" href="/lib/reset/reset.css" >
+
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap-toggle/bootstrap-toggle.css" >
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
+
+    <link rel="stylesheet" href="/lib/t3/t3.css" />
+
+    <link rel="stylesheet" href="/css/my_personal.css">
+</head>
+<body>
+
+{{>header}}
+<section>
+
+    {{>sidebar}}
+
+    <div class="container-fluid t3-push" id="mainContainer">
+        <div class="row">
+            <div id = "main_Content" class="col-md-12 bg-grey">
+
+                <br><br><br><br>
+                <div class="page-title bg-light">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <h1 class="">Add New Category</h1>
+                        </div>
+                    </div>
+                </div>
+                <br><br><br>
+
+
+                <div class="row">
+                    <div class="push-md-1 col-md-10" >
+                        <div class="card">
+                            <div class="card-block">
+                                <form action="/menu/category/add/save" method="post" enctype="multipart/form-data" >
+
+                                    <br>
+                                    <div class="form-group row">
+                                        <label for="input-category-name" class="col-3 col-form-label">Category Name</label>
+                                        <div class="col-md-9">
+                                            <input id="input-category-name" name="categoryName" class="form-control" type="text">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="form-group row">
+                                        <label for="input-category-active" class="col-3 col-form-label">Category Active</label>
+                                        <div class="col-md-9">
+                                            <input id="input-category-isActive-hidden" name="isCategoryActive" class="form-control" type="hidden" value="1"  >
+                                            <input id="input-category-isActive-presentation"  type="checkbox" class="form-control" checked="checked" data-toggle="toggle" data-width="100" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
+
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="form-group row">
+                                        <label  class="col-3 col-form-label">Category Image</label>
+                                        <div class="col-4 ">
+                                            <button id="btn-file-choose" class="input-group-addon" style="cursor: pointer;">Choose Image</button>
+                                            <div class="justify-content-center input-group">
+                                                <input id="hidden-file-chooser" name="post_Image" type="file"  style="width:0;" >
+                                                <img id="preview-image"/>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <br><br><br>
+                                    <div class="form-group row">
+                                        <div class="col-4" ></div>
+                                        <input type="submit" class=" col-4 btn btn-info" value="Save this Category">
+                                        <div class="col-4" ></div>
+                                    </div>
+
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <br><br><br>
+
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+{{>footer}}
+
+
+</body>
+<script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
+<script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
+<script type="text/javascript" src="/lib/bootstrap-toggle/bootstrap-toggle.js" ></script>
+
+<script type="text/javascript" src="/js/my_personal.js"></script>
+<script type="text/javascript" src="/lib/t3/t3.js"></script>
+
+<script>
+
+    handleBrowseButton_Preview("btn-file-choose","hidden-file-chooser", "preview-image") ;
+    setupCheckboxToggleButton('input-category-isActive-presentation', 'input-category-isActive-hidden') ;
+
+</script>
+
+
+
+
+
+
+</html>

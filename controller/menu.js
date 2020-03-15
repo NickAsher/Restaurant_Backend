@@ -119,6 +119,118 @@ exports.postEditCategoryPage = async (req,res)=>{
 } ;
 
 
+exports.getAddCategoryPage = async (req, res)=>{
+  try{
+    res.render('menu/category/add_category.hbs') ;
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+exports.postAddCategoryPage = async (req, res)=>{
+  try{
+    let categoryName = req.body.categoryName ;
+    let categoryIsActive = req.body.isCategoryActive ;
+    let newImageFileName = req.myFileName ;
+
+    let dbData = await dbConnection.execute(
+      `INSERT INTO menu_meta_category_table (category_sr_no, category_name, category_is_active, category_image) 
+      SELECT COALESCE( (MAX( category_sr_no ) + 1), 1) , :categoryName , :categoryIsActive , :newImageFileName 
+      FROM menu_meta_category_table `, {
+        categoryName,
+        categoryIsActive,
+        newImageFileName,
+    }) ;
+
+    res.send({
+      status : true,
+      dbData,
+      link : "http://localhost:3002/menu/category"
+    }) ;
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+exports.postDeleteCategoryPage = async (req, res)=>{
+  try{
+    let categoryId = req.body.categoryId ;
+    let categoryImageFileName = req.body.categoryImageFileName ;
+
+    fs.unlinkSync(Constants.IMAGE_PATH + categoryImageFileName) ;
+
+    let dbCategoryTable = await dbConnection.execute(
+      `DELETE FROM menu_meta_category_table WHERE category_id = :categoryId`,{
+      categoryId
+    }) ;
+
+    let dbDishesTable = await dbConnection.execute(
+      `DELETE FROM menu_items_table WHERE item_category_id = :categoryId`,{
+        categoryId
+      }) ;
+
+    let dbAddonTable = await dbConnection.execute(
+      `DELETE FROM menu_addons_table WHERE item_category_id = :categoryId`,{
+        categoryId
+      }) ;
+
+    let dbDishesSizePriceTable = await dbConnection.execute(
+      `DELETE FROM menu_meta_rel_size_items_table WHERE item_category_id = :categoryId`,{
+        categoryId
+      }) ;
+
+    let dbAddonSizePriceTable = await dbConnection.execute(
+      `DELETE FROM menu_meta_rel_size_addons_table WHERE category_id = :categoryId`,{
+        categoryId
+      }) ;
+
+    let dbSizeTable = await dbConnection.execute(
+      `DELETE FROM menu_meta_size_table WHERE size_category_id = :categoryId`,{
+        categoryId
+      }) ;
+
+    let dbAddonGroupTable = await dbConnection.execute(
+      `DELETE FROM menu_meta_addongroups_table WHERE category_id = :categoryId`,{
+        categoryId
+      }) ;
+
+
+    res.send({
+      status : true,
+      dbCategoryTable,
+      dbDishesTable,
+      dbAddonTable,
+      dbDishesSizePriceTable,
+      dbAddonSizePriceTable,
+      dbSizeTable,
+      dbAddonGroupTable,
+      link : "http://localhost:3002/menu/category",
+    }) ;
+
+
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
 exports.getArrangeCategoryPage = async (req, res)=>{
   try{
     let dbData = await dbRepository.getAllMenuCategories() ;
@@ -197,7 +309,7 @@ exports.getAllDishesPage = async (req, res)=>{
 } ;
 
 
-exports.getViewSingleDishPage = async (req, res)=>{
+exports.getViewDishPage = async (req, res)=>{
   try{
     let menuItemId = req.params.menuItemId ;
 
@@ -230,7 +342,7 @@ exports.getViewSingleDishPage = async (req, res)=>{
   }
 } ;
 
-exports.getEditSingleDishPage = async (req, res)=>{
+exports.getEditDishPage = async (req, res)=>{
   try{
     let menuItemId = req.params.menuItemId ;
 
@@ -263,7 +375,7 @@ exports.getEditSingleDishPage = async (req, res)=>{
   }
 } ;
 
-exports.postEditDishesPage = async (req, res)=>{
+exports.postEditDishPage = async (req, res)=>{
   try{
     let itemId = req.body.itemId ;
     let itemName = req.body.itemName ;
@@ -564,7 +676,7 @@ exports.getAllAddonItemsPage = async (req, res)=>{
   }
 } ;
 
-exports.getViewSingleAddonPage = async (req, res)=>{
+exports.getViewAddonPage = async (req, res)=>{
   try{
     let addonItemId = req.params.addonItemId ;
     let dbAddonData = await dbRepository.getSingleAddonItem(addonItemId) ;
@@ -589,7 +701,7 @@ exports.getViewSingleAddonPage = async (req, res)=>{
   }
 } ;
 
-exports.getEditSingleAddonPage = async(req, res)=>{
+exports.getEditAddonPage = async(req, res)=>{
  try{
    let addonItemId = req.params.addonItemId ;
    let dbAddonData = await dbRepository.getSingleAddonItem(addonItemId) ;
@@ -693,7 +805,7 @@ exports.postEditAddonPage = async (req, res)=>{
   }
 } ;
 
-exports.getAddNewAddonPage = async (req, res)=> {
+exports.getAddAddonPage = async (req, res)=> {
   try {
     let categoryId = req.params.categoryId;
     let addonGroupId = req.params.addonGroupId ;
@@ -721,7 +833,7 @@ exports.getAddNewAddonPage = async (req, res)=> {
   }
 } ;
 
-exports.postAddNewAddonPage = async (req, res)=>{
+exports.postAddAddonPage = async (req, res)=>{
   let categoryId = req.body.categoryId ;
   let addonGroupId = req.body.addonGroupId ;
   let itemName = req.body.itemName ;
@@ -885,7 +997,7 @@ exports.getChangeDefaultAddonPage = async (req, res)=>{
 } ;
 
 
-exports.postChangeDefaultAddonsPage = async (req, res)=>{
+exports.postChangeDefaultAddonPage = async (req, res)=>{
   try{
     let addonGroupId = req.body.addonGroupId ;
     let newDefaultItemId = req.body.defaultItemId;
@@ -1146,7 +1258,7 @@ exports.postDeleteSizePage = async(req, res)=>{
 
 
 
-exports.getArrangeSizePage = async (req, res)=>{
+exports.getArrangeSizesPage = async (req, res)=>{
   try{
     let categoryId = req.params.categoryId ;
 
@@ -1172,7 +1284,7 @@ exports.getArrangeSizePage = async (req, res)=>{
   }
 } ;
 
-exports.postArrangeSizePage = async (req, res)=>{
+exports.postArrangeSizesPage = async (req, res)=>{
   try{
     let categoryId = req.body.categoryId ;
     let newArray = JSON.parse(req.body.sortedArray);
