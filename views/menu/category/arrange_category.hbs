@@ -116,7 +116,7 @@
         .then((response)=>response.json())
         .then((data)=>{
             if(data.status == true){
-                makeToast('success', "New Order is saved \n taking you back to category page") ;
+                makeToast('success', "New Order is saved <br> Taking you back to category page") ;
                 setTimeout(function () {
                     window.location.href="/menu/category" ;
                 }, 1000)

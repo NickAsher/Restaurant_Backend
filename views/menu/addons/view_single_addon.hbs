@@ -87,7 +87,10 @@
                                         <div class="col-md-9 input-group">
                                             <input type="hidden" class="form-control"  value="{{addon_size_active}}" readonly >
                                             <input type='checkbox' class='form-control' {{#if addon_size_active}}checked="checked"{{/if}} disabled data-toggle='toggle' data-width='50' data-onstyle='success' data-offstyle='danger' data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
-                                            <input type='text' class='form-control'  style='margin-left: 20px; ; ' placeholder="Nan" value="{{addon_price}}"  disabled>
+                                            <div class="input-group" style='margin-left: 20px;'>
+                                                <span class="input-group-addon"> &#x20B9; </span>
+                                                <input name="itemSizePrice_{{size_id}}" type='number' class='form-control' value="{{addon_price}}"  disabled >
+                                            </div>
                                         </div>
                                     </div>
                                 {{/each}}

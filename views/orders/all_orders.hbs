@@ -262,17 +262,17 @@
                     case "accept" :
                         thisOrderButton.parent().parent().attr('data-order-status', "PREPARING") ;
                         console.log(`Order: ${orderId} has been accepted, Added to working orders`) ;
-                        makeToast("info", `Order: ${orderId} has been accepted \n Added to working orders`) ;
+                        makeToast("info", `Order: ${orderId} has been accepted <br> Added to working orders`) ;
                         break;
                     case "complete" :
                         thisOrderButton.parent().parent().attr('data-order-status', "COMPLETED") ;
                         console.log(`Order: ${orderId} has been served, Added to completed orders`) ;
-                        makeToast("info", `Order: ${orderId} has been served \n Added to completed orders`) ;
+                        makeToast("info", `Order: ${orderId} has been served <br> Added to completed orders`) ;
                         break;
                     case "cancel" :
                         thisOrderButton.parent().parent().attr('data-order-status', "CANCELLED") ;
                         console.log(`Order: ${orderId} has been cancelled, Added to cancelled orders`) ;
-                        makeToast("error", `Order: ${orderId} has been cancelled \n Added to cancelled orders`) ;
+                        makeToast("error", `Order: ${orderId} has been cancelled <br> Added to cancelled orders`) ;
                         break;
                 }
                 showOrderCounts() ;
