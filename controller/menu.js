@@ -171,40 +171,45 @@ exports.postDeleteCategoryPage = async (req, res)=>{
 
     fs.unlinkSync(Constants.IMAGE_PATH + categoryImageFileName) ;
 
-    let dbCategoryTable = await dbConnection.execute(
+    let explicitConnection = await dbConnection.getConnection() ;
+    await explicitConnection.beginTransaction() ;
+
+    let dbCategoryTable = await explicitConnection.execute(
       `DELETE FROM menu_meta_category_table WHERE category_id = :categoryId`,{
       categoryId
     }) ;
 
-    let dbDishesTable = await dbConnection.execute(
+    let dbDishesTable = await explicitConnection.execute(
       `DELETE FROM menu_items_table WHERE item_category_id = :categoryId`,{
         categoryId
       }) ;
 
-    let dbAddonTable = await dbConnection.execute(
+    let dbAddonTable = await explicitConnection.execute(
       `DELETE FROM menu_addons_table WHERE item_category_id = :categoryId`,{
         categoryId
       }) ;
 
-    let dbDishesSizePriceTable = await dbConnection.execute(
+    let dbDishesSizePriceTable = await explicitConnection.execute(
       `DELETE FROM menu_meta_rel_size_items_table WHERE item_category_id = :categoryId`,{
         categoryId
       }) ;
 
-    let dbAddonSizePriceTable = await dbConnection.execute(
+    let dbAddonSizePriceTable = await explicitConnection.execute(
       `DELETE FROM menu_meta_rel_size_addons_table WHERE category_id = :categoryId`,{
         categoryId
       }) ;
 
-    let dbSizeTable = await dbConnection.execute(
+    let dbSizeTable = await explicitConnection.execute(
       `DELETE FROM menu_meta_size_table WHERE size_category_id = :categoryId`,{
         categoryId
       }) ;
 
-    let dbAddonGroupTable = await dbConnection.execute(
+    let dbAddonGroupTable = await explicitConnection.execute(
       `DELETE FROM menu_meta_addongroups_table WHERE category_id = :categoryId`,{
         categoryId
       }) ;
+
+    await explicitConnection.commit() ;
 
 
     res.send({
@@ -222,6 +227,7 @@ exports.postDeleteCategoryPage = async (req, res)=>{
 
   }catch (e) {
     res.send({
+
       status : false,
       e,
       e_message : e.message,
@@ -229,6 +235,7 @@ exports.postDeleteCategoryPage = async (req, res)=>{
       yo : "Beta ji koi error hai"
     }) ;
   }
+
 } ;
 
 exports.getArrangeCategoryPage = async (req, res)=>{
@@ -375,6 +382,7 @@ exports.getEditDishPage = async (req, res)=>{
   }
 } ;
 
+
 exports.postEditDishPage = async (req, res)=>{
   try{
     let itemId = req.body.itemId ;
@@ -382,10 +390,12 @@ exports.postEditDishPage = async (req, res)=>{
     let itemDescription = req.body.itemDescription ;
     let itemIsActive = req.body.isItemActive == 'true' ? 1 : 0 ;
 
+    let explicitConnection = await dbConnection.getConnection() ;
+    await explicitConnection.beginTransaction() ;
     let dbItemData ;
     if(!req.file){
       // new image is not uploaded so simply update the db
-      dbItemData = await dbConnection.execute(`
+      dbItemData = await explicitConnection.execute(`
         UPDATE menu_items_table 
         SET item_name = :itemName, item_description = :itemDescription, item_is_active = :itemIsActive
         WHERE item_id = :itemId `, {
@@ -399,7 +409,7 @@ exports.postEditDishPage = async (req, res)=>{
       let newImageFileName = req.myFileName ;
       fs.unlinkSync(Constants.IMAGE_PATH + oldImageFileName) ;
 
-      dbItemData = await dbConnection.execute(`
+      dbItemData = await explicitConnection.execute(`
         UPDATE menu_items_table
         SET item_name = :itemName, item_description = :itemDescription, item_is_active = :itemIsActive, item_image_name = :newImageFileName
         WHERE item_id = :itemId `, {
@@ -455,9 +465,9 @@ exports.postEditDishPage = async (req, res)=>{
       sqlCaseString += ` WHEN size_id = ${element.size_id} THEN ${newIsItemActiveForSize} ` ;
     }) ;
     sqlCaseString += ` END WHERE item_id = ${itemId} ` ;
-    let dbItemPriceData = await dbConnection.execute(sqlCaseString) ;
+    let dbItemPriceData = await explicitConnection.execute(sqlCaseString) ;
 
-
+    await explicitConnection.commit() ;
 
     res.send({
       dbItemData,
@@ -512,7 +522,10 @@ exports.postAddDishPage = async (req, res)=>{
 
     let itemImageFileName = req.myFileName ;
 
-    let dbItemData = await dbConnection.execute(`
+    let explicitConnection = await dbConnection.getConnection() ;
+    await explicitConnection.beginTransaction() ;
+
+    let dbItemData = await explicitConnection.execute(`
       INSERT INTO menu_items_table 
       (item_sr_no, item_name, item_description, item_image_name, item_category_id, item_is_active )
       SELECT COALESCE( (MAX( item_sr_no ) + 1), 1) , :itemName, :itemDescription, :itemImageFileName, :categoryId, :isItemActive 
@@ -541,8 +554,8 @@ exports.postAddDishPage = async (req, res)=>{
     }) ;
     sqlInsertString = sqlInsertString.slice(0,-2) ;
 
-    let dbSizeInsertData = await dbConnection.execute(sqlInsertString) ;
-
+    let dbSizeInsertData = await explicitConnection.execute(sqlInsertString) ;
+    await explicitConnection.commit() ;
     res.send({
       status : true,
       dbItemData,
@@ -563,20 +576,23 @@ exports.postAddDishPage = async (req, res)=>{
   }
 } ;
 
-
 exports.postDeleteDishPage = async (req, res)=>{
   try{
     let itemId = req.body.itemId ;
     let imageFileName = req.body.itemImageName ;
 
+    let explicitConnection = await dbConnection.getConnection() ;
+    await explicitConnection.beginTransaction() ;
+
     fs.unlinkSync(Constants.IMAGE_PATH + imageFileName) ;
-    let dbItemData = await dbConnection.execute(`DELETE FROM menu_items_table WHERE item_id = :id `, {
+    let dbItemData = await explicitConnection.execute(`DELETE FROM menu_items_table WHERE item_id = :id `, {
       id : itemId
     }) ;
 
-    let dbItemSizePriceData = await dbConnection.execute(`DELETE FROM menu_meta_rel_size_items_table WHERE item_id = :id `, {
+    let dbItemSizePriceData = await explicitConnection.execute(`DELETE FROM menu_meta_rel_size_items_table WHERE item_id = :id `, {
       id : itemId
     }) ;
+    await explicitConnection.commit() ;
 
     res.send({
       status : true,
@@ -733,7 +749,10 @@ exports.postEditAddonPage = async (req, res)=>{
     let itemName = req.body.itemName;
     let itemIsActive = req.body.isItemActive ;
 
-    let dbItemData  = await dbConnection.execute(`
+    let explicitConnection = await dbConnection.getConnection() ;
+    await explicitConnection.beginTransaction() ;
+
+    let dbItemData  = await explicitConnection.execute(`
         UPDATE menu_addons_table 
         SET item_name = :itemName, item_is_active = :itemIsActive WHERE item_id = :itemId `, {
         itemName,
@@ -785,8 +804,8 @@ exports.postEditAddonPage = async (req, res)=>{
     });
     sqlCaseString += ` END WHERE addon_id = ${itemId} `;
 
-    let dbItemPriceData = await dbConnection.execute(sqlCaseString);
-
+    let dbItemPriceData = await explicitConnection.execute(sqlCaseString);
+    await explicitConnection.commit() ;
 
     res.send({
       dbItemData,
@@ -840,8 +859,10 @@ exports.postAddAddonPage = async (req, res)=>{
   let isItemActive = req.body.isItemActive ;
 
 
+  let explicitConnection = await dbConnection.getConnection() ;
+  await explicitConnection.beginTransaction() ;
 
-  let dbItemData = await dbConnection.execute(`
+  let dbItemData = await explicitConnection.execute(`
       INSERT INTO menu_addons_table 
       (item_sr_no, item_name, item_category_id, item_addon_group_rel_id, item_is_active )
       SELECT COALESCE( (MAX( item_sr_no ) + 1), 1) , :itemName, :categoryId, :addonGroupId, :isItemActive 
@@ -868,7 +889,8 @@ exports.postAddAddonPage = async (req, res)=>{
   }) ;
   sqlInsertString = sqlInsertString.slice(0,-2) ;
 
-  let dbSizeInsertData = await dbConnection.execute(sqlInsertString) ;
+  let dbSizeInsertData = await explicitConnection.execute(sqlInsertString) ;
+  await explicitConnection.commit() ;
 
   res.send({
     status : true,
@@ -884,13 +906,17 @@ exports.postDeleteAddonPage = async (req, res)=>{
   try{
     let itemId = req.body.itemId ;
 
-    let dbItemData = await dbConnection.execute(`DELETE FROM menu_addons_table WHERE item_id = :id `, {
+    let explicitConnection = await dbConnection.getConnection() ;
+    await explicitConnection.beginTransaction() ;
+
+    let dbItemData = await explicitConnection.execute(`DELETE FROM menu_addons_table WHERE item_id = :id `, {
       id : itemId
     }) ;
 
-    let dbItemSizePriceData = await dbConnection.execute(`DELETE FROM menu_meta_rel_size_addons_table WHERE addon_id = :id `, {
+    let dbItemSizePriceData = await explicitConnection.execute(`DELETE FROM menu_meta_rel_size_addons_table WHERE addon_id = :id `, {
       id : itemId
     }) ;
+    await explicitConnection.commit() ;
 
     res.send({
       status : true,
@@ -1145,14 +1171,12 @@ exports.getAddSizePage = async(req, res)=>{
     }) ;
   }
 } ;
-
 exports.postAddSizePage = async(req, res)=>{
   try{
     let categoryId = req.body.categoryId ;
     let sizeName = req.body.sizeName ;
     let sizeNameAbbreviated = req.body.sizeNameAbbreviated ;
     let isSizeActive = req.body.isSizeActive ;
-
 
 
     let dbItemAddonData = await dbRepository.getAllAddonItemsInCategory(categoryId) ;
@@ -1163,8 +1187,10 @@ exports.postAddSizePage = async(req, res)=>{
     if(dbItemDishesData.status != true){throw dbItemDishesData ;}
     let dishList = dbItemDishesData.data ;
 
+    let explicitConnection = await dbConnection.getConnection() ;
+    await explicitConnection.beginTransaction() ;
 
-    let dbData = await dbConnection.execute(`
+    let dbData = await explicitConnection.execute(`
     INSERT INTO menu_meta_size_table
     (size_sr_no, size_category_id, size_name, size_name_short, size_is_active)
     SELECT COALESCE( (MAX( size_sr_no ) + 1), 1), :categoryId , :sizeName , :sizeNameAbbreviated , :isSizeActive 
@@ -1194,9 +1220,9 @@ exports.postAddSizePage = async(req, res)=>{
     sqlInsertAddonsString = sqlInsertAddonsString.slice(0,-2) ;
 
 
-    let dbInsertDishesData = await dbConnection.execute(sqlInsertDishesString) ;
-    let dbInsertAddonsData = await dbConnection.execute(sqlInsertAddonsString) ;
-
+    let dbInsertDishesData = await explicitConnection.execute(sqlInsertDishesString) ;
+    let dbInsertAddonsData = await explicitConnection.execute(sqlInsertAddonsString) ;
+    await explicitConnection.commit() ;
     res.send({
       dbData,
       dbInsertDishesData,
@@ -1222,21 +1248,24 @@ exports.postDeleteSizePage = async(req, res)=>{
     let categoryId = req.body.categoryId ;
     let sizeId = req.body.sizeId ;
 
-    let dbSizeData = await dbConnection.execute(
+    let explicitConnection = await dbConnection.getConnection() ;
+    await explicitConnection.beginTransaction() ;
+
+    let dbSizeData = await explicitConnection.execute(
       `DELETE FROM menu_meta_size_table WHERE size_id = :sizeId`,{
       sizeId
     }) ;
 
-    let dbSizeDishesData = await dbConnection.execute(
+    let dbSizeDishesData = await explicitConnection.execute(
       `DELETE FROM menu_meta_rel_size_items_table WHERE size_id = :sizeId`,{
       sizeId
     }) ;
 
-    let dbSizeAddonsData = await dbConnection.execute(
+    let dbSizeAddonsData = await explicitConnection.execute(
       `DELETE FROM menu_meta_rel_size_addons_table WHERE size_id = :sizeId`,{
       sizeId
     }) ;
-
+    await explicitConnection.commit() ;
     res.send({
       status : true,
       dbSizeData,

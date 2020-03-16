@@ -59,7 +59,7 @@
 
                     {{#each categoryData}}
                         <tr>
-                            <td class='td-link' data-href='/menu/category/view/{{category_id}}'>  {{@index}}  </td>
+                            <td class='td-link' data-href='/menu/category/view/{{category_id}}'>  {{increment @index}}  </td>
                             <td class='td-link' data-href='/menu/category/view/{{category_id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{category_image}}' class='img-fluid' width='90px' ></td>
                             <td class='td-link' data-href='/menu/category/view/{{category_id}}'>  {{category_name}}  </td>
 

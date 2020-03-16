@@ -53,7 +53,7 @@
                     </tr>
                     {{#each addonGroupData}}
                         <tr>
-                            <td>  {{@index}}  </td>
+                            <td>  {{increment @index}}  </td>
                             <td>  {{addon_group_display_name}}  </td>
                             <td>
                                 {{#ifEquals addon_group_type 'radio'}}

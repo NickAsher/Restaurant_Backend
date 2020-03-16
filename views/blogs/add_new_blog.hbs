@@ -66,9 +66,9 @@
 
                             <div id="Div_BlogDisplayImage">
                                 <label for="presentation-only-field-display" class="col-form-label">Blog DisplayImage</label>
-                                <div class="justify-content-center input-group form-control">
-                                    <input type="file" name="post_Image" style="width:0;" id="hidden-file-chooser">
-                                    <button id="btn-file-choose" class="input-group-addon" style="cursor: pointer">Choose Image</button>
+                                <button id="btn-file-choose" class="input-group-addon" style="cursor: pointer;">Choose Image</button>
+                                <div class="justify-content-center input-group">
+                                    <input id="hidden-file-chooser" name="post_Image" type="file" style="width:0;" accept="image/x-png,image/jpeg" >
                                     <img id="preview-image"/>
                                 </div>
                             </div>
@@ -125,22 +125,6 @@
 
 <script>
 
-    function handleBrowseButton_Preview(ButtonId, HiddenInputId, previewImageId){
-        $('#'+ButtonId).click(function (event) {
-            event.preventDefault() ; // prevents the form from automatically submitting
-            $('#'+HiddenInputId).click(); // actually clicks the file upload browse button
-
-
-            $('#'+HiddenInputId).change(function(event){
-                // this function is run when file is successfully selected by user
-                console.log("yolo man") ;
-                $('#preview-image').attr('src', URL.createObjectURL(event.target.files[0]));
-                return false ;
-            });
-
-
-        }) ;
-    }
     handleBrowseButton_Preview("btn-file-choose","hidden-file-chooser", "preview-image") ;
 
 

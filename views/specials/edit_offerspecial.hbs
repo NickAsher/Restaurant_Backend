@@ -67,10 +67,10 @@
                                     <img class="img-fluid" src='{{IMAGE_BACKENDFRONT_LINK_PATH}}{{offerData.image}}' alt="offer image here"  />
                                 </div>
                                 <div class="col-4">
-                                    <div class="row input-group">
-                                        <input type="file" name="post_Image" style="width:0;padding:0px;" id="hidden-file-chooser-display">
-                                        <input type="text" id="presentation-only-field-display" placeholder="Choose new image ..." class="form-control"  readonly>
-                                        <button id="btn-file-choose-display" class="input-group-addon">Browse</button>
+                                    <button id="btn-file-choose" class="input-group-addon" style="cursor: pointer;">Choose Image</button>
+                                    <div class="justify-content-center input-group">
+                                        <input id="hidden-file-chooser" name="post_Image" type="file" style="width:0;" accept="image/x-png,image/jpeg" >
+                                        <img id="preview-image"/>
                                     </div>
                                 </div>
                             </div>
@@ -108,19 +108,6 @@
 <script type="text/javascript" src="/js/my_personal.js"></script>
 <script type="text/javascript" src="/lib/t3/t3.js"></script>
 <script>
-    function handleBrowseButton(ButtonId, HiddenInputId, PresentationInputId){
-        $('#'+ButtonId).click(function (event) {
-            event.preventDefault() ;
-            $('#'+HiddenInputId).click();
-
-            $('#'+HiddenInputId).change(function(){
-                $('#'+PresentationInputId).val($(this).val());
-                return false ;
-            });
-
-
-        }) ;
-    }
 
     handleBrowseButton("btn-file-choose-display","hidden-file-chooser-display","presentation-only-field-display") ;
 

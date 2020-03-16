@@ -67,7 +67,7 @@
                             </tr>
                             {{#each items}}
                                 <tr>
-                                    <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'>  {{@index}}  </td>
+                                    <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'>  {{increment @index}}  </td>
                                     <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{item_image_name}}' class='img-fluid' width='90px' ></td>
                                     <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'>  {{item_name}}  </td>
 

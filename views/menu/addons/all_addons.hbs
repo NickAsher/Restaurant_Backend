@@ -75,7 +75,7 @@
                             </tr>
                             {{#each addonItems}}
                                 <tr>
-                                    <td class='td-link' data-href='/menu/addons/view/{{item_id}}'>  {{@index}}  </td>
+                                    <td class='td-link' data-href='/menu/addons/view/{{item_id}}'>  {{increment @index}}  </td>
                                     <td class='td-link' data-href='/menu/addons/view/{{item_id}}'>  {{item_name}}  </td>
 
                                     {{#ifEquals ../addon_group_type 'radio' }}

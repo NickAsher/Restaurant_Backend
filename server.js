@@ -28,6 +28,10 @@ hbs.registerPartials(path.join(__dirname, "./views/includes/")) ;
 hbs.registerHelper('ifEquals', function(arg1, arg2, options) {
   return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 });
+hbs.registerHelper('increment', function (arg1) {
+  arg1++;
+  return arg1;
+});
 
 app.use(express.static("public"));
 app.use(bodyParser.json()); // support json encoded bodies
