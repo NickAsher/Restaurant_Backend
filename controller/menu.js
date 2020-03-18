@@ -148,6 +148,9 @@ exports.postAddCategoryPage = async (req, res)=>{
         newImageFileName,
     }) ;
 
+
+
+
     res.send({
       status : true,
       dbData,

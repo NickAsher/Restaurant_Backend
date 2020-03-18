@@ -232,15 +232,18 @@ exports.getSingleOfferSpecial = async (offerId)=>{
 } ;
 
 /* ********************************************** Orders ************************************ */
-exports.getAllOrders_OfToday = async()=>{
+exports.getAllOrders_OfToday = async(date)=>{
   try{
     // let todayDate = moment(new Date()).format('YYYY-MM-DD hh:mm:ss') ;
-    let todayDate = '2020-03-04 00:00:00' ;
+    let startDate = `${date} 00:00:00` ;
+    let endDate = `${date} 23:59:59` ;
 
 
     let dbData = await dbConnection.execute(
-      `SELECT * FROM order_table2 WHERE datetime > '${todayDate}'`
-    ) ;
+      `SELECT * FROM order_table2 WHERE datetime > :startDate AND datetime < :endDate`, {
+      startDate,
+      endDate
+    }) ;
     return {
       status : true,
       data : dbData['0']

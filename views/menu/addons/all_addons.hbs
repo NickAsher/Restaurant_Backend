@@ -51,6 +51,21 @@
                 <div class="tab-content">
                 {{#each addonData}}
                     <div id="Div_Table_{{category_id}}" class = 'tab-pane fade {{#if @first}} active show{{/if}}'>
+                    {{#ifEquals addonGroups.length 0}}
+                        <div class="bg-grey">
+                            <br><br>
+                            <div class="row">
+                                <div class="col-4  col-md-2 push-4  push-md-5" >
+                                    <img src="/img/meme-thinking-cup.png" class="img-fluid" >
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <p>There doesn't seem to be any data here
+                                <br> Why don't you add some ?</p>
+                            </div>
+                            <br><br>
+                        </div>
+                    {{/ifEquals}}
                     {{#each addonGroups}}
 
                         <div class="text-center">

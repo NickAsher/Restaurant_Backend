@@ -11,6 +11,9 @@
     <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
     <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
     <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
+    <link rel = "stylesheet" href="/lib/jquery_ui/jquery-ui.min.css" >
+    <link rel = "stylesheet" href="/lib/jquery_ui/jquery-ui.structure.min.css" >
+    <link rel = "stylesheet" href="/lib/jquery_ui/jquery-ui.theme.min.css" >
 
     <link rel = "stylesheet" href="/lib/toastr/toastr.min.css" />
     <link rel = "stylesheet" href="/lib/t3/t3.css" />
@@ -35,7 +38,13 @@
                 <div id="TabPanel_Header">
                     <div id="NavTabsPanel" class="row" style="background-color: #333;left: 0; right: 0 ;position: fixed;z-index: 1;">
                         <div class="col-12" >
-                            <br><br>
+                            <br>
+                                <p style="color: #DDDDDD">
+                                    Select Date:
+                                    <input type="text" id="datepicker" style="background-color: #444">
+                                </p>
+
+                            <br>
                             <div class="card-header" style="background-color: #333">
                                 <ul class="nav nav-tabs card-header-tabs nav-fill ">
                                     <li class="nav-item">
@@ -136,6 +145,7 @@
 
 </body>
 <script src="/lib/jquery/jquery.js" ></script>
+<script src="/lib/jquery_ui/jquery-ui.js" ></script>
 <script src="/lib/tether/dist/js/tether.min.js"></script>
 <script src="/lib/bootstrap4/bootstrap.min.js" ></script>
 
@@ -147,6 +157,18 @@
 <script src="/js/my_personal.js" ></script>
 
 <script>
+
+
+    function setupOrderDate(){
+        $( "#datepicker" ).datepicker({
+            dateFormat: "yy-mm-dd",
+            onSelect : function () {
+                var date = $(this).val();
+                window.location.href = location.protocol + '//' + location.host + location.pathname + "?date=" + date ;
+            }
+        }) ;
+    }
+    setupOrderDate() ;
 
     function setupOrderTabs(){
       /* When page loads, we hide all the table rows

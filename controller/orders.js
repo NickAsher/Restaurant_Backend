@@ -8,7 +8,8 @@ const orderParseUtils = require('../utils/order_parse_utils') ;
 
 exports.getOrderPage = async (req, res)=>{
   try{
-    let dbReturnData = await dbRepository.getAllOrders_OfToday() ;
+    let date = req.query.date || moment().format('YYYY-MM-DD') ;
+    let dbReturnData = await dbRepository.getAllOrders_OfToday(date) ;
     if(dbReturnData.status == false){throw `${dbReturnData.data} : unable to get orders from db` ;}
 
     let menuNameData = await orderParseUtils.getMenuNameData() ;
@@ -29,9 +30,7 @@ exports.getOrderPage = async (req, res)=>{
     res.render('orders/all_orders.hbs', {
       orderData : dbReturnData.data
     }) ;
-    // res.send({
-    //   orderData : dbReturnData.data
-    // }) ;
+
 
   }catch (e) {
     res.send({

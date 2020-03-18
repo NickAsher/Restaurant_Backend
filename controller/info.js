@@ -72,13 +72,16 @@ exports.postAboutEditPage = async (req, res)=>{
 
 exports.getContactPage = async (req, res)=>{
   try{
-    let contactData = await dbRepository.getContactData() ;
-    if(contactData['status'] === false){throw contactData ;}
+    let dbContactData = await dbRepository.getContactData() ;
+    if(dbContactData['status'] === false){throw dbContactData.data ;}
+
+    let contactData = dbContactData.data ;
+    contactData.social_info = JSON.parse(contactData.social_info) ;
 
     res.render('info/show_contact.hbs', {
-      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
-      contactData : contactData['data'],
+      contactData
     }) ;
+
   }catch (e) {
     res.send({
       e,
@@ -93,12 +96,14 @@ exports.getContactPage = async (req, res)=>{
 
 exports.getContactEditPage =  async (req, res)=>{
   try{
-    let contactData = await dbRepository.getContactData() ;
-    if(contactData['status'] === false){throw contactData ;}
+    let dbContactData = await dbRepository.getContactData() ;
+    if(dbContactData['status'] === false){throw dbContactData.data ;}
+
+    let contactData = dbContactData.data ;
+    contactData.social_info = JSON.parse(contactData.social_info) ;
 
     res.render('info/edit_contact.hbs', {
-      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
-      contactData : contactData['data'],
+      contactData,
     }) ;
   }catch (e) {
     res.send({
@@ -122,14 +127,20 @@ exports.postContactEditPage = async (req, res)=>{
     let restaurantEmail = req.body.post_email ;
     let restaurantLatitude = req.body.post_latitude ;
     let restaurantLongitude = req.body.post_longitude ;
-    let restaurantOpeningHours = req.body.post_openingHours ;
+
+    let socialMediaLinks = JSON.stringify({
+      facebook : req.body.linkFacebook,
+      instagram : req.body.linkInstagram,
+      twitter : req.body.linkInstagram,
+      youtube : req.body.linkYoutube
+    }) ;
 
     let returnData = await dbConnection.execute(
       `UPDATE info_contact_table SET restaurant_name =  :restaurantName, 
           restaurant_addr_1 = :restaurantAddressLine1, restaurant_addr_2 = :restaurantAddressLine2, 
           restaurant_addr_3 = :restaurantAddressLine3, restaurant_phone = :restaurantPhone, 
           restaurant_email = :restaurantEmail, latitude = :restaurantLatitude, longitude = :restaurantLongitude ,
-          restaurant_hours = :restaurantOpeningHours
+          social_info = :socialMediaLinks
           WHERE restaurant_id = '1' ` ,{
         restaurantName,
         restaurantAddressLine1,
@@ -139,7 +150,7 @@ exports.postContactEditPage = async (req, res)=>{
         restaurantEmail,
         restaurantLatitude,
         restaurantLongitude,
-        restaurantOpeningHours
+        socialMediaLinks
       }
     ) ;
 
