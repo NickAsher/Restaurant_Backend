@@ -50,9 +50,13 @@
                         <th class="text-center">Item </th>
                         <th class="text-center">Delete</th>
                     </tr>
+                    {{#ifEquals galleryData.length 0}}
+                        {{>empty_state_table}}
+                    {{/ifEquals}}
+
                     {{#each galleryData}}
                     <tr>
-                        <td>{{gallery_item_sr_no}}</td>
+                        <td>{{increment @index}}</td>
                         <td class='gallery-image text-center'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{gallery_item_image_name}}' width='280px' class='img-fluid' ></td>
                         <td>
                             <button class="btn btn-danger button_Delete" type="button" data-gallery-item-id="{{gallery_item_id}}" data-gallery-item-name="{{gallery_item_image_name}}" data-toggle="modal" data-target="#modal_Delete" >Delete</button>

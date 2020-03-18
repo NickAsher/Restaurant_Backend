@@ -52,29 +52,27 @@
                 {{#each addonData}}
                     <div id="Div_Table_{{category_id}}" class = 'tab-pane fade {{#if @first}} active show{{/if}}'>
                     {{#ifEquals addonGroups.length 0}}
-                        <div class="bg-grey">
-                            <br><br>
-                            <div class="row">
-                                <div class="col-4  col-md-2 push-4  push-md-5" >
-                                    <img src="/img/meme-thinking-cup.png" class="img-fluid" >
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <p>There doesn't seem to be any data here
-                                <br> Why don't you add some ?</p>
-                            </div>
-                            <br><br>
+                        <!--There are no addon groups. Tell the user to add some addon groups.
+                         Take them to category/addongroups page -->
+                        <br><br><br>
+                        <div class="text-center">
+                            You haven't configured any addon groups for this category.
                         </div>
                     {{/ifEquals}}
                     {{#each addonGroups}}
-
                         <div class="text-center">
                             <h1>{{addon_group_display_name}}
                                 {{#ifEquals addon_group_type 'checkbox' }}(Multi-Select){{else}}(Single-Select){{/ifEquals}}
                             </h1>
-                            <a href='/menu/addons/arrange/{{rel_id}}' class="mytheme-anchor">Change Order</a>
-                            {{#ifEquals addon_group_type 'radio' }}
-                            <br><a href='/menu/addons/change-default/{{rel_id}}' class="mytheme-anchor">Change Default Value</a>
+
+                            {{#ifEquals addonItems.length 0}}
+                                <br>
+                            {{else}}
+                                <a href='/menu/addons/arrange/{{rel_id}}' class="mytheme-anchor">Change Order</a>
+                                {{#ifEquals addon_group_type 'radio' }}
+                                    <br>
+                                    <a href='/menu/addons/change-default/{{rel_id}}' class="mytheme-anchor">Change Default Value</a>
+                                {{/ifEquals}}
                             {{/ifEquals}}
                         </div>
                         <br>
@@ -88,6 +86,11 @@
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
+
+                            {{#ifEquals addonItems.length 0}}
+                                {{>empty_state_table}}
+                            {{/ifEquals}}
+
                             {{#each addonItems}}
                                 <tr>
                                     <td class='td-link' data-href='/menu/addons/view/{{item_id}}'>  {{increment @index}}  </td>

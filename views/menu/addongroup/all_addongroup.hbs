@@ -51,6 +51,11 @@
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
+
+                    {{#ifEquals addonGroupData.length 0}}
+                        {{>empty_state_table}}
+                    {{/ifEquals}}
+
                     {{#each addonGroupData}}
                         <tr>
                             <td>  {{increment @index}}  </td>

@@ -40,7 +40,7 @@
                         </div>
                     </div>
                 </div>
-                <br><br><br>
+                <br><br>
 
 
 
@@ -58,6 +58,12 @@
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
+
+                    {{#ifEquals sizeData.length 0}}
+                        {{>empty_state_table Note="<br>Note : You need at least one size to add prices to dishes"}}
+                    {{/ifEquals}}
+
+
                     {{#each sizeData}}
                         <tr>
                             <td>  {{increment @index}}  </td>

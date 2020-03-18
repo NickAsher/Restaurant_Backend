@@ -44,12 +44,16 @@
                 <table  class='table table-bordered table-hover' >
 
                     <tr class='table-info'>
-                        <th>Blog Display Image</th>
+                        <th>Blog Image</th>
                         <th>Blog Title</th>
                         <th>Creation Date/Time</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
+
+                    {{#ifEquals blogsData.length 0}}
+                        {{>empty_state_table}}
+                    {{/ifEquals}}
 
                     {{#each blogsData}}
                     <tr>

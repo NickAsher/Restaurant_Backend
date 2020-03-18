@@ -52,9 +52,14 @@
                     {{#each menuData}}
                     <div id="Div_Table_{{category_id}}" class = 'tab-pane fade {{#if @first}} active show{{/if}}'>
 
-                        <div class="text-center">
-                            <a href='/menu/dishes/arrange/{{category_id}}' class="mytheme-anchor">Change Order</a>
-                        </div>
+                        {{#ifEquals items.length 0}}
+                            <br>
+                        {{else}}
+                            <div class="text-center">
+                                <a href='/menu/dishes/arrange/{{category_id}}' class="mytheme-anchor">Change Order</a>
+                            </div>
+                        {{/ifEquals}}
+
                         <br>
                         <table  class='table table-bordered table-hover' >
                             <tr class='table-info'>
@@ -65,6 +70,11 @@
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
+
+                            {{#ifEquals items.length 0}}
+                                {{>empty_state_table}}
+                            {{/ifEquals}}
+
                             {{#each items}}
                                 <tr>
                                     <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'>  {{increment @index}}  </td>
