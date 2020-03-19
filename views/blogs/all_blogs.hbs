@@ -57,11 +57,11 @@
 
                     {{#each blogsData}}
                     <tr>
-                        <td class='addon-link' data-href='/blog/{{blog_id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{blog_display_image}}' class='img-fluid' width='90px' ></td>
-                        <td class='addon-link' data-href='/blog/{{blog_id}}'>  {{blog_title}}  </td>
-                        <td class='addon-link' data-href='/blog/{{blog_id}}'>  {{blog_creation_date}}</td>
+                        <td class='addon-link' data-href='/blogs/{{blog_id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{blog_display_image}}' class='img-fluid' width='90px' ></td>
+                        <td class='addon-link' data-href='/blogs/{{blog_id}}'>  {{blog_title}}  </td>
+                        <td class='addon-link' data-href='/blogs/{{blog_id}}'>  {{blog_creation_date}}</td>
                         <td>
-                            <a href="/blog/{{blog_id}}/edit">
+                            <a href="/blogs/edit/{{blog_id}}">
                                 <button type='submit' class='btn btn-info' ><span><i class='fa fa-edit'></i></span> Edit Blog</button>
                             </a>
                         </td>
@@ -105,7 +105,7 @@
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                <form class="text-center" method='post' action='/blogs/delete' enctype="multipart/form-data">
+                                <form class="text-center" method='post' action='/blogs/delete'>
                                     <input id="input_BlogId" type='hidden' name='post_BlogId'>
                                     <input id="input_BlogImageName" type='hidden' name='post_ImageFileName'>
                                     <input type="hidden" name="_csrf" value="some csrf token here">

@@ -107,14 +107,12 @@ exports.postDeleteBlogPage = async (req, res)=>{
 
 exports.getSingleBlogPage = async (req, res)=>{
   try{
-    // TODO check that blogId is valid
 
     let blogData = await dbRepository.getSingleBlog(req.params.blogId) ;
     if(blogData['status'] === false){throw blogData ;}
 
     res.render('blogs/single_blog.hbs', {
-      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
-      blogData : blogData['data']['0'],
+      blogData : blogData.data ,
     }) ;
   }catch (e) {
     res.send({
@@ -129,14 +127,12 @@ exports.getSingleBlogPage = async (req, res)=>{
 
 exports.getSingleBlogEditPage = async (req, res)=>{
   try{
-    // TODO check that blogId is valid
 
     let blogData = await dbRepository.getSingleBlog(req.params.blogId) ;
     if(blogData['status'] === false){throw blogData ;}
 
     res.render('blogs/single_edit_blog.hbs', {
-      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
-      blogData : blogData['data']['0'],
+      blogData : blogData.data,
     }) ;
   }catch (e) {
     res.send({

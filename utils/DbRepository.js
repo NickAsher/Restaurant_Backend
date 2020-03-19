@@ -67,9 +67,13 @@ exports.getSingleBlog = async (blogId)=>{
     let dbData = await dbConnection.execute(
         `SELECT * FROM  blogs_table WHERE blog_id =  ${blogId} `
     ) ;
+
+    if(dbData[0].length != 1){
+      throw "Blog Not Found" ;
+    }
     return {
       status : true,
-      data : dbData['0']
+      data : dbData[0][0]
     } ;
   }catch (e) {
     return {
