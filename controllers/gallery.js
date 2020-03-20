@@ -25,75 +25,6 @@ exports.getAllGalleryItemPage = async(req, res)=>{
   }
 } ;
 
-exports.getArrangeGalleryItemsPage = async(req, res)=>{
-  try{
-    let galleryData = await dbRepository.getAllGalleryItems() ;
-    if(galleryData['status'] === false){throw galleryData ;}
-
-    res.render('gallery/arrange_gallery_images.hbs', {
-      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
-      galleryData : galleryData['data'],
-    }) ;
-  }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
-    }) ;
-  }
-} ;
-
-exports.postArrangeGalleryItemsPage = async (req, res)=>{
-  try{
-    let newArray = JSON.parse(req.body.sortedArray);
-
-
-    /* Basically an array of galleryId arranged by user
-    [
-      "id6",
-      "id3",
-      "id2",
-      "id1",
-      "id5",
-      "id4",
-    ]
-    We create a case statement like this
-      UPDATE table SET sr_no = CASE
-          WHEN id = id6 THEN 0
-          WHEN id = id3 THEN 1
-          WHEN id = id2 THEN 2
-          WHEN id = id1 THEN 3
-          WHEN id = id5 THEN 4
-          WHEN id = id4 THEN 5
-        END
-     */
-
-    let sqlCaseString = "UPDATE gallery_table SET gallery_item_sr_no = CASE " ;
-    newArray.forEach((element, index)=>{
-      // element is gallery_item_id
-      sqlCaseString += ` WHEN gallery_item_id = ${element} THEN ${index} ` ;
-    }) ;
-    sqlCaseString += " END" ;
-
-    let dbData = await dbConnection.execute(sqlCaseString) ;
-    res.send({
-      status : true,
-      msg : "ORDER_CHANGED"
-    }) ;
-  }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
-    }) ;
-  }
-} ;
-
 
 exports.getAddGalleryItemPage = async (req, res)=>{
   try{
@@ -166,4 +97,77 @@ exports.postDeleteGalleryItemPage = async(req, res)=>{
     }) ;
   }
 } ;
+
+
+exports.getArrangeGalleryItemsPage = async(req, res)=>{
+  try{
+    let galleryData = await dbRepository.getAllGalleryItems() ;
+    if(galleryData['status'] === false){throw galleryData ;}
+
+    res.render('gallery/arrange_gallery_images.hbs', {
+      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
+      galleryData : galleryData['data'],
+    }) ;
+  }catch (e) {
+    res.send({
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+exports.postArrangeGalleryItemsPage = async (req, res)=>{
+  try{
+    let newArray = JSON.parse(req.body.sortedArray);
+
+
+    /* Basically an array of galleryId arranged by user
+    [
+      "id6",
+      "id3",
+      "id2",
+      "id1",
+      "id5",
+      "id4",
+    ]
+    We create a case statement like this
+      UPDATE table SET sr_no = CASE
+          WHEN id = id6 THEN 0
+          WHEN id = id3 THEN 1
+          WHEN id = id2 THEN 2
+          WHEN id = id1 THEN 3
+          WHEN id = id5 THEN 4
+          WHEN id = id4 THEN 5
+        END
+     */
+
+    let sqlCaseString = "UPDATE gallery_table SET gallery_item_sr_no = CASE " ;
+    newArray.forEach((element, index)=>{
+      // element is gallery_item_id
+      sqlCaseString += ` WHEN gallery_item_id = ${element} THEN ${index} ` ;
+    }) ;
+    sqlCaseString += " END" ;
+
+    let dbData = await dbConnection.execute(sqlCaseString) ;
+    res.send({
+      status : true,
+      msg : "ORDER_CHANGED"
+    }) ;
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+
+
 

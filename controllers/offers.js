@@ -142,7 +142,7 @@ exports.getSingleOfferSpecial = async (req, res)=>{
     let offerData = await dbRepository.getSingleOfferSpecial(offerId) ;
     if(offerData['status'] === false){throw offerData ;}
 
-    res.render('specials/single_offerspecial.hbs', {
+    res.render('specials/view_single_offerspecial.hbs', {
       IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
       offerData : offerData['data'],
     }) ;
@@ -165,7 +165,7 @@ exports.getEditOfferSpecial = async (req, res)=>{
     let offerData = await dbRepository.getSingleOfferSpecial(offerId) ;
     if(offerData['status'] === false){throw offerData ;}
 
-    res.render('specials/edit_offerspecial.hbs', {
+    res.render('specials/edit_single_offerspecial.hbs', {
       IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
       offerData : offerData['data'],
     }) ;

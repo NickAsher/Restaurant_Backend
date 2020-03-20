@@ -28,90 +28,13 @@ exports.getAllBlogsPage = async(req, res)=>{
   }) ;
 } ;
 
-exports.getAddNewBlogPage = async(req, res)=>{
+
+exports.getSingleBlogViewPage = async (req, res)=>{
   try{
-    res.render('blogs/add_new_blog.hbs', {
-      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
-    }) ;
-  }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
-    }) ;
-  }
-} ;
-
-exports.postAddNewBlogPage = async (req, res)=>{
-  try{
-    if(!req.file){
-      throw "Image is not uploaded" ;
-    }
-    let blogAuthorName = req.body.post_BlogAuthor ;
-    let blogTitle = req.body.post_BlogTitle ;
-    let blogContent = req.body.post_BlogContent ;
-    let blogImageFileName = req.myFileName ;
-
-    let dbData = await dbConnection.execute(`
-      INSERT INTO blogs_table VALUES ( '', :datetime, :author, :title, :image, :content ) `, {
-      datetime : new Date(),
-      author : blogAuthorName,
-      title: blogTitle,
-      image: req.myFileName,
-      content: blogContent
-    }) ;
-
-    res.send({
-      dbData,
-      link : "http://localhost:3002/blogs"
-    }) ;
-
-  }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
-    }) ;
-  }
-} ;
-
-exports.postDeleteBlogPage = async (req, res)=>{
-  try{
-    let blogId = req.body.post_BlogId ;
-    let imageFileName = req.body.post_ImageFileName ;
-
-    fs.unlinkSync(Constants.IMAGE_PATH + imageFileName) ;
-    let dbData = await dbConnection.execute(`DELETE FROM blogs_table WHERE blog_id = :id `, {
-      id : blogId
-    }) ;
-
-    res.send({
-      dbData,
-      link : "http://localhost:3002/blogs"
-    }) ;
-  }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
-    }) ;
-  }
-} ;
-
-
-exports.getSingleBlogPage = async (req, res)=>{
-  try{
-
     let blogData = await dbRepository.getSingleBlog(req.params.blogId) ;
     if(blogData['status'] === false){throw blogData ;}
 
-    res.render('blogs/single_blog.hbs', {
+    res.render('blogs/view_single_blog.hbs', {
       blogData : blogData.data ,
     }) ;
   }catch (e) {
@@ -125,13 +48,13 @@ exports.getSingleBlogPage = async (req, res)=>{
   }
 } ;
 
+
 exports.getSingleBlogEditPage = async (req, res)=>{
   try{
-
     let blogData = await dbRepository.getSingleBlog(req.params.blogId) ;
     if(blogData['status'] === false){throw blogData ;}
 
-    res.render('blogs/single_edit_blog.hbs', {
+    res.render('blogs/edit_single_blog.hbs', {
       blogData : blogData.data,
     }) ;
   }catch (e) {
@@ -144,6 +67,7 @@ exports.getSingleBlogEditPage = async (req, res)=>{
     }) ;
   }
 } ;
+
 
 exports.postEditBlogPage = async(req, res)=>{
   try{
@@ -194,3 +118,79 @@ exports.postEditBlogPage = async(req, res)=>{
     }) ;
   }
 } ;
+
+
+exports.getAddNewBlogPage = async(req, res)=>{
+  try{
+    res.render('blogs/add_new_blog.hbs', {
+      IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
+    }) ;
+  }catch (e) {
+    res.send({
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+exports.postAddNewBlogPage = async (req, res)=>{
+  try{
+    let blogAuthorName = req.body.post_BlogAuthor ;
+    let blogTitle = req.body.post_BlogTitle ;
+    let blogContent = req.body.post_BlogContent ;
+    let blogImageFileName = req.myFileName ;
+
+    let dbData = await dbConnection.execute(`
+      INSERT INTO blogs_table VALUES ( '', :datetime, :author, :title, :image, :content ) `, {
+      datetime : new Date(),
+      author : blogAuthorName,
+      title: blogTitle,
+      image: blogImageFileName,
+      content: blogContent
+    }) ;
+
+    res.send({
+      dbData,
+      link : "http://localhost:3002/blogs"
+    }) ;
+
+  }catch (e) {
+    res.send({
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+exports.postDeleteBlogPage = async (req, res)=>{
+  try{
+    let blogId = req.body.post_BlogId ;
+    let imageFileName = req.body.post_ImageFileName ;
+
+    fs.unlinkSync(Constants.IMAGE_PATH + imageFileName) ;
+    let dbData = await dbConnection.execute(`DELETE FROM blogs_table WHERE blog_id = :id `, {
+      id : blogId
+    }) ;
+
+    res.send({
+      dbData,
+      link : "http://localhost:3002/blogs"
+    }) ;
+  }catch (e) {
+    res.send({
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
+} ;
+
+

@@ -6,7 +6,7 @@ const Constants = require('./utils/Constants') ;
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser") ;
 const fs = require('fs') ;
-const multer = require('multer') ;
+const logger = require('./middleware/logging') ;
 
 const app = express() ;
 app.set('view engine', 'hbs') ;
@@ -26,23 +26,11 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(cookieParser()) ;
 
-let multerStorage = multer.diskStorage({
-  destination : function(req, file, cb) {
-    cb(null, './images');
-  },
-  filename: function (req, file, cb) {
-    let newFileName = Date.now() + "_" + file.originalname ;
-    req.myFileName = newFileName ; // adding the newly created filename to my request
-    cb(null , newFileName);
-  }
-}) ;
-let upload = multer({storage : multerStorage}) ;
 
-const IMAGE_PATH = path.join(__dirname, './images/') ;
 
 
 app.use((req, res, next)=>{
-  console.log(`[${req.method} ${req.originalUrl} ]`) ;
+  logger.info(`${req.method} ${req.originalUrl} `) ;
   next() ;
 }) ;
 
@@ -72,5 +60,6 @@ app.use(require('./routes/router_menu')) ;
 
 
 app.listen(3002, ()=>{
+  logger.info('Server is listening on port 3002') ;
     console.log("The server is listening on port 3002") ;
 }) ;

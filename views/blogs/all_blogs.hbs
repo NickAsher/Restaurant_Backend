@@ -57,9 +57,9 @@
 
                     {{#each blogsData}}
                     <tr>
-                        <td class='addon-link' data-href='/blogs/{{blog_id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{blog_display_image}}' class='img-fluid' width='90px' ></td>
-                        <td class='addon-link' data-href='/blogs/{{blog_id}}'>  {{blog_title}}  </td>
-                        <td class='addon-link' data-href='/blogs/{{blog_id}}'>  {{blog_creation_date}}</td>
+                        <td class='addon-link' data-href='/blogs/view/{{blog_id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{blog_display_image}}' class='img-fluid' width='90px' ></td>
+                        <td class='addon-link' data-href='/blogs/view/{{blog_id}}'>  {{blog_title}}  </td>
+                        <td class='addon-link' data-href='/blogs/view/{{blog_id}}'>  {{blog_creation_date}}</td>
                         <td>
                             <a href="/blogs/edit/{{blog_id}}">
                                 <button type='submit' class='btn btn-info' ><span><i class='fa fa-edit'></i></span> Edit Blog</button>
