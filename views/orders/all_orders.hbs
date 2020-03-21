@@ -3,6 +3,7 @@
     <title>HomeFlavor | Orders</title>
     <meta charset="utf-8">
     <meta http-equiv="refresh" content="30">
+    <meta name="csrf-token" content="{{_csrfToken}}">
 
 
     <!-- CSS Plugins -->
@@ -189,12 +190,15 @@
        *    show the buttons needed and hide other buttons
        *
        *    (extra cosmetic change)add a class to change the color of table heading
+       *
+       *  Note that this function is also called whenever we click on a tab
+       *  because it is basically assigning click handlers
        */
         $('#navTab_NewOrders').click(function () {
-            $('tr').hide() ;
-            $('#tr_heading, tr[data-order-status=PENDING]').show() ;
-            $('.order-action-complete').hide() ;
-            $('.order-action-accept, .order-action-cancel').show() ;
+            $('tr').hide() ; //hide all the rows
+            $('#tr_heading, tr[data-order-status=PENDING]').show() ; // show only rows with status pending
+            $('.order-action-complete').hide() ; // hide the complete order button
+            $('.order-action-accept, .order-action-cancel').show() ; //show the accept and cancel order button
             $('#tr_heading').removeClass('table-warning table-success table-danger').addClass('table-info') ;
         }) ;
         $('#navTab_WorkingOrders').click(function () {
@@ -217,7 +221,7 @@
             $('#tr_heading').removeClass('table-info table-warning  table-success').addClass('table-danger') ;
         }) ;
 
-        showOrderCounts() ; //shows the order counts
+        showOrderCounts() ; //shows the order counts as a pill in the tab
         clickActiveTab() // clicks on the current active tab
     }
     setupOrderTabs() ;
@@ -259,6 +263,15 @@
 
 
     $('.order-btn').click(function () {
+        /* This function is called whenever we click on any order button i.e. accept, complete or cancel an order
+         * It sends a POST request to /order/operation with two pieces of information
+         *   The order Id
+         *   The operation i.e. accept / complete / cancel
+         *
+         * The POST request simply changes the order status and simply sends back true or false.
+         * It does NOT send the whole data again
+         * So we
+         */
         let thisOrderButton = $(this) ;
         let orderId = $(this).attr('data-order-id') ;
         let operation = $(this).attr('data-operation') ;
@@ -268,20 +281,23 @@
             method : 'POST',
             headers : {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'CSRF-Token': $("meta[name='csrf-token']").attr("content")
             },
             body : JSON.stringify({
                id : orderId,
                operation : operation
+
             }),
         })
         .then((response)=>response.json())
         .then((data)=>{
+            // $("meta[name='csrf-token']").attr("content", data._csrf) ;
             if(data.status == true){
                 console.log(data) ;
-                // TODO success in changing the order status
                 switch (operation){
                     case "accept" :
+                        // change order status to PREPARING ( order goes from new order to working orders)
                         thisOrderButton.parent().parent().attr('data-order-status', "PREPARING") ;
                         console.log(`Order: ${orderId} has been accepted, Added to working orders`) ;
                         makeToast("info", `Order: ${orderId} has been accepted <br> Added to working orders`) ;
@@ -298,7 +314,7 @@
                         break;
                 }
                 showOrderCounts() ;
-                clickActiveTab() ;
+                clickActiveTab() ; // reformats the data of the page
             }else{
                 console.log(data) ;
                 throw data.e ;
