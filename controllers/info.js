@@ -131,7 +131,7 @@ exports.postContactEditPage = async (req, res)=>{
     let socialMediaLinks = JSON.stringify({
       facebook : req.body.linkFacebook,
       instagram : req.body.linkInstagram,
-      twitter : req.body.linkInstagram,
+      twitter : req.body.linkTwitter,
       youtube : req.body.linkYoutube
     }) ;
 

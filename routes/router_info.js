@@ -1,43 +1,37 @@
 const express = require('express') ;
 const controllerInfo = require('../controllers/info') ;
 const {body, validationResult} = require('express-validator') ;
-const multer = require('multer') ;
+const validationMiddleware = require('../middleware/validation') ;
 
 const router = express.Router() ;
-
-let multerStorage = multer.diskStorage({
-  destination : function(req, file, cb) {
-    cb(null, './images');
-  },
-  filename: function (req, file, cb) {
-    let newFileName = Date.now() + "_" + file.originalname ;
-    req.myFileName = newFileName ; // adding the newly created filename to my request
-    cb(null , newFileName);
-  }
-}) ;
-let upload = multer({storage : multerStorage}) ;
-
-
-const showValidationError = (req, res, next)=>{
-  const errors = validationResult(req) ;
-
-  if (!errors.isEmpty()) {
-    return res.status(422).send({
-      status:false,
-      error : errors.array()
-    });
-  } else {
-    next() ;
-  }
-} ;
+const showValidationError = validationMiddleware.showValidationError ;
 
 
 router.get('/about', controllerInfo.getAboutPage) ;
+
 router.get('/about/edit', controllerInfo.getAboutEditPage) ;
-router.post('/about/edit/save', controllerInfo.postAboutEditPage) ;
+
+router.post('/about/edit/save', [
+    body('post_aboutUsData', "Invalid AboutUs data").exists().notEmpty()
+], showValidationError, controllerInfo.postAboutEditPage) ;
+
 router.get('/contact', controllerInfo.getContactPage) ;
 router.get('/contact/edit', controllerInfo.getContactEditPage) ;
-router.post('/contact/edit/save', controllerInfo.postContactEditPage) ;
+
+router.post('/contact/edit/save', [
+  body('post_name', 'Invalid Restaurant Name').exists().notEmpty().trim(),
+  body('post_addr1', 'Invalid Address Line 1').exists().notEmpty().trim(),
+  body('post_addr2', 'Invalid Address Line 2').exists().notEmpty().trim(),
+  body('post_addr3', 'Invalid Address Line 3').exists().notEmpty().trim(),
+  body('post_phone', 'Invalid Phone Number').exists().notEmpty().isNumeric().trim().escape(),
+  body('post_email', 'Invalid Email Address').exists().notEmpty().isEmail().trim().escape(),
+  body('post_latitude', 'Invalid Latitude').exists().notEmpty().trim().escape(),
+  body('post_longitude', 'Invalid Longitude').exists().notEmpty().trim().escape(),
+  body('linkFacebook', 'Invalid Facebook Link').exists().notEmpty().isURL().trim(),
+  body('linkInstagram', 'Invalid Instagram Link').exists().notEmpty().isURL().trim(),
+  body('linkTwitter', 'Invalid Twitter Link').exists().notEmpty().isURL().trim(),
+  body('linkYoutube', 'Invalid Youtube Link').exists().notEmpty().isURL().trim(),
+],  showValidationError, controllerInfo.postContactEditPage) ;
 
 
 module.exports = router ;

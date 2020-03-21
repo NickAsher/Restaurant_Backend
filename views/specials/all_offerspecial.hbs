@@ -62,14 +62,14 @@
 
                     {{#each offerData}}
                     <tr>
-                        <td class='addon-link-link' data-href='/specials/{{id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{image}}' class='img-fluid' width='90px' ></td>
-                        <td class='addon-link' data-href='/specials/{{id}}'>  {{title}}  </td>
-                        <td class='addon-link' data-href='/specials/{{id}}'>  {{message}}</td>
-                        <td class='addon-link' data-href='/specials/{{id}}'>  {{creation_datetime}}</td>
+                        <td class='addon-link-link' data-href='/specials/view/{{id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{image}}' class='img-fluid' width='90px' ></td>
+                        <td class='addon-link' data-href='/specials/view/{{id}}'>  {{title}}  </td>
+                        <td class='addon-link' data-href='/specials/view/{{id}}'>  {{message}}</td>
+                        <td class='addon-link' data-href='/specials/view/{{id}}'>  {{creation_datetime}}</td>
 
                         <td>
                             <div style='display: inline-block'>
-                                <a href="/specials/{{id}}/edit">
+                                <a href="/specials/edit/{{id}}">
                                     <button type='submit' class='btn btn-info' ><span><i class='fa fa-edit'></i></span> Edit Offer </button>
                                 </a>
                             </div>
@@ -110,7 +110,7 @@
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                <form class="text-center" method='post' action='/specials/delete' enctype="multipart/form-data">
+                                <form class="text-center" method='post' action='/specials/delete'>
                                     <input id="input_OfferId" type='hidden' name='post_OfferId'>
                                     <input id="input_OfferImageName" type='hidden' name='post_ImageFileName'>
                                     <input type="hidden" name="_csrf" value="some csrf token here">
@@ -141,8 +141,9 @@
 </body>
 <script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
 <script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
-<script type="text/javascript" src="/js/my_personal.js"></script>
 <script type="text/javascript" src="/lib/t3/t3.js"></script>
+<script type="text/javascript" src="/js/my_personal.js"></script>
+
 
 <script>
     $('#modal_Delete').on('show.bs.modal', function (event) {
