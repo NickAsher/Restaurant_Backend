@@ -107,7 +107,7 @@
         fetch('/specials/arrange', {
             method: 'POST',
             body: new URLSearchParams({
-                _csrf : "some csrf string here",
+                _csrf : "{{_csrfToken}}",
                 sortedArray : JSON.stringify(sortedArray)
             })
         })

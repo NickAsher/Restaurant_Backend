@@ -5,6 +5,9 @@ const dbConnection = require('./utils/database') ;
 const Constants = require('./utils/Constants') ;
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser") ;
+const session = require('express-session') ;
+
+const csrf = require('csurf') ;
 const fs = require('fs') ;
 const logger = require('./middleware/logging') ;
 
@@ -25,17 +28,34 @@ app.use(express.static("public"));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(cookieParser()) ;
-
+app.use(session({
+  keys : ['a','b'],
+  secret : "this is my secret", //key use to sign session data(only sign, not encrypt)
+  resave : false, // don't resave session if it isn't changed
+  saveUninitialized : false, //don't save an empty session
+  name : 'my_session_id_backend', //name for the cookie that stores session id
+  cookie : {
+    maxAge: 1000 * 60 * 60 * 2,
+    sameSite :true,
+    secret : "something",
+    secure :false // use it when using https
+  }
+})) ;
 
 
 
 app.use((req, res, next)=>{
-  logger.info(`${req.method} ${req.originalUrl} `) ;
+  logger.info(`{'method' : '${req.method}','url':'${req.originalUrl}'}`) ;
   next() ;
 }) ;
 
+app.use(csrf()) ;
+
+
 app.use((req, res, next)=>{
   res.locals.IMAGE_BACKENDFRONT_LINK_PATH = Constants.IMAGE_BACKENDFRONT_LINK_PATH ;
+  res.locals._csrfToken = req.csrfToken() ; // this method will create a new csrf token
+
   // res.locals.signedIn = req.session.isLoggedIn ;
   next() ;
 }) ;

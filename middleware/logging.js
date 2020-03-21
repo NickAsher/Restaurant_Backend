@@ -29,6 +29,7 @@ if (process.env.NODE_ENV !== 'production') {
       }),
       winston.format.simple(),
     ),
+    level:'silly'
   }));
 }
 

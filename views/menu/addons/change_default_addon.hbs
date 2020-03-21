@@ -99,7 +99,7 @@
         fetch('/menu/addons/change-default/save', {
             method: 'POST',
             body: new URLSearchParams({
-                _csrf : "some csrf string here",
+                _csrf : "{{_csrfToken}}",
                 defaultItemId,
                 addonGroupId : '{{addonGroupData.rel_id}}'
             })

@@ -99,7 +99,7 @@
         fetch('/menu/size/change-default/save', {
             method: 'POST',
             body: new URLSearchParams({
-                _csrf : "some csrf string here",
+                _csrf : "{{_csrfToken}}",
                 defaultSizeId,
                 categoryId : '{{categoryData.category_id}}'
             })

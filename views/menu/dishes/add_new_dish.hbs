@@ -43,7 +43,7 @@
                     <div class="push-md-1 col-md-10" >
                         <div class="card">
                             <div class="card-block">
-                                <form action="/menu/dishes/add/save" method="post" enctype="multipart/form-data" >
+                                <form action="/menu/dishes/add/save?_csrf={{_csrfToken}}" method="post" enctype="multipart/form-data" >
 
                                     <input name="categoryId" type="hidden" value="{{categoryData.category_id}}">
                                     <br>

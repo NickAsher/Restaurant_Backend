@@ -166,7 +166,7 @@ exports.postAddCategoryPage = async (req, res)=>{
     }) ;
   }
 } ;
-
+//TODO delete the images of all the menu items also
 exports.postDeleteCategoryPage = async (req, res)=>{
   try{
     let categoryId = req.body.categoryId ;
@@ -1206,30 +1206,34 @@ exports.postAddSizePage = async(req, res)=>{
 
     let sizeInsertId = dbData[0].insertId ;
 
+
     //need to insert entries for size in menu_meta_rel_size_items_table and menu_meta_rel_size_addons_table
-    let sqlInsertDishesString = `INSERT INTO menu_meta_rel_size_items_table
+    if(addonsList.length > 0){
+      let sqlInsertDishesString = `INSERT INTO menu_meta_rel_size_items_table
      (item_id, item_price, item_size_active, size_id, item_category_id) VALUES ` ;
-    addonsList.forEach((dish)=>{
-      sqlInsertDishesString += `('${dish.item_id}', '0', '0', '${sizeInsertId}', '${categoryId}'), ` ;
-    }) ;
-    sqlInsertDishesString = sqlInsertDishesString.slice(0,-2) ;
+      addonsList.forEach((dish)=>{
+        sqlInsertDishesString += `('${dish.item_id}', '0', '0', '${sizeInsertId}', '${categoryId}'), ` ;
+      }) ;
+      sqlInsertDishesString = sqlInsertDishesString.slice(0,-2) ;
+      let dbInsertDishesData = await explicitConnection.execute(sqlInsertDishesString) ;
+
+    }
 
 
-    let sqlInsertAddonsString = `INSERT INTO menu_meta_rel_size_addons_table
+    if(dishList.length > 0){
+      let sqlInsertAddonsString = `INSERT INTO menu_meta_rel_size_addons_table
      (addon_id, addon_price, addon_size_active, size_id, category_id) VALUES ` ;
-    dishList.forEach((addon)=>{
-      sqlInsertAddonsString += `('${addon.item_id}', '0', '0', '${sizeInsertId}', '${categoryId}'), ` ;
-    }) ;
-    sqlInsertAddonsString = sqlInsertAddonsString.slice(0,-2) ;
+      dishList.forEach((addon)=>{
+        sqlInsertAddonsString += `('${addon.item_id}', '0', '0', '${sizeInsertId}', '${categoryId}'), ` ;
+      }) ;
+      sqlInsertAddonsString = sqlInsertAddonsString.slice(0,-2) ;
+      let dbInsertAddonsData = await explicitConnection.execute(sqlInsertAddonsString) ;
+    }
 
-
-    let dbInsertDishesData = await explicitConnection.execute(sqlInsertDishesString) ;
-    let dbInsertAddonsData = await explicitConnection.execute(sqlInsertAddonsString) ;
     await explicitConnection.commit() ;
     res.send({
+      status : true,
       dbData,
-      dbInsertDishesData,
-      dbInsertAddonsData,
       link : `http://localhost:3002/menu/size/${categoryId}`
     }) ;
 

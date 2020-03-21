@@ -148,7 +148,7 @@
                                 <form class="text-center" method='post' action='/menu/category/delete'>
                                     <input id="input-category-id" type='hidden' name='categoryId'>
                                     <input id="input-category-imageFileName" type='hidden' name='categoryImageFileName'>
-                                    <input type="hidden" name="_csrf" value="some csrf token here">
+                                    <input type="hidden" name="_csrf" value="{{_csrfToken}}">
                                     <input type='submit' class='btn btn-danger ' value='Yes'>
                                 </form>
                             </div>

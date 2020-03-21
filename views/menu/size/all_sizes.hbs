@@ -137,7 +137,7 @@
                                 <form class="text-center" method='post' action='/menu/size/delete' >
                                     <input id="input-sizeId" type='hidden' name='sizeId'>
                                     <input id="input-categoryId" type='hidden' name="categoryId" value='{{categoryData.category_id}}'>
-                                    <input type="hidden" name="_csrf" value="some csrf token here">
+                                    <input type="hidden" name="_csrf" value="{{_csrfToken}}">
                                     <input type='submit' class='btn btn-danger' value='Yes'>
                                 </form>
                             </div>

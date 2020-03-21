@@ -86,10 +86,10 @@
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                <form class="text-center" method='post' action='/gallery/delete' enctype="multipart/form-data">
+                                <form class="text-center" method='post' action='/gallery/delete'>
                                     <input id="input_GalleryItemId" type='hidden' name='post_GalleryItemId'>
                                     <input id="input_GalleryItemName" type='hidden' name='post_GalleryItemName'>
-                                    <input type="hidden" name="_csrf" value="some csrf token here">
+                                    <input type="hidden" name="_csrf" value="{{_csrfToken}}">
                                     <input type='submit' class='btn btn-danger ' value='Yes'>
                                 </form>
                             </div>

@@ -11,6 +11,7 @@ const showValidationError = validationMiddleware.showValidationError ;
 const checkFileIsUploaded = validationMiddleware.checkFileIsUploaded ;
 
 
+
 router.get('/blogs', controllerBlogs.getAllBlogsPage) ;
 
 router.get('/blogs/view/:blogId', [
