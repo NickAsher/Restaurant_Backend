@@ -73,7 +73,7 @@
                                     <div class="form-group row">
                                         <label for="input-item-active" class="col-3 col-form-label">Item Active</label>
                                         <div class="col-md-9">
-                                            <input id="input-item-isActive-hidden" name="isItemActive" class="form-control" type="hidden" value="true" >
+                                            <input id="input-item-isActive-hidden" name="isItemActive" class="form-control" type="hidden" value="1" >
                                             <input id="input-item-isActive-presentation" type="checkbox" class="form-control"  checked="checked"  data-toggle="toggle" data-width="100" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
                                         </div>
                                     </div>
@@ -145,18 +145,6 @@
 
     handleBrowseButton_Preview("btn-file-choose","hidden-file-chooser", "preview-image") ;
 
-
-    function setupCheckboxToggleButton(PresentationToggleInputId, HiddenInputId){
-
-        $('#' + PresentationToggleInputId).on('change', function() {
-            if(this.checked){
-                $('#' + HiddenInputId).val('true') ;
-            } else {
-                // this is necessary if user checked it and then unchecked it.
-                $('#' + HiddenInputId).val('false') ;
-            }
-        });
-    }
     setupCheckboxToggleButton('input-item-isActive-presentation', 'input-item-isActive-hidden') ;
     {{#each sizeData}}
         setupCheckboxToggleButton('input-itemSize-isActive-presentation-{{size_id}}', 'input-itemSize-isActive-hidden-{{size_id}}' ) ;

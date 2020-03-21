@@ -72,7 +72,7 @@ exports.getEditCategoryPage = async (req, res)=>{
 exports.postEditCategoryPage = async (req,res)=>{
   try{
     let categoryId = req.body.categoryId ;
-    let categoryIsActive = req.body.isCategoryActive == 'true' ? 1 : 0 ; //converting from string to boolean
+    let categoryIsActive = req.body.isCategoryActive ; //converting from string to boolean
     let categoryName = req.body.categoryName ;
     let dbData ;
     if(!req.file){
@@ -391,7 +391,7 @@ exports.postEditDishPage = async (req, res)=>{
     let itemId = req.body.itemId ;
     let itemName = req.body.itemName ;
     let itemDescription = req.body.itemDescription ;
-    let itemIsActive = req.body.isItemActive == 'true' ? 1 : 0 ;
+    let itemIsActive = req.body.isItemActive  ;
 
     let explicitConnection = await dbConnection.getConnection() ;
     await explicitConnection.beginTransaction() ;
@@ -519,7 +519,7 @@ exports.postAddDishPage = async (req, res)=>{
   try{
     let itemName = req.body.itemName ;
     let itemDescription = req.body.itemDescription ;
-    let isItemActive = req.body.isItemActive == 'true' ? 1 : 0 ;
+    let isItemActive = req.body.isItemActive  ;
     let categoryId = req.body.categoryId ;
 
 

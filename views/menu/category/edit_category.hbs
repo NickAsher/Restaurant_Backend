@@ -116,25 +116,13 @@
 <script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
 <script type="text/javascript" src="/lib/bootstrap-toggle/bootstrap-toggle.js" ></script>
 
-<script type="text/javascript" src="/js/my_personal.js"></script>
 <script type="text/javascript" src="/lib/t3/t3.js"></script>
+<script type="text/javascript" src="/js/my_personal.js"></script>
 
 <script>
 
     handleBrowseButton_Preview("btn-file-choose","hidden-file-chooser", "preview-image") ;
 
-
-    function setupCheckboxToggleButton(PresentationToggleInputId, HiddenInputId){
-        // actually sets the input value to true or false based on presentation checkbox
-        $('#' + PresentationToggleInputId).on('change', function() {
-            if(this.checked){
-                $('#' + HiddenInputId).val('true') ;
-            } else {
-                // this is necessary if user checked it and then unchecked it.
-                $('#' + HiddenInputId).val('false') ;
-            }
-        });
-    }
     setupCheckboxToggleButton('input-category-isActive-presentation', 'input-category-isActive-hidden') ;
 
 </script>

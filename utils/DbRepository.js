@@ -287,13 +287,10 @@ exports.getAllMenuCategories = async ()=>{
     let dbData = await dbConnection.execute(
         "SELECT * FROM `menu_meta_category_table` ORDER BY `category_sr_no` ASC"
     ) ;
-    let categoryData = dbData['0'] ;
-    categoryData.map(row=>{
-      row.category_is_active = row.category_is_active == 1 ? true : false ;
-    }) ;
+
     return {
       status : true,
-      data : categoryData,
+      data : dbData[0],
     } ;
 
   }catch (e) {
@@ -758,11 +755,12 @@ exports.getSingleMenuItem = async (itemId)=>{
         AND menu_meta_category_table.category_id = menu_items_table.item_category_id `
     ) ;
 
-    let itemData = dbData['0']['0'] ;
-    itemData.item_is_active = itemData.item_is_active == '1' ? true : false ;
+    if(dbData[0].length != 1){
+      throw "Menu Item not found" ;
+    }
     return {
       status : true,
-      data : itemData,
+      data : dbData[0][0],
     } ;
 
   }catch (e) {

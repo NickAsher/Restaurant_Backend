@@ -1,91 +1,345 @@
 const express = require('express') ;
 const controllerMenu = require('../controllers/menu') ;
-const {body, validationResult} = require('express-validator') ;
-const multer = require('multer') ;
+const {body, param, validationResult} = require('express-validator') ;
+const validationMiddleware = require('../middleware/validation') ;
 
 const router = express.Router() ;
 
-let multerStorage = multer.diskStorage({
-  destination : function(req, file, cb) {
-    cb(null, './images');
-  },
-  filename: function (req, file, cb) {
-    let newFileName = Date.now() + "_" + file.originalname ;
-    req.myFileName = newFileName ; // adding the newly created filename to my request
-    cb(null , newFileName);
-  }
-}) ;
-let upload = multer({storage : multerStorage}) ;
-
-
-const showValidationError = (req, res, next)=>{
-  const errors = validationResult(req) ;
-
-  if (!errors.isEmpty()) {
-    return res.status(422).send({
-      status:false,
-      error : errors.array()
-    });
-  } else {
-    next() ;
-  }
-} ;
+const upload = validationMiddleware.upload ;
+const checkFileMagicNumber = validationMiddleware.checkFileMagicNumber ;
+const showValidationError = validationMiddleware.showValidationError ;
+const checkFileIsUploaded = validationMiddleware.checkFileIsUploaded ;
 
 
 router.get('/menu/category', controllerMenu.getAllCategoryPage) ;
-router.get('/menu/category/view/:categoryId', controllerMenu.getViewCategoryPage) ;
-router.get('/menu/category/edit/:categoryId', controllerMenu.getEditCategoryPage) ;
-router.post('/menu/category/edit/save', upload.single('post_Image'), controllerMenu.postEditCategoryPage) ;
+
+router.get('/menu/category/view/:categoryId', [
+  param('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.getViewCategoryPage) ;
+
+router.get('/menu/category/edit/:categoryId', [
+  param('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.getEditCategoryPage) ;
+
+router.post('/menu/category/edit/save', upload.single('post_Image'), checkFileMagicNumber, [
+  body('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols:true}).trim().escape(),
+  body('isCategoryActive', "Invalid boolean isCategoryActive Name").exists().notEmpty().isBoolean(),
+  body('categoryName', "Invalid Category Name").exists().notEmpty().trim().escape(),
+], showValidationError, controllerMenu.postEditCategoryPage) ;
+
 router.get('/menu/category/add', controllerMenu.getAddCategoryPage) ;
-router.post('/menu/category/add/save', upload.single('post_Image'), controllerMenu.postAddCategoryPage) ;
-router.post('/menu/category/delete', controllerMenu.postDeleteCategoryPage) ;
+
+router.post('/menu/category/add/save', upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber, [
+  body('isCategoryActive', "Invalid boolean isCategoryActive Name").exists().notEmpty().isBoolean(),
+  body('categoryName', "Invalid Category Name").exists().notEmpty().trim().escape(),
+], showValidationError, controllerMenu.postAddCategoryPage) ;
+
+router.post('/menu/category/delete', [
+  body('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols:true}).trim().escape(),
+  body('categoryImageFileName', "Invalid Category Image Name").exists().notEmpty().trim(),
+], showValidationError, controllerMenu.postDeleteCategoryPage) ;
+
 router.post('/menu/category/arrange', controllerMenu.postArrangeCategoryPage) ;
-router.get('/menu/category/arrange', controllerMenu.getArrangeCategoryPage) ;
+
+router.get('/menu/category/arrange', [
+  body('sortedArray', "Invalid array of Id's").exists().notEmpty().custom((value, {req})=>{
+    // we have to return a boolean in this function
+    let sortedArray = JSON.parse(value) ;
+    if(!Array.isArray(sortedArray)){
+      return false ;
+    }
+    for(let i=0;i<sortedArray.length;i++){
+      /* check that each element is a valid integer id ;
+       * if it is not, return false, else go on.
+       * we are not using a foreach loop because if we return something inside foreach loop,
+       * it is only returned inside that iteration
+       */
+      if(/^\+?\d+$/.test(sortedArray[i]) === false){
+        return false ;
+      }
+    }
+
+    return true ;
+  })
+], showValidationError, controllerMenu.getArrangeCategoryPage) ;
+
+/********************************************************************************************/
+/******************************************** Menu Dishes ***********************************/
+/********************************************************************************************/
 
 router.get('/menu/dishes', controllerMenu.getAllDishesPage) ;
-router.get('/menu/dishes/view/:menuItemId', controllerMenu.getViewDishPage) ;
-router.get('/menu/dishes/edit/:menuItemId', controllerMenu.getEditDishPage) ;
-router.post('/menu/dishes/edit/save', upload.single('post_Image'), controllerMenu.postEditDishPage) ;
-router.get('/menu/dishes/add/:categoryId', controllerMenu.getAddDishPage) ;
-router.post('/menu/dishes/add/save', upload.single('post_Image'), controllerMenu.postAddDishPage) ;
-router.post('/menu/dishes/delete', upload.none(), controllerMenu.postDeleteDishPage ) ;
-router.get('/menu/dishes/arrange/:categoryId', controllerMenu.getArrangeDishesPage) ;
-router.post('/menu/dishes/arrange/', upload.none(), controllerMenu.postArrangeDishesPage) ;
 
+router.get('/menu/dishes/view/:menuItemId', [
+  param('menuItemId', "Invalid MenuItemId").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.getViewDishPage) ;
+
+router.get('/menu/dishes/edit/:menuItemId', [
+  param('menuItemId', "Invalid MenuItemId").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.getEditDishPage) ;
+
+//TODO validate the size price
+router.post('/menu/dishes/edit/save', upload.single('post_Image'), checkFileMagicNumber, [
+  body('itemId', "Invalid MenuItemId").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('isItemActive', "Invalid boolean isItemActive ").exists().notEmpty().isBoolean(),
+  body('itemName', "Invalid DishItem Name").exists().notEmpty().trim().escape(),
+  body('itemDescription', "Invalid DishItem Description").exists().notEmpty().trim().escape(),
+], showValidationError, controllerMenu.postEditDishPage) ;
+
+router.get('/menu/dishes/add/:categoryId', [
+  param('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.getAddDishPage) ;
+
+//TODO validate the size price
+router.post('/menu/dishes/add/save', upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber, [
+  body('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('isItemActive', "Invalid boolean isItemActive ").exists().notEmpty().isBoolean(),
+  body('itemName', "Invalid DishItem Name").exists().notEmpty().trim().escape(),
+  body('itemDescription', "Invalid DishItem Description").exists().notEmpty().trim().escape(),
+], showValidationError,  controllerMenu.postAddDishPage) ;
+
+router.post('/menu/dishes/delete', [
+  body('itemId', "Invalid MenuItemId").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('itemImageName', 'Invalid Image File Name').exists().notEmpty().trim(),
+], showValidationError, controllerMenu.postDeleteDishPage ) ;
+
+router.get('/menu/dishes/arrange/:categoryId', [
+  param('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.getArrangeDishesPage) ;
+
+router.post('/menu/dishes/arrange/save', [
+  body('sortedArray', "Invalid array of Id's").exists().notEmpty().custom((value, {req})=>{
+    // we have to return a boolean in this function
+    let sortedArray = JSON.parse(value) ;
+    if(!Array.isArray(sortedArray)){
+      return false ;
+    }
+    for(let i=0;i<sortedArray.length;i++){
+      /* check that each element is a valid integer id ;
+       * if it is not, return false, else go on.
+       * we are not using a foreach loop because if we return something inside foreach loop,
+       * it is only returned inside that iteration
+       */
+      if(/^\+?\d+$/.test(sortedArray[i]) === false){
+        return false ;
+      }
+    }
+
+    return true ;
+  })
+], showValidationError, controllerMenu.postArrangeDishesPage) ;
+
+
+/********************************************************************************************/
+/******************************************** Addons ***********************************/
+/********************************************************************************************/
 
 router.get('/menu/addons', controllerMenu.getAllAddonItemsPage) ;
-router.get('/menu/addons/view/:addonItemId', controllerMenu.getViewAddonPage) ;
-router.get('/menu/addons/edit/:addonItemId', controllerMenu.getEditAddonPage) ;
-router.post('/menu/addons/edit/save', upload.none(), controllerMenu.postEditAddonPage) ;
-router.get('/menu/addons/add/:categoryId/:addonGroupId', controllerMenu.getAddAddonPage) ;
-router.post('/menu/addons/add/save', upload.none(), controllerMenu.postAddAddonPage) ;
-router.post('/menu/addons/delete', upload.none(), controllerMenu.postDeleteAddonPage ) ;
-router.get('/menu/addons/arrange/:addonGroupId', controllerMenu.getArrangeAddonsPage) ;
-router.post('/menu/addons/arrange/', upload.none(), controllerMenu.postArrangeAddonsPage) ;
-router.get('/menu/addons/change-default/:addonGroupId', controllerMenu.getChangeDefaultAddonPage) ;
-router.post('/menu/addons/change-default/save', upload.none(), controllerMenu.postChangeDefaultAddonPage) ;
+
+router.get('/menu/addons/view/:addonItemId', [
+  param('addonItemId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.getViewAddonPage) ;
+
+router.get('/menu/addons/edit/:addonItemId', [
+  param('addonItemId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.getEditAddonPage) ;
+
+//TODO validate the size price data
+router.post('/menu/addons/edit/save', [
+  body('itemId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('itemName').exists().notEmpty().trim().escape(),
+  body('isItemActive').exists().notEmpty().isBoolean(),
+
+], showValidationError, controllerMenu.postEditAddonPage) ;
+
+router.get('/menu/addons/add/:categoryId/:addonGroupId', [
+  param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  param('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.getAddAddonPage) ;
+
+//TODO validate the size price data
+router.post('/menu/addons/add/save', [
+  body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('itemName').exists().notEmpty().trim().escape(),
+  body('isItemActive').exists().notEmpty().isBoolean(),
+], showValidationError, controllerMenu.postAddAddonPage) ;
+
+router.post('/menu/addons/delete',  [
+  body('itemId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.postDeleteAddonPage ) ;
+
+router.get('/menu/addons/arrange/:addonGroupId', [
+  param('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.getArrangeAddonsPage) ;
+
+router.post('/menu/addons/arrange/', [
+  body('sortedArray', "Invalid array of Id's").exists().notEmpty().custom((value, {req})=>{
+    // we have to return a boolean in this function
+    let sortedArray = JSON.parse(value) ;
+    if(!Array.isArray(sortedArray)){
+      return false ;
+    }
+    for(let i=0;i<sortedArray.length;i++){
+      /* check that each element is a valid integer id ;
+       * if it is not, return false, else go on.
+       * we are not using a foreach loop because if we return something inside foreach loop,
+       * it is only returned inside that iteration
+       */
+      if(/^\+?\d+$/.test(sortedArray[i]) === false){
+        return false ;
+      }
+    }
+
+    return true ;
+  })
+], showValidationError, controllerMenu.postArrangeAddonsPage) ;
+
+router.get('/menu/addons/change-default/:addonGroupId', [
+  param('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.getChangeDefaultAddonPage) ;
+
+router.post('/menu/addons/change-default/save',  [
+  body('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('defaultItemId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.postChangeDefaultAddonPage) ;
 
 
-router.get('/menu/size/:categoryId', controllerMenu.getAllSizesPage) ;
-router.get('/menu/size/edit/:sizeId', controllerMenu.getEditSizePage) ;
-router.post('/menu/size/edit/save', controllerMenu.postEditSizePage) ;
-router.get('/menu/size/add/:categoryId', controllerMenu.getAddSizePage) ;
-router.post('/menu/size/add/save', controllerMenu.postAddSizePage) ;
-router.post('/menu/size/delete', controllerMenu.postDeleteSizePage);
-router.get('/menu/size/arrange/:categoryId', controllerMenu.getArrangeSizesPage) ;
-router.post('/menu/size/arrange/save', controllerMenu.postArrangeSizesPage) ;
-router.get('/menu/size/change-default/:categoryId', controllerMenu.getChangeDefaultSizePage) ;
-router.post('/menu/size/change-default/save', controllerMenu.postChangeDefaultSizePage) ;
+/********************************************************************************************/
+/******************************************** Size ***********************************/
+/********************************************************************************************/
 
 
-router.get('/menu/addonGroup/:categoryId', controllerMenu.getAllAddonGroupsPage) ;
-router.get('/menu/addonGroup/edit/:addonGroupId', controllerMenu.getEditAddonGroupPage) ;
-router.post('/menu/addonGroup/edit/save', controllerMenu.postEditAddonGroupPage) ;
-router.get('/menu/addonGroup/add/:categoryId', controllerMenu.getAddAddonGroupPage) ;
-router.post('/menu/addonGroup/add/save', controllerMenu.postAddAddonGroupPage) ;
-router.post('/menu/addonGroup/delete', controllerMenu.postDeleteAddonGroupPage);
-router.get('/menu/addonGroup/arrange/:categoryId', controllerMenu.getArrangeAddonGroupPage) ;
-router.post('/menu/addonGroup/arrange/save', controllerMenu.postArrangeAddonGroupPage) ;
+router.get('/menu/size/:categoryId', [
+  param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.getAllSizesPage) ;
+
+router.get('/menu/size/edit/:sizeId', [
+  param('sizeId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError,  controllerMenu.getEditSizePage) ;
+
+router.post('/menu/size/edit/save', [
+  body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('sizeId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('sizeName').exists().notEmpty().trim().escape(),
+  body('isSizeActive').exists().notEmpty().isBoolean(),
+  body('sizeNameAbbreviated').exists().notEmpty().trim().escape(),
+], showValidationError,  controllerMenu.postEditSizePage) ;
+
+router.get('/menu/size/add/:categoryId', [
+  param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError,  controllerMenu.getAddSizePage) ;
+
+router.post('/menu/size/add/save', [
+  body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('sizeName').exists().notEmpty().trim().escape(),
+  body('isSizeActive').exists().notEmpty().isBoolean(),
+  body('sizeNameAbbreviated').exists().notEmpty().trim().escape(),
+], showValidationError,  controllerMenu.postAddSizePage) ;
+
+router.post('/menu/size/delete', [
+  body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('sizeId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError,  controllerMenu.postDeleteSizePage);
+
+router.get('/menu/size/arrange/:categoryId', [
+  param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError,  controllerMenu.getArrangeSizesPage) ;
+
+router.post('/menu/size/arrange/save', [
+  body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('sortedArray', "Invalid array of Id's").exists().notEmpty().custom((value, {req})=>{
+    // we have to return a boolean in this function
+    let sortedArray = JSON.parse(value) ;
+    if(!Array.isArray(sortedArray)){
+      return false ;
+    }
+    for(let i=0;i<sortedArray.length;i++){
+      /* check that each element is a valid integer id ;
+       * if it is not, return false, else go on.
+       * we are not using a foreach loop because if we return something inside foreach loop,
+       * it is only returned inside that iteration
+       */
+      if(/^\+?\d+$/.test(sortedArray[i]) === false){
+        return false ;
+      }
+    }
+
+    return true ;
+  })
+], showValidationError,  controllerMenu.postArrangeSizesPage) ;
+
+router.get('/menu/size/change-default/:categoryId', [
+  param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError,  controllerMenu.getChangeDefaultSizePage) ;
+
+router.post('/menu/size/change-default/save', [
+  body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('defaultSizeId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError,  controllerMenu.postChangeDefaultSizePage) ;
+
+/********************************************************************************************/
+/******************************************** Addon-Group ***********************************/
+/********************************************************************************************/
+
+router.get('/menu/addonGroup/:categoryId', [
+  param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.getAllAddonGroupsPage) ;
+
+router.get('/menu/addonGroup/edit/:addonGroupId', [
+  param('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.getEditAddonGroupPage) ;
+
+router.post('/menu/addonGroup/edit/save', [
+  body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('addonGroupName').exists().notEmpty().trim().escape(),
+  body('addonGroupType').exists().notEmpty().trim().escape().isIn(['radio', 'checkbox']),
+  body('isAddonGroupActive').exists().notEmpty().isBoolean(),
+], showValidationError, controllerMenu.postEditAddonGroupPage) ;
+
+router.get('/menu/addonGroup/add/:categoryId', [
+  param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.getAddAddonGroupPage) ;
+
+router.post('/menu/addonGroup/add/save', [
+  body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('addonGroupName').exists().notEmpty().trim().escape(),
+  body('addonGroupType').exists().notEmpty().trim().escape().isIn(['radio', 'checkbox']),
+  body('isAddonGroupActive').exists().notEmpty().isBoolean(),
+], showValidationError, controllerMenu.postAddAddonGroupPage) ;
+
+router.post('/menu/addonGroup/delete', [
+  body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.postDeleteAddonGroupPage);
+
+router.get('/menu/addonGroup/arrange/:categoryId', [
+  param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+], showValidationError, controllerMenu.getArrangeAddonGroupPage) ;
+
+router.post('/menu/addonGroup/arrange/save', [
+  body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('sortedArray', "Invalid array of Id's").exists().notEmpty().custom((value, {req})=>{
+    // we have to return a boolean in this function
+    let sortedArray = JSON.parse(value) ;
+    if(!Array.isArray(sortedArray)){
+      return false ;
+    }
+    for(let i=0;i<sortedArray.length;i++){
+      /* check that each element is a valid integer id ;
+       * if it is not, return false, else go on.
+       * we are not using a foreach loop because if we return something inside foreach loop,
+       * it is only returned inside that iteration
+       */
+      if(/^\+?\d+$/.test(sortedArray[i]) === false){
+        return false ;
+      }
+    }
+
+    return true ;
+  })
+], showValidationError, controllerMenu.postArrangeAddonGroupPage) ;
+
 
 
 module.exports = router ;

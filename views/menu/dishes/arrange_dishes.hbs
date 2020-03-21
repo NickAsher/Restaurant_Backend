@@ -106,7 +106,7 @@
     function saveSortOrder() {
         let sortedArray = $('#sorting').sortable("toArray") ;
         console.log(sortedArray) ;
-        fetch('/menu/dishes/arrange', {
+        fetch('/menu/dishes/arrange/save', {
             method: 'POST',
             body: new URLSearchParams({
                 _csrf : "some csrf string here",
