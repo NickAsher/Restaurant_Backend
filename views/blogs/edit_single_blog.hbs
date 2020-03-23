@@ -46,7 +46,7 @@
                 <div class="row">
                     <!--<div class = col-md-</div>-->
                     <div class="col-md-10 push-1" >
-                        <form action="/blogs/edit/save?_csrf={{_csrfToken}}" method="post" enctype="multipart/form-data">
+                        <form id="form-main" action="/blogs/edit/save?_csrf={{_csrfToken}}" method="post" enctype="multipart/form-data">
 
 
                             <input type="hidden" name="post_BlogId" value="{{blogData.blog_id}}">
@@ -88,11 +88,11 @@
                                 <br><br>
                             </div>
 
-                            <div id="Div_BlogContent">
+                            <div class="form-group">
                                 <label for="input-blog-description" class="col-form-label">Blog Content:</label>
-                                <div>
+                                <!--<div>-->
                                     <textarea name="post_BlogContent" id="input-blog-content" class="form-control">{{{blogData.blog_content}}}</textarea>
-                                </div>
+                                <!--</div>-->
                             </div>
 
                             <br><br>
@@ -127,6 +127,8 @@
 
 </body>
 <script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
+<script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="/lib/jquery-validation/dist/jquery-validate-additional-methods.min.js"></script>
 <script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
 <script type="text/javascript" src="/js/my_personal.js"></script>
 <script type="text/javascript" src="/lib/t3/t3.js"></script>
@@ -157,6 +159,9 @@
             { title: 'Test template 2', content: 'Test 2' }
         ]
     });
+
+
+
 
 
 

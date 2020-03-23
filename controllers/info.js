@@ -4,7 +4,7 @@ const dbConnection = require('../utils/database') ;
 const dbRepository = require('../utils/DbRepository') ;
 const Constants = require('../utils/Constants') ;
 
-exports.getAboutPage = async (req, res)=>{
+exports.getViewAboutPage = async (req, res)=>{
   try{
     let aboutData = await dbRepository.getAboutData() ;
     if(aboutData['status'] === false){throw aboutData ;}
@@ -25,7 +25,7 @@ exports.getAboutPage = async (req, res)=>{
 } ;
 
 
-exports.getAboutEditPage = async (req, res)=>{
+exports.getEditAboutPage = async (req, res)=>{
   try{
     let aboutData = await dbRepository.getAboutData() ;
     if(aboutData['status'] === false){throw aboutData ;}
@@ -45,7 +45,7 @@ exports.getAboutEditPage = async (req, res)=>{
   }
 } ;
 
-exports.postAboutEditPage = async (req, res)=>{
+exports.postEditAboutPage = async (req, res)=>{
   try{
     let aboutData = req.body.post_aboutUsData ;
 
@@ -70,7 +70,7 @@ exports.postAboutEditPage = async (req, res)=>{
 } ;
 
 
-exports.getContactPage = async (req, res)=>{
+exports.getViewContactPage = async (req, res)=>{
   try{
     let dbContactData = await dbRepository.getContactData() ;
     if(dbContactData['status'] === false){throw dbContactData.data ;}
@@ -94,7 +94,7 @@ exports.getContactPage = async (req, res)=>{
 };
 
 
-exports.getContactEditPage =  async (req, res)=>{
+exports.getEditContactPage =  async (req, res)=>{
   try{
     let dbContactData = await dbRepository.getContactData() ;
     if(dbContactData['status'] === false){throw dbContactData.data ;}
@@ -117,22 +117,22 @@ exports.getContactEditPage =  async (req, res)=>{
 };
 
 
-exports.postContactEditPage = async (req, res)=>{
+exports.postEditContactPage = async (req, res)=>{
   try{
-    let restaurantName = req.body.post_name ;
-    let restaurantAddressLine1 = req.body.post_addr1 ;
-    let restaurantAddressLine2 = req.body.post_addr2 ;
-    let restaurantAddressLine3 = req.body.post_addr3 ;
-    let restaurantPhone = req.body.post_phone ;
-    let restaurantEmail = req.body.post_email ;
-    let restaurantLatitude = req.body.post_latitude ;
-    let restaurantLongitude = req.body.post_longitude ;
+    let restaurantName = req.body.restaurantName ;
+    let restaurantAddressLine1 = req.body.restaurantAddressLine1 ;
+    let restaurantAddressLine2 = req.body.restaurantAddressLine2 ;
+    let restaurantAddressLine3 = req.body.restaurantAddressLine3 ;
+    let restaurantPhone = req.body.restaurantPhone ;
+    let restaurantEmail = req.body.restaurantEmail ;
+    let restaurantLatitude = req.body.restaurantLatitude ;
+    let restaurantLongitude = req.body.restaurantLongitude ;
 
     let socialMediaLinks = JSON.stringify({
-      facebook : req.body.linkFacebook,
-      instagram : req.body.linkInstagram,
-      twitter : req.body.linkTwitter,
-      youtube : req.body.linkYoutube
+      facebook : req.body.restaurantLinkFacebook,
+      instagram : req.body.restaurantLinkInstagram,
+      twitter : req.body.restaurantLinkTwitter,
+      youtube : req.body.restaurantLinkYoutube
     }) ;
 
     let returnData = await dbConnection.execute(

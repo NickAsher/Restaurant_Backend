@@ -22,21 +22,22 @@ router.get('/specials/edit/:offerId', [
 ], showValidationError, controllerOfferSpecial.getEditOfferSpecial) ;
 
 router.post('/specials/edit/save', upload.single('post_Image'), checkFileMagicNumber, [
-  body('post_Id', "Invalid OfferSpecial Id").exists().notEmpty().isNumeric({no_symbols:true}).trim().escape(),
-  body('post_OfferTitle', "Invalid OfferSpecial Title").exists().notEmpty().trim().escape(),
-  body('post_OfferMessage', "Invalid OfferSpecial Message").exists().notEmpty().trim().escape(),
+  body('offerId', "Invalid OfferSpecial Id").exists().notEmpty().isNumeric({no_symbols:true}).trim().escape(),
+  body('offerTitle', "Invalid OfferSpecial Title").exists().notEmpty().trim().escape(),
+  body('offerMessage', "Invalid OfferSpecial Message").exists().notEmpty().trim().escape(),
+  body('offerOldImageFileName', "Invalid OfferSpecial Old Image File Name").exists().notEmpty().trim(),
 ], showValidationError, controllerOfferSpecial.postEditOfferSpecial) ;
 
 router.get('/specials/add', controllerOfferSpecial.getAddOfferSpecial) ;
 
 router.post('/specials/add/save', upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber, [
-  body('post_OfferTitle', "Invalid OfferSpecial Title").exists().notEmpty().trim().escape(),
-  body('post_OfferMessage', "Invalid OfferSpecial Message").exists().notEmpty().trim().escape(),
+  body('offerTitle', "Invalid OfferSpecial Title").exists().notEmpty().trim().escape(),
+  body('offerMessage', "Invalid OfferSpecial Message").exists().notEmpty().trim().escape(),
 ], showValidationError, controllerOfferSpecial.postAddOfferSpecial) ;
 
 router.post('/specials/delete', [
-  body('post_OfferId', "Invalid OfferSpecial Id").exists().notEmpty().isNumeric({no_symbols:true}).trim().escape(),
-  body('post_ImageFileName', "Invalid OfferSpecial Image Name").exists().notEmpty().trim(),
+  body('offerId', "Invalid OfferSpecial Id").exists().notEmpty().isNumeric({no_symbols:true}).trim().escape(),
+  body('offerImageFileName', "Invalid OfferSpecial Image Name").exists().notEmpty().trim(),
 ], showValidationError,  controllerOfferSpecial.postDeleteOfferSpecial) ;
 
 router.get('/specials/arrange', controllerOfferSpecial.getArrangeOfferSpecialsPage) ;

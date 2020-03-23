@@ -44,7 +44,7 @@
 
                 <div class="row">
                     <div id="Section_AddNewItemForm" class="col-10 push-1" >
-                        <form action="/contact/edit/save?_csrf={{_csrfToken}}" method="post">
+                        <form id="form-main" action="/contact/edit/save?_csrf={{_csrfToken}}" method="post">
 
                             <div class="card">
                                 <div class="card-header">
@@ -53,30 +53,30 @@
                                 <div class="card-block">
 
                                     <div class="form-group row">
-                                        <label for="input-item-name" class="col-3 col-form-label">Restaurant Name</label>
+                                        <label for="input-restaurant-name" class="col-3 col-form-label">Restaurant Name</label>
                                         <div class="col-md-9">
-                                            <input name="post_name" class="form-control" type="text"  id="input-item-name" value="{{contactData.restaurant_name}}" >
+                                            <input id="input-restaurant-name" name="restaurantName" class="form-control" type="text" value="{{contactData.restaurant_name}}" >
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="input-item-name" class="col-3 col-form-label">Address Line 1 </label>
+                                        <label for="input-restaurant-addr1" class="col-3 col-form-label">Address Line 1 </label>
                                         <div class="col-md-9">
-                                            <input name="post_addr1" class="form-control" type="text" id="input-item-name" value="{{contactData.restaurant_addr_1}}" >
+                                            <input id="input-restaurant-addr1" name="restaurantAddressLine1" class="form-control" type="text" value="{{contactData.restaurant_addr_1}}" >
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="input-item-name" class="col-3 col-form-label">Address Line 2</label>
+                                        <label for="input-restaurant-addr2" class="col-3 col-form-label">Address Line 2</label>
                                         <div class="col-md-9">
-                                            <input name="post_addr2" class="form-control" type="text" placeholder="" id="input-item-name" value="{{contactData.restaurant_addr_2}}" >
+                                            <input id="input-restaurant-addr2" name="restaurantAddressLine2" class="form-control" type="text" value="{{contactData.restaurant_addr_2}}" >
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="input-item-name" class="col-3 col-form-label">Address Line 3</label>
+                                        <label for="input-restaurant-addr3" class="col-3 col-form-label">Address Line 3</label>
                                         <div class="col-md-9">
-                                            <input name="post_addr3" class="form-control" type="text" placeholder="" id="input-item-name" value="{{contactData.restaurant_addr_3}}" >
+                                            <input id="input-restaurant-addr3" name="restaurantAddressLine3" class="form-control" type="text" value="{{contactData.restaurant_addr_3}}" >
                                         </div>
                                     </div>
 
@@ -94,16 +94,16 @@
                                         <div class="card-block">
 
                                             <div class="form-group row">
-                                                <label for="input-item-name" class="col-3 col-form-label">Phone no</label>
+                                                <label for="input-restaurant-phone" class="col-3 col-form-label">Phone no</label>
                                                 <div class="col-md-9">
-                                                    <input name="post_phone" class="form-control" type="text" placeholder="ex. 9780045712" id="input-item-name" value="{{contactData.restaurant_phone}}" >
+                                                    <input id="input-restaurant-phone" name="restaurantPhone" class="form-control" type="text" value="{{contactData.restaurant_phone}}" >
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="input-item-name" class="col-3 col-form-label">Email Id</label>
+                                                <label for="input-restaurant-email" class="col-3 col-form-label">Email Id</label>
                                                 <div class="col-md-9">
-                                                    <input name="post_email" class="form-control" type="text" placeholder="ex. example@gmail.com" id="input-item-name" value="{{contactData.restaurant_email}}" >
+                                                    <input id="input-restaurant-email" name="restaurantEmail" class="form-control" type="text" value="{{contactData.restaurant_email}}" >
                                                 </div>
                                             </div>
 
@@ -121,16 +121,16 @@
                                         <div class="card-block">
 
                                             <div class="form-group row">
-                                                <label for="input-item-name" class="col-3 col-form-label">Latitude</label>
+                                                <label for="input-restaurant-latitude" class="col-3 col-form-label">Latitude</label>
                                                 <div class="col-md-9">
-                                                    <input name="post_latitude" class="form-control" type="text" placeholder="ex. 94.147" id="input-item-name" value="{{contactData.latitude}}" >
+                                                    <input id="input-restaurant-latitude" name="restaurantLatitude" class="form-control" type="text" value="{{contactData.latitude}}" >
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="input-item-name" class="col-3 col-form-label">Longitude</label>
+                                                <label for="input-restaurant-longitude" class="col-3 col-form-label">Longitude</label>
                                                 <div class="col-md-9">
-                                                    <input name="post_longitude" class="form-control" type="text" placeholder="ex. 120.745" id="input-item-name" value="{{contactData.longitude}}" >
+                                                    <input id="input-restaurant-longitude" name="restaurantLongitude" class="form-control" type="text" value="{{contactData.longitude}}" >
                                                 </div>
                                             </div>
 
@@ -150,30 +150,30 @@
 
 
                                     <div class="form-group row">
-                                        <label for="input-rest-name" class="col-3 col-form-label">Facebook</label>
+                                        <label for="input-socialMedia-facebook" class="col-3 col-form-label">Facebook</label>
                                         <div class="col-md-9">
-                                            <input id="input-socialMedia-facebook" name="linkFacebook" class="form-control" type="text" value="{{contactData.social_info.facebook}}">
+                                            <input id="input-socialMedia-facebook" name="restaurantLinkFacebook" class="form-control" type="text" value="{{contactData.social_info.facebook}}">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="input-rest-addr1" class="col-3 col-form-label">Instagram</label>
+                                        <label for="input-socialMedia-instagram" class="col-3 col-form-label">Instagram</label>
                                         <div class="col-md-9">
-                                            <input id="input-socialMedia-instagram" name="linkInstagram" class="form-control" type="text" value="{{contactData.social_info.instagram}}">
+                                            <input id="input-socialMedia-instagram" name="restaurantLinkInstagram" class="form-control" type="text" value="{{contactData.social_info.instagram}}">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="input-rest-addr2" class="col-3 col-form-label">Twitter</label>
+                                        <label for="input-socialMedia-twitter" class="col-3 col-form-label">Twitter</label>
                                         <div class="col-md-9">
-                                            <input id="input-socialMedia-twitter" name="linkTwitter" class="form-control" type="text" value="{{contactData.social_info.twitter}}">
+                                            <input id="input-socialMedia-twitter" name="restaurantLinkTwitter" class="form-control" type="text" value="{{contactData.social_info.twitter}}">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="input-rest-addr3" class="col-3 col-form-label">Youtube </label>
+                                        <label for="input-socialMedia-youtube" class="col-3 col-form-label">Youtube </label>
                                         <div class="col-md-9">
-                                            <input id="input-socialMedia-youtube" name="linkYoutube" class="form-control" type="text" value="{{contactData.social_info.youtube}}">
+                                            <input id="input-socialMedia-youtube" name="restaurantLinkYoutube" class="form-control" type="text" value="{{contactData.social_info.youtube}}">
                                         </div>
                                     </div>
 
@@ -189,21 +189,9 @@
                                 <div class="col-4" ></div>
                             </div>
 
-
-
-
-
-
-
-
-
                         </form>
                     </div>
                 </div>
-
-
-
-
 
                 <div id="space_before_footer">
                     <br><br><br><br><br>
@@ -221,6 +209,8 @@
 
 </body>
 <script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
+<script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="/lib/jquery-validation/dist/jquery-validate-additional-methods.min.js"></script>
 <script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
 <script type="text/javascript" src="/js/my_personal.js"></script>
 <script type="text/javascript" src="/lib/t3/t3.js"></script>
@@ -229,7 +219,129 @@
 
 
 <script>
-    setupTinyMCE('#input-rest-hours') ;
+
+    jQuery.validator.addMethod("myPhoneNumber", function (value, element) {
+        console.log(value);
+        if (/^[0-9\-]+$/i.test(value)) {
+            return true;
+        } else {
+            return false;
+        };
+    }, "Numbers and dashes only");
+
+    $('#form-main').validate({
+        errorPlacement : (error, element)=>{
+            //insert the label element after the parent div
+            error.insertAfter(element) ;
+            $(error).addClass('text-danger') ;
+
+        },
+        highlight: function(element) {
+            // function is invoked on any input element when error occurs for that particular input
+            $(element).parent().addClass('has-danger') ;
+
+        },
+        unhighlight: function(element) {
+            $(element).parent().removeClass('has-danger') ;
+
+        },
+        success : (label, element)=>{
+            $(element).parent().addClass("has-success") ;
+        },
+        rules : {
+            restaurantName : {
+                required : true,
+                minlength : 3
+            },
+            restaurantAddressLine1 : {
+                required : true,
+                minlength : 10,
+            },
+            restaurantAddressLine2 : {
+                required : true,
+                minlength : 5,
+            },
+            restaurantAddressLine3 : {
+                required : true,
+                minlength : 5,
+            },
+            restaurantPhone : {
+                required : true,
+                myPhoneNumber : true
+
+            },
+            restaurantEmail : {
+                required : true,
+                email : true,
+            },
+            restaurantLatitude : {
+                required : true,
+                number :  true, //allows negative decimal number like -90.45465
+            }
+            ,restaurantLongitude : {
+                required : true,
+                number :  true, //allows negative decimal number like -90.45465
+            },
+
+            restaurantLinkFacebook : {
+                required : true,
+                url : true,
+            },
+            restaurantLinkInstagram : {
+                required : true,
+                url : true,
+            },
+            restaurantLinkTwitter : {
+                required : true,
+                url : true,
+            },
+            restaurantLinkYoutube : {
+                required : true,
+                url : true,
+            },
+
+
+        },
+        messages : {
+            restaurantName : {
+                minlength : "Restaurant Name must be atleast 3 characters"
+            },
+            restaurantAddressLine1 : {
+                minlength : "Address Line 1 must be atleast 10 characters",
+            },
+            restaurantAddressLine2 : {
+                minlength : "Address Line 1 must be atleast 5 characters",
+            },
+            restaurantAddressLine3 : {
+                minlength : "Address Line 1 must be atleast 5 characters",
+            },
+            restaurantPhone : {
+                myPhoneNumber : "Phone number can only contains digits and dashes"
+            },
+            restaurantEmail : {
+                email : "This is not a valid email address",
+            },
+            restaurantLatitude : {
+                number :  "This is not a valid longitude, can only contain positive and negative numbers", //allows negative decimal number like -90.45465
+            }
+            ,restaurantLongitude : {
+                number :  "This is not a valid longitude, can only contain positive and negative numbers", //allows negative decimal number like -90.45465
+            },
+            restaurantLinkFacebook : {
+                url : "This is not a valid URL",
+            },
+            restaurantLinkInstagram : {
+                url : "This is not a valid URL",
+            },
+            restaurantLinkTwitter : {
+                url : "This is not a valid URL",
+            },
+            restaurantLinkYoutube : {
+                url : "This is not a valid URL",
+            },
+        },
+    }) ;
+
 
 </script>
 

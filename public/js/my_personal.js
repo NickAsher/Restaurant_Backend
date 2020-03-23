@@ -65,8 +65,8 @@ function handleBrowseButton_Preview(ButtonId, HiddenInputId, previewImageId){
 
     $('#'+HiddenInputId).change(function(event){
       // this function is run when file is successfully selected by user
-      console.log("yolo man") ;
       $('#' + previewImageId).attr('src', URL.createObjectURL(event.target.files[0]));
+      $('#'+HiddenInputId).valid();
       return false ;
     });
 

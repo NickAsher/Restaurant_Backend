@@ -7,31 +7,31 @@ const router = express.Router() ;
 const showValidationError = validationMiddleware.showValidationError ;
 
 
-router.get('/about', controllerInfo.getAboutPage) ;
+router.get('/about', controllerInfo.getViewAboutPage) ;
 
-router.get('/about/edit', controllerInfo.getAboutEditPage) ;
+router.get('/about/edit', controllerInfo.getEditAboutPage) ;
 
 router.post('/about/edit/save', [
     body('post_aboutUsData', "Invalid AboutUs data").exists().notEmpty()
-], showValidationError, controllerInfo.postAboutEditPage) ;
+], showValidationError, controllerInfo.postEditAboutPage) ;
 
-router.get('/contact', controllerInfo.getContactPage) ;
-router.get('/contact/edit', controllerInfo.getContactEditPage) ;
+router.get('/contact', controllerInfo.getViewContactPage) ;
+router.get('/contact/edit', controllerInfo.getEditContactPage) ;
 
 router.post('/contact/edit/save', [
-  body('post_name', 'Invalid Restaurant Name').exists().notEmpty().trim(),
-  body('post_addr1', 'Invalid Address Line 1').exists().notEmpty().trim(),
-  body('post_addr2', 'Invalid Address Line 2').exists().notEmpty().trim(),
-  body('post_addr3', 'Invalid Address Line 3').exists().notEmpty().trim(),
-  body('post_phone', 'Invalid Phone Number').exists().notEmpty().isNumeric().trim().escape(),
-  body('post_email', 'Invalid Email Address').exists().notEmpty().isEmail().trim().escape(),
-  body('post_latitude', 'Invalid Latitude').exists().notEmpty().trim().escape(),
-  body('post_longitude', 'Invalid Longitude').exists().notEmpty().trim().escape(),
-  body('linkFacebook', 'Invalid Facebook Link').exists().notEmpty().isURL().trim(),
-  body('linkInstagram', 'Invalid Instagram Link').exists().notEmpty().isURL().trim(),
-  body('linkTwitter', 'Invalid Twitter Link').exists().notEmpty().isURL().trim(),
-  body('linkYoutube', 'Invalid Youtube Link').exists().notEmpty().isURL().trim(),
-],  showValidationError, controllerInfo.postContactEditPage) ;
+  body('restaurantName', 'Invalid Restaurant Name').exists().notEmpty().trim(),
+  body('restaurantAddressLine1', 'Invalid Address Line 1').exists().notEmpty().trim(),
+  body('restaurantAddressLine2', 'Invalid Address Line 2').exists().notEmpty().trim(),
+  body('restaurantAddressLine3', 'Invalid Address Line 3').exists().notEmpty().trim(),
+  body('restaurantPhone', 'Invalid Phone Number').exists().notEmpty().isNumeric().trim().escape(),
+  body('restaurantEmail', 'Invalid Email Address').exists().notEmpty().isEmail().trim().escape(),
+  body('restaurantLatitude', 'Invalid Latitude').exists().notEmpty().trim().escape(),
+  body('restaurantLongitude', 'Invalid Longitude').exists().notEmpty().trim().escape(),
+  body('restaurantLinkFacebook', 'Invalid Facebook Link').exists().notEmpty().isURL().trim(),
+  body('restaurantLinkInstagram', 'Invalid Instagram Link').exists().notEmpty().isURL().trim(),
+  body('restaurantLinkTwitter', 'Invalid Twitter Link').exists().notEmpty().isURL().trim(),
+  body('restaurantLinkYoutube', 'Invalid Youtube Link').exists().notEmpty().isURL().trim(),
+],  showValidationError, controllerInfo.postEditContactPage) ;
 
 
 module.exports = router ;

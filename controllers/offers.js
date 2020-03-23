@@ -76,9 +76,11 @@ exports.getEditOfferSpecial = async (req, res)=>{
 
 exports.postEditOfferSpecial = async(req, res)=>{
   try{
-    let title = req.body.post_OfferTitle ;
-    let message = req.body.post_OfferMessage ;
-    let id = req.body.post_Id ;
+    let id = req.body.offerId ;
+    let title = req.body.offerTitle ;
+    let message = req.body.offerMessage ;
+    let oldImageFileName = req.body.offerOldImageFileName ;
+
     let dbData ;
     if(!req.file){
       // a new file is not uploaded, means we only update title and message
@@ -93,10 +95,9 @@ exports.postEditOfferSpecial = async(req, res)=>{
       ) ;
     } else {
       // a new file is uploaded, so we delete the previous file and upload a new file
-      let oldImageFileName = req.body.post_OldImageFileName ;
       let newImageFileName = req.myFileName ;
-
       fs.unlinkSync(Constants.IMAGE_PATH + oldImageFileName) ;
+
       dbData = await dbConnection.execute(
         `UPDATE offer_special_table  SET title = :title, message = :message, image = :image WHERE id = :id`, {
           title,
@@ -148,8 +149,8 @@ exports.postAddOfferSpecial = async (req, res)=>{
   try {
 
     let fileName = req.myFileName ;
-    let title = req.body.post_OfferTitle ;
-    let message = req.body.post_OfferMessage ;
+    let title = req.body.offerTitle ;
+    let message = req.body.offerMessage ;
 
     let dbData = await dbConnection.execute(
       `INSERT INTO offer_special_table ( sr_no, title, image, message, creation_datetime)
@@ -182,8 +183,8 @@ exports.postAddOfferSpecial = async (req, res)=>{
 
 exports.postDeleteOfferSpecial = async (req, res)=>{
   try{
-    let offerId = req.body.post_OfferId ;
-    let imageFileName = req.body.post_ImageFileName ;
+    let offerId = req.body.offerId ;
+    let imageFileName = req.body.offerImageFileName ;
 
     fs.unlinkSync(Constants.IMAGE_PATH + imageFileName) ;
     let dbData = await dbConnection.execute(`DELETE FROM offer_special_table WHERE id = :id `, {
