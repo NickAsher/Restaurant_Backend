@@ -746,7 +746,6 @@ exports.getEditAddonPage = async(req, res)=>{
 } ;
 
 exports.postEditAddonPage = async (req, res)=>{
-
   try {
     let itemId = req.body.itemId;
     let itemName = req.body.itemName;
@@ -856,53 +855,65 @@ exports.getAddAddonPage = async (req, res)=> {
 } ;
 
 exports.postAddAddonPage = async (req, res)=>{
-  let categoryId = req.body.categoryId ;
-  let addonGroupId = req.body.addonGroupId ;
-  let itemName = req.body.itemName ;
-  let isItemActive = req.body.isItemActive ;
+  try {
+    let categoryId = req.body.categoryId;
+    let addonGroupId = req.body.addonGroupId;
+    let itemName = req.body.itemName;
+    let isItemActive = req.body.isItemActive;
 
 
-  let explicitConnection = await dbConnection.getConnection() ;
-  await explicitConnection.beginTransaction() ;
+    let explicitConnection = await dbConnection.getConnection();
+    await explicitConnection.beginTransaction();
 
-  let dbItemData = await explicitConnection.execute(`
+    let dbItemData = await explicitConnection.execute(`
       INSERT INTO menu_addons_table 
       (item_sr_no, item_name, item_category_id, item_addon_group_rel_id, item_is_active )
       SELECT COALESCE( (MAX( item_sr_no ) + 1), 1) , :itemName, :categoryId, :addonGroupId, :isItemActive 
       FROM menu_addons_table WHERE item_addon_group_rel_id = :addonGroupId `, {
-    itemName,
-    categoryId,
-    addonGroupId,
-    isItemActive
-  }) ;
+      itemName,
+      categoryId,
+      addonGroupId,
+      isItemActive
+    });
 
 
-  let itemInsertId = dbItemData[0].insertId ;
-  let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId) ;
-  if(dbSizeData.status != true){throw dbSizeData.data ;}
+    let itemInsertId = dbItemData[0].insertId;
+    let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId);
+    if (dbSizeData.status != true) {
+      throw dbSizeData.data;
+    }
 
-  let sqlInsertString = ` INSERT INTO menu_meta_rel_size_addons_table 
-      (addon_id, addon_price, addon_size_active, size_id, category_id) VALUES ` ;
+    let sqlInsertString = ` INSERT INTO menu_meta_rel_size_addons_table 
+      (addon_id, addon_price, addon_size_active, size_id, category_id) VALUES `;
 
-  dbSizeData.data.forEach((element)=>{
-    let itemSizePrice = req.body[`itemSizePrice_${element.size_id}`] ;
-    let isItemSizeActive = req.body[`isItemSizeActive_${element.size_id}`] ;
+    dbSizeData.data.forEach((element) => {
+      let itemSizePrice = req.body[`itemSizePrice_${element.size_id}`];
+      let isItemSizeActive = req.body[`isItemSizeActive_${element.size_id}`];
 
-    sqlInsertString += ` ('${itemInsertId}', '${itemSizePrice}', '${isItemSizeActive}', '${element.size_id}', '${categoryId}' ), ` ;
-  }) ;
-  sqlInsertString = sqlInsertString.slice(0,-2) ;
+      sqlInsertString += ` ('${itemInsertId}', '${itemSizePrice}', '${isItemSizeActive}', '${element.size_id}', '${categoryId}' ), `;
+    });
+    sqlInsertString = sqlInsertString.slice(0, -2);
 
-  let dbSizeInsertData = await explicitConnection.execute(sqlInsertString) ;
-  await explicitConnection.commit() ;
+    let dbSizeInsertData = await explicitConnection.execute(sqlInsertString);
+    await explicitConnection.commit();
 
-  res.send({
-    status : true,
-    dbItemData,
-    itemInsertId,
-    sqlInsertString,
-    dbSizeInsertData,
-    link : "http://localhost:3002/menu/addons"
-  }) ;
+    res.send({
+      status: true,
+      dbItemData,
+      itemInsertId,
+      sqlInsertString,
+      dbSizeInsertData,
+      link: "http://localhost:3002/menu/addons"
+    });
+  }catch (e) {
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
+  }
 } ;
 
 exports.postDeleteAddonPage = async (req, res)=>{
@@ -1174,6 +1185,7 @@ exports.getAddSizePage = async(req, res)=>{
     }) ;
   }
 } ;
+
 exports.postAddSizePage = async(req, res)=>{
   try{
     let categoryId = req.body.categoryId ;
@@ -1291,8 +1303,6 @@ exports.postDeleteSizePage = async(req, res)=>{
     }) ;
   }
 } ;
-
-
 
 exports.getArrangeSizesPage = async (req, res)=>{
   try{

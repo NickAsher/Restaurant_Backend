@@ -74,8 +74,8 @@ exports.postAddGalleryItemPage = async(req, res)=>{
 
 exports.postDeleteGalleryItemPage = async(req, res)=>{
   try{
-    let galleryImageId = req.body.post_GalleryItemId ;
-    let imageFileName = req.body.post_GalleryItemName ;
+    let galleryImageId = req.body.galleryItemId ;
+    let imageFileName = req.body.galleryImageFileName ;
 
     fs.unlinkSync(Constants.IMAGE_PATH + imageFileName) ;
     let dbData = await dbConnection.execute(`DELETE FROM gallery_table WHERE gallery_item_id = :id `, {

@@ -28,8 +28,8 @@ router.post('/gallery/add/save', upload.single('post_Image'), checkFileIsUploade
   showValidationError, controllerGallery.postAddGalleryItemPage) ;
 
 router.post('/gallery/delete', [
-  body('post_GalleryItemId', "Invalid gallery Item Id").exists().notEmpty().isNumeric({no_symbols:true}).trim(),
-  body('post_GalleryItemName', "Invalid image name").exists().notEmpty().trim().escape(),
+  body('galleryItemId', "Invalid gallery Item Id").exists().notEmpty().isNumeric({no_symbols:true}).trim(),
+  body('galleryImageFileName', "Invalid image name").exists().notEmpty().trim().escape(),
 ], showValidationError, controllerGallery.postDeleteGalleryItemPage) ;
 
 router.get('/gallery/arrange', controllerGallery.getArrangeGalleryItemsPage) ;

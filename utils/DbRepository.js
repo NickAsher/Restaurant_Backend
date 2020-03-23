@@ -310,11 +310,12 @@ exports.getSingleMenuCategory = async (categoryId)=>{
         `SELECT * FROM menu_meta_category_table WHERE category_id = :categoryId `,{
           categoryId
       }) ;
-    let categoryData = dbData['0']['0'] ;
-    categoryData.category_is_active = categoryData.category_is_active == 1 ? true : false ;
+    if(dbData[0].length != 1){
+      throw "Category Not found" ;
+    }
     return {
       status : true,
-      data : categoryData,
+      data : dbData[0][0],
     } ;
 
   }catch (e) {
@@ -676,10 +677,7 @@ exports.getAllMenuItems = async()=>{
     let dbData = await dbConnection.execute(
       `SELECT * FROM menu_items_table ORDER BY item_category_id ASC, item_sr_no ASC `
     ) ;
-    let menuData = dbData['0'] ;
-    menuData.forEach((menuItem)=>{
-      menuItem.item_is_active = menuItem.item_is_active == '1' ? true : false ;
-    }) ;
+
     return {
       status : true,
       data : dbData['0'],

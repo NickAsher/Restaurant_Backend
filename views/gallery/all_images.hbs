@@ -87,8 +87,8 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                                 <form class="text-center" method='post' action='/gallery/delete'>
-                                    <input id="input_GalleryItemId" type='hidden' name='post_GalleryItemId'>
-                                    <input id="input_GalleryItemName" type='hidden' name='post_GalleryItemName'>
+                                    <input id="input_GalleryItemId" type='hidden' name='galleryItemId'>
+                                    <input id="input_GalleryItemName" type='hidden' name='galleryImageFileName'>
                                     <input type="hidden" name="_csrf" value="{{_csrfToken}}">
                                     <input type='submit' class='btn btn-danger ' value='Yes'>
                                 </form>
