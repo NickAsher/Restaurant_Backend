@@ -223,6 +223,10 @@ exports.getSingleOfferSpecial = async (offerId)=>{
     let dbData = await dbConnection.execute(
       `SELECT * FROM offer_special_table WHERE id = ${offerId}`
     ) ;
+
+    if(dbData[0].length != 1){
+      throw "Offer not found" ;
+    }
     return {
       status : true,
       data : dbData['0']['0']
@@ -443,6 +447,10 @@ exports.getSingleAddonGroup = async (addonGroupId)=>{
          ON menu_meta_addongroups_table.category_id = menu_meta_category_table.category_id 
          WHERE menu_meta_addongroups_table.rel_id = '${addonGroupId}' 
      `) ;
+
+    if(dbData[0].length != 1){
+      throw "Addon-Group Not found" ;
+    }
     return {
       status : true,
       data : dbData[0][0]
@@ -567,6 +575,9 @@ exports.getSingleAddonItem = async(addonItemId)=>{
     WHERE menu_addons_table.item_id = '${addonItemId}'
     `) ;
 
+    if(dbData[0].length != 1){
+      throw "Addon Item Not found" ;
+    }
     return {
       status : true,
       data : dbData[0][0]
@@ -659,6 +670,10 @@ exports.getSingleSize = async (sizeId)=>{
       `SELECT * FROM menu_meta_size_table WHERE size_id = :sizeId`,{
       sizeId
     }) ;
+
+    if(dbData[0].length != 1){
+      throw "Size Not found" ;
+    }
     return {
       status : true,
       data : dbData[0][0],
