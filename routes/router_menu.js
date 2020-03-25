@@ -200,7 +200,7 @@ router.get('/menu/addons/change-default/:addonGroupId', [
 
 router.post('/menu/addons/change-default/save',  [
   body('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-  body('defaultItemId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
+  body('defaultItemId').exists().notEmpty().isNumeric({no_symbols: false}).trim().escape(),
 ], showValidationError, controllerMenu.postChangeDefaultAddonPage) ;
 
 

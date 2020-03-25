@@ -52,10 +52,13 @@
                     <div class="col-12 col-md-8 col-lg-6 push-md-2 push-lg-3">
                         <div class="card">
                             <div class="card-block text-center">
+                                <input name='defaultItemId' type='radio' value='-1' checked="checked">
+                                    <span class="font-weight-bold">No Default Item</span>
+                                <br>
 
                                 <div>
                                 {{#each itemData}}
-                                    <input id="someId" name='defaultItemId'  type='radio' value='{{item_id}}' {{#if item_is_default}} checked="checked" {{/if}}>
+                                    <input name='defaultItemId'  type='radio' value='{{item_id}}' {{#if item_is_default}} checked="checked" {{/if}}>
                                     {{item_name}}<br>
                                 {{/each}}
                                 </div>
