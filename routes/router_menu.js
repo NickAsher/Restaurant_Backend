@@ -11,6 +11,10 @@ const showValidationError = validationMiddleware.showValidationError ;
 const checkFileIsUploaded = validationMiddleware.checkFileIsUploaded ;
 
 
+const checkPriceData = async (req, res, next)=>{
+
+} ;
+
 router.get('/menu/category', controllerMenu.getAllCategoryPage) ;
 
 router.get('/menu/category/view/:categoryId', [
@@ -58,7 +62,6 @@ router.get('/menu/category/arrange', [
         return false ;
       }
     }
-
     return true ;
   })
 ], showValidationError, controllerMenu.getArrangeCategoryPage) ;
@@ -143,7 +146,6 @@ router.get('/menu/addons/edit/:addonItemId', [
   param('addonItemId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError, controllerMenu.getEditAddonPage) ;
 
-//TODO validate the size price data
 router.post('/menu/addons/edit/save', [
   body('itemId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
   body('itemName').exists().notEmpty().trim().escape(),
@@ -156,7 +158,6 @@ router.get('/menu/addons/add/:categoryId/:addonGroupId', [
   param('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError, controllerMenu.getAddAddonPage) ;
 
-//TODO validate the size price data
 router.post('/menu/addons/add/save', [
   body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
   body('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),

@@ -24,6 +24,7 @@ exports.getAllCategoryPage = async (req, res)=>{
   }
 } ;
 
+
 exports.getViewCategoryPage = async (req, res)=>{
   try{
     let categoryId = req.params.categoryId ;
@@ -68,6 +69,7 @@ exports.getEditCategoryPage = async (req, res)=>{
     }) ;
   }
 } ;
+
 
 exports.postEditCategoryPage = async (req,res)=>{
   try{
@@ -133,6 +135,7 @@ exports.getAddCategoryPage = async (req, res)=>{
   }
 } ;
 
+
 exports.postAddCategoryPage = async (req, res)=>{
   try{
     let categoryName = req.body.categoryName ;
@@ -166,11 +169,20 @@ exports.postAddCategoryPage = async (req, res)=>{
     }) ;
   }
 } ;
-//TODO delete the images of all the menu items also
+
+
 exports.postDeleteCategoryPage = async (req, res)=>{
   try{
     let categoryId = req.body.categoryId ;
     let categoryImageFileName = req.body.categoryImageFileName ;
+
+    let dbMenuItems = await dbRepository.getAllMenuItemsInCategory(categoryId) ;
+    if(dbMenuItems.status != true){throw dbMenuItems.data ;}
+
+    let menuItemsList = dbMenuItems.data ;
+    menuItemsList.forEach((menuItem)=>{
+      fs.unlinkSync(Constants.IMAGE_PATH + menuItem.item_image_name) ;
+    }) ;
 
     fs.unlinkSync(Constants.IMAGE_PATH + categoryImageFileName) ;
 
@@ -241,6 +253,7 @@ exports.postDeleteCategoryPage = async (req, res)=>{
 
 } ;
 
+
 exports.getArrangeCategoryPage = async (req, res)=>{
   try{
     let dbData = await dbRepository.getAllMenuCategories() ;
@@ -261,6 +274,7 @@ exports.getArrangeCategoryPage = async (req, res)=>{
     }) ;
   }
 } ;
+
 
 exports.postArrangeCategoryPage = async (req,res)=>{
   try{
@@ -352,6 +366,7 @@ exports.getViewDishPage = async (req, res)=>{
   }
 } ;
 
+
 exports.getEditDishPage = async (req, res)=>{
   try{
     let menuItemId = req.params.menuItemId ;
@@ -388,10 +403,32 @@ exports.getEditDishPage = async (req, res)=>{
 
 exports.postEditDishPage = async (req, res)=>{
   try{
+    let categoryId = req.body.categoryId ;
     let itemId = req.body.itemId ;
     let itemName = req.body.itemName ;
     let itemDescription = req.body.itemDescription ;
     let itemIsActive = req.body.isItemActive  ;
+
+    //firstly let's validate the size price data
+    let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId, false) ;
+    if(dbSizeData.status != true){throw dbSizeData.data ;}
+    let sizeData = dbSizeData.data ;
+
+    dbSizeData.data.forEach((element) => {
+      let itemSizePrice = req.body[`itemSizePrice_${element.size_id}`];
+      let isItemSizeActive = req.body[`isItemSizeActive_${element.size_id}`];
+
+      if(isItemSizeActive == '1' || isItemSizeActive == '0'){
+        // means it is a boolean
+      }else{
+        throw `Invalid value found for isItemSizeActive_${element.size_id}` ;
+      }
+
+      if(isNaN(itemSizePrice) || parseFloat(itemSizePrice) < 0){
+        throw `Invalid value found for itemSizePrice_${element.size_id}` ;
+      }
+    });
+
 
     let explicitConnection = await dbConnection.getConnection() ;
     await explicitConnection.beginTransaction() ;
@@ -450,11 +487,6 @@ exports.postEditDishPage = async (req, res)=>{
      *    WHERE `item_id` = '41001'
      */
 
-    let categoryId = req.body.categoryId ;
-    let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId, false) ;
-    if(dbSizeData.status != true){throw dbSizeData.data ;}
-    let sizeData = dbSizeData.data ;
-
     let sqlCaseString = 'UPDATE menu_meta_rel_size_items_table  SET item_price = CASE ' ;
     sizeData.forEach((element, index)=>{
       let newItemPriceForSize = req['body'][`itemSizePrice_${element.size_id}`] ;
@@ -489,6 +521,7 @@ exports.postEditDishPage = async (req, res)=>{
   }
 } ;
 
+
 exports.getAddDishPage = async (req, res)=>{
   try{
     let categoryId = req.params.categoryId ;
@@ -515,6 +548,7 @@ exports.getAddDishPage = async (req, res)=>{
   }
 } ;
 
+
 exports.postAddDishPage = async (req, res)=>{
   try{
     let itemName = req.body.itemName ;
@@ -522,8 +556,26 @@ exports.postAddDishPage = async (req, res)=>{
     let isItemActive = req.body.isItemActive  ;
     let categoryId = req.body.categoryId ;
 
-
     let itemImageFileName = req.myFileName ;
+
+    let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId) ;
+    if(dbSizeData.status != true){throw dbSizeData.data ;}
+
+    dbSizeData.data.forEach((element) => {
+      let itemSizePrice = req.body[`itemSizePrice_${element.size_id}`];
+      let isItemSizeActive = req.body[`isItemSizeActive_${element.size_id}`];
+
+      if(isItemSizeActive == '1' || isItemSizeActive == '0'){
+        // means it is a boolean
+      }else{
+        throw `Invalid value found for isItemSizeActive_${element.size_id}` ;
+      }
+
+      if(isNaN(itemSizePrice) || parseFloat(itemSizePrice) < 0){
+        throw `Invalid value found for itemSizePrice_${element.size_id}` ;
+      }
+    });
+
 
     let explicitConnection = await dbConnection.getConnection() ;
     await explicitConnection.beginTransaction() ;
@@ -542,8 +594,6 @@ exports.postAddDishPage = async (req, res)=>{
 
 
     let itemInsertId = dbItemData[0].insertId ;
-    let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId) ;
-    if(dbSizeData.status != true){throw dbSizeData.data ;}
 
     let sqlInsertString = ` INSERT INTO menu_meta_rel_size_items_table 
       ( item_id, item_price, item_size_active, size_id, item_category_id) VALUES ` ;
@@ -578,6 +628,7 @@ exports.postAddDishPage = async (req, res)=>{
     }) ;
   }
 } ;
+
 
 exports.postDeleteDishPage = async (req, res)=>{
   try{
@@ -615,6 +666,7 @@ exports.postDeleteDishPage = async (req, res)=>{
   }
 } ;
 
+
 exports.getArrangeDishesPage = async (req, res)=>{
   try{
     let categoryId = req.params.categoryId ;
@@ -638,6 +690,7 @@ exports.getArrangeDishesPage = async (req, res)=>{
     }) ;
   }
 } ;
+
 
 exports.postArrangeDishesPage = async (req, res)=>{
   try{
@@ -695,6 +748,7 @@ exports.getAllAddonItemsPage = async (req, res)=>{
   }
 } ;
 
+
 exports.getViewAddonPage = async (req, res)=>{
   try{
     let addonItemId = req.params.addonItemId ;
@@ -719,6 +773,7 @@ exports.getViewAddonPage = async (req, res)=>{
     }) ;
   }
 } ;
+
 
 exports.getEditAddonPage = async(req, res)=>{
  try{
@@ -745,11 +800,31 @@ exports.getEditAddonPage = async(req, res)=>{
  }
 } ;
 
+
 exports.postEditAddonPage = async (req, res)=>{
   try {
+    let categoryId = req.body.categoryId;
     let itemId = req.body.itemId;
     let itemName = req.body.itemName;
     let itemIsActive = req.body.isItemActive ;
+
+    let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId, false);
+    if (dbSizeData.status != true) {throw dbSizeData.data; }
+
+    dbSizeData.data.forEach((element) => {
+      let itemSizePrice = req.body[`itemSizePrice_${element.size_id}`];
+      let isItemSizeActive = req.body[`isItemSizeActive_${element.size_id}`];
+
+      if(isItemSizeActive == '1' || isItemSizeActive == '0'){
+        // means it is a boolean
+      }else{
+        throw `Invalid value found for isItemSizeActive_${element.size_id}` ;
+      }
+
+      if(isNaN(itemSizePrice) || parseFloat(itemSizePrice) < 0){
+        throw `Invalid value found for itemSizePrice_${element.size_id}` ;
+      }
+    });
 
     let explicitConnection = await dbConnection.getConnection() ;
     await explicitConnection.beginTransaction() ;
@@ -789,9 +864,7 @@ exports.postEditAddonPage = async (req, res)=>{
      *    WHERE `item_id` = '48001'
      */
 
-    let categoryId = req.body.categoryId;
-    let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId, false);
-    if (dbSizeData.status != true) {throw dbSizeData.data; }
+
     let sizeData = dbSizeData.data;
 
     let sqlCaseString = 'UPDATE menu_meta_rel_size_addons_table  SET addon_price = CASE ';
@@ -826,6 +899,7 @@ exports.postEditAddonPage = async (req, res)=>{
   }
 } ;
 
+
 exports.getAddAddonPage = async (req, res)=> {
   try {
     let categoryId = req.params.categoryId;
@@ -854,6 +928,7 @@ exports.getAddAddonPage = async (req, res)=> {
   }
 } ;
 
+
 exports.postAddAddonPage = async (req, res)=>{
   try {
     let categoryId = req.body.categoryId;
@@ -861,6 +936,26 @@ exports.postAddAddonPage = async (req, res)=>{
     let itemName = req.body.itemName;
     let isItemActive = req.body.isItemActive;
 
+    let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId);
+    if (dbSizeData.status != true) {
+      throw dbSizeData.data;
+    }
+
+    dbSizeData.data.forEach((element) => {
+      let itemSizePrice = req.body[`itemSizePrice_${element.size_id}`];
+      let isItemSizeActive = req.body[`isItemSizeActive_${element.size_id}`];
+
+      if(isItemSizeActive == '1' || isItemSizeActive == '0'){
+        // means it is a boolean
+      }else{
+        throw `Invalid value found for isItemSizeActive_${element.size_id}` ;
+      }
+
+      if(isNaN(itemSizePrice) || parseFloat(itemSizePrice) < 0){
+        throw `Invalid value found for itemSizePrice_${element.size_id}` ;
+      }
+
+    });
 
     let explicitConnection = await dbConnection.getConnection();
     await explicitConnection.beginTransaction();
@@ -878,10 +973,6 @@ exports.postAddAddonPage = async (req, res)=>{
 
 
     let itemInsertId = dbItemData[0].insertId;
-    let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId);
-    if (dbSizeData.status != true) {
-      throw dbSizeData.data;
-    }
 
     let sqlInsertString = ` INSERT INTO menu_meta_rel_size_addons_table 
       (addon_id, addon_price, addon_size_active, size_id, category_id) VALUES `;
@@ -915,6 +1006,7 @@ exports.postAddAddonPage = async (req, res)=>{
     }) ;
   }
 } ;
+
 
 exports.postDeleteAddonPage = async (req, res)=>{
   try{
@@ -977,6 +1069,7 @@ exports.getArrangeAddonsPage = async (req, res)=>{
     }) ;
   }
 } ;
+
 
 exports.postArrangeAddonsPage = async (req, res)=>{
   try{
