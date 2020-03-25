@@ -106,8 +106,8 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                                 <form class="text-center" method='post' action='/blogs/delete'>
-                                    <input id="input_BlogId" type='hidden' name='post_BlogId'>
-                                    <input id="input_BlogImageName" type='hidden' name='post_ImageFileName'>
+                                    <input id="input_BlogId" type='hidden' name='blogId'>
+                                    <input id="input_BlogImageName" type='hidden' name='blogImageFileName'>
                                     <input type="hidden" name="_csrf" value="{{_csrfToken}}">
                                     <input type='submit' class='btn btn-danger ' value='Yes'>
                                 </form>

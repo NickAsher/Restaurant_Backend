@@ -49,21 +49,21 @@
                             <div class="form-group">
                                 <label for="input-blog-author" class="col-form-label bold">Blog Author</label>
                                 <!--<div>-->
-                                    <input name = 'post_BlogAuthor' id="input-blog-author" class="form-control" type="text" placeholder="Author's name" >
+                                    <input id="input-blog-author" name='blogAuthorName' class="form-control" type="text" placeholder="Author's name" >
                                 <!--</div>-->
                                 <br>
                             </div>
 
-                            <div id="Div_BlogTitle">
+                            <div class="form-group">
                                 <label for="input-blog-title" class="col-form-label">Blog Title</label>
                                 <div>
-                                    <input name = 'post_BlogTitle' id="input-blog-title" class="form-control" type="text" placeholder="Title of the BlogPost" >
+                                    <input id="input-blog-title" name='blogTitle' class="form-control" type="text" placeholder="Title of the BlogPost" >
                                 </div>
                                 <br>
                             </div>
 
 
-                            <div id="Div_BlogDisplayImage">
+                            <div>
                                 <label for="presentation-only-field-display" class="col-form-label">Blog DisplayImage</label>
                                 <button id="btn-file-choose" class="input-group-addon" style="cursor: pointer;">Choose Image</button>
                                 <div class="justify-content-center input-group">
@@ -73,10 +73,10 @@
                             </div>
                             <br>
 
-                            <div id="Div_BlogContent">
-                                <label for="input-blog-content" class="col-form-label">Blog Description</label>
+                            <div class="form-group">
+                                <label id="label-blog-content" for="input-blog-content" class="col-form-label">Blog Description</label>
                                 <div>
-                                    <textarea name="post_BlogContent" id="input-blog-content" class="form-control"  placeholder="Write your content here" ></textarea>
+                                    <textarea id="input-blog-content" name="blogContent" class="form-control" required></textarea>
                                 </div>
                                 <br>
                             </div>
@@ -90,6 +90,7 @@
                             <br><br>
                             <div class="form-group row">
                                 <div class="col-4" ></div>
+                                <!--<button id="button-submitForm" type="button" class=" col-4 btn btn-outline-info">Add Post</button>-->
                                 <input type="submit" class=" col-4 btn btn-outline-info" value="Add Post">
                                 <div class="col-4" ></div>
                             </div>
@@ -126,15 +127,38 @@
 
 <script>
 
+    //By default, jquery validator ignores hidden fields
+    // That becomes a problem as our tinyMCE plugin hides our textarea field
+    // So the below code tells validator to NOT IGNORE any hidden fields.
+    // Because of that validation will work for our textarea
+    jQuery.validator.setDefaults({
+        ignore: []
+    });
+
     setupTinyMCE('#input-blog-content') ;
 
     handleBrowseButton_Preview("btn-file-choose","hidden-file-chooser", "preview-image") ;
 
+
+
+    $('#form-main').submit(function (event) {
+        //save the output of tinymce before running the validation.
+        // This is necessary because sometimes the output is not saved,
+        // so the validation passes unexpectedly or fails unexpectedly . That's why a save trigger is needed
+        // so that contents of tinyMCE are saved in our hidden textarea
+        // and then we run the validations.
+        if (window.tinyMCE != undefined) {
+            tinyMCE.triggerSave();
+        }
+    }) ;
+
     $('#form-main').validate({
         errorPlacement : (error, element)=>{
             //insert the label element after the parent div
+
             error.insertAfter(element) ;
             $(error).addClass('text-danger') ;
+
 
         },
         highlight: function(element) {
@@ -150,11 +174,11 @@
             $(element).parent().addClass("has-success") ;
         },
         rules : {
-            post_BlogAuthor : {
+            blogAuthorName : {
                 required : true,
                 minlength : 3
             },
-            post_BlogTitle : {
+            blogTitle : {
                 required : true,
                 minlength : 10,
                 maxlength : 100
@@ -163,19 +187,17 @@
                 required : true,
                 extension : 'jpg|jpeg|png|JPG|JPEG|PNG'
             },
-            post_BlogContent : {
+            blogContent : {
                 required : true,
-                minlength : 3,
+                minlength : 20,
             },
-
-
         },
         messages : {
-            post_BlogAuthor : {
+            blogAuthorName : {
                 required : "You must Provide an author name for the blog",
                 minlength : " author name must be atleast 3 characters"
             },
-            post_BlogTitle : {
+            blogTitle : {
                 required : "You must provide a blog title",
                 minlength : "The blog title must be atleast 10 characters",
                 maxlength : "Blog Title cannot exceed 100 characters"
@@ -184,11 +206,13 @@
                 required : "You must upload an image file",
                 extension : 'The File has the wrong extension type. Only jpg, jpeg and png extensions are allowed'
             },
-            post_BlogContent : {
-                required : "You must provide blog content",
-                minlength : "Content must be atleast 3 characters",
+            blogContent : {
+                required : "Blog content cannot be empty, it must be atleast 20 characters",
+                minlength : "Blog content cannot be empty, it must be atleast 20 characters",
             },
         },
+
+
     }) ;
 
 

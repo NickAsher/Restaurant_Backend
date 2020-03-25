@@ -71,10 +71,12 @@ exports.getSingleBlogEditPage = async (req, res)=>{
 
 exports.postEditBlogPage = async(req, res)=>{
   try{
-    let blogAuthorName = req.body.post_BlogAuthor ;
-    let blogTitle = req.body.post_BlogTitle ;
-    let blogContent = req.body.post_BlogContent;
-    let blogId = req.body.post_BlogId;
+    let blogId = req.body.blogId;
+    let oldImageFileName = req.body.blogOldImageFileName ;
+    let blogAuthorName = req.body.blogAuthorName ;
+    let blogTitle = req.body.blogTitle ;
+    let blogContent = req.body.blogContent;
+
     let dbData ;
     if(!req.file){
       // No image was uploaded, so simply change the entries in the database
@@ -88,7 +90,6 @@ exports.postEditBlogPage = async(req, res)=>{
       }) ;
     } else {
       // an image was uploaded, so firstly delete the previous image and then change db entries
-      let oldImageFileName = req.body.post_OldImageFileName ;
       let newImageFileName = req.myFileName ;
 
       fs.unlinkSync(Constants.IMAGE_PATH + oldImageFileName) ;
@@ -138,9 +139,9 @@ exports.getAddNewBlogPage = async(req, res)=>{
 
 exports.postAddNewBlogPage = async (req, res)=>{
   try{
-    let blogAuthorName = req.body.post_BlogAuthor ;
-    let blogTitle = req.body.post_BlogTitle ;
-    let blogContent = req.body.post_BlogContent ;
+    let blogAuthorName = req.body.blogAuthorName ;
+    let blogTitle = req.body.blogTitle ;
+    let blogContent = req.body.blogContent ;
     let blogImageFileName = req.myFileName ;
 
     let dbData = await dbConnection.execute(`
@@ -170,8 +171,8 @@ exports.postAddNewBlogPage = async (req, res)=>{
 
 exports.postDeleteBlogPage = async (req, res)=>{
   try{
-    let blogId = req.body.post_BlogId ;
-    let imageFileName = req.body.post_ImageFileName ;
+    let blogId = req.body.blogId ;
+    let imageFileName = req.body.blogImageFileName ;
 
     fs.unlinkSync(Constants.IMAGE_PATH + imageFileName) ;
     let dbData = await dbConnection.execute(`DELETE FROM blogs_table WHERE blog_id = :id `, {

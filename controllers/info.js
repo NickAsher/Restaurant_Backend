@@ -47,7 +47,7 @@ exports.getEditAboutPage = async (req, res)=>{
 
 exports.postEditAboutPage = async (req, res)=>{
   try{
-    let aboutData = req.body.post_aboutUsData ;
+    let aboutData = req.body.aboutUsData ;
 
     let returnDbData = await dbRepository.editAboutData(aboutData) ;
     if(returnDbData.status == false){throw returnDbData ;}

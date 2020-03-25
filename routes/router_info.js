@@ -12,7 +12,7 @@ router.get('/about', controllerInfo.getViewAboutPage) ;
 router.get('/about/edit', controllerInfo.getEditAboutPage) ;
 
 router.post('/about/edit/save', [
-    body('post_aboutUsData', "Invalid AboutUs data").exists().notEmpty()
+    body('aboutUsData', "Invalid AboutUs data").exists().notEmpty()
 ], showValidationError, controllerInfo.postEditAboutPage) ;
 
 router.get('/contact', controllerInfo.getViewContactPage) ;

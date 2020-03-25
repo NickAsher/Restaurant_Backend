@@ -23,23 +23,24 @@ router.get('/blogs/edit/:blogId', [
 ], showValidationError, controllerBlogs.getSingleBlogEditPage) ;
 
 router.post('/blogs/edit/save', upload.single('post_Image'), checkFileMagicNumber, [
-  body('post_BlogId', "Invalid BlogId").exists().notEmpty().isNumeric().trim().escape(),
-  body('post_BlogAuthor', "Invalid Author Name").exists().notEmpty().trim().escape(),
-  body('post_BlogTitle', "Invalid Blog Title").exists().notEmpty().trim().escape(),
-  body('post_BlogContent', "Invalid blog content").exists().notEmpty(),
+  body('blogId', "Invalid BlogId").exists().notEmpty().isNumeric().trim().escape(),
+  body('blogOldImageFileName', "Invalid old image file name").exists().notEmpty().trim(),
+  body('blogAuthorName', "Invalid Author Name").exists().notEmpty().trim().escape(),
+  body('blogTitle', "Invalid Blog Title").exists().notEmpty().trim().escape(),
+  body('blogContent', "Invalid blog content").exists().notEmpty(),
 ], showValidationError, controllerBlogs.postEditBlogPage) ;
 
 router.get('/blogs/add', controllerBlogs.getAddNewBlogPage) ;
 
 router.post('/blogs/add/save', upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber, [
-  body('post_BlogAuthor', "Invalid Author Name").exists().notEmpty().trim().escape(),
-  body('post_BlogTitle', "Invalid Blog Title").exists().notEmpty().trim().escape(),
-  body('post_BlogContent', "Invalid blog content").exists().notEmpty(),
+  body('blogAuthorName', "Invalid Author Name").exists().notEmpty().trim().escape(),
+  body('blogTitle', "Invalid Blog Title").exists().notEmpty().trim().escape(),
+  body('blogContent', "Invalid blog content").exists().notEmpty(),
 ], showValidationError, controllerBlogs.postAddNewBlogPage) ;
 
 router.post('/blogs/delete', [
-  body('post_BlogId', "invalid blogId").exists().notEmpty().isNumeric({no_symbols:true}).trim(),
-  body('post_ImageFileName', "invalid image name").exists().notEmpty().trim().escape(),
+  body('blogId', "invalid blogId").exists().notEmpty().isNumeric({no_symbols:true}).trim(),
+  body('blogImageFileName', "invalid image name").exists().notEmpty().trim().escape(),
 ], showValidationError, controllerBlogs.postDeleteBlogPage) ;
 
 module.exports = router ;
