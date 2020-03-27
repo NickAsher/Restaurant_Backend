@@ -108,11 +108,7 @@ exports.postEditOfferSpecial = async(req, res)=>{
       ) ;
     }
 
-    res.send({
-      dbData,
-      link : "http://localhost:3002/specials"
-
-    }) ;
+    res.redirect(`/specials/view/${id}`) ;
 
   }catch (e) {
     res.send({
@@ -164,10 +160,7 @@ exports.postAddOfferSpecial = async (req, res)=>{
       }
     ) ;
 
-    res.send({
-      dbData,
-      link : "http://localhost:3002/specials"
-    }) ;
+    res.redirect(`/specials`) ;
 
   }catch (e) {
     res.send({
@@ -191,10 +184,7 @@ exports.postDeleteOfferSpecial = async (req, res)=>{
       id : offerId
     }) ;
 
-    res.send({
-      dbData,
-      link : "http://localhost:3002/specials"
-    }) ;
+    res.redirect(`/specials`) ;
   }catch (e) {
     res.send({
       e,

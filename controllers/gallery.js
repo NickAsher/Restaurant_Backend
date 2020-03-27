@@ -56,10 +56,7 @@ exports.postAddGalleryItemPage = async(req, res)=>{
       new_image_name : galleryImageFileName
     }) ;
 
-    res.send({
-      dbData,
-      link : "http://localhost:3002/gallery"
-    }) ;
+    res.redirect(`/gallery`) ;
 
   }catch (e) {
     res.send({
@@ -81,10 +78,8 @@ exports.postDeleteGalleryItemPage = async(req, res)=>{
     let dbData = await dbConnection.execute(`DELETE FROM gallery_table WHERE gallery_item_id = :id `, {
       id : galleryImageId
     }) ;
-    res.send({
-      dbData,
-      link : "http://localhost:3002/gallery"
-    }) ;
+    res.redirect(`/gallery`) ;
+
 
 
   }catch (e) {

@@ -52,11 +52,7 @@ exports.postEditAboutPage = async (req, res)=>{
     let returnDbData = await dbRepository.editAboutData(aboutData) ;
     if(returnDbData.status == false){throw returnDbData ;}
 
-    res.send({
-        returnDbData,
-        link : "http://localhost:3002/about"
-      }
-    ) ;
+    res.redirect(`/about`) ;
 
   }catch (e) {
     res.send({
@@ -154,10 +150,7 @@ exports.postEditContactPage = async (req, res)=>{
       }
     ) ;
 
-    res.send({
-      returnData,
-      link : "http://localhost:3002/contact"
-    }) ;
+    res.redirect(`/contact`) ;
   }catch (e) {
     res.send({
       e,

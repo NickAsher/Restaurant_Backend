@@ -103,11 +103,8 @@ exports.postEditBlogPage = async(req, res)=>{
         id : blogId
       }) ;
     }
-    res.send({
-      dbData,
-      link : "http://localhost:3002/blogs"
+    res.redirect(`/blogs/view/${blogId}`) ;
 
-    }) ;
 
   }catch (e) {
     res.send({
@@ -153,10 +150,8 @@ exports.postAddNewBlogPage = async (req, res)=>{
       content: blogContent
     }) ;
 
-    res.send({
-      dbData,
-      link : "http://localhost:3002/blogs"
-    }) ;
+    res.redirect(`/blogs`) ;
+
 
   }catch (e) {
     res.send({
@@ -179,10 +174,7 @@ exports.postDeleteBlogPage = async (req, res)=>{
       id : blogId
     }) ;
 
-    res.send({
-      dbData,
-      link : "http://localhost:3002/blogs"
-    }) ;
+    res.redirect(`/blogs`) ;
   }catch (e) {
     res.send({
       e,

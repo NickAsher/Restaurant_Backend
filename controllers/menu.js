@@ -103,11 +103,8 @@ exports.postEditCategoryPage = async (req,res)=>{
       }) ;
     }
 
-    res.send({
-      dbData,
-      link : "http://localhost:3002/menu/category"
+    res.redirect(`/menu/category/view/${categoryId}`) ;
 
-    }) ;
 
   }catch (e) {
     res.send({
@@ -154,11 +151,7 @@ exports.postAddCategoryPage = async (req, res)=>{
 
 
 
-    res.send({
-      status : true,
-      dbData,
-      link : "http://localhost:3002/menu/category"
-    }) ;
+    res.redirect('/menu/category') ;
   }catch (e) {
     res.send({
       status : false,
@@ -227,17 +220,8 @@ exports.postDeleteCategoryPage = async (req, res)=>{
     await explicitConnection.commit() ;
 
 
-    res.send({
-      status : true,
-      dbCategoryTable,
-      dbDishesTable,
-      dbAddonTable,
-      dbDishesSizePriceTable,
-      dbAddonSizePriceTable,
-      dbSizeTable,
-      dbAddonGroupTable,
-      link : "http://localhost:3002/menu/category",
-    }) ;
+    res.redirect('/menu/category') ;
+
 
 
   }catch (e) {
@@ -496,7 +480,6 @@ exports.postEditDishPage = async (req, res)=>{
     sqlCaseString += ' END, item_size_active = CASE ' ;
     sizeData.forEach((element, index)=>{
       let newIsItemActiveForSize = req['body'][`isItemSizeActive_${element.size_id}`] ;
-      newIsItemActiveForSize = newIsItemActiveForSize == 'true' ? 1 : 0 ;
       sqlCaseString += ` WHEN size_id = ${element.size_id} THEN ${newIsItemActiveForSize} ` ;
     }) ;
     sqlCaseString += ` END WHERE item_id = ${itemId} ` ;
@@ -504,12 +487,8 @@ exports.postEditDishPage = async (req, res)=>{
 
     await explicitConnection.commit() ;
 
-    res.send({
-      dbItemData,
-      dbItemPriceData,
-      sqlCaseString,
-      link : "http://localhost:3002/menu/dishes"
-    }) ;
+    res.redirect(`/menu/dishes/view/${itemId}`) ;
+
   }catch (e) {
     res.send({
       status : false,
@@ -601,7 +580,6 @@ exports.postAddDishPage = async (req, res)=>{
     dbSizeData.data.forEach((element)=>{
       let itemSizePrice = req.body[`itemSizePrice_${element.size_id}`] ;
       let isItemSizeActive = req.body[`isItemSizeActive_${element.size_id}`] ;
-      isItemSizeActive = isItemSizeActive == 'true' ? 1 : 0 ;
 
       sqlInsertString += ` ( '${itemInsertId}', '${itemSizePrice}', '${isItemSizeActive}', '${element.size_id}', '${categoryId}' ), ` ;
     }) ;
@@ -609,14 +587,7 @@ exports.postAddDishPage = async (req, res)=>{
 
     let dbSizeInsertData = await explicitConnection.execute(sqlInsertString) ;
     await explicitConnection.commit() ;
-    res.send({
-      status : true,
-      dbItemData,
-      itemInsertId,
-      sqlInsertString,
-      dbSizeInsertData,
-      link : "http://localhost:3002/menu/dishes"
-    }) ;
+    res.redirect(`/menu/dishes`) ;
 
   }catch (e) {
     res.send({
@@ -648,12 +619,7 @@ exports.postDeleteDishPage = async (req, res)=>{
     }) ;
     await explicitConnection.commit() ;
 
-    res.send({
-      status : true,
-      dbItemData,
-      dbItemSizePriceData,
-      link : "http://localhost:3002/menu/dishes"
-    }) ;
+    res.redirect(`/menu/dishes`) ;
 
   }catch (e) {
     res.send({
@@ -882,12 +848,7 @@ exports.postEditAddonPage = async (req, res)=>{
     let dbItemPriceData = await explicitConnection.execute(sqlCaseString);
     await explicitConnection.commit() ;
 
-    res.send({
-      dbItemData,
-      dbItemPriceData,
-      sqlCaseString,
-      link: "http://localhost:3002/menu/addons"
-    });
+    res.redirect(`/menu/addons/view/${itemId}`);
   }catch (e) {
     res.send({
       status : false,
@@ -988,14 +949,7 @@ exports.postAddAddonPage = async (req, res)=>{
     let dbSizeInsertData = await explicitConnection.execute(sqlInsertString);
     await explicitConnection.commit();
 
-    res.send({
-      status: true,
-      dbItemData,
-      itemInsertId,
-      sqlInsertString,
-      dbSizeInsertData,
-      link: "http://localhost:3002/menu/addons"
-    });
+    res.redirect(`/menu/addons`);
   }catch (e) {
     res.send({
       status : false,
@@ -1024,12 +978,8 @@ exports.postDeleteAddonPage = async (req, res)=>{
     }) ;
     await explicitConnection.commit() ;
 
-    res.send({
-      status : true,
-      dbItemData,
-      dbItemSizePriceData,
-      link : "http://localhost:3002/menu/addons"
-    }) ;
+    res.redirect(`/menu/addons`);
+
 
   }catch (e) {
     res.send({
@@ -1247,13 +1197,16 @@ exports.postEditSizePage = async (req, res)=>{
       sizeId
     }) ;
 
-    res.send({
-      dbData,
-      link : `http://localhost:3002/menu/size/${categoryId}`
-    }) ;
+    res.redirect(`/menu/size/${categoryId}`) ;
 
   }catch (e) {
-
+    res.send({
+      status : false,
+      e,
+      e_message : e.message,
+      e_toString : e.toString(),
+      yo : "Beta ji koi error hai"
+    }) ;
   }
 } ;
 
@@ -1313,10 +1266,10 @@ exports.postAddSizePage = async(req, res)=>{
 
 
     //need to insert entries for size in menu_meta_rel_size_items_table and menu_meta_rel_size_addons_table
-    if(addonsList.length > 0){
+    if(dishList.length > 0){
       let sqlInsertDishesString = `INSERT INTO menu_meta_rel_size_items_table
      (item_id, item_price, item_size_active, size_id, item_category_id) VALUES ` ;
-      addonsList.forEach((dish)=>{
+      dishList.forEach((dish)=>{
         sqlInsertDishesString += `('${dish.item_id}', '0', '0', '${sizeInsertId}', '${categoryId}'), ` ;
       }) ;
       sqlInsertDishesString = sqlInsertDishesString.slice(0,-2) ;
@@ -1325,10 +1278,10 @@ exports.postAddSizePage = async(req, res)=>{
     }
 
 
-    if(dishList.length > 0){
+    if(addonsList.length > 0){
       let sqlInsertAddonsString = `INSERT INTO menu_meta_rel_size_addons_table
      (addon_id, addon_price, addon_size_active, size_id, category_id) VALUES ` ;
-      dishList.forEach((addon)=>{
+      addonsList.forEach((addon)=>{
         sqlInsertAddonsString += `('${addon.item_id}', '0', '0', '${sizeInsertId}', '${categoryId}'), ` ;
       }) ;
       sqlInsertAddonsString = sqlInsertAddonsString.slice(0,-2) ;
@@ -1336,11 +1289,8 @@ exports.postAddSizePage = async(req, res)=>{
     }
 
     await explicitConnection.commit() ;
-    res.send({
-      status : true,
-      dbData,
-      link : `http://localhost:3002/menu/size/${categoryId}`
-    }) ;
+    res.redirect(`/menu/size/${categoryId}`) ;
+
 
 
 
@@ -1378,13 +1328,8 @@ exports.postDeleteSizePage = async(req, res)=>{
       sizeId
     }) ;
     await explicitConnection.commit() ;
-    res.send({
-      status : true,
-      dbSizeData,
-      dbSizeDishesData,
-      dbSizeAddonsData,
-      link : `http://localhost:3002/menu/size/${categoryId}`
-    }) ;
+    res.redirect(`/menu/size/${categoryId}`) ;
+
 
   }catch (e) {
     res.send({
@@ -1599,10 +1544,7 @@ exports.postEditAddonGroupPage = async (req, res)=>{
         addonGroupId
     }) ;
 
-    res.send({
-      dbData,
-      link : `http://localhost:3002/menu/addonGroup/${categoryId}`
-    }) ;
+    res.redirect(`/menu/addonGroup/${categoryId}`) ;
 
   }catch (e) {
     res.send({
@@ -1657,10 +1599,8 @@ exports.postAddAddonGroupPage = async(req, res)=> {
       isAddonGroupActive
     });
 
-    res.send({
-      dbData,
-      link : `http://localhost:3002/menu/addonGroup/${categoryId}`
-    }) ;
+    res.redirect(`/menu/addonGroup/${categoryId}`) ;
+
   } catch (e) {
     res.send({
       status : false,
@@ -1682,11 +1622,8 @@ exports.postDeleteAddonGroupPage = async (req, res)=>{
         addonGroupId
       }) ;
 
-    res.send({
-      status : true,
-      dbDeleteData,
-      link : `http://localhost:3002/menu/addonGroup/${categoryId}`
-    }) ;
+    res.redirect(`/menu/addonGroup/${categoryId}`) ;
+
 
   }catch (e) {
     res.send({
