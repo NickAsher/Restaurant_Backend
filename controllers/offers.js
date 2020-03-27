@@ -19,12 +19,9 @@ exports.getAllOfferSpecials = async (req, res)=>{
       offerData : offerData['data'],
     }) ;
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : false,
+      error : e
     }) ;
   }
 } ;
@@ -41,12 +38,10 @@ exports.getSingleOfferSpecial = async (req, res)=>{
       offerData : offerData['data'],
     }) ;
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/specials",
+      error : e
     }) ;
   }
 } ;
@@ -63,12 +58,10 @@ exports.getEditOfferSpecial = async (req, res)=>{
       offerData : offerData['data'],
     }) ;
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/specials",
+      error : e
     }) ;
   }
 } ;
@@ -111,12 +104,10 @@ exports.postEditOfferSpecial = async(req, res)=>{
     res.redirect(`/specials/view/${id}`) ;
 
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/specials",
+      error : e
     }) ;
   }
 } ;
@@ -130,12 +121,10 @@ exports.getAddOfferSpecial = async (req, res)=>{
       IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
     }) ;
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/specials",
+      error : e
     }) ;
   }
 } ;
@@ -163,12 +152,10 @@ exports.postAddOfferSpecial = async (req, res)=>{
     res.redirect(`/specials`) ;
 
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/specials",
+      error : e
     }) ;
   }
 } ;
@@ -186,12 +173,10 @@ exports.postDeleteOfferSpecial = async (req, res)=>{
 
     res.redirect(`/specials`) ;
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/specials",
+      error : e
     }) ;
   }
 } ;
@@ -208,12 +193,10 @@ exports.getArrangeOfferSpecialsPage = async (req, res)=>{
       offerData : offerData['data'],
     }) ;
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/specials",
+      error : e
     }) ;
   }
 } ;

@@ -14,12 +14,9 @@ exports.getAllCategoryPage = async (req, res)=>{
       categoryData : categoryData
     }) ;
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : false,
+      error : e
     }) ;
   }
 } ;
@@ -37,12 +34,10 @@ exports.getViewCategoryPage = async (req, res)=>{
       categoryData : categoryData
     }) ;
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -60,12 +55,10 @@ exports.getEditCategoryPage = async (req, res)=>{
       categoryData : categoryData
     }) ;
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -107,12 +100,10 @@ exports.postEditCategoryPage = async (req,res)=>{
 
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -122,12 +113,10 @@ exports.getAddCategoryPage = async (req, res)=>{
   try{
     res.render('menu/category/add_category.hbs') ;
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -153,12 +142,10 @@ exports.postAddCategoryPage = async (req, res)=>{
 
     res.redirect('/menu/category') ;
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -225,13 +212,10 @@ exports.postDeleteCategoryPage = async (req, res)=>{
 
 
   }catch (e) {
-    res.send({
-
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 
@@ -249,12 +233,10 @@ exports.getArrangeCategoryPage = async (req, res)=>{
       categoryData : categoryData
     }) ;
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -306,12 +288,9 @@ exports.getAllDishesPage = async (req, res)=>{
       menuData
     }) ;
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : false,
+      error : e
     }) ;
   }
 } ;
@@ -340,12 +319,10 @@ exports.getViewDishPage = async (req, res)=>{
     // }) ;
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/dishes",
+      error : e
     }) ;
   }
 } ;
@@ -374,12 +351,10 @@ exports.getEditDishPage = async (req, res)=>{
     // }) ;
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/dishes",
+      error : e
     }) ;
   }
 } ;
@@ -490,12 +465,10 @@ exports.postEditDishPage = async (req, res)=>{
     res.redirect(`/menu/dishes/view/${itemId}`) ;
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/dishes",
+      error : e
     }) ;
   }
 } ;
@@ -517,12 +490,10 @@ exports.getAddDishPage = async (req, res)=>{
 
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/dishes",
+      error : e
     }) ;
   }
 } ;
@@ -590,12 +561,10 @@ exports.postAddDishPage = async (req, res)=>{
     res.redirect(`/menu/dishes`) ;
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/dishes",
+      error : e
     }) ;
   }
 } ;
@@ -622,12 +591,10 @@ exports.postDeleteDishPage = async (req, res)=>{
     res.redirect(`/menu/dishes`) ;
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/dishes",
+      error : e
     }) ;
   }
 } ;
@@ -647,12 +614,10 @@ exports.getArrangeDishesPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/dishes",
+      error : e
     }) ;
   }
 } ;
@@ -704,12 +669,9 @@ exports.getAllAddonItemsPage = async (req, res)=>{
       addonData
     }) ;
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : false,
+      error : e
     }) ;
   }
 } ;
@@ -730,12 +692,10 @@ exports.getViewAddonPage = async (req, res)=>{
       addonSizePriceData : dbAddonSizePriceData.data
     }) ;
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/addons",
+      error : e
     }) ;
   }
 } ;
@@ -756,12 +716,10 @@ exports.getEditAddonPage = async(req, res)=>{
      addonSizePriceData : dbAddonSizePriceData.data
    }) ;
  }catch (e) {
-   res.send({
-     status : false,
-     e,
-     e_message : e.message,
-     e_toString : e.toString(),
-     yo : "Beta ji koi error hai"
+   res.render('general/error.hbs', {
+     showBackLink : true,
+     backLink : "/menu/addons",
+     error : e
    }) ;
  }
 } ;
@@ -850,12 +808,10 @@ exports.postEditAddonPage = async (req, res)=>{
 
     res.redirect(`/menu/addons/view/${itemId}`);
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/addons",
+      error : e
     }) ;
   }
 } ;
@@ -879,13 +835,11 @@ exports.getAddAddonPage = async (req, res)=> {
 
 
   } catch (e) {
-    res.send({
-      status: false,
-      e,
-      e_message: e.message,
-      e_toString: e.toString(),
-      yo: "Beta ji koi error hai"
-    });
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/addons",
+      error : e
+    }) ;
   }
 } ;
 
@@ -951,12 +905,10 @@ exports.postAddAddonPage = async (req, res)=>{
 
     res.redirect(`/menu/addons`);
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/addons",
+      error : e
     }) ;
   }
 } ;
@@ -982,12 +934,10 @@ exports.postDeleteAddonPage = async (req, res)=>{
 
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/addons",
+      error : e
     }) ;
   }
 } ;
@@ -1010,12 +960,10 @@ exports.getArrangeAddonsPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/addons",
+      error : e
     }) ;
   }
 } ;
@@ -1069,12 +1017,10 @@ exports.getChangeDefaultAddonPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/addons",
+      error : e
     }) ;
   }
 } ;
@@ -1139,12 +1085,10 @@ exports.getAllSizesPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -1169,12 +1113,10 @@ exports.getEditSizePage = async (req, res)=>{
     }) ;
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -1200,12 +1142,10 @@ exports.postEditSizePage = async (req, res)=>{
     res.redirect(`/menu/size/${categoryId}`) ;
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -1222,12 +1162,10 @@ exports.getAddSizePage = async(req, res)=>{
     }) ;
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -1295,12 +1233,10 @@ exports.postAddSizePage = async(req, res)=>{
 
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -1332,12 +1268,10 @@ exports.postDeleteSizePage = async(req, res)=>{
 
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -1358,12 +1292,10 @@ exports.getArrangeSizesPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -1415,12 +1347,10 @@ exports.getChangeDefaultSizePage = async (req, res)=>{
     }) ;
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -1489,12 +1419,10 @@ exports.getAllAddonGroupsPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -1516,12 +1444,10 @@ exports.getEditAddonGroupPage = async(req, res)=>{
       categoryData : dbCategoryData.data
     }) ;
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -1547,12 +1473,10 @@ exports.postEditAddonGroupPage = async (req, res)=>{
     res.redirect(`/menu/addonGroup/${categoryId}`) ;
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -1569,12 +1493,10 @@ exports.getAddAddonGroupPage = async(req, res)=>{
       categoryData : dbCategoryData.data
     }) ;
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -1602,12 +1524,10 @@ exports.postAddAddonGroupPage = async(req, res)=> {
     res.redirect(`/menu/addonGroup/${categoryId}`) ;
 
   } catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -1626,12 +1546,10 @@ exports.postDeleteAddonGroupPage = async (req, res)=>{
 
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;
@@ -1654,12 +1572,10 @@ exports.getArrangeAddonGroupPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/menu/category",
+      error : e
     }) ;
   }
 } ;

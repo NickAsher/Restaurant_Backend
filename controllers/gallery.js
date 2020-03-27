@@ -15,12 +15,9 @@ exports.getAllGalleryItemPage = async(req, res)=>{
       galleryData : galleryData['data'],
     }) ;
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : false,
+      error : e
     }) ;
   }
 } ;
@@ -32,12 +29,10 @@ exports.getAddGalleryItemPage = async (req, res)=>{
       IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
     }) ;
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/gallery",
+      error : e
     }) ;
   }
 } ;
@@ -59,12 +54,10 @@ exports.postAddGalleryItemPage = async(req, res)=>{
     res.redirect(`/gallery`) ;
 
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/gallery",
+      error : e
     }) ;
   }
 } ;
@@ -83,12 +76,10 @@ exports.postDeleteGalleryItemPage = async(req, res)=>{
 
 
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/gallery",
+      error : e
     }) ;
   }
 } ;
@@ -104,12 +95,10 @@ exports.getArrangeGalleryItemsPage = async(req, res)=>{
       galleryData : galleryData['data'],
     }) ;
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/gallery",
+      error : e
     }) ;
   }
 } ;

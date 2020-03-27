@@ -33,13 +33,9 @@ exports.getOrderPage = async (req, res)=>{
 
 
   }catch (e) {
-    res.send({
-      status : false,
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : false,
+      error : e
     }) ;
   }
 } ;

@@ -14,12 +14,9 @@ exports.getViewAboutPage = async (req, res)=>{
       aboutData : aboutData['data'],
     }) ;
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : false,
+      error : e
     }) ;
   }
 } ;
@@ -35,12 +32,9 @@ exports.getEditAboutPage = async (req, res)=>{
       aboutData : aboutData['data'],
     }) ;
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : false,
+      error : e
     }) ;
   }
 } ;
@@ -55,12 +49,10 @@ exports.postEditAboutPage = async (req, res)=>{
     res.redirect(`/about`) ;
 
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/about",
+      error : e
     }) ;
   }
 } ;
@@ -79,12 +71,9 @@ exports.getViewContactPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : false,
+      error : e
     }) ;
   }
 };
@@ -102,12 +91,9 @@ exports.getEditContactPage =  async (req, res)=>{
       contactData,
     }) ;
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : false,
+      error : e
     }) ;
   }
 };
@@ -152,12 +138,10 @@ exports.postEditContactPage = async (req, res)=>{
 
     res.redirect(`/contact`) ;
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/contact",
+      error : e
     }) ;
   }
 };

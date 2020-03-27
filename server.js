@@ -23,6 +23,9 @@ hbs.registerHelper('increment', function (arg1) {
   arg1++;
   return arg1;
 });
+hbs.registerHelper('toJSON', function(obj) {
+  return JSON.stringify(obj, null, 4);
+});
 
 app.use(express.static("public"));
 app.use(bodyParser.json()); // support json encoded bodies
@@ -69,6 +72,17 @@ app.get('/', async (req, res)=>{
 
 app.get('/login', async (req, res)=>{
   res.render('general/login.hbs') ;
+}) ;
+
+app.get('/error', async (req, res)=>{
+  res.render('general/error.hbs', {
+    errorObject : {
+      status : false,
+      e_message : "This is some message",
+      e_toString : "This error : This is some message",
+      yo : "Beta ji koi error hai"
+    }
+  }) ;
 }) ;
 
 app.use(require('./routes/router_blogs')) ;

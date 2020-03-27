@@ -8,24 +8,35 @@ const Paginator = require('../utils/Paginator') ;
 
 
 exports.getAllBlogsPage = async(req, res)=>{
+  try {
 
-  let countData = await dbRepository.getCount_Blogs() ;
-  if(countData.status == false){throw countData ;}
+    let countData = await dbRepository.getCount_Blogs();
+    if (countData.status == false) {
+      throw countData;
+    }
 
-  let totalNoOfItems = countData.data.total ;
-  let itemsPerPage  = 10 ;
-  let myPaginator = new Paginator(totalNoOfItems, itemsPerPage, req.query.page) ;
-  let parsedPaginatorHtml = myPaginator.getPaginatedHTML("") ;
+    let totalNoOfItems = countData.data.total;
+    let itemsPerPage = 10;
+    let myPaginator = new Paginator(totalNoOfItems, itemsPerPage, req.query.page);
+    let parsedPaginatorHtml = myPaginator.getPaginatedHTML("");
 
-  let blogsData = await dbRepository.getBlogs_Paginated(myPaginator.getPageNo(), itemsPerPage) ;
-  if(blogsData['status'] === false){throw blogsData ;}
+    let blogsData = await dbRepository.getBlogs_Paginated(myPaginator.getPageNo(), itemsPerPage);
+    if (blogsData['status'] === false) {
+      throw blogsData;
+    }
 
 
-  res.render('blogs/all_blogs.hbs', {
-    IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
-    blogsData : blogsData['data'],
-    parsedPaginatorHtml,
-  }) ;
+    res.render('blogs/all_blogs.hbs', {
+      IMAGE_BACKENDFRONT_LINK_PATH: Constants.IMAGE_BACKENDFRONT_LINK_PATH,
+      blogsData: blogsData['data'],
+      parsedPaginatorHtml,
+    });
+  }catch (e) {
+    res.render('general/error.hbs', {
+      showBackLink : false,
+      error : e
+    }) ;
+  }
 } ;
 
 
@@ -38,12 +49,10 @@ exports.getSingleBlogViewPage = async (req, res)=>{
       blogData : blogData.data ,
     }) ;
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/blogs",
+      error : e
     }) ;
   }
 } ;
@@ -58,12 +67,10 @@ exports.getSingleBlogEditPage = async (req, res)=>{
       blogData : blogData.data,
     }) ;
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/blogs",
+      error : e
     }) ;
   }
 } ;
@@ -107,12 +114,10 @@ exports.postEditBlogPage = async(req, res)=>{
 
 
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/blogs",
+      error : e
     }) ;
   }
 } ;
@@ -124,12 +129,10 @@ exports.getAddNewBlogPage = async(req, res)=>{
       IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
     }) ;
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/blogs",
+      error : e
     }) ;
   }
 } ;
@@ -151,15 +154,11 @@ exports.postAddNewBlogPage = async (req, res)=>{
     }) ;
 
     res.redirect(`/blogs`) ;
-
-
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/blogs",
+      error : e
     }) ;
   }
 } ;
@@ -176,12 +175,10 @@ exports.postDeleteBlogPage = async (req, res)=>{
 
     res.redirect(`/blogs`) ;
   }catch (e) {
-    res.send({
-      e,
-      e_message : e.message,
-      e_toString : e.toString(),
-
-      yo : "Beta ji koi error hai"
+    res.render('general/error.hbs', {
+      showBackLink : true,
+      backLink : "/blogs",
+      error : e
     }) ;
   }
 } ;
