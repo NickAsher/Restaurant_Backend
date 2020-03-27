@@ -25,12 +25,12 @@ router.get('/gallery', controllerGallery.getAllGalleryItemPage) ;
 router.get('/gallery/add', controllerGallery.getAddGalleryItemPage) ;
 
 router.post('/gallery/add/save', upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber,
-  showValidationError, controllerGallery.postAddGalleryItemPage) ;
+  showValidationError('/gallery'), controllerGallery.postAddGalleryItemPage) ;
 
 router.post('/gallery/delete', [
   body('galleryItemId', "Invalid gallery Item Id").exists().notEmpty().isNumeric({no_symbols:true}).trim(),
   body('galleryImageFileName', "Invalid image name").exists().notEmpty().trim().escape(),
-], showValidationError, controllerGallery.postDeleteGalleryItemPage) ;
+], showValidationError('/gallery'), controllerGallery.postDeleteGalleryItemPage) ;
 
 router.get('/gallery/arrange', controllerGallery.getArrangeGalleryItemsPage) ;
 
@@ -54,7 +54,7 @@ router.post('/gallery/arrange', [
 
     return true ;
   })
-], showValidationError, controllerGallery.postArrangeGalleryItemsPage) ;
+], showValidationError('/gallery'), controllerGallery.postArrangeGalleryItemsPage) ;
 
 
 module.exports = router ;

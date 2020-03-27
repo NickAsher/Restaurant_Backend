@@ -15,30 +15,30 @@ router.get('/specials', controllerOfferSpecial.getAllOfferSpecials) ;
 
 router.get('/specials/view/:offerId',[
   param('offerId', "Invalid OfferSpecial Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerOfferSpecial.getSingleOfferSpecial) ;
+], showValidationError('/specials'), controllerOfferSpecial.getSingleOfferSpecial) ;
 
 router.get('/specials/edit/:offerId', [
   param('offerId', "Invalid OfferSpecial Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerOfferSpecial.getEditOfferSpecial) ;
+], showValidationError('/specials'), controllerOfferSpecial.getEditOfferSpecial) ;
 
 router.post('/specials/edit/save', upload.single('post_Image'), checkFileMagicNumber, [
   body('offerId', "Invalid OfferSpecial Id").exists().notEmpty().isNumeric({no_symbols:true}).trim().escape(),
   body('offerTitle', "Invalid OfferSpecial Title").exists().notEmpty().trim().escape(),
   body('offerMessage', "Invalid OfferSpecial Message").exists().notEmpty().trim().escape(),
   body('offerOldImageFileName', "Invalid OfferSpecial Old Image File Name").exists().notEmpty().trim(),
-], showValidationError, controllerOfferSpecial.postEditOfferSpecial) ;
+], showValidationError('/specials'), controllerOfferSpecial.postEditOfferSpecial) ;
 
 router.get('/specials/add', controllerOfferSpecial.getAddOfferSpecial) ;
 
 router.post('/specials/add/save', upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber, [
   body('offerTitle', "Invalid OfferSpecial Title").exists().notEmpty().trim().escape(),
   body('offerMessage', "Invalid OfferSpecial Message").exists().notEmpty().trim().escape(),
-], showValidationError, controllerOfferSpecial.postAddOfferSpecial) ;
+], showValidationError('/specials'), controllerOfferSpecial.postAddOfferSpecial) ;
 
 router.post('/specials/delete', [
   body('offerId', "Invalid OfferSpecial Id").exists().notEmpty().isNumeric({no_symbols:true}).trim().escape(),
   body('offerImageFileName', "Invalid OfferSpecial Image Name").exists().notEmpty().trim(),
-], showValidationError,  controllerOfferSpecial.postDeleteOfferSpecial) ;
+], showValidationError('/specials'),  controllerOfferSpecial.postDeleteOfferSpecial) ;
 
 router.get('/specials/arrange', controllerOfferSpecial.getArrangeOfferSpecialsPage) ;
 
@@ -62,7 +62,7 @@ router.post('/specials/arrange', [
 
     return true ;
   })
-], showValidationError, controllerOfferSpecial.postOfferSpecialsPage) ;
+], showValidationError('/specials'), controllerOfferSpecial.postOfferSpecialsPage) ;
 
 
 

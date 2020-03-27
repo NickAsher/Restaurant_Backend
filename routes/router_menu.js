@@ -19,29 +19,29 @@ router.get('/menu/category', controllerMenu.getAllCategoryPage) ;
 
 router.get('/menu/category/view/:categoryId', [
   param('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerMenu.getViewCategoryPage) ;
+], showValidationError('/menu/category'), controllerMenu.getViewCategoryPage) ;
 
 router.get('/menu/category/edit/:categoryId', [
   param('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerMenu.getEditCategoryPage) ;
+], showValidationError('/menu/category'), controllerMenu.getEditCategoryPage) ;
 
 router.post('/menu/category/edit/save', upload.single('post_Image'), checkFileMagicNumber, [
   body('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols:true}).trim().escape(),
   body('isCategoryActive', "Invalid boolean isCategoryActive Name").exists().notEmpty().isBoolean(),
   body('categoryName', "Invalid Category Name").exists().notEmpty().trim().escape(),
-], showValidationError, controllerMenu.postEditCategoryPage) ;
+], showValidationError('/menu/category'), controllerMenu.postEditCategoryPage) ;
 
 router.get('/menu/category/add', controllerMenu.getAddCategoryPage) ;
 
 router.post('/menu/category/add/save', upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber, [
   body('isCategoryActive', "Invalid boolean isCategoryActive Name").exists().notEmpty().isBoolean(),
   body('categoryName', "Invalid Category Name").exists().notEmpty().trim().escape(),
-], showValidationError, controllerMenu.postAddCategoryPage) ;
+], showValidationError('/menu/category'), controllerMenu.postAddCategoryPage) ;
 
 router.post('/menu/category/delete', [
   body('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols:true}).trim().escape(),
   body('categoryImageFileName', "Invalid Category Image Name").exists().notEmpty().trim(),
-], showValidationError, controllerMenu.postDeleteCategoryPage) ;
+], showValidationError('/menu/category'), controllerMenu.postDeleteCategoryPage) ;
 
 router.post('/menu/category/arrange', controllerMenu.postArrangeCategoryPage) ;
 
@@ -64,7 +64,7 @@ router.get('/menu/category/arrange', [
     }
     return true ;
   })
-], showValidationError, controllerMenu.getArrangeCategoryPage) ;
+], showValidationError('/menu/category'), controllerMenu.getArrangeCategoryPage) ;
 
 /********************************************************************************************/
 /******************************************** Menu Dishes ***********************************/
@@ -74,40 +74,38 @@ router.get('/menu/dishes', controllerMenu.getAllDishesPage) ;
 
 router.get('/menu/dishes/view/:menuItemId', [
   param('menuItemId', "Invalid MenuItemId").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerMenu.getViewDishPage) ;
+], showValidationError('/menu/dishes'), controllerMenu.getViewDishPage) ;
 
 router.get('/menu/dishes/edit/:menuItemId', [
   param('menuItemId', "Invalid MenuItemId").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerMenu.getEditDishPage) ;
+], showValidationError('/menu/dishes'), controllerMenu.getEditDishPage) ;
 
-//TODO validate the size price
 router.post('/menu/dishes/edit/save', upload.single('post_Image'), checkFileMagicNumber, [
   body('itemId', "Invalid MenuItemId").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
   body('isItemActive', "Invalid boolean isItemActive ").exists().notEmpty().isBoolean(),
   body('itemName', "Invalid DishItem Name").exists().notEmpty().trim().escape(),
   body('itemDescription', "Invalid DishItem Description").exists().notEmpty().trim().escape(),
-], showValidationError, controllerMenu.postEditDishPage) ;
+], showValidationError('/menu/dishes'), controllerMenu.postEditDishPage) ;
 
 router.get('/menu/dishes/add/:categoryId', [
   param('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerMenu.getAddDishPage) ;
+], showValidationError('/menu/dishes'), controllerMenu.getAddDishPage) ;
 
-//TODO validate the size price
 router.post('/menu/dishes/add/save', upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber, [
   body('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
   body('isItemActive', "Invalid boolean isItemActive ").exists().notEmpty().isBoolean(),
   body('itemName', "Invalid DishItem Name").exists().notEmpty().trim().escape(),
   body('itemDescription', "Invalid DishItem Description").exists().notEmpty().trim().escape(),
-], showValidationError,  controllerMenu.postAddDishPage) ;
+], showValidationError('/menu/dishes'),  controllerMenu.postAddDishPage) ;
 
 router.post('/menu/dishes/delete', [
   body('itemId', "Invalid MenuItemId").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
   body('itemImageName', 'Invalid Image File Name').exists().notEmpty().trim(),
-], showValidationError, controllerMenu.postDeleteDishPage ) ;
+], showValidationError('/menu/dishes'), controllerMenu.postDeleteDishPage ) ;
 
 router.get('/menu/dishes/arrange/:categoryId', [
   param('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerMenu.getArrangeDishesPage) ;
+], showValidationError('/menu/dishes'), controllerMenu.getArrangeDishesPage) ;
 
 router.post('/menu/dishes/arrange/save', [
   body('sortedArray', "Invalid array of Id's").exists().notEmpty().custom((value, {req})=>{
@@ -129,7 +127,7 @@ router.post('/menu/dishes/arrange/save', [
 
     return true ;
   })
-], showValidationError, controllerMenu.postArrangeDishesPage) ;
+], showValidationError('/menu/dishes'), controllerMenu.postArrangeDishesPage) ;
 
 
 /********************************************************************************************/
@@ -140,38 +138,38 @@ router.get('/menu/addons', controllerMenu.getAllAddonItemsPage) ;
 
 router.get('/menu/addons/view/:addonItemId', [
   param('addonItemId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerMenu.getViewAddonPage) ;
+], showValidationError('/menu/addons'), controllerMenu.getViewAddonPage) ;
 
 router.get('/menu/addons/edit/:addonItemId', [
   param('addonItemId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerMenu.getEditAddonPage) ;
+], showValidationError('/menu/addons'), controllerMenu.getEditAddonPage) ;
 
 router.post('/menu/addons/edit/save', [
   body('itemId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
   body('itemName').exists().notEmpty().trim().escape(),
   body('isItemActive').exists().notEmpty().isBoolean(),
 
-], showValidationError, controllerMenu.postEditAddonPage) ;
+], showValidationError('/menu/addons'), controllerMenu.postEditAddonPage) ;
 
 router.get('/menu/addons/add/:categoryId/:addonGroupId', [
   param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
   param('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerMenu.getAddAddonPage) ;
+], showValidationError('/menu/addons'), controllerMenu.getAddAddonPage) ;
 
 router.post('/menu/addons/add/save', [
   body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
   body('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
   body('itemName').exists().notEmpty().trim().escape(),
   body('isItemActive').exists().notEmpty().isBoolean(),
-], showValidationError, controllerMenu.postAddAddonPage) ;
+], showValidationError('/menu/addons'), controllerMenu.postAddAddonPage) ;
 
 router.post('/menu/addons/delete',  [
   body('itemId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerMenu.postDeleteAddonPage ) ;
+], showValidationError('/menu/addons'), controllerMenu.postDeleteAddonPage ) ;
 
 router.get('/menu/addons/arrange/:addonGroupId', [
   param('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerMenu.getArrangeAddonsPage) ;
+], showValidationError('/menu/addons'), controllerMenu.getArrangeAddonsPage) ;
 
 router.post('/menu/addons/arrange/', [
   body('sortedArray', "Invalid array of Id's").exists().notEmpty().custom((value, {req})=>{
@@ -193,16 +191,16 @@ router.post('/menu/addons/arrange/', [
 
     return true ;
   })
-], showValidationError, controllerMenu.postArrangeAddonsPage) ;
+], showValidationError('/menu/addons'), controllerMenu.postArrangeAddonsPage) ;
 
 router.get('/menu/addons/change-default/:addonGroupId', [
   param('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerMenu.getChangeDefaultAddonPage) ;
+], showValidationError('/menu/addons'), controllerMenu.getChangeDefaultAddonPage) ;
 
 router.post('/menu/addons/change-default/save',  [
   body('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
   body('defaultItemId').exists().notEmpty().isNumeric({no_symbols: false}).trim().escape(),
-], showValidationError, controllerMenu.postChangeDefaultAddonPage) ;
+], showValidationError('/menu/addons'), controllerMenu.postChangeDefaultAddonPage) ;
 
 
 /********************************************************************************************/
@@ -212,11 +210,11 @@ router.post('/menu/addons/change-default/save',  [
 
 router.get('/menu/size/:categoryId', [
   param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerMenu.getAllSizesPage) ;
+], showValidationError('/menu/category'), controllerMenu.getAllSizesPage) ;
 
 router.get('/menu/size/edit/:sizeId', [
   param('sizeId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError,  controllerMenu.getEditSizePage) ;
+], showValidationError('/menu/category'),  controllerMenu.getEditSizePage) ;
 
 router.post('/menu/size/edit/save', [
   body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
@@ -224,27 +222,27 @@ router.post('/menu/size/edit/save', [
   body('sizeName').exists().notEmpty().trim().escape(),
   body('isSizeActive').exists().notEmpty().isBoolean(),
   body('sizeNameAbbreviated').exists().notEmpty().trim().escape(),
-], showValidationError,  controllerMenu.postEditSizePage) ;
+], showValidationError('/menu/category'),  controllerMenu.postEditSizePage) ;
 
 router.get('/menu/size/add/:categoryId', [
   param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError,  controllerMenu.getAddSizePage) ;
+], showValidationError('/menu/category'),  controllerMenu.getAddSizePage) ;
 
 router.post('/menu/size/add/save', [
   body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
   body('sizeName').exists().notEmpty().trim().escape(),
   body('isSizeActive').exists().notEmpty().isBoolean(),
   body('sizeNameAbbreviated').exists().notEmpty().trim().escape(),
-], showValidationError,  controllerMenu.postAddSizePage) ;
+], showValidationError('/menu/category'),  controllerMenu.postAddSizePage) ;
 
 router.post('/menu/size/delete', [
   body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
   body('sizeId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError,  controllerMenu.postDeleteSizePage);
+], showValidationError('/menu/category'),  controllerMenu.postDeleteSizePage);
 
 router.get('/menu/size/arrange/:categoryId', [
   param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError,  controllerMenu.getArrangeSizesPage) ;
+], showValidationError('/menu/category'),  controllerMenu.getArrangeSizesPage) ;
 
 router.post('/menu/size/arrange/save', [
   body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
@@ -267,16 +265,16 @@ router.post('/menu/size/arrange/save', [
 
     return true ;
   })
-], showValidationError,  controllerMenu.postArrangeSizesPage) ;
+], showValidationError('/menu/category'),  controllerMenu.postArrangeSizesPage) ;
 
 router.get('/menu/size/change-default/:categoryId', [
   param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError,  controllerMenu.getChangeDefaultSizePage) ;
+], showValidationError('/menu/category'),  controllerMenu.getChangeDefaultSizePage) ;
 
 router.post('/menu/size/change-default/save', [
   body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
   body('defaultSizeId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError,  controllerMenu.postChangeDefaultSizePage) ;
+], showValidationError('/menu/category'),  controllerMenu.postChangeDefaultSizePage) ;
 
 /********************************************************************************************/
 /******************************************** Addon-Group ***********************************/
@@ -284,11 +282,11 @@ router.post('/menu/size/change-default/save', [
 
 router.get('/menu/addonGroup/:categoryId', [
   param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerMenu.getAllAddonGroupsPage) ;
+], showValidationError('/menu/category'), controllerMenu.getAllAddonGroupsPage) ;
 
 router.get('/menu/addonGroup/edit/:addonGroupId', [
   param('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerMenu.getEditAddonGroupPage) ;
+], showValidationError('/menu/category'), controllerMenu.getEditAddonGroupPage) ;
 
 router.post('/menu/addonGroup/edit/save', [
   body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
@@ -296,7 +294,7 @@ router.post('/menu/addonGroup/edit/save', [
   body('addonGroupName').exists().notEmpty().trim().escape(),
   body('addonGroupType').exists().notEmpty().trim().escape().isIn(['radio', 'checkbox']),
   body('isAddonGroupActive').exists().notEmpty().isBoolean(),
-], showValidationError, controllerMenu.postEditAddonGroupPage) ;
+], showValidationError('/menu/category'), controllerMenu.postEditAddonGroupPage) ;
 
 router.get('/menu/addonGroup/add/:categoryId', [
   param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
@@ -307,16 +305,16 @@ router.post('/menu/addonGroup/add/save', [
   body('addonGroupName').exists().notEmpty().trim().escape(),
   body('addonGroupType').exists().notEmpty().trim().escape().isIn(['radio', 'checkbox']),
   body('isAddonGroupActive').exists().notEmpty().isBoolean(),
-], showValidationError, controllerMenu.postAddAddonGroupPage) ;
+], showValidationError('/menu/category'), controllerMenu.postAddAddonGroupPage) ;
 
 router.post('/menu/addonGroup/delete', [
   body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
   body('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerMenu.postDeleteAddonGroupPage);
+], showValidationError('/menu/category'), controllerMenu.postDeleteAddonGroupPage);
 
 router.get('/menu/addonGroup/arrange/:categoryId', [
   param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerMenu.getArrangeAddonGroupPage) ;
+], showValidationError('/menu/category'), controllerMenu.getArrangeAddonGroupPage) ;
 
 router.post('/menu/addonGroup/arrange/save', [
   body('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
@@ -339,7 +337,7 @@ router.post('/menu/addonGroup/arrange/save', [
 
     return true ;
   })
-], showValidationError, controllerMenu.postArrangeAddonGroupPage) ;
+], showValidationError('/menu/category'), controllerMenu.postArrangeAddonGroupPage) ;
 
 
 

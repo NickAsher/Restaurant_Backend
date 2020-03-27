@@ -14,7 +14,7 @@ router.get('/orders', controllerOrders.getOrderPage) ;
 router.post('/orders/operation', [
   body('id', "Invalid Order Id").exists().notEmpty().isNumeric({no_symbols:true}).trim().escape(),
   body('operation', "Invalid Order operation").exists().notEmpty().trim().escape().isIn(['accept', 'complete', 'cancel']),
-], showValidationError, controllerOrders.postOrderOperation) ;
+], showValidationError('/orders'), controllerOrders.postOrderOperation) ;
 
 
 module.exports = router ;

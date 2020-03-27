@@ -76,35 +76,49 @@ exports.checkFileMagicNumber = async (req, res, next)=>{
 } ;
 
 exports.checkFileIsUploaded = (req, res, next)=>{
+  /* the reason that we have a seperate middleware for checking if file is uploaded
+   * rather than just doing this check in showValidationError
+   * Is that not all web-pages need to have a file upload.
+   * for example, in edit page for menu items, user might not have uploaded a file
+   * so this is only needed for pages, where file upload is absolutely necessary, like adding new-Item pages
+   *
+   */
   if(!req.file){
-    return res.status(422).send({
-      status:false,
+    return res.status(422).render('general/error.hbs', {
+      showBackLink : false,
+      // backLink : "/menu/category",
       fileErrors :"File does not exist",
-    });
+
+    }) ;
   }else{
     next() ;
   }
 } ;
 
 
+exports.showValidationError = (backPageLink)=>{
+  return (req, res, next)=>{
+    const errors = validationResult(req) ;
 
-exports.showValidationError = (req, res, next)=>{
-  const errors = validationResult(req) ;
+    if (!errors.isEmpty()  || req.myFileError_MagicNumber) {
 
-  if (!errors.isEmpty()  || req.myFileError_MagicNumber) {
+      if(req.file){
+        //deleting the image from multer
+        let newImageFileName = req.myFileName ;
+        fs.unlinkSync(Constants.IMAGE_PATH + newImageFileName) ;
+      }
 
-    if(req.file){
-      //deleting the image from multer
-      let newImageFileName = req.myFileName ;
-      fs.unlinkSync(Constants.IMAGE_PATH + newImageFileName) ;
+      res.status(422).render('general/error.hbs', {
+        showBackLink : true,
+        backLink : backPageLink,
+        error : {
+          fileErrors : req.myFileError_MagicNumber,
+          validationErrors : errors.array()
+        }
+
+      }) ;
+    } else {
+      next() ;
     }
-
-    return res.status(422).send({
-      status:false,
-      fileErrors : req.myFileError_MagicNumber,
-      error : errors.array()
-    });
-  } else {
-    next() ;
-  }
+  } ;
 } ;

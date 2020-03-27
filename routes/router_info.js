@@ -13,7 +13,7 @@ router.get('/about/edit', controllerInfo.getEditAboutPage) ;
 
 router.post('/about/edit/save', [
     body('aboutUsData', "Invalid AboutUs data").exists().notEmpty()
-], showValidationError, controllerInfo.postEditAboutPage) ;
+], showValidationError('/about'), controllerInfo.postEditAboutPage) ;
 
 router.get('/contact', controllerInfo.getViewContactPage) ;
 router.get('/contact/edit', controllerInfo.getEditContactPage) ;
@@ -31,7 +31,7 @@ router.post('/contact/edit/save', [
   body('restaurantLinkInstagram', 'Invalid Instagram Link').exists().notEmpty().isURL().trim(),
   body('restaurantLinkTwitter', 'Invalid Twitter Link').exists().notEmpty().isURL().trim(),
   body('restaurantLinkYoutube', 'Invalid Youtube Link').exists().notEmpty().isURL().trim(),
-],  showValidationError, controllerInfo.postEditContactPage) ;
+],  showValidationError('/contact'), controllerInfo.postEditContactPage) ;
 
 
 module.exports = router ;

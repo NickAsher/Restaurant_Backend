@@ -16,11 +16,11 @@ router.get('/blogs', controllerBlogs.getAllBlogsPage) ;
 
 router.get('/blogs/view/:blogId', [
   param('blogId', "Invalid Blog Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerBlogs.getSingleBlogViewPage) ;
+], showValidationError('/blogs'), controllerBlogs.getSingleBlogViewPage) ;
 
 router.get('/blogs/edit/:blogId', [
   param('blogId', "Invalid Blog Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError, controllerBlogs.getSingleBlogEditPage) ;
+], showValidationError('/blogs'), controllerBlogs.getSingleBlogEditPage) ;
 
 router.post('/blogs/edit/save', upload.single('post_Image'), checkFileMagicNumber, [
   body('blogId', "Invalid BlogId").exists().notEmpty().isNumeric().trim().escape(),
@@ -28,7 +28,7 @@ router.post('/blogs/edit/save', upload.single('post_Image'), checkFileMagicNumbe
   body('blogAuthorName', "Invalid Author Name").exists().notEmpty().trim().escape(),
   body('blogTitle', "Invalid Blog Title").exists().notEmpty().trim().escape(),
   body('blogContent', "Invalid blog content").exists().notEmpty(),
-], showValidationError, controllerBlogs.postEditBlogPage) ;
+], showValidationError('/blogs'), controllerBlogs.postEditBlogPage) ;
 
 router.get('/blogs/add', controllerBlogs.getAddNewBlogPage) ;
 
@@ -36,11 +36,11 @@ router.post('/blogs/add/save', upload.single('post_Image'), checkFileIsUploaded,
   body('blogAuthorName', "Invalid Author Name").exists().notEmpty().trim().escape(),
   body('blogTitle', "Invalid Blog Title").exists().notEmpty().trim().escape(),
   body('blogContent', "Invalid blog content").exists().notEmpty(),
-], showValidationError, controllerBlogs.postAddNewBlogPage) ;
+], showValidationError('/blogs'), controllerBlogs.postAddNewBlogPage) ;
 
 router.post('/blogs/delete', [
   body('blogId', "invalid blogId").exists().notEmpty().isNumeric({no_symbols:true}).trim(),
   body('blogImageFileName', "invalid image name").exists().notEmpty().trim().escape(),
-], showValidationError, controllerBlogs.postDeleteBlogPage) ;
+], showValidationError('/blogs'), controllerBlogs.postDeleteBlogPage) ;
 
 module.exports = router ;
