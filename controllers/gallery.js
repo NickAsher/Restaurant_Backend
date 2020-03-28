@@ -4,6 +4,7 @@ const dbConnection = require('../utils/database') ;
 const dbRepository = require('../utils/DbRepository') ;
 const Constants = require('../utils/Constants') ;
 const Paginator = require('../utils/Paginator') ;
+const logger = require('../middleware/logging') ;
 
 exports.getAllGalleryItemPage = async(req, res)=>{
   try{
@@ -15,6 +16,7 @@ exports.getAllGalleryItemPage = async(req, res)=>{
       galleryData : galleryData['data'],
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : false,
       error : e
@@ -29,6 +31,7 @@ exports.getAddGalleryItemPage = async (req, res)=>{
       IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/gallery",
@@ -54,6 +57,7 @@ exports.postAddGalleryItemPage = async(req, res)=>{
     res.redirect(`/gallery`) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/gallery",
@@ -76,6 +80,7 @@ exports.postDeleteGalleryItemPage = async(req, res)=>{
 
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/gallery",
@@ -95,6 +100,7 @@ exports.getArrangeGalleryItemsPage = async(req, res)=>{
       galleryData : galleryData['data'],
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/gallery",
@@ -141,6 +147,7 @@ exports.postArrangeGalleryItemsPage = async (req, res)=>{
       msg : "ORDER_CHANGED"
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.send({
       status : false,
       e,

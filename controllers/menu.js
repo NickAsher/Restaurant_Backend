@@ -2,11 +2,12 @@ const dbConnection = require('../utils/database') ;
 const dbRepository = require('../utils/DbRepository') ;
 const Constants = require('../utils/Constants') ;
 const fs = require('fs') ;
+const logger = require('../middleware/logging') ;
 
 exports.getAllCategoryPage = async (req, res)=>{
   try{
     let dbData = await dbRepository.getAllMenuCategories() ;
-    if(dbData.status != true){throw dbData.data ;}
+    if(dbData.status != true){throw dbData ;}
 
     let categoryData = dbData.data ;
 
@@ -14,6 +15,7 @@ exports.getAllCategoryPage = async (req, res)=>{
       categoryData : categoryData
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : false,
       error : e
@@ -26,7 +28,7 @@ exports.getViewCategoryPage = async (req, res)=>{
   try{
     let categoryId = req.params.categoryId ;
     let dbData = await dbRepository.getSingleMenuCategory(categoryId) ;
-    if(dbData.status != true){throw dbData.data ;}
+    if(dbData.status != true){throw dbData ;}
 
     let categoryData = dbData.data ;
 
@@ -34,6 +36,7 @@ exports.getViewCategoryPage = async (req, res)=>{
       categoryData : categoryData
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -47,7 +50,7 @@ exports.getEditCategoryPage = async (req, res)=>{
   try{
     let categoryId = req.params.categoryId ;
     let dbData = await dbRepository.getSingleMenuCategory(categoryId) ;
-    if(dbData.status != true){throw dbData.data ;}
+    if(dbData.status != true){throw dbData ;}
 
     let categoryData = dbData.data ;
 
@@ -55,6 +58,7 @@ exports.getEditCategoryPage = async (req, res)=>{
       categoryData : categoryData
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -100,6 +104,7 @@ exports.postEditCategoryPage = async (req,res)=>{
 
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -113,6 +118,7 @@ exports.getAddCategoryPage = async (req, res)=>{
   try{
     res.render('menu/category/add_category.hbs') ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -142,6 +148,7 @@ exports.postAddCategoryPage = async (req, res)=>{
 
     res.redirect('/menu/category') ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -157,7 +164,7 @@ exports.postDeleteCategoryPage = async (req, res)=>{
     let categoryImageFileName = req.body.categoryImageFileName ;
 
     let dbMenuItems = await dbRepository.getAllMenuItemsInCategory(categoryId) ;
-    if(dbMenuItems.status != true){throw dbMenuItems.data ;}
+    if(dbMenuItems.status != true){throw dbMenuItems ;}
 
     let menuItemsList = dbMenuItems.data ;
     menuItemsList.forEach((menuItem)=>{
@@ -212,6 +219,7 @@ exports.postDeleteCategoryPage = async (req, res)=>{
 
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -225,7 +233,7 @@ exports.postDeleteCategoryPage = async (req, res)=>{
 exports.getArrangeCategoryPage = async (req, res)=>{
   try{
     let dbData = await dbRepository.getAllMenuCategories() ;
-    if(dbData.status != true){throw dbData.data ;}
+    if(dbData.status != true){throw dbData ;}
 
     let categoryData = dbData.data ;
 
@@ -233,6 +241,7 @@ exports.getArrangeCategoryPage = async (req, res)=>{
       categoryData : categoryData
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -260,6 +269,7 @@ exports.postArrangeCategoryPage = async (req,res)=>{
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.send({
       status : false,
       e,
@@ -280,7 +290,7 @@ exports.postArrangeCategoryPage = async (req,res)=>{
 exports.getAllDishesPage = async (req, res)=>{
   try{
     let dbData = await dbRepository.getAllMenuItems_SeperatedByCategory() ;
-    if(dbData.status != true){throw dbData.data ;}
+    if(dbData.status != true){throw dbData ;}
 
     let menuData = dbData.data ;
     res.render('menu/dishes/all_dishes.hbs', {
@@ -288,6 +298,7 @@ exports.getAllDishesPage = async (req, res)=>{
       menuData
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : false,
       error : e
@@ -301,10 +312,10 @@ exports.getViewDishPage = async (req, res)=>{
     let menuItemId = req.params.menuItemId ;
 
     let dbItemData = await dbRepository.getSingleMenuItem(menuItemId) ;
-    if(dbItemData.status != true){throw dbItemData.data ;}
+    if(dbItemData.status != true){throw dbItemData ;}
 
     let dbItemSizePriceData = await dbRepository.getSingleMenuItem_PriceData(menuItemId) ;
-    if(dbItemSizePriceData.status != true){throw dbItemSizePriceData.data ;}
+    if(dbItemSizePriceData.status != true){throw dbItemSizePriceData ;}
 
     let itemData = dbItemData.data ;
     let itemSizePriceData = dbItemSizePriceData.data ;
@@ -319,6 +330,7 @@ exports.getViewDishPage = async (req, res)=>{
     // }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/dishes",
@@ -333,10 +345,10 @@ exports.getEditDishPage = async (req, res)=>{
     let menuItemId = req.params.menuItemId ;
 
     let dbItemData = await dbRepository.getSingleMenuItem(menuItemId) ;
-    if(dbItemData.status != true){throw dbItemData.data ;}
+    if(dbItemData.status != true){throw dbItemData ;}
 
     let dbItemSizePriceData = await dbRepository.getSingleMenuItem_PriceData(menuItemId) ;
-    if(dbItemSizePriceData.status != true){throw dbItemSizePriceData.data ;}
+    if(dbItemSizePriceData.status != true){throw dbItemSizePriceData ;}
 
     let itemData = dbItemData.data ;
     let itemSizePriceData = dbItemSizePriceData.data ;
@@ -351,6 +363,7 @@ exports.getEditDishPage = async (req, res)=>{
     // }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/dishes",
@@ -370,7 +383,7 @@ exports.postEditDishPage = async (req, res)=>{
 
     //firstly let's validate the size price data
     let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId, false) ;
-    if(dbSizeData.status != true){throw dbSizeData.data ;}
+    if(dbSizeData.status != true){throw dbSizeData ;}
     let sizeData = dbSizeData.data ;
 
     dbSizeData.data.forEach((element) => {
@@ -465,6 +478,7 @@ exports.postEditDishPage = async (req, res)=>{
     res.redirect(`/menu/dishes/view/${itemId}`) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/dishes",
@@ -478,10 +492,10 @@ exports.getAddDishPage = async (req, res)=>{
   try{
     let categoryId = req.params.categoryId ;
     let dbCategoryData = await dbRepository.getSingleMenuCategory(categoryId) ;
-    if(dbCategoryData.status != true){throw dbCategoryData.data ;}
+    if(dbCategoryData.status != true){throw dbCategoryData ;}
 
     let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId, false) ;
-    if(dbSizeData.status != true){throw dbSizeData.data ;}
+    if(dbSizeData.status != true){throw dbSizeData ;}
 
     res.render('menu/dishes/add_new_dish.hbs', {
       categoryData : dbCategoryData.data,
@@ -490,6 +504,7 @@ exports.getAddDishPage = async (req, res)=>{
 
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/dishes",
@@ -509,7 +524,7 @@ exports.postAddDishPage = async (req, res)=>{
     let itemImageFileName = req.myFileName ;
 
     let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId) ;
-    if(dbSizeData.status != true){throw dbSizeData.data ;}
+    if(dbSizeData.status != true){throw dbSizeData ;}
 
     dbSizeData.data.forEach((element) => {
       let itemSizePrice = req.body[`itemSizePrice_${element.size_id}`];
@@ -561,6 +576,7 @@ exports.postAddDishPage = async (req, res)=>{
     res.redirect(`/menu/dishes`) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/dishes",
@@ -591,6 +607,7 @@ exports.postDeleteDishPage = async (req, res)=>{
     res.redirect(`/menu/dishes`) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/dishes",
@@ -605,7 +622,7 @@ exports.getArrangeDishesPage = async (req, res)=>{
     let categoryId = req.params.categoryId ;
 
     let dbItemData = await dbRepository.getAllMenuItemsInCategory(categoryId) ;
-    if(dbItemData.status != true){throw dbItemData.data ;}
+    if(dbItemData.status != true){throw dbItemData ;}
 
     let itemData = dbItemData.data ;
     res.render('menu/dishes/arrange_dishes.hbs',{
@@ -614,6 +631,7 @@ exports.getArrangeDishesPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/dishes",
@@ -643,6 +661,7 @@ exports.postArrangeDishesPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.send({
       status : false,
       e,
@@ -661,7 +680,7 @@ exports.postArrangeDishesPage = async (req, res)=>{
 exports.getAllAddonItemsPage = async (req, res)=>{
   try{
     let dbData = await dbRepository.getAllAddonItems_Seperated() ;
-    if(dbData.status != true){throw dbData.data ;}
+    if(dbData.status != true){throw dbData ;}
 
     let addonData = dbData.data ;
     res.render('menu/addons/all_addons.hbs', {
@@ -669,6 +688,7 @@ exports.getAllAddonItemsPage = async (req, res)=>{
       addonData
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : false,
       error : e
@@ -681,10 +701,10 @@ exports.getViewAddonPage = async (req, res)=>{
   try{
     let addonItemId = req.params.addonItemId ;
     let dbAddonData = await dbRepository.getSingleAddonItem(addonItemId) ;
-    if(dbAddonData.status != true){throw dbAddonData.data ;}
+    if(dbAddonData.status != true){throw dbAddonData ;}
 
     let dbAddonSizePriceData = await dbRepository.getSingleAddonItem_PriceData(addonItemId) ;
-    if(dbAddonSizePriceData.status != true){throw dbAddonSizePriceData.data ;}
+    if(dbAddonSizePriceData.status != true){throw dbAddonSizePriceData ;}
 
     res.render('menu/addons/view_single_addon.hbs', {
       status : true,
@@ -692,6 +712,7 @@ exports.getViewAddonPage = async (req, res)=>{
       addonSizePriceData : dbAddonSizePriceData.data
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/addons",
@@ -705,10 +726,10 @@ exports.getEditAddonPage = async(req, res)=>{
  try{
    let addonItemId = req.params.addonItemId ;
    let dbAddonData = await dbRepository.getSingleAddonItem(addonItemId) ;
-   if(dbAddonData.status != true){throw dbAddonData.data ;}
+   if(dbAddonData.status != true){throw dbAddonData ;}
 
    let dbAddonSizePriceData = await dbRepository.getSingleAddonItem_PriceData(addonItemId) ;
-   if(dbAddonSizePriceData.status != true){throw dbAddonSizePriceData.data ;}
+   if(dbAddonSizePriceData.status != true){throw dbAddonSizePriceData ;}
 
    res.render('menu/addons/edit_single_addon.hbs', {
      status : true,
@@ -716,6 +737,7 @@ exports.getEditAddonPage = async(req, res)=>{
      addonSizePriceData : dbAddonSizePriceData.data
    }) ;
  }catch (e) {
+   logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
    res.render('general/error.hbs', {
      showBackLink : true,
      backLink : "/menu/addons",
@@ -733,7 +755,7 @@ exports.postEditAddonPage = async (req, res)=>{
     let itemIsActive = req.body.isItemActive ;
 
     let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId, false);
-    if (dbSizeData.status != true) {throw dbSizeData.data; }
+    if (dbSizeData.status != true) {throw dbSizeData; }
 
     dbSizeData.data.forEach((element) => {
       let itemSizePrice = req.body[`itemSizePrice_${element.size_id}`];
@@ -808,6 +830,7 @@ exports.postEditAddonPage = async (req, res)=>{
 
     res.redirect(`/menu/addons/view/${itemId}`);
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/addons",
@@ -823,10 +846,10 @@ exports.getAddAddonPage = async (req, res)=> {
     let addonGroupId = req.params.addonGroupId ;
 
     let dbAddonGroupData = await dbRepository.getSingleAddonGroup(addonGroupId);
-    if (dbAddonGroupData.status != true) {throw dbAddonGroupData.data; }
+    if (dbAddonGroupData.status != true) {throw dbAddonGroupData; }
 
     let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId, false);
-    if (dbSizeData.status != true) {throw dbSizeData.data;}
+    if (dbSizeData.status != true) {throw dbSizeData;}
 
     res.render('menu/addons/add_new_addon.hbs', {
       addonGroupData: dbAddonGroupData.data,
@@ -835,6 +858,7 @@ exports.getAddAddonPage = async (req, res)=> {
 
 
   } catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/addons",
@@ -853,7 +877,7 @@ exports.postAddAddonPage = async (req, res)=>{
 
     let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId);
     if (dbSizeData.status != true) {
-      throw dbSizeData.data;
+      throw dbSizeData;
     }
 
     dbSizeData.data.forEach((element) => {
@@ -905,6 +929,7 @@ exports.postAddAddonPage = async (req, res)=>{
 
     res.redirect(`/menu/addons`);
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/addons",
@@ -934,6 +959,7 @@ exports.postDeleteAddonPage = async (req, res)=>{
 
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/addons",
@@ -948,10 +974,10 @@ exports.getArrangeAddonsPage = async (req, res)=>{
     let addonGroupId = req.params.addonGroupId ;
 
     let dbAddonGroupData = await dbRepository.getSingleAddonGroup(addonGroupId);
-    if (dbAddonGroupData.status != true) {throw dbAddonGroupData.data; }
+    if (dbAddonGroupData.status != true) {throw dbAddonGroupData; }
 
     let dbItemData = await dbRepository.getAllAddonItemsInAddonGroup(addonGroupId) ;
-    if(dbItemData.status != true){throw dbItemData.data ;}
+    if(dbItemData.status != true){throw dbItemData ;}
 
     let itemData = dbItemData.data ;
     res.render('menu/addons/arrange_addons.hbs',{
@@ -960,6 +986,7 @@ exports.getArrangeAddonsPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/addons",
@@ -989,6 +1016,7 @@ exports.postArrangeAddonsPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.send({
       status : false,
       e,
@@ -1005,10 +1033,10 @@ exports.getChangeDefaultAddonPage = async (req, res)=>{
     let addonGroupId = req.params.addonGroupId ;
 
     let dbAddonGroupData = await dbRepository.getSingleAddonGroup(addonGroupId);
-    if (dbAddonGroupData.status != true) {throw dbAddonGroupData.data; }
+    if (dbAddonGroupData.status != true) {throw dbAddonGroupData; }
 
     let dbItemData = await dbRepository.getAllAddonItemsInAddonGroup(addonGroupId) ;
-    if(dbItemData.status != true){throw dbItemData.data ;}
+    if(dbItemData.status != true){throw dbItemData ;}
 
     let itemData = dbItemData.data ;
     res.render('menu/addons/change_default_addon.hbs',{
@@ -1017,6 +1045,7 @@ exports.getChangeDefaultAddonPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/addons",
@@ -1032,7 +1061,7 @@ exports.postChangeDefaultAddonPage = async (req, res)=>{
     let newDefaultItemId = req.body.defaultItemId;
 
     let dbAddonItemData = await dbRepository.getAllAddonItemsInAddonGroup(addonGroupId) ;
-    if(dbAddonItemData.status != true){throw dbAddonItemData.data ;}
+    if(dbAddonItemData.status != true){throw dbAddonItemData ;}
 
 
     let sqlCaseString = "UPDATE menu_addons_table SET item_is_default = CASE " ;
@@ -1054,6 +1083,7 @@ exports.postChangeDefaultAddonPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.send({
       status : false,
       e,
@@ -1073,10 +1103,10 @@ exports.getAllSizesPage = async (req, res)=>{
     let categoryId = req.params.categoryId ;
 
     let dbCategoryData = await dbRepository.getSingleMenuCategory(categoryId);
-    if(dbCategoryData.status != true){throw dbCategoryData.data;}
+    if(dbCategoryData.status != true){throw dbCategoryData;}
 
     let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId, false) ;
-    if(dbSizeData.status != true){throw dbSizeData.data;}
+    if(dbSizeData.status != true){throw dbSizeData;}
 
 
     res.render('menu/size/all_sizes.hbs', {
@@ -1085,6 +1115,7 @@ exports.getAllSizesPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -1100,12 +1131,12 @@ exports.getEditSizePage = async (req, res)=>{
     let sizeId = req.params.sizeId ;
 
     let dbSizeData = await dbRepository.getSingleSize(sizeId);
-    if(dbSizeData.status != true){throw dbSizeData.data;}
+    if(dbSizeData.status != true){throw dbSizeData;}
 
     let sizeData = dbSizeData.data ;
 
     let dbCategoryData = await dbRepository.getSingleMenuCategory(sizeData.size_category_id) ;
-    if(dbCategoryData.status != true){throw dbCategoryData.data;}
+    if(dbCategoryData.status != true){throw dbCategoryData;}
 
     res.render('menu/size/edit_single_size.hbs', {
       sizeData,
@@ -1113,6 +1144,7 @@ exports.getEditSizePage = async (req, res)=>{
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -1142,6 +1174,7 @@ exports.postEditSizePage = async (req, res)=>{
     res.redirect(`/menu/size/${categoryId}`) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -1155,13 +1188,14 @@ exports.getAddSizePage = async(req, res)=>{
     let categoryId = req.params.categoryId ;
 
     let dbCategoryData = await dbRepository.getSingleMenuCategory(categoryId) ;
-    if(dbCategoryData.status != true){throw dbCategoryData.data;}
+    if(dbCategoryData.status != true){throw dbCategoryData;}
 
     res.render('menu/size/add_new_size.hbs', {
       categoryData : dbCategoryData.data
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -1179,7 +1213,7 @@ exports.postAddSizePage = async(req, res)=>{
 
 
     let dbItemAddonData = await dbRepository.getAllAddonItemsInCategory(categoryId) ;
-    if(dbItemAddonData.status != true){throw dbItemAddonData.data; }
+    if(dbItemAddonData.status != true){throw dbItemAddonData; }
     let addonsList = dbItemAddonData.data ;
 
     let dbItemDishesData = await dbRepository.getAllMenuItemsInCategory(categoryId) ;
@@ -1233,6 +1267,7 @@ exports.postAddSizePage = async(req, res)=>{
 
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -1268,6 +1303,7 @@ exports.postDeleteSizePage = async(req, res)=>{
 
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -1281,10 +1317,10 @@ exports.getArrangeSizesPage = async (req, res)=>{
     let categoryId = req.params.categoryId ;
 
     let dbCategoryData = await dbRepository.getSingleMenuCategory(categoryId);
-    if (dbCategoryData.status != true) {throw dbCategoryData.data; }
+    if (dbCategoryData.status != true) {throw dbCategoryData; }
 
     let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId) ;
-    if(dbSizeData.status != true){throw dbSizeData.data ;}
+    if(dbSizeData.status != true){throw dbSizeData ;}
 
     res.render('menu/size/arrange_size.hbs',{
       categoryData : dbCategoryData.data,
@@ -1292,6 +1328,7 @@ exports.getArrangeSizesPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -1320,6 +1357,7 @@ exports.postArrangeSizesPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.send({
       status : false,
       e,
@@ -1336,10 +1374,10 @@ exports.getChangeDefaultSizePage = async (req, res)=>{
     let categoryId = req.params.categoryId ;
 
     let dbCategoryData = await dbRepository.getSingleMenuCategory(categoryId);
-    if (dbCategoryData.status != true) {throw dbCategoryData.data; }
+    if (dbCategoryData.status != true) {throw dbCategoryData; }
 
     let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId) ;
-    if(dbSizeData.status != true){throw dbSizeData.data ;}
+    if(dbSizeData.status != true){throw dbSizeData ;}
 
     res.render('menu/size/change_default_size.hbs',{
       categoryData : dbCategoryData.data,
@@ -1347,6 +1385,7 @@ exports.getChangeDefaultSizePage = async (req, res)=>{
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -1362,7 +1401,7 @@ exports.postChangeDefaultSizePage = async (req, res)=>{
     let newDefaultSizeId = req.body.defaultSizeId;
 
     let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId, false) ;
-    if(dbSizeData.status != true){throw dbSizeData.data ;}
+    if(dbSizeData.status != true){throw dbSizeData ;}
 
     let sqlCaseString = "UPDATE menu_meta_size_table SET size_is_default = CASE " ;
     dbSizeData.data.forEach((element)=>{
@@ -1383,6 +1422,7 @@ exports.postChangeDefaultSizePage = async (req, res)=>{
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.send({
       status : false,
       e,
@@ -1408,10 +1448,10 @@ exports.getAllAddonGroupsPage = async (req, res)=>{
     let categoryId = req.params.categoryId ;
 
     let dbCategoryData = await dbRepository.getSingleMenuCategory(categoryId);
-    if(dbCategoryData.status != true){throw dbCategoryData.data;}
+    if(dbCategoryData.status != true){throw dbCategoryData;}
 
     let dbAddonGroupData = await dbRepository.getAllAddonGroupsInCategory(categoryId) ;
-    if(dbAddonGroupData.status != true){throw dbAddonGroupData.data;}
+    if(dbAddonGroupData.status != true){throw dbAddonGroupData;}
 
     res.render('menu/addonGroup/all_addongroup.hbs', {
       categoryData : dbCategoryData.data,
@@ -1419,6 +1459,7 @@ exports.getAllAddonGroupsPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -1432,18 +1473,19 @@ exports.getEditAddonGroupPage = async(req, res)=>{
     let addonGroupId = req.params.addonGroupId ;
 
     let dbAddonGroupData = await dbRepository.getSingleAddonGroup(addonGroupId);
-    if(dbAddonGroupData.status != true){throw dbAddonGroupData.data;}
+    if(dbAddonGroupData.status != true){throw dbAddonGroupData;}
 
     let addonGroupData = dbAddonGroupData.data ;
 
     let dbCategoryData = await dbRepository.getSingleMenuCategory(addonGroupData.category_id) ;
-    if(dbCategoryData.status != true){throw dbCategoryData.data;}
+    if(dbCategoryData.status != true){throw dbCategoryData;}
 
     res.render('menu/addonGroup/edit_single_addongroup.hbs', {
       addonGroupData,
       categoryData : dbCategoryData.data
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -1473,6 +1515,7 @@ exports.postEditAddonGroupPage = async (req, res)=>{
     res.redirect(`/menu/addonGroup/${categoryId}`) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -1487,12 +1530,13 @@ exports.getAddAddonGroupPage = async(req, res)=>{
     let categoryId = req.params.categoryId ;
 
     let dbCategoryData = await dbRepository.getSingleMenuCategory(categoryId) ;
-    if(dbCategoryData.status != true){throw dbCategoryData.data;}
+    if(dbCategoryData.status != true){throw dbCategoryData;}
 
     res.render('menu/addonGroup/add_new_addongroup.hbs', {
       categoryData : dbCategoryData.data
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -1524,6 +1568,7 @@ exports.postAddAddonGroupPage = async(req, res)=> {
     res.redirect(`/menu/addonGroup/${categoryId}`) ;
 
   } catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -1546,6 +1591,7 @@ exports.postDeleteAddonGroupPage = async (req, res)=>{
 
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -1561,10 +1607,10 @@ exports.getArrangeAddonGroupPage = async (req, res)=>{
     let categoryId = req.params.categoryId ;
 
     let dbCategoryData = await dbRepository.getSingleMenuCategory(categoryId);
-    if (dbCategoryData.status != true) {throw dbCategoryData.data; }
+    if (dbCategoryData.status != true) {throw dbCategoryData; }
 
     let dbAddonGroupData = await dbRepository.getAllAddonGroupsInCategory(categoryId) ;
-    if(dbAddonGroupData.status != true){throw dbAddonGroupData.data ;}
+    if(dbAddonGroupData.status != true){throw dbAddonGroupData ;}
 
     res.render('menu/addonGroup/arrange_addongroup.hbs',{
       categoryData : dbCategoryData.data,
@@ -1572,6 +1618,7 @@ exports.getArrangeAddonGroupPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/menu/category",
@@ -1600,6 +1647,7 @@ exports.postArrangeAddonGroupPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.send({
       status : false,
       e,

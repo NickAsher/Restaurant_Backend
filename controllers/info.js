@@ -3,6 +3,7 @@ const fs = require('fs') ;
 const dbConnection = require('../utils/database') ;
 const dbRepository = require('../utils/DbRepository') ;
 const Constants = require('../utils/Constants') ;
+const logger = require('../middleware/logging') ;
 
 exports.getViewAboutPage = async (req, res)=>{
   try{
@@ -14,6 +15,7 @@ exports.getViewAboutPage = async (req, res)=>{
       aboutData : aboutData['data'],
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : false,
       error : e
@@ -32,6 +34,7 @@ exports.getEditAboutPage = async (req, res)=>{
       aboutData : aboutData['data'],
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : false,
       error : e
@@ -49,6 +52,7 @@ exports.postEditAboutPage = async (req, res)=>{
     res.redirect(`/about`) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/about",
@@ -61,7 +65,7 @@ exports.postEditAboutPage = async (req, res)=>{
 exports.getViewContactPage = async (req, res)=>{
   try{
     let dbContactData = await dbRepository.getContactData() ;
-    if(dbContactData['status'] === false){throw dbContactData.data ;}
+    if(dbContactData['status'] === false){throw dbContactData ;}
 
     let contactData = dbContactData.data ;
     contactData.social_info = JSON.parse(contactData.social_info) ;
@@ -71,6 +75,7 @@ exports.getViewContactPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : false,
       error : e
@@ -82,7 +87,7 @@ exports.getViewContactPage = async (req, res)=>{
 exports.getEditContactPage =  async (req, res)=>{
   try{
     let dbContactData = await dbRepository.getContactData() ;
-    if(dbContactData['status'] === false){throw dbContactData.data ;}
+    if(dbContactData['status'] === false){throw dbContactData ;}
 
     let contactData = dbContactData.data ;
     contactData.social_info = JSON.parse(contactData.social_info) ;
@@ -91,6 +96,7 @@ exports.getEditContactPage =  async (req, res)=>{
       contactData,
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : false,
       error : e
@@ -138,6 +144,7 @@ exports.postEditContactPage = async (req, res)=>{
 
     res.redirect(`/contact`) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/contact",

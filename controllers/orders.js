@@ -5,15 +5,16 @@ const dbRepository = require('../utils/DbRepository') ;
 const Constants = require('../utils/Constants') ;
 const moment = require('moment') ;
 const orderParseUtils = require('../utils/order_parse_utils') ;
+const logger = require('../middleware/logging') ;
 
 exports.getOrderPage = async (req, res)=>{
   try{
     let date = req.query.date || moment().format('YYYY-MM-DD') ;
     let dbReturnData = await dbRepository.getAllOrders_OfToday(date) ;
-    if(dbReturnData.status == false){throw `${dbReturnData.data} : unable to get orders from db` ;}
+    if(dbReturnData.status == false){throw `${dbReturnData} : unable to get orders from db` ;}
 
     let menuNameData = await orderParseUtils.getMenuNameData() ;
-    if(menuNameData.status!= true){throw menuNameData.e ;}
+    if(menuNameData.status!= true){throw menuNameData ;}
 
 
     dbReturnData.data.map(row=>{
@@ -33,6 +34,7 @@ exports.getOrderPage = async (req, res)=>{
 
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : false,
       error : e
@@ -60,11 +62,12 @@ exports.postOrderOperation = async (req, res)=>{
     }
 
     let dbReturnData = await dbRepository.changeOrderStatus(orderId, newOrderStatus) ;
-    if(dbReturnData.status == false){throw dbReturnData.data ;}
+    if(dbReturnData.status == false){throw dbReturnData ;}
     res.send({
       status : true
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.send({
       status : false,
       e,

@@ -4,6 +4,7 @@ const dbConnection = require('../utils/database') ;
 const dbRepository = require('../utils/DbRepository') ;
 const Constants = require('../utils/Constants') ;
 const Paginator = require('../utils/Paginator') ;
+const logger = require('../middleware/logging') ;
 
 
 
@@ -11,9 +12,7 @@ exports.getAllBlogsPage = async(req, res)=>{
   try {
 
     let countData = await dbRepository.getCount_Blogs();
-    if (countData.status == false) {
-      throw countData;
-    }
+    if (countData.status == false) {throw countData;}
 
     let totalNoOfItems = countData.data.total;
     let itemsPerPage = 10;
@@ -32,6 +31,7 @@ exports.getAllBlogsPage = async(req, res)=>{
       parsedPaginatorHtml,
     });
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : false,
       error : e
@@ -49,6 +49,7 @@ exports.getSingleBlogViewPage = async (req, res)=>{
       blogData : blogData.data ,
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/blogs",
@@ -67,6 +68,7 @@ exports.getSingleBlogEditPage = async (req, res)=>{
       blogData : blogData.data,
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/blogs",
@@ -114,6 +116,7 @@ exports.postEditBlogPage = async(req, res)=>{
 
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/blogs",
@@ -129,6 +132,7 @@ exports.getAddNewBlogPage = async(req, res)=>{
       IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/blogs",
@@ -155,6 +159,7 @@ exports.postAddNewBlogPage = async (req, res)=>{
 
     res.redirect(`/blogs`) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/blogs",

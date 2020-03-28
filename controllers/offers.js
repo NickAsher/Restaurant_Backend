@@ -3,6 +3,7 @@ const fs = require('fs') ;
 const dbConnection = require('../utils/database') ;
 const dbRepository = require('../utils/DbRepository') ;
 const Constants = require('../utils/Constants') ;
+const logger = require('../middleware/logging') ;
 
 
 
@@ -19,6 +20,7 @@ exports.getAllOfferSpecials = async (req, res)=>{
       offerData : offerData['data'],
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : false,
       error : e
@@ -38,6 +40,7 @@ exports.getSingleOfferSpecial = async (req, res)=>{
       offerData : offerData['data'],
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/specials",
@@ -58,6 +61,7 @@ exports.getEditOfferSpecial = async (req, res)=>{
       offerData : offerData['data'],
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/specials",
@@ -104,6 +108,7 @@ exports.postEditOfferSpecial = async(req, res)=>{
     res.redirect(`/specials/view/${id}`) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/specials",
@@ -121,6 +126,7 @@ exports.getAddOfferSpecial = async (req, res)=>{
       IMAGE_BACKENDFRONT_LINK_PATH : Constants.IMAGE_BACKENDFRONT_LINK_PATH,
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/specials",
@@ -152,6 +158,7 @@ exports.postAddOfferSpecial = async (req, res)=>{
     res.redirect(`/specials`) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/specials",
@@ -173,6 +180,7 @@ exports.postDeleteOfferSpecial = async (req, res)=>{
 
     res.redirect(`/specials`) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/specials",
@@ -193,6 +201,7 @@ exports.getArrangeOfferSpecialsPage = async (req, res)=>{
       offerData : offerData['data'],
     }) ;
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
       showBackLink : true,
       backLink : "/specials",
@@ -219,6 +228,7 @@ exports.postOfferSpecialsPage = async (req, res)=>{
     }) ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.send({
       status : false,
       e,

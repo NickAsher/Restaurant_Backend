@@ -19,10 +19,11 @@ exports.getCount_Blogs = async()=>{
   }catch (e) {
     return {
       status : false,
-      data : e.toString()
+      error : e.toString()
     } ;
   }
 } ;
+
 exports.getAllBlogs = async ()=>{
   try{
     let dbData = await dbConnection.execute(
@@ -35,7 +36,7 @@ exports.getAllBlogs = async ()=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -56,7 +57,7 @@ exports.getBlogs_Paginated = async (pageNo, totalItemsPerPage)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -78,7 +79,7 @@ exports.getSingleBlog = async (blogId)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -96,7 +97,7 @@ exports.getAllGalleryItems = async ()=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -114,7 +115,7 @@ exports.getSingleGalleryItem = async (galleryItemId)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -135,7 +136,7 @@ exports.getContactData = async ()=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -155,7 +156,7 @@ exports.getSocialData = async ()=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -172,7 +173,7 @@ exports.getAboutData = async ()=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -193,7 +194,7 @@ exports.editAboutData = async (newAboutUsData)=>{
   }catch (e) {
     return {
       status : false,
-      data : e
+      error : e
     } ;
   }
 } ;
@@ -212,7 +213,7 @@ exports.getAllOfferSpecialData = async ()=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -234,7 +235,7 @@ exports.getSingleOfferSpecial = async (offerId)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -259,7 +260,7 @@ exports.getAllOrders_OfToday = async(date)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -277,7 +278,7 @@ exports.changeOrderStatus = async(orderId, newOrderStatus)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -300,7 +301,7 @@ exports.getAllMenuCategories = async ()=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 
@@ -325,7 +326,7 @@ exports.getSingleMenuCategory = async (categoryId)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 
@@ -343,7 +344,7 @@ exports.getAllSubCategoryInCategory = async (categoryId)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 
@@ -362,7 +363,7 @@ exports.getSingleSubCategory = async (subcategoryId)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 
@@ -372,7 +373,7 @@ exports.getSingleSubCategory = async (subcategoryId)=>{
 exports.getAllAddonGroups_SeperatedByCategory = async()=>{
   try{
     let dbCategoryData = await this.getAllMenuCategories() ;
-    if(dbCategoryData.status != true){throw dbCategoryData.data ;}
+    if(dbCategoryData.status != true){throw dbCategoryData ;}
 
     let dbAddonGroupData = await dbConnection.execute(
       `SELECT * FROM menu_meta_addongroups_table ORDER BY category_id ASC, addon_group_sr_no ASC `
@@ -395,7 +396,7 @@ exports.getAllAddonGroups_SeperatedByCategory = async()=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -414,7 +415,7 @@ exports.getAllAddonGroupsInCategory = async (categoryId)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 
@@ -433,7 +434,7 @@ exports.getAllAddonGroups_NamesOnly = async()=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -459,7 +460,7 @@ exports.getSingleAddonGroup = async (addonGroupId)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 
@@ -477,7 +478,7 @@ exports.getSingleAddonGroup = async (addonGroupId)=>{
 exports.getAllAddonItems_Seperated = async()=>{
   try{
     let dbAddonGroupCategoryData = await this.getAllAddonGroups_SeperatedByCategory() ;
-    if(dbAddonGroupCategoryData.status != true){throw dbAddonGroupCategoryData.data ;}
+    if(dbAddonGroupCategoryData.status != true){throw dbAddonGroupCategoryData ;}
 
     let dbAddonItemData = await dbConnection.execute(
       `SELECT * FROM menu_addons_table ORDER BY item_addon_group_rel_id ASC, item_sr_no ASC`
@@ -502,7 +503,7 @@ exports.getAllAddonItems_Seperated = async()=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -522,7 +523,7 @@ exports.getAllAddonItemsInCategory = async(categoryId)=>{
   }catch (e) {
     return {
       status : false,
-      data : e
+      error : e
     } ;
   }
 } ;
@@ -540,7 +541,7 @@ exports.getAllAddonItemsInAddonGroup = async (addonGroupRelId)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -557,7 +558,7 @@ exports.getAllAddonItems_NamesOnly = async()=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -585,7 +586,7 @@ exports.getSingleAddonItem = async(addonItemId)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 
@@ -606,7 +607,7 @@ exports.getSingleAddonItem_PriceData = async (addonItemId)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 
@@ -640,7 +641,7 @@ exports.getAllSizesInCategory = async (categoryId, activeOnly=false)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 
@@ -659,7 +660,7 @@ exports.getAllSizes_NamesOnly = async()=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -681,7 +682,7 @@ exports.getSingleSize = async (sizeId)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -701,7 +702,7 @@ exports.getAllMenuItems = async()=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -718,7 +719,7 @@ exports.getAllMenuItemsInCategory = async (categoryId)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 
@@ -736,7 +737,7 @@ exports.getAllMenuItemsInSubCategory = async (subcategoryId)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 
@@ -754,7 +755,7 @@ exports.getAllMenuItems_NameOnly = async()=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -779,7 +780,7 @@ exports.getSingleMenuItem = async (itemId)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 
@@ -801,7 +802,7 @@ exports.getSingleMenuItem_PriceData = async (itemId)=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 } ;
@@ -809,10 +810,10 @@ exports.getSingleMenuItem_PriceData = async (itemId)=>{
 exports.getAllMenuItems_SeperatedByCategory = async ()=>{
   try{
     let dbCategoryData = await this.getAllMenuCategories() ;
-    if(dbCategoryData.status != true){throw dbCategoryData.data ;}
+    if(dbCategoryData.status != true){throw dbCategoryData ;}
 
     let dbMenuData = await this.getAllMenuItems() ;
-    if(dbMenuData.status != true ){throw dbMenuData.data ;}
+    if(dbMenuData.status != true ){throw dbMenuData ;}
 
     let categoryData = dbCategoryData.data ;
     let menuData = dbMenuData.data ;
@@ -831,7 +832,7 @@ exports.getAllMenuItems_SeperatedByCategory = async ()=>{
   }catch (e) {
     return {
       status : false,
-      data : e,
+      error : e,
     } ;
   }
 

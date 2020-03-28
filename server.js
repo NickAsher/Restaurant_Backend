@@ -52,6 +52,19 @@ app.use((req, res, next)=>{
 }) ;
 
 app.use(csrf()) ;
+app.use(function(err, req, res, next) {
+  if (err && err.code == "EBADCSRFTOKEN") {
+    logger.warn(`{'warn' : 'Invalid CSRF Token', 'method' : '${req.method}, 'url':'${req.originalUrl}'}`) ;
+    res.status(422).render('general/error.hbs', {
+      showBackLink : true,
+      backLink : req.query.redirect,
+      error : "Invalid CSRF Token"
+    }) ;
+  }
+  else {
+    next();
+  }
+});
 
 
 app.use((req, res, next)=>{

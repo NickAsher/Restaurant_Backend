@@ -1,5 +1,6 @@
 const dbConnection = require('../utils/database') ;
 const dbRepository = require('../utils/DbRepository') ;
+const logger = require('../middleware/logging') ;
 
 
 exports.getMenuNameData = async ()=>{
@@ -20,22 +21,22 @@ exports.getMenuNameData = async ()=>{
   try {
     let dbItemData = await dbRepository.getAllMenuItems_NameOnly();
     if (dbItemData.status != true) {
-      throw dbItemData.data;
+      throw dbItemData;
     }
 
     let dbSizeData = await dbRepository.getAllSizes_NamesOnly();
     if (dbSizeData.status != true) {
-      throw dbSizeData.data;
+      throw dbSizeData;
     }
 
     let dbAddonGroupData = await dbRepository.getAllAddonGroups_NamesOnly();
     if (dbSizeData.status != true) {
-      throw dbSizeData.data;
+      throw dbSizeData;
     }
 
     let dbAddonItemsData = await dbRepository.getAllAddonItems_NamesOnly();
     if (dbSizeData.status != true) {
-      throw dbSizeData.data;
+      throw dbSizeData;
     }
 
     let itemNameData = {}, sizeNameData = {}, addonGroupNameData = {}, addonItemNameData = {};
@@ -65,6 +66,7 @@ exports.getMenuNameData = async ()=>{
     } ;
 
   }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'at':'order_parse_utils.js / getMenuNameData() '}`) ;
     return {
       status : false,
       e
