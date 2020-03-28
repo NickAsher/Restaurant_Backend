@@ -5,16 +5,17 @@ const validationMiddleware = require('../middleware/validation') ;
 
 const router = express.Router() ;
 
-const showValidationError = validationMiddleware.showValidationError ;
+let errorBackPageLink = "/orders" ;
 
+const showValidationError = validationMiddleware.showValidationError(errorBackPageLink) ;
+const errorHandler = validationMiddleware.myErrorHandler(errorBackPageLink) ;
 
-router.get('/orders', controllerOrders.getOrderPage) ;
-
+router.get('/orders', errorHandler, controllerOrders.getOrderPage) ;
 
 router.post('/orders/operation', [
   body('id', "Invalid Order Id").exists().notEmpty().isNumeric({no_symbols:true}).trim().escape(),
   body('operation', "Invalid Order operation").exists().notEmpty().trim().escape().isIn(['accept', 'complete', 'cancel']),
-], showValidationError('/orders'), controllerOrders.postOrderOperation) ;
+], showValidationError, errorHandler, controllerOrders.postOrderOperation) ;
 
 
 module.exports = router ;

@@ -10,27 +10,28 @@ const validationMiddleware = require('../middleware/validation') ;
 
 const router = express.Router() ;
 
+let errorBackPageLink = "/gallery" ;
+
 const upload = validationMiddleware.upload ;
 const checkFileMagicNumber = validationMiddleware.checkFileMagicNumber ;
-const showValidationError = validationMiddleware.showValidationError ;
-const checkFileIsUploaded = validationMiddleware.checkFileIsUploaded ;
+const showValidationError = validationMiddleware.showValidationError(errorBackPageLink) ;
+const checkFileIsUploaded = validationMiddleware.checkFileIsUploaded(errorBackPageLink) ;
+const errorHandler = validationMiddleware.myErrorHandler(errorBackPageLink) ;
 
 
 
 
+router.get('/gallery', errorHandler, controllerGallery.getAllGalleryItemPage) ;
 
-
-router.get('/gallery', controllerGallery.getAllGalleryItemPage) ;
-
-router.get('/gallery/add', controllerGallery.getAddGalleryItemPage) ;
+router.get('/gallery/add', errorHandler, controllerGallery.getAddGalleryItemPage) ;
 
 router.post('/gallery/add/save', upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber,
-  showValidationError('/gallery'), controllerGallery.postAddGalleryItemPage) ;
+  showValidationError, errorHandler, controllerGallery.postAddGalleryItemPage) ;
 
 router.post('/gallery/delete', [
   body('galleryItemId', "Invalid gallery Item Id").exists().notEmpty().isNumeric({no_symbols:true}).trim(),
   body('galleryImageFileName', "Invalid image name").exists().notEmpty().trim().escape(),
-], showValidationError('/gallery'), controllerGallery.postDeleteGalleryItemPage) ;
+], showValidationError, errorHandler, controllerGallery.postDeleteGalleryItemPage) ;
 
 router.get('/gallery/arrange', controllerGallery.getArrangeGalleryItemsPage) ;
 
@@ -42,19 +43,13 @@ router.post('/gallery/arrange', [
       return false ;
     }
     for(let i=0;i<sortedArray.length;i++){
-      /* check that each element is a valid integer id ;
-       * if it is not, return false, else go on.
-       * we are not using a foreach loop because if we return something inside foreach loop,
-       * it is only returned inside that iteration
-       */
       if(/^\+?\d+$/.test(sortedArray[i]) === false){
         return false ;
       }
     }
-
     return true ;
   })
-], showValidationError('/gallery'), controllerGallery.postArrangeGalleryItemsPage) ;
+], showValidationError, errorHandler, controllerGallery.postArrangeGalleryItemsPage) ;
 
 
 module.exports = router ;

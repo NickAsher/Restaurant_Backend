@@ -5,18 +5,21 @@ const validationMiddleware = require('../middleware/validation') ;
 
 const router = express.Router() ;
 const showValidationError = validationMiddleware.showValidationError ;
+const errorHandler = validationMiddleware.myErrorHandler ;
 
 
-router.get('/about', controllerInfo.getViewAboutPage) ;
+router.get('/about', errorHandler('/about'), controllerInfo.getViewAboutPage) ;
 
-router.get('/about/edit', controllerInfo.getEditAboutPage) ;
+router.get('/about/edit', errorHandler('/about'), controllerInfo.getEditAboutPage) ;
 
 router.post('/about/edit/save', [
     body('aboutUsData', "Invalid AboutUs data").exists().notEmpty()
-], showValidationError('/about'), controllerInfo.postEditAboutPage) ;
+], showValidationError('/about'), errorHandler('/about'), controllerInfo.postEditAboutPage) ;
 
-router.get('/contact', controllerInfo.getViewContactPage) ;
-router.get('/contact/edit', controllerInfo.getEditContactPage) ;
+
+
+router.get('/contact', errorHandler('/contact'), controllerInfo.getViewContactPage) ;
+router.get('/contact/edit', errorHandler('/contact'), controllerInfo.getEditContactPage) ;
 
 router.post('/contact/edit/save', [
   body('restaurantName', 'Invalid Restaurant Name').exists().notEmpty().trim(),
@@ -31,7 +34,7 @@ router.post('/contact/edit/save', [
   body('restaurantLinkInstagram', 'Invalid Instagram Link').exists().notEmpty().isURL().trim(),
   body('restaurantLinkTwitter', 'Invalid Twitter Link').exists().notEmpty().isURL().trim(),
   body('restaurantLinkYoutube', 'Invalid Youtube Link').exists().notEmpty().isURL().trim(),
-],  showValidationError('/contact'), controllerInfo.postEditContactPage) ;
+],  showValidationError('/contact'), errorHandler('/contact'), controllerInfo.postEditContactPage) ;
 
 
 module.exports = router ;

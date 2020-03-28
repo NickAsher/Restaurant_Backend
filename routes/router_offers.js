@@ -5,42 +5,45 @@ const validationMiddleware = require('../middleware/validation') ;
 
 const router = express.Router() ;
 
+let errorBackPageLink = "/specials" ;
+
 const upload = validationMiddleware.upload ;
 const checkFileMagicNumber = validationMiddleware.checkFileMagicNumber ;
-const showValidationError = validationMiddleware.showValidationError ;
-const checkFileIsUploaded = validationMiddleware.checkFileIsUploaded ;
+const showValidationError = validationMiddleware.showValidationError(errorBackPageLink) ;
+const checkFileIsUploaded = validationMiddleware.checkFileIsUploaded(errorBackPageLink) ;
+const errorHandler = validationMiddleware.myErrorHandler(errorBackPageLink) ;
 
 
-router.get('/specials', controllerOfferSpecial.getAllOfferSpecials) ;
+router.get('/specials', errorHandler, controllerOfferSpecial.getAllOfferSpecials) ;
 
 router.get('/specials/view/:offerId',[
   param('offerId', "Invalid OfferSpecial Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError('/specials'), controllerOfferSpecial.getSingleOfferSpecial) ;
+], showValidationError, errorHandler, controllerOfferSpecial.getSingleOfferSpecial) ;
 
 router.get('/specials/edit/:offerId', [
   param('offerId', "Invalid OfferSpecial Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
-], showValidationError('/specials'), controllerOfferSpecial.getEditOfferSpecial) ;
+], showValidationError, errorHandler, controllerOfferSpecial.getEditOfferSpecial) ;
 
 router.post('/specials/edit/save', upload.single('post_Image'), checkFileMagicNumber, [
   body('offerId', "Invalid OfferSpecial Id").exists().notEmpty().isNumeric({no_symbols:true}).trim().escape(),
   body('offerTitle', "Invalid OfferSpecial Title").exists().notEmpty().trim().escape(),
   body('offerMessage', "Invalid OfferSpecial Message").exists().notEmpty().trim().escape(),
   body('offerOldImageFileName', "Invalid OfferSpecial Old Image File Name").exists().notEmpty().trim(),
-], showValidationError('/specials'), controllerOfferSpecial.postEditOfferSpecial) ;
+], showValidationError, errorHandler, controllerOfferSpecial.postEditOfferSpecial) ;
 
-router.get('/specials/add', controllerOfferSpecial.getAddOfferSpecial) ;
+router.get('/specials/add', errorHandler, controllerOfferSpecial.getAddOfferSpecial) ;
 
 router.post('/specials/add/save', upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber, [
   body('offerTitle', "Invalid OfferSpecial Title").exists().notEmpty().trim().escape(),
   body('offerMessage', "Invalid OfferSpecial Message").exists().notEmpty().trim().escape(),
-], showValidationError('/specials'), controllerOfferSpecial.postAddOfferSpecial) ;
+], showValidationError, errorHandler, controllerOfferSpecial.postAddOfferSpecial) ;
 
 router.post('/specials/delete', [
   body('offerId', "Invalid OfferSpecial Id").exists().notEmpty().isNumeric({no_symbols:true}).trim().escape(),
   body('offerImageFileName', "Invalid OfferSpecial Image Name").exists().notEmpty().trim(),
-], showValidationError('/specials'),  controllerOfferSpecial.postDeleteOfferSpecial) ;
+], showValidationError, errorHandler,  controllerOfferSpecial.postDeleteOfferSpecial) ;
 
-router.get('/specials/arrange', controllerOfferSpecial.getArrangeOfferSpecialsPage) ;
+router.get('/specials/arrange', errorHandler, controllerOfferSpecial.getArrangeOfferSpecialsPage) ;
 
 router.post('/specials/arrange', [
   body('sortedArray', "Invalid array of Id's").exists().notEmpty().custom((value, {req})=>{
@@ -50,19 +53,13 @@ router.post('/specials/arrange', [
       return false ;
     }
     for(let i=0;i<sortedArray.length;i++){
-      /* check that each element is a valid integer id ;
-       * if it is not, return false, else go on.
-       * we are not using a forEach loop because if we return something inside foreach loop,
-       * it is only returned inside that iteration
-       */
       if(/^\+?\d+$/.test(sortedArray[i]) === false){
         return false ;
       }
     }
-
     return true ;
   })
-], showValidationError('/specials'), controllerOfferSpecial.postOfferSpecialsPage) ;
+], showValidationError, errorHandler, controllerOfferSpecial.postOfferSpecialsPage) ;
 
 
 

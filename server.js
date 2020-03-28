@@ -8,7 +8,6 @@ const cookieParser = require("cookie-parser") ;
 const session = require('express-session') ;
 
 const csrf = require('csurf') ;
-const fs = require('fs') ;
 const logger = require('./middleware/logging') ;
 
 const app = express() ;
@@ -76,7 +75,7 @@ app.get('/login', async (req, res)=>{
 
 app.get('/error', async (req, res)=>{
   res.render('general/error.hbs', {
-    errorObject : {
+    error : {
       status : false,
       e_message : "This is some message",
       e_toString : "This error : This is some message",
