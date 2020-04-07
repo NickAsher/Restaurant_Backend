@@ -230,7 +230,7 @@ exports.getSingleOfferSpecial = async (offerId)=>{
     }
     return {
       status : true,
-      data : dbData['0']['0']
+      data : dbData[0][0]
     } ;
   }catch (e) {
     return {
@@ -239,6 +239,29 @@ exports.getSingleOfferSpecial = async (offerId)=>{
     } ;
   }
 } ;
+
+/************************************************ Users ********************************** */
+exports.getAdmin_ByEmail = async(email)=>{
+  try{
+    let dbData = await dbConnection.execute(`
+    SELECT * FROM admins_table WHERE email = :emailId `, {
+      emailId : email
+    }) ;
+    if(dbData[0].length !== 1){
+      throw "No account found for this email" ;
+    }
+    return {
+      status : true,
+      data : dbData[0][0]
+    } ;
+  }catch (e) {
+    return {
+      status : false,
+      error : e.toString()
+    } ;
+  }
+} ;
+
 
 /* ********************************************** Orders ************************************ */
 exports.getAllOrders_OfToday = async(date)=>{

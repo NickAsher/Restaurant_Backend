@@ -82,10 +82,6 @@ app.get('/', async (req, res)=>{
   res.send("YOLO") ;
 }) ;
 
-app.get('/login', async (req, res)=>{
-  res.render('general/login.hbs') ;
-}) ;
-
 app.get('/error', async (req, res)=>{
   res.render('general/error.hbs', {
     error : {
@@ -97,6 +93,7 @@ app.get('/error', async (req, res)=>{
   }) ;
 }) ;
 
+app.use(require('./routes/routes_auth')) ;
 app.use(require('./routes/router_blogs')) ;
 app.use(require('./routes/router_gallery')) ;
 app.use(require('./routes/router_offers')) ;

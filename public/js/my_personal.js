@@ -85,3 +85,36 @@ function setupCheckboxToggleButton(PresentationToggleInputId, HiddenInputId){
     }
   });
 }
+
+
+function showLoadingSpinner(element){
+  element.children('span').hide() ;
+  element.children('div').remove() ;
+  element.prepend(`
+      <div class="spinner">
+          <div class="rect1"></div>
+          <div class="rect2"></div>
+          <div class="rect3"></div>
+          <div class="rect4"></div>
+          <div class="rect5"></div>
+      </div>
+  `) ;
+}
+
+
+function hideLoadingSpinner(element){
+  element.children('span').show() ;
+  element.children('div').hide() ;
+}
+
+function redirectBack(defaultRedirection){
+  // check if there is query paramter called redirect like      https://www.rest.com?redirect=checkout
+  // if there is , then go there, else go to argument given function parameter
+
+  let searchParams = new URLSearchParams(window.location.search) ;
+  if(searchParams.has('redirect')){
+    window.location.href = "/" + searchParams.get('redirect') ;
+  }else{
+    window.location.href = defaultRedirection ;
+  }
+}
