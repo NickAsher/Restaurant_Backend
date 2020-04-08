@@ -2,7 +2,7 @@ const express = require('express') ;
 const controllerAuth = require('../controllers/auth') ;
 const {body, param, validationResult} = require('express-validator') ;
 const validationMiddleware = require('../middleware/validation') ;
-
+const authenticationMiddleware = require('../middleware/authentication') ;
 
 const router = express.Router() ;
 
@@ -11,12 +11,11 @@ let errorBackPageLink = "/" ;
 const upload = validationMiddleware.upload ;
 const checkFileMagicNumber = validationMiddleware.checkFileMagicNumber ;
 const showValidationError = validationMiddleware.showValidationError(errorBackPageLink) ;
-const checkFileIsUploaded = validationMiddleware.checkFileIsUploaded(errorBackPageLink) ;
 const errorHandler = validationMiddleware.myErrorHandler(errorBackPageLink) ;
+const authRedirectHome = authenticationMiddleware.authRedirectHome ;
 
 
-
-router.get('/login', errorHandler, controllerAuth.getLoginPage) ;
+router.get('/login', authRedirectHome, errorHandler, controllerAuth.getLoginPage) ;
 
 router.post('/login', [
   body('email', "Invalid Email address").exists().notEmpty().isEmail().trim().normalizeEmail(),
@@ -25,12 +24,14 @@ router.post('/login', [
 
 router.post('/forgotPassword',
   [
-    body('post_Email').not().isEmpty().isEmail()
-      .withMessage("Valid email not provied").normalizeEmail(),
+    body('post_Email', 'Invalid Email Address').not().isEmpty().isEmail().normalizeEmail(),
   ],
-  showValidationError, controllerAuth.postForgotPassword) ;
+  showValidationError, errorHandler, controllerAuth.postForgotPassword) ;
 
-router.get('/resetPassword/:resetToken', controllerAuth.getResetPasswordTokenPage) ;
+
+router.get('/signout', errorHandler, controllerAuth.postSignout) ;
+
+router.get('/resetPassword/:resetToken', errorHandler, controllerAuth.getResetPasswordTokenPage) ;
 
 router.post('/resetPassword',
   [
@@ -42,8 +43,7 @@ router.post('/resetPassword',
       return value == req.body.post_newPassword ;
     }),
   ],
-  showValidationError,
-  controllerAuth.postResetPasswordToken) ;
+  showValidationError, errorHandler, controllerAuth.postResetPasswordToken) ;
 
 
 

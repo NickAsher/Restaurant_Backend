@@ -2,6 +2,7 @@ const express = require('express') ;
 const controllerBlogs = require('../controllers/blogs') ;
 const {body, param, validationResult} = require('express-validator') ;
 const validationMiddleware = require('../middleware/validation') ;
+const authenticationMiddleware = require('../middleware/authentication') ;
 
 const router = express.Router() ;
 
@@ -12,15 +13,16 @@ const checkFileMagicNumber = validationMiddleware.checkFileMagicNumber ;
 const showValidationError = validationMiddleware.showValidationError(errorBackPageLink) ;
 const checkFileIsUploaded = validationMiddleware.checkFileIsUploaded(errorBackPageLink) ;
 const errorHandler = validationMiddleware.myErrorHandler(errorBackPageLink) ;
+const isAuthenticated = authenticationMiddleware.isAuthenticated('blogs') ;
+const isAuthenticated_PostRequest = authenticationMiddleware.isAuthenticatedPostRequest ;
 
+router.get('/blogs', isAuthenticated, errorHandler, controllerBlogs.getAllBlogsPage) ;
 
-router.get('/blogs', errorHandler, controllerBlogs.getAllBlogsPage) ;
-
-router.get('/blogs/view/:blogId', [
+router.get('/blogs/view/:blogId', isAuthenticated, [
   param('blogId', "Invalid Blog Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError, errorHandler, controllerBlogs.getSingleBlogViewPage) ;
 
-router.get('/blogs/edit/:blogId', [
+router.get('/blogs/edit/:blogId', isAuthenticated, [
   param('blogId', "Invalid Blog Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError, errorHandler, controllerBlogs.getSingleBlogEditPage) ;
 
@@ -32,7 +34,7 @@ router.post('/blogs/edit/save', upload.single('post_Image'), checkFileMagicNumbe
   body('blogContent', "Invalid blog content").exists().notEmpty(),
 ], showValidationError, errorHandler, controllerBlogs.postEditBlogPage) ;
 
-router.get('/blogs/add', errorHandler, controllerBlogs.getAddNewBlogPage) ;
+router.get('/blogs/add', isAuthenticated, errorHandler, controllerBlogs.getAddNewBlogPage) ;
 
 router.post('/blogs/add/save', upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber, [
   body('blogAuthorName', "Invalid Author Name").exists().notEmpty().trim().escape(),

@@ -82,6 +82,23 @@ exports.postForgotPassword = async (req, res)=>{
 
 } ;
 
+exports.postSignout = async(req, res)=>{
+  try{
+    req.session.destroy() ;
+    res.clearCookie('my_session_id_backend') ;
+    res.send({
+      status : true
+    }) ;
+  }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
+    res.send({
+      status : false,
+      error : e
+    }) ;
+  }
+} ;
+
+
 
 exports.getResetPasswordTokenPage = async (req, res)=>{
   try{

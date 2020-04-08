@@ -2,6 +2,7 @@ const express = require('express') ;
 const controllerMenu = require('../controllers/menu') ;
 const {body, param, validationResult} = require('express-validator') ;
 const validationMiddleware = require('../middleware/validation') ;
+const authenticationMiddleware = require('../middleware/authentication') ;
 
 const router = express.Router() ;
 
@@ -9,17 +10,19 @@ const upload = validationMiddleware.upload ;
 const checkFileMagicNumber = validationMiddleware.checkFileMagicNumber ;
 const showValidationError = validationMiddleware.showValidationError ;
 const checkFileIsUploaded = validationMiddleware.checkFileIsUploaded ;
+const isAuthenticated = authenticationMiddleware.isAuthenticated ;
+const isAuthenticated_PostRequest = authenticationMiddleware.isAuthenticatedPostRequest ;
 
 
 let errorBackPageLink_Category = "/menu/category" ;
 
-router.get('/menu/category', controllerMenu.getAllCategoryPage) ;
+router.get('/menu/category', isAuthenticated('menu/category'),  controllerMenu.getAllCategoryPage) ;
 
-router.get('/menu/category/view/:categoryId', [
+router.get('/menu/category/view/:categoryId', isAuthenticated('menu/category'), [
   param('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Category), controllerMenu.getViewCategoryPage) ;
 
-router.get('/menu/category/edit/:categoryId', [
+router.get('/menu/category/edit/:categoryId', isAuthenticated('menu/category'), [
   param('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Category), controllerMenu.getEditCategoryPage) ;
 
@@ -29,7 +32,7 @@ router.post('/menu/category/edit/save', upload.single('post_Image'), checkFileMa
   body('categoryName', "Invalid Category Name").exists().notEmpty().trim().escape(),
 ], showValidationError(errorBackPageLink_Category), controllerMenu.postEditCategoryPage) ;
 
-router.get('/menu/category/add', controllerMenu.getAddCategoryPage) ;
+router.get('/menu/category/add', isAuthenticated('menu/category'), controllerMenu.getAddCategoryPage) ;
 
 router.post('/menu/category/add/save', upload.single('post_Image'), checkFileIsUploaded(errorBackPageLink_Category), checkFileMagicNumber, [
   body('isCategoryActive', "Invalid boolean isCategoryActive Name").exists().notEmpty().isBoolean(),
@@ -41,9 +44,9 @@ router.post('/menu/category/delete', [
   body('categoryImageFileName', "Invalid Category Image Name").exists().notEmpty().trim(),
 ], showValidationError(errorBackPageLink_Category), controllerMenu.postDeleteCategoryPage) ;
 
-router.post('/menu/category/arrange', controllerMenu.postArrangeCategoryPage) ;
+router.get('/menu/category/arrange', isAuthenticated('menu/category'), controllerMenu.getArrangeCategoryPage) ;
 
-router.get('/menu/category/arrange', [
+router.post('/menu/category/arrange', [
   body('sortedArray', "Invalid array of Id's").exists().notEmpty().custom((value, {req})=>{
     // we have to return a boolean in this function
     let sortedArray = JSON.parse(value) ;
@@ -62,7 +65,7 @@ router.get('/menu/category/arrange', [
     }
     return true ;
   })
-], showValidationError(errorBackPageLink_Category), controllerMenu.getArrangeCategoryPage) ;
+], showValidationError(errorBackPageLink_Category), controllerMenu.postArrangeCategoryPage) ;
 
 /********************************************************************************************/
 /******************************************** Menu Dishes ***********************************/
@@ -70,13 +73,13 @@ router.get('/menu/category/arrange', [
 
 let errorBackPageLink_Dishes = "/menu/dishes" ;
 
-router.get('/menu/dishes', controllerMenu.getAllDishesPage) ;
+router.get('/menu/dishes', isAuthenticated('menu/dishes'), controllerMenu.getAllDishesPage) ;
 
-router.get('/menu/dishes/view/:menuItemId', [
+router.get('/menu/dishes/view/:menuItemId', isAuthenticated('menu/dishes'), [
   param('menuItemId', "Invalid MenuItemId").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Dishes), controllerMenu.getViewDishPage) ;
 
-router.get('/menu/dishes/edit/:menuItemId', [
+router.get('/menu/dishes/edit/:menuItemId', isAuthenticated('menu/dishes'), [
   param('menuItemId', "Invalid MenuItemId").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Dishes), controllerMenu.getEditDishPage) ;
 
@@ -87,7 +90,7 @@ router.post('/menu/dishes/edit/save', upload.single('post_Image'), checkFileMagi
   body('itemDescription', "Invalid DishItem Description").exists().notEmpty().trim().escape(),
 ], showValidationError(errorBackPageLink_Dishes), controllerMenu.postEditDishPage) ;
 
-router.get('/menu/dishes/add/:categoryId', [
+router.get('/menu/dishes/add/:categoryId', isAuthenticated('menu/dishes'), [
   param('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Dishes), controllerMenu.getAddDishPage) ;
 
@@ -103,7 +106,7 @@ router.post('/menu/dishes/delete', [
   body('itemImageName', 'Invalid Image File Name').exists().notEmpty().trim(),
 ], showValidationError(errorBackPageLink_Dishes), controllerMenu.postDeleteDishPage ) ;
 
-router.get('/menu/dishes/arrange/:categoryId', [
+router.get('/menu/dishes/arrange/:categoryId', isAuthenticated('menu/dishes'), [
   param('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Dishes), controllerMenu.getArrangeDishesPage) ;
 
@@ -136,13 +139,13 @@ router.post('/menu/dishes/arrange/save', [
 
 let errorBackPageLink_Addons = "/menu/addons" ;
 
-router.get('/menu/addons', controllerMenu.getAllAddonItemsPage) ;
+router.get('/menu/addons', isAuthenticated('menu/addons'), controllerMenu.getAllAddonItemsPage) ;
 
-router.get('/menu/addons/view/:addonItemId', [
+router.get('/menu/addons/view/:addonItemId', isAuthenticated('menu/addons'), [
   param('addonItemId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Addons), controllerMenu.getViewAddonPage) ;
 
-router.get('/menu/addons/edit/:addonItemId', [
+router.get('/menu/addons/edit/:addonItemId', isAuthenticated('menu/addons'), [
   param('addonItemId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Addons), controllerMenu.getEditAddonPage) ;
 
@@ -153,7 +156,7 @@ router.post('/menu/addons/edit/save', [
 
 ], showValidationError(errorBackPageLink_Addons), controllerMenu.postEditAddonPage) ;
 
-router.get('/menu/addons/add/:categoryId/:addonGroupId', [
+router.get('/menu/addons/add/:categoryId/:addonGroupId', isAuthenticated('menu/addons'), [
   param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
   param('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Addons), controllerMenu.getAddAddonPage) ;
@@ -169,7 +172,7 @@ router.post('/menu/addons/delete',  [
   body('itemId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Addons), controllerMenu.postDeleteAddonPage ) ;
 
-router.get('/menu/addons/arrange/:addonGroupId', [
+router.get('/menu/addons/arrange/:addonGroupId', isAuthenticated('menu/addons'), [
   param('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Addons), controllerMenu.getArrangeAddonsPage) ;
 
@@ -195,7 +198,7 @@ router.post('/menu/addons/arrange/', [
   })
 ], showValidationError(errorBackPageLink_Addons), controllerMenu.postArrangeAddonsPage) ;
 
-router.get('/menu/addons/change-default/:addonGroupId', [
+router.get('/menu/addons/change-default/:addonGroupId', isAuthenticated('menu/addons'), [
   param('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Addons), controllerMenu.getChangeDefaultAddonPage) ;
 
@@ -210,11 +213,11 @@ router.post('/menu/addons/change-default/save',  [
 /********************************************************************************************/
 
 
-router.get('/menu/size/:categoryId', [
+router.get('/menu/size/:categoryId', isAuthenticated('menu/category'), [
   param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Category), controllerMenu.getAllSizesPage) ;
 
-router.get('/menu/size/edit/:sizeId', [
+router.get('/menu/size/edit/:sizeId', isAuthenticated('menu/category'), [
   param('sizeId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Category),  controllerMenu.getEditSizePage) ;
 
@@ -226,7 +229,7 @@ router.post('/menu/size/edit/save', [
   body('sizeNameAbbreviated').exists().notEmpty().trim().escape(),
 ], showValidationError(errorBackPageLink_Category),  controllerMenu.postEditSizePage) ;
 
-router.get('/menu/size/add/:categoryId', [
+router.get('/menu/size/add/:categoryId', isAuthenticated('menu/category'), [
   param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Category),  controllerMenu.getAddSizePage) ;
 
@@ -242,7 +245,7 @@ router.post('/menu/size/delete', [
   body('sizeId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Category),  controllerMenu.postDeleteSizePage);
 
-router.get('/menu/size/arrange/:categoryId', [
+router.get('/menu/size/arrange/:categoryId', isAuthenticated('menu/category'), [
   param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Category),  controllerMenu.getArrangeSizesPage) ;
 
@@ -269,7 +272,7 @@ router.post('/menu/size/arrange/save', [
   })
 ], showValidationError(errorBackPageLink_Category),  controllerMenu.postArrangeSizesPage) ;
 
-router.get('/menu/size/change-default/:categoryId', [
+router.get('/menu/size/change-default/:categoryId', isAuthenticated('menu/category'), [
   param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Category),  controllerMenu.getChangeDefaultSizePage) ;
 
@@ -282,11 +285,11 @@ router.post('/menu/size/change-default/save', [
 /******************************************** Addon-Group ***********************************/
 /********************************************************************************************/
 
-router.get('/menu/addonGroup/:categoryId', [
+router.get('/menu/addonGroup/:categoryId', isAuthenticated('menu/category'), [
   param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Category), controllerMenu.getAllAddonGroupsPage) ;
 
-router.get('/menu/addonGroup/edit/:addonGroupId', [
+router.get('/menu/addonGroup/edit/:addonGroupId', isAuthenticated('menu/category'), [
   param('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Category), controllerMenu.getEditAddonGroupPage) ;
 
@@ -298,7 +301,7 @@ router.post('/menu/addonGroup/edit/save', [
   body('isAddonGroupActive').exists().notEmpty().isBoolean(),
 ], showValidationError(errorBackPageLink_Category), controllerMenu.postEditAddonGroupPage) ;
 
-router.get('/menu/addonGroup/add/:categoryId', [
+router.get('/menu/addonGroup/add/:categoryId', isAuthenticated('menu/category'), [
   param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Category), controllerMenu.getAddAddonGroupPage) ;
 
@@ -314,7 +317,7 @@ router.post('/menu/addonGroup/delete', [
   body('addonGroupId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Category), controllerMenu.postDeleteAddonGroupPage);
 
-router.get('/menu/addonGroup/arrange/:categoryId', [
+router.get('/menu/addonGroup/arrange/:categoryId', isAuthenticated('menu/category'), [
   param('categoryId').exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError(errorBackPageLink_Category), controllerMenu.getArrangeAddonGroupPage) ;
 

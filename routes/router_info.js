@@ -2,15 +2,18 @@ const express = require('express') ;
 const controllerInfo = require('../controllers/info') ;
 const {body, validationResult} = require('express-validator') ;
 const validationMiddleware = require('../middleware/validation') ;
+const authenticationMiddleware = require('../middleware/authentication') ;
 
 const router = express.Router() ;
 const showValidationError = validationMiddleware.showValidationError ;
 const errorHandler = validationMiddleware.myErrorHandler ;
+const isAuthenticated = authenticationMiddleware.isAuthenticated ;
+const isAuthenticated_PostRequest = authenticationMiddleware.isAuthenticatedPostRequest ;
 
 
-router.get('/about', errorHandler('/about'), controllerInfo.getViewAboutPage) ;
+router.get('/about', isAuthenticated('about'), errorHandler('/about'), controllerInfo.getViewAboutPage) ;
 
-router.get('/about/edit', errorHandler('/about'), controllerInfo.getEditAboutPage) ;
+router.get('/about/edit', isAuthenticated('about'), errorHandler('/about'), controllerInfo.getEditAboutPage) ;
 
 router.post('/about/edit/save', [
     body('aboutUsData', "Invalid AboutUs data").exists().notEmpty()
@@ -18,8 +21,9 @@ router.post('/about/edit/save', [
 
 
 
-router.get('/contact', errorHandler('/contact'), controllerInfo.getViewContactPage) ;
-router.get('/contact/edit', errorHandler('/contact'), controllerInfo.getEditContactPage) ;
+router.get('/contact', isAuthenticated('contact'), errorHandler('/contact'), controllerInfo.getViewContactPage) ;
+
+router.get('/contact/edit', isAuthenticated('contact'), errorHandler('/contact'), controllerInfo.getEditContactPage) ;
 
 router.post('/contact/edit/save', [
   body('restaurantName', 'Invalid Restaurant Name').exists().notEmpty().trim(),

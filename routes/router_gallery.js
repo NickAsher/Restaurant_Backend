@@ -7,6 +7,7 @@ const fs = require('fs') ;
 const Constants = require('../utils/Constants') ;
 const FileType = require('file-type') ;
 const validationMiddleware = require('../middleware/validation') ;
+const authenticationMiddleware = require('../middleware/authentication') ;
 
 const router = express.Router() ;
 
@@ -17,13 +18,15 @@ const checkFileMagicNumber = validationMiddleware.checkFileMagicNumber ;
 const showValidationError = validationMiddleware.showValidationError(errorBackPageLink) ;
 const checkFileIsUploaded = validationMiddleware.checkFileIsUploaded(errorBackPageLink) ;
 const errorHandler = validationMiddleware.myErrorHandler(errorBackPageLink) ;
+const isAuthenticated = authenticationMiddleware.isAuthenticated('gallery') ;
+const isAuthenticated_PostRequest = authenticationMiddleware.isAuthenticatedPostRequest ;
 
 
 
 
-router.get('/gallery', errorHandler, controllerGallery.getAllGalleryItemPage) ;
+router.get('/gallery', isAuthenticated, errorHandler, controllerGallery.getAllGalleryItemPage) ;
 
-router.get('/gallery/add', errorHandler, controllerGallery.getAddGalleryItemPage) ;
+router.get('/gallery/add', isAuthenticated, errorHandler, controllerGallery.getAddGalleryItemPage) ;
 
 router.post('/gallery/add/save', upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber,
   showValidationError, errorHandler, controllerGallery.postAddGalleryItemPage) ;
@@ -33,7 +36,7 @@ router.post('/gallery/delete', [
   body('galleryImageFileName', "Invalid image name").exists().notEmpty().trim().escape(),
 ], showValidationError, errorHandler, controllerGallery.postDeleteGalleryItemPage) ;
 
-router.get('/gallery/arrange', controllerGallery.getArrangeGalleryItemsPage) ;
+router.get('/gallery/arrange', isAuthenticated, controllerGallery.getArrangeGalleryItemsPage) ;
 
 router.post('/gallery/arrange', [
   body('sortedArray', "Invalid array of Id's").exists().notEmpty().custom((value, {req})=>{
