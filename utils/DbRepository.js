@@ -263,6 +263,48 @@ exports.getAdmin_ByEmail = async(email)=>{
 } ;
 
 
+exports.resetPasswordToken = async (id, resetToken)=>{
+  try{
+    let dbData = await dbConnection.execute(
+      `UPDATE admins_table SET reset_password_token = :resetToken WHERE id = :id `, {
+        id,
+        resetToken
+      }) ;
+    return {
+      status : true,
+    } ;
+  }catch (e) {
+    return {
+      status : false,
+      error : e.toString()
+    } ;
+  }
+} ;
+
+exports.getUser_ByResetToken = async(resetToken)=>{
+  try{
+    let dbData = await dbConnection.execute(
+      `SELECT * FROM admins_table WHERE reset_password_token = :resetToken `, {
+        resetToken
+      }) ;
+    if(dbData[0].length != 1){
+      // token does not exist in db, invalid token
+      throw "Invalid Token" ;
+    }
+
+    return {
+      status : true,
+      data : dbData[0][0]
+    } ;
+  }catch (e) {
+    return {
+      status : false,
+      error : e.toString()
+    } ;
+  }
+} ;
+
+
 /* ********************************************** Orders ************************************ */
 exports.getAllOrders_OfToday = async(date)=>{
   try{

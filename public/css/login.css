@@ -29,3 +29,14 @@
 .panel-signup .term-policy a {
     text-decoration: underline;
 }
+
+
+
+
+#div_SectionForgotPassword{
+    display: none;
+}
+
+#div_SectionForgotPasswordResponse{
+    display: none;
+}
