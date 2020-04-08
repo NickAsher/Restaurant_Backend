@@ -8,14 +8,14 @@ const router = express.Router() ;
 const showValidationError = validationMiddleware.showValidationError ;
 const errorHandler = validationMiddleware.myErrorHandler ;
 const isAuthenticated = authenticationMiddleware.isAuthenticated ;
-const isAuthenticated_PostRequest = authenticationMiddleware.isAuthenticatedPostRequest ;
+const isAuthenticatedPostRequest = authenticationMiddleware.isAuthenticatedPostRequest ;
 
 
 router.get('/about', isAuthenticated('about'), errorHandler('/about'), controllerInfo.getViewAboutPage) ;
 
 router.get('/about/edit', isAuthenticated('about'), errorHandler('/about'), controllerInfo.getEditAboutPage) ;
 
-router.post('/about/edit/save', [
+router.post('/about/edit/save', isAuthenticatedPostRequest, [
     body('aboutUsData', "Invalid AboutUs data").exists().notEmpty()
 ], showValidationError('/about'), errorHandler('/about'), controllerInfo.postEditAboutPage) ;
 
@@ -25,7 +25,7 @@ router.get('/contact', isAuthenticated('contact'), errorHandler('/contact'), con
 
 router.get('/contact/edit', isAuthenticated('contact'), errorHandler('/contact'), controllerInfo.getEditContactPage) ;
 
-router.post('/contact/edit/save', [
+router.post('/contact/edit/save', isAuthenticatedPostRequest, [
   body('restaurantName', 'Invalid Restaurant Name').exists().notEmpty().trim(),
   body('restaurantAddressLine1', 'Invalid Address Line 1').exists().notEmpty().trim(),
   body('restaurantAddressLine2', 'Invalid Address Line 2').exists().notEmpty().trim(),

@@ -14,7 +14,7 @@ const showValidationError = validationMiddleware.showValidationError(errorBackPa
 const checkFileIsUploaded = validationMiddleware.checkFileIsUploaded(errorBackPageLink) ;
 const errorHandler = validationMiddleware.myErrorHandler(errorBackPageLink) ;
 const isAuthenticated = authenticationMiddleware.isAuthenticated('specials') ;
-const isAuthenticated_PostRequest = authenticationMiddleware.isAuthenticatedPostRequest ;
+const isAuthenticatedPostRequest = authenticationMiddleware.isAuthenticatedPostRequest ;
 
 
 router.get('/specials', isAuthenticated, errorHandler, controllerOfferSpecial.getAllOfferSpecials) ;
@@ -27,7 +27,7 @@ router.get('/specials/edit/:offerId', isAuthenticated, [
   param('offerId', "Invalid OfferSpecial Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
 ], showValidationError, errorHandler, controllerOfferSpecial.getEditOfferSpecial) ;
 
-router.post('/specials/edit/save', upload.single('post_Image'), checkFileMagicNumber, [
+router.post('/specials/edit/save', isAuthenticatedPostRequest, upload.single('post_Image'), checkFileMagicNumber, [
   body('offerId', "Invalid OfferSpecial Id").exists().notEmpty().isNumeric({no_symbols:true}).trim().escape(),
   body('offerTitle', "Invalid OfferSpecial Title").exists().notEmpty().trim().escape(),
   body('offerMessage', "Invalid OfferSpecial Message").exists().notEmpty().trim().escape(),
@@ -36,19 +36,19 @@ router.post('/specials/edit/save', upload.single('post_Image'), checkFileMagicNu
 
 router.get('/specials/add', isAuthenticated, errorHandler, controllerOfferSpecial.getAddOfferSpecial) ;
 
-router.post('/specials/add/save', upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber, [
+router.post('/specials/add/save', isAuthenticatedPostRequest, upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber, [
   body('offerTitle', "Invalid OfferSpecial Title").exists().notEmpty().trim().escape(),
   body('offerMessage', "Invalid OfferSpecial Message").exists().notEmpty().trim().escape(),
 ], showValidationError, errorHandler, controllerOfferSpecial.postAddOfferSpecial) ;
 
-router.post('/specials/delete', [
+router.post('/specials/delete', isAuthenticatedPostRequest, [
   body('offerId', "Invalid OfferSpecial Id").exists().notEmpty().isNumeric({no_symbols:true}).trim().escape(),
   body('offerImageFileName', "Invalid OfferSpecial Image Name").exists().notEmpty().trim(),
 ], showValidationError, errorHandler,  controllerOfferSpecial.postDeleteOfferSpecial) ;
 
 router.get('/specials/arrange', isAuthenticated, errorHandler, controllerOfferSpecial.getArrangeOfferSpecialsPage) ;
 
-router.post('/specials/arrange', [
+router.post('/specials/arrange', isAuthenticatedPostRequest, [
   body('sortedArray', "Invalid array of Id's").exists().notEmpty().custom((value, {req})=>{
     // we have to return a boolean in this function
     let sortedArray = JSON.parse(value) ;

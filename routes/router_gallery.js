@@ -19,7 +19,7 @@ const showValidationError = validationMiddleware.showValidationError(errorBackPa
 const checkFileIsUploaded = validationMiddleware.checkFileIsUploaded(errorBackPageLink) ;
 const errorHandler = validationMiddleware.myErrorHandler(errorBackPageLink) ;
 const isAuthenticated = authenticationMiddleware.isAuthenticated('gallery') ;
-const isAuthenticated_PostRequest = authenticationMiddleware.isAuthenticatedPostRequest ;
+const isAuthenticatedPostRequest = authenticationMiddleware.isAuthenticatedPostRequest ;
 
 
 
@@ -28,17 +28,17 @@ router.get('/gallery', isAuthenticated, errorHandler, controllerGallery.getAllGa
 
 router.get('/gallery/add', isAuthenticated, errorHandler, controllerGallery.getAddGalleryItemPage) ;
 
-router.post('/gallery/add/save', upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber,
+router.post('/gallery/add/save', isAuthenticatedPostRequest, upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber,
   showValidationError, errorHandler, controllerGallery.postAddGalleryItemPage) ;
 
-router.post('/gallery/delete', [
+router.post('/gallery/delete', isAuthenticatedPostRequest, [
   body('galleryItemId', "Invalid gallery Item Id").exists().notEmpty().isNumeric({no_symbols:true}).trim(),
   body('galleryImageFileName', "Invalid image name").exists().notEmpty().trim().escape(),
 ], showValidationError, errorHandler, controllerGallery.postDeleteGalleryItemPage) ;
 
 router.get('/gallery/arrange', isAuthenticated, controllerGallery.getArrangeGalleryItemsPage) ;
 
-router.post('/gallery/arrange', [
+router.post('/gallery/arrange', isAuthenticatedPostRequest, [
   body('sortedArray', "Invalid array of Id's").exists().notEmpty().custom((value, {req})=>{
     // we have to return a boolean in this function
     let sortedArray = JSON.parse(value) ;
