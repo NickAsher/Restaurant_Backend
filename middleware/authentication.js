@@ -31,14 +31,14 @@ exports.isAuthenticated = (redirectBack)=>{
 } ;
 
 
-exports.isAuthenticatedPostRequest =  ()=>{
-  /* Middleware to check if post request comes from authenticated user
+exports.isAuthenticatedPostRequest =  (req, res, next)=>{
+    /* Middleware to check if post request comes from authenticated user
    *
    *  this function checks if the user is authenticated using session.isLoggedIn
    *    If they are, the post requests does what it's supposed to do
    *    If not, it sends a status:false with error message
    */
-  return (req, res, next)=>{
+
     // if(req.session.isLoggedIn != true){   // checks for both false and undefined this way
     //   res.send({
     //     status : false,
@@ -47,5 +47,5 @@ exports.isAuthenticatedPostRequest =  ()=>{
     // }else{
       next();
     // }
-  } ;
+
 } ;

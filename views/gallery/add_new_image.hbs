@@ -41,11 +41,18 @@
 
                 <form id="form-main" action="/gallery/add/save?_csrf={{_csrfToken}}" method="post" enctype="multipart/form-data">
 
+
                     <div class="form-group row">
-                        <button id="btn-file-choose" class="input-group-addon" style="cursor: pointer;">Choose Image</button>
-                        <div class="justify-content-center input-group">
-                            <img id="preview-image"/>
-                            <input id="hidden-file-chooser" name="post_Image" type="file" style="width:0;" >
+
+                        <div class="col-4 push-md-4">
+                            <div class="text-center">
+                                <button id="btn-file-choose" class="btn btn-outline-primary" style="cursor: pointer;">Choose Image</button>
+                            </div>
+                            <br>
+                            <div class="justify-content-center input-group">
+                                <img id="preview-image"/>
+                                <input id="hidden-file-chooser" name="post_Image" type="file" style="width:0;" >
+                            </div>
                         </div>
                     </div>
                     <br>
@@ -88,7 +95,7 @@
     $('#form-main').validate({
         errorPlacement : (error, element)=>{
             //insert the label element after the parent div
-            error.insertAfter(element) ;
+            error.insertBefore(element.parent()) ;
             $(error).addClass('text-danger') ;
 
         },

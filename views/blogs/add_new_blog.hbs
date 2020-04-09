@@ -26,7 +26,7 @@
 
     <div class="container-fluid t3-push" id="mainContainer">
         <div class="row">
-            <div id = "main_Content" class="col-md-12">
+            <div id = "main_Content" class="col-md-12 bg-grey">
 
                 <br><br><br><br>
                 <div class="page-title bg-light">
@@ -36,66 +36,59 @@
                         </div>
                     </div>
                 </div>
-                <br><br><br>
-
-
-
-
+                <br>
 
                 <div class="row">
                     <div class="col-md-10 push-1" >
-                        <form id="form-main" action="/blogs/add/save?_csrf={{_csrfToken}}" method="post" enctype="multipart/form-data">
+                        <div class="card">
+                            <div class="card-block">
+                                <form id="form-main" action="/blogs/add/save?_csrf={{_csrfToken}}" method="post" enctype="multipart/form-data">
 
-                            <div class="form-group">
-                                <label for="input-blog-author" class="col-form-label bold">Blog Author</label>
-                                <!--<div>-->
-                                    <input id="input-blog-author" name='blogAuthorName' class="form-control" type="text" placeholder="Author's name" >
-                                <!--</div>-->
-                                <br>
+                                    <div class="form-group row">
+                                        <label for="input-blog-title" class="col-3 col-form-label">Blog Title:</label>
+                                        <div class="col-md-9">
+                                            <input name = 'blogTitle' id="input-blog-title" class="form-control" type="text"  >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="input-blog-author" class="col-3 col-form-label">Author Name</label>
+                                        <div class="col-md-9">
+                                            <input id="input-blog-author" name="blogAuthorName" class="form-control" type="text"  >
+                                        </div>
+                                    </div>
+                                    <br>
+
+                                    <div class="form-group row">
+                                        <label for="presentation-only-field-display" class="col-3 col-form-label">Blog DisplayImage</label>
+                                        <div class="col-md-9">
+                                            <button id="btn-file-choose" class="input-group-addon" style="cursor: pointer;">Choose Image</button>
+                                            <div class="justify-content-center input-group">
+                                                <img id="preview-image"/>
+                                                <input id="hidden-file-chooser" name="post_Image" type="file" style="width:0;"  >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+
+                                    <div class="form-group row">
+                                        <label for="input-blog-content" class="col-3 col-form-label">Blog Content:</label>
+                                        <div class="col-md-9">
+                                            <textarea name="blogContent" id="input-blog-content" class="form-control" required></textarea>
+                                        </div>
+                                    </div>
+
+                                    <br><br>
+                                    <div class="form-group row">
+                                        <div class="col-4" ></div>
+                                        <!--<button id="button-submitForm" type="button" class=" col-4 btn btn-outline-info">Add Post</button>-->
+                                        <input type="submit" class=" col-4 btn btn-outline-info" value="Add Post">
+                                        <div class="col-4" ></div>
+                                    </div>
+
+                                </form>
                             </div>
-
-                            <div class="form-group">
-                                <label for="input-blog-title" class="col-form-label">Blog Title</label>
-                                <div>
-                                    <input id="input-blog-title" name='blogTitle' class="form-control" type="text" placeholder="Title of the BlogPost" >
-                                </div>
-                                <br>
-                            </div>
-
-
-                            <div>
-                                <label for="presentation-only-field-display" class="col-form-label">Blog DisplayImage</label>
-                                <button id="btn-file-choose" class="input-group-addon" style="cursor: pointer;">Choose Image</button>
-                                <div class="justify-content-center input-group">
-                                    <img id="preview-image"/>
-                                    <input id="hidden-file-chooser" name="post_Image" type="file" style="width:0;"  >
-                                </div>
-                            </div>
-                            <br>
-
-                            <div class="form-group">
-                                <label id="label-blog-content" for="input-blog-content" class="col-form-label">Blog Description</label>
-                                <div>
-                                    <textarea id="input-blog-content" name="blogContent" class="form-control" required></textarea>
-                                </div>
-                                <br>
-                            </div>
-
-
-
-
-
-
-
-                            <br><br>
-                            <div class="form-group row">
-                                <div class="col-4" ></div>
-                                <!--<button id="button-submitForm" type="button" class=" col-4 btn btn-outline-info">Add Post</button>-->
-                                <input type="submit" class=" col-4 btn btn-outline-info" value="Add Post">
-                                <div class="col-4" ></div>
-                            </div>
-
-                        </form>
+                        </div>
                     </div>
                 </div>
 

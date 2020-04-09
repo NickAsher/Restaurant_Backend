@@ -29,75 +29,75 @@
             <div id = "main_Content" class="col-md-12">
 
                 <br><br><br><br>
+                <div class="page-title bg-light">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <h1 class="">View Blog</h1>
+                        </div>
+                    </div>
+                </div>
+                <br>
 
 
                 <div class="row">
-                    <div class="col-md-10 push-1"  >
+                    <div class="col-md-10 push-1">
+                        <div class="card">
+                            <div class="card-block"  >
 
-                        <div class="row">
-                            <div class="col-6">
-                                <div id="Div_BlogDate">
-                                    <label for="input-blog-date" class="col-form-label">Creation Date:</label>
-                                    <div>
-                                        <input id="input-blog-date" class="form-control" type="text" value="{{blogData.blog_creation_date}}" disabled >
+                                <div class="form-group row">
+                                    <label for="input-blog-author" class="col-3 col-form-label">Author Name</label>
+                                    <div class="col-md-9">
+                                        <input id="input-blog-author" name="blogAuthorName" class="form-control" type="text" value="{{blogData.blog_author}}" disabled>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-6">
-                                <div id="Div_BlogAuthor">
-                                    <label for="input-blog-date" class="col-form-label">Author Name:</label>
-                                    <div>
-                                        <input id="input-blog-date" class="form-control" type="text" value="{{blogData.blog_author}}" disabled >
+
+                                <div class="form-group row">
+                                    <label for="input-blog-author" class="col-3 col-form-label">Creation Date</label>
+                                    <div class="col-md-9">
+                                        <input id="input-blog-author" name="blogAuthorName" class="form-control" type="text" value="{{blogData.blog_creation_date}}" disabled >
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-
-
-                        <br><br>
-                        <div id="Div_BlogTitle">
-                            <label for="input-blog-title" class="col-form-label">Blog Title:</label>
-                            <div>
-                                <input id="input-blog-title" class="form-control" type="text" value="{{blogData.blog_title}}" disabled >
-                            </div>
-                        </div>
-                        <br><br>
-
-                        <div id="Div_BlogDisplayImage">
-                            <label for="presentation-only-field-display" class="col-form-label">Blog DisplayImage:</label>
-                            <div class="row">
-                                <div class="col-6">
-                                    <img src='{{IMAGE_BACKENDFRONT_LINK_PATH}}{{blogData.blog_display_image}}' alt='blog image' class="img-fluid form-control" width="100px" />
+                                <div class="form-group row">
+                                    <label for="input-blog-title" class="col-3 col-form-label">Blog Title:</label>
+                                    <div class="col-md-9">
+                                        <input name = 'blogTitle' id="input-blog-title" class="form-control" type="text" value="{{blogData.blog_title}}" disabled>
+                                    </div>
                                 </div>
-                            </div>
-                            <br><br>
+                                <br>
+
+                                <div class="form-group row">
+                                    <label class="col-3 col-form-label">Blog DisplayImage:</label>
+                                    <div class="col-md-4">
+                                        <img src='{{IMAGE_BACKENDFRONT_LINK_PATH}}{{blogData.blog_display_image}}' alt='blog image' class="img-fluid" />
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="form-group row">
+                                    <label for="input-blog-description" class="col-3 col-form-label">Blog Content:</label>
+                                    <div class="col-md-9">
+                                        <div class="form-control bg-faded">{{{blogData.blog_content}}}</div>
+                                    </div>
+                                </div>
+
+
+
+
+
+                                    <br><br><br>
+                                    <div class="form-group row">
+                                        <div class="col-4" ></div>
+                                        <a href='/blogs/edit/{{blogData.blog_id}}' class='col-4 btn btn-outline-info' >Edit this BlogPost</a>
+                                        <div class="col-4" ></div>
+                                    </div>
+
+
+
+
+
+                                </div>
                         </div>
-
-                        <br>
-
-                        <div id="Div_BlogContent">
-                            <label for="input-blog-description" class="col-form-label">Blog Content:</label>
-                            <div>
-                                <div class="form-control bg-faded">{{{blogData.blog_content}}}</div>
-                            </div>
-                        </div>
-
-
-
-
-
-                        <br><br><br>
-                        <div class="form-group row">
-                            <div class="col-4" ></div>
-                            <a href='/blogs/edit/{{blogData.blog_id}}' class='col-4 btn btn-outline-info' >Edit this BlogPost</a>
-                            <div class="col-4" ></div>
-                        </div>
-
-
-
-
-
                     </div>
                 </div>
 
