@@ -73,6 +73,11 @@ router.post('/menu/category/arrange', isAuthenticatedPostRequest, [
 
 let errorBackPageLink_Dishes = "/menu/dishes" ;
 
+router.get('/menu', (req, res)=>{
+  res.redirect('/menu/dishes') ;
+}) ;
+
+
 router.get('/menu/dishes', isAuthenticated('menu/dishes'), controllerMenu.getAllDishesPage) ;
 
 router.get('/menu/dishes/view/:menuItemId', isAuthenticated('menu/dishes'), [

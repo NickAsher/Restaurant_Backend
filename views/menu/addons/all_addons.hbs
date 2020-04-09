@@ -56,7 +56,12 @@
                          Take them to category/addongroups page -->
                         <br><br><br>
                         <div class="text-center">
-                            You haven't configured any addon groups for this category.
+                            You haven't configured any Addon-Groups for this category.
+                            <a href="/menu/addongroup/{{category_id}}">
+                                <button type="button" class="btn btn-secondary" >
+                                    <i class="fa fa-cogs"> Configure </i>
+                                </button>
+                            </a>
                         </div>
                     {{/ifEquals}}
                     {{#each addonGroups}}
@@ -117,7 +122,7 @@
                                         <a href="/menu/addons/edit/{{item_id}}">
                                             <button type='submit' class='btn btn-info' >
                                                 <span><i class='fa fa-edit'></i></span>
-                                                Edit Dish
+                                                Edit Addon
                                             </button>
                                         </a>
                                     </td>
@@ -137,7 +142,8 @@
                                 Add New Item
                             </a>
                         </div>
-                        <br><br><br><hr><br><br><br>
+                        {{#if @last}}{{else}}<br><br><br><hr><br><br><br>{{/if}}
+
                     {{/each}}
                     </div>
                 {{/each}}
