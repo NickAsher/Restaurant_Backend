@@ -105,7 +105,7 @@ exports.postEditOfferSpecial = async(req, res)=>{
       ) ;
     }
 
-    res.redirect(`/specials/view/${id}`) ;
+    res.redirect(`/specials`) ;
 
   }catch (e) {
     logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;

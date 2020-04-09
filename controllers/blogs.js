@@ -112,7 +112,7 @@ exports.postEditBlogPage = async(req, res)=>{
         id : blogId
       }) ;
     }
-    res.redirect(`/blogs/view/${blogId}`) ;
+    res.redirect(`/blogs`) ;
 
 
   }catch (e) {

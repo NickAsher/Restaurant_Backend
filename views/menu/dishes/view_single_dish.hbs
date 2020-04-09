@@ -43,8 +43,6 @@
                     <div class="push-md-1 col-md-10" >
                         <div class="card">
                             <div class="card-block">
-                                <br>
-
 
                                 <div class="form-group row">
                                     <label for="input-item-name" class="col-3 col-form-label">Item Name</label>
@@ -74,10 +72,7 @@
                                         <input id="input-item-active-presentation" type="checkbox" class="form-control"  {{#if itemData.item_is_active}} checked="checked"{{/if}} disabled data-toggle="toggle" data-width="100" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
                                     </div>
                                 </div>
-
-                                <br>
-                                <br>
-                                <br>
+                                <br><br><br>
 
                                 {{#each itemSizePriceData}}
                                     <div class="form-group row">
@@ -99,9 +94,13 @@
                                         <center><img src="{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{itemData.item_image_name}}" class="img-fluid" width='180'></center>
                                     </div>
                                 </div>
+                                <br><br>
 
-                                <br>
-
+                                <div class="form-group row">
+                                    <div class="col-4" ></div>
+                                    <a href='/menu/dishes/edit/{{itemData.item_id}}' class='col-4 btn btn-outline-info' >Edit this Item</a>
+                                    <div class="col-4" ></div>
+                                </div>
 
                             </div>
                         </div>
@@ -109,17 +108,7 @@
                 </div>
 
 
-                <br><br><br>
-                <div class="form-group row">
-                    <div class="col-4" ></div>
-                    <a href='/menu/dishes/edit/{{itemData.item_id}}' class='col-4 btn btn-info' >Edit this Item</a>
-                    <div class="col-4" ></div>
-                </div>
-
-
-                <div id="space_before_footer">
-                    <br><br><br><br><br>
-                </div>
+                <br><br><br><br><br>
             </div>
         </div>
     </div>
@@ -135,7 +124,6 @@
 <script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
 <script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
 <script type="text/javascript" src="/lib/bootstrap-toggle/bootstrap-toggle.js" ></script>
-
 <script type="text/javascript" src="/js/my_personal.js"></script>
 <script type="text/javascript" src="/lib/t3/t3.js"></script>
 

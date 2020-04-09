@@ -38,37 +38,47 @@
                 </div>
                 <br><br><br>
 
+                <div class="row">
+                    <div class="col-md-10 push-md-1">
+                        <div class="card">
+                            <div class="card-block">
+                                <form id="form-main" action="/gallery/add/save?_csrf={{_csrfToken}}" method="post" enctype="multipart/form-data">
 
-                <form id="form-main" action="/gallery/add/save?_csrf={{_csrfToken}}" method="post" enctype="multipart/form-data">
 
 
-                    <div class="form-group row">
 
-                        <div class="col-4 push-md-4">
-                            <div class="text-center">
-                                <button id="btn-file-choose" class="btn btn-outline-primary" style="cursor: pointer;">Choose Image</button>
-                            </div>
-                            <br>
-                            <div class="justify-content-center input-group">
-                                <img id="preview-image"/>
-                                <input id="hidden-file-chooser" name="post_Image" type="file" style="width:0;" >
+                                    <div class="form-group row">
+
+                                        <div class="col-4 push-md-4">
+                                            <div class="text-center">
+                                                <button id="btn-file-choose" class="btn btn-outline-primary" style="cursor: pointer;">Choose Image</button>
+                                            </div>
+                                            <br>
+                                            <div class="justify-content-center input-group">
+                                                <img id="preview-image"/>
+                                                <input id="hidden-file-chooser" name="post_Image" type="file" style="width:0;" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+
+                                    <div class="form-group row">
+                                        <div class="col-1"></div>
+                                        <a href="/gallery" class="col-4 btn btn-danger">Cancel</a>
+                                        <div class="col-2"></div>
+                                        <input type="submit" class=" col-4 btn btn-success" value="Add">
+                                        <div class="col-1" ></div>
+                                    </div>
+
+
+                                </form>
                             </div>
                         </div>
                     </div>
-                    <br>
-                    <br>
-                    <div class="form-group row">
-                        <div class="col-4" ></div>
-                        <input type="submit" class="col-4 btn btn-outline-info" value="Add">
-                        <div class="col-4" ></div>
-                    </div>
-
-
-                </form>
-
-                <div id="space_before_footer">
-                    <br><br><br><br><br>
                 </div>
+
+
+                <br><br><br><br><br>
             </div>
         </div>
     </div>
