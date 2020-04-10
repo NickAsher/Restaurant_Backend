@@ -10,6 +10,7 @@
     <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
     <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
     <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
+    <link rel = "stylesheet" href="/lib/toastr/toastr.min.css" />
 
     <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
 
@@ -84,11 +85,35 @@
 <script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
 <script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
 <script type="text/javascript" src="/lib/t3/t3.js"></script>
+<script src="/lib/toastr/toastr.min.js" ></script>
+
+<script src="/js/my_personal.js" ></script>
 
 <script>
-    // $('#Btn-DeleteImages').click(function () {
-    //     fetch()
-    // }) ;
+    $('#Btn-DeleteImages').click(function () {
+        fetch('/settings/delete-images',{
+            method : 'POST',
+            headers : {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'CSRF-Token': '{{_csrfToken}}'
+            },
+        })
+        .then((response)=>response.json())
+        .then((data)=>{
+            if(data.status == true){
+              makeToast('success', "Successfull in deleting images") ;
+
+            }else{
+              console.log(data) ;
+                makeToast('error', "Error in deleting images") ;
+            }
+        })
+        .catch((err)=>{
+            console.log(err) ;
+            makeToast('error', "Error in deleting images") ;
+        }) ;
+    }) ;
 
 
 
