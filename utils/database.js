@@ -6,8 +6,7 @@ const pool = mysql.createPool({
   database : 'restaurant',
   password : 'yoloyolo',
   namedPlaceholders : true,
-  dateStrings : true
-
+  dateStrings : true,
 }) ;
 
 

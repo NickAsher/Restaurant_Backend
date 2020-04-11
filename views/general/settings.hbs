@@ -115,8 +115,82 @@
         }) ;
     }) ;
 
+    $('#Btn-RestoreImages').click(function () {
+        fetch('/settings/restore-images',{
+            method : 'POST',
+            headers : {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'CSRF-Token': '{{_csrfToken}}'
+            },
+        })
+                .then((response)=>response.json())
+                .then((data)=>{
+                    if(data.status == true){
+                        makeToast('success', "Successfull in restoring images") ;
+
+                    }else{
+                        console.log(data) ;
+                        makeToast('error', "Error in restoring images") ;
+                    }
+                })
+                .catch((err)=>{
+                    console.log(err) ;
+                    makeToast('error', "Error in restoring images") ;
+                }) ;
+    }) ;
+
+    $('#Btn-DeleteTables').click(function () {
+        fetch('/settings/truncate-tables',{
+            method : 'POST',
+            headers : {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'CSRF-Token': '{{_csrfToken}}'
+            },
+        })
+                .then((response)=>response.json())
+                .then((data)=>{
+                    if(data.status == true){
+                        makeToast('success', "Successfull in truncating tables") ;
+
+                    }else{
+                        console.log(data) ;
+                        makeToast('error', "Error in truncating tables") ;
+                    }
+                })
+                .catch((err)=>{
+                    console.log(err) ;
+                    makeToast('error', "Error in truncating tables") ;
+                }) ;
+    }) ;
 
 
+    $('#Btn-RestoreTables').click(function () {
+        fetch('/settings/restore-tables',{
+            method : 'POST',
+            headers : {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'CSRF-Token': '{{_csrfToken}}'
+            },
+        })
+                .then((response)=>response.json())
+                .then((data)=>{
+                    if(data.status == true){
+                      console.log(data.restoreSql) ;
+                        makeToast('success', "Successfull in restoring tables") ;
+
+                    }else{
+                        console.log(data) ;
+                        makeToast('error', "Error in restoring tables") ;
+                    }
+                })
+                .catch((err)=>{
+                    console.log(err) ;
+                    makeToast('error', "Error in restoring tables") ;
+                }) ;
+    }) ;
 
 </script>
 

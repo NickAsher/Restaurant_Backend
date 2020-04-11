@@ -13,5 +13,11 @@ router.get('/settings', isAuthenticated, controllerSettings.getSettingsPage) ;
 
 router.post('/settings/delete-images', isAuthenticatedPostRequest, controllerSettings.postDeletePublicImages) ;
 
+router.post('/settings/restore-images', isAuthenticatedPostRequest, controllerSettings.postRestorePublicImages) ;
+
+router.post('/settings/truncate-tables', isAuthenticatedPostRequest, controllerSettings.postTruncateTables) ;
+
+router.post('/settings/restore-tables', isAuthenticatedPostRequest, controllerSettings.postRestoreTables) ;
+
 
 module.exports =router ;
