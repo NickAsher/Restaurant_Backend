@@ -37,15 +37,18 @@
             <div id = "main_Content" class="col-12">
 
                 <div id="TabPanel_Header">
-                    <div id="NavTabsPanel" class="row" style="background-color: #333;left: 0; right: 0 ;position: fixed;z-index: 1;">
+                    <div id="NavTabsPanel" class="row" style="background-color: #333;left: 0; right: 0 ;position: relative; z-index: 1;">
                         <div class="col-12" >
-                            <br>
-                                <p style="color: #DDDDDD">
-                                    Select Date:
-                                    <input type="text" id="datepicker" style="background-color: #444">
-                                </p>
+                            <br><br>
+                            <div class="form-inline my-2 my-lg-0 float-right">
+                                <label class="text-white">Select Date &nbsp; </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="background-color: #444"><i class="text-white fa fa-search"></i> </span>
+                                    <input id="input-datePicker" class="form-control  " type="text" placeholder="Change date" style="background-color: #444">
+                                </div>
+                            </div>
 
-                            <br>
+                            <br><br>
                             <div class="card-header" style="background-color: #333">
                                 <ul class="nav nav-tabs card-header-tabs nav-fill ">
                                     <li class="nav-item">
@@ -160,7 +163,7 @@
 
 
     function setupOrderDate(){
-        $( "#datepicker" ).datepicker({
+        $( "#input-datePicker" ).datepicker({
             dateFormat: "yy-mm-dd",
             onSelect : function () {
                 var date = $(this).val();
