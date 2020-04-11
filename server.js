@@ -102,6 +102,7 @@ app.use(require('./routes/router_info')) ;
 app.use(require('./routes/router_orders')) ;
 app.use(require('./routes/router_menu')) ;
 app.use(require('./routes/router_settings')) ;
+
 app.get('*', (req, res)=>{
   res.render('general/404.hbs') ;
 }) ;

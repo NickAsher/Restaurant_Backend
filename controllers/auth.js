@@ -86,9 +86,7 @@ exports.postSignout = async(req, res)=>{
   try{
     req.session.destroy() ;
     res.clearCookie('my_session_id_backend') ;
-    res.send({
-      status : true
-    }) ;
+    res.redirect('/menu') ;
   }catch (e) {
     logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.send({
