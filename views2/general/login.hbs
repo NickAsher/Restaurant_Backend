@@ -1,0 +1,347 @@
+<html>
+<head>
+    <title>Admin | Gagneja</title>
+    <meta charset="utf-8">
+
+
+
+    <link rel="stylesheet" href="/lib/reset/reset.css" >
+
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
+    <link rel = "stylesheet" href="/lib/toastr/toastr.min.css" />
+
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
+
+    <link rel="stylesheet" href="/lib/t3/t3.css" />
+
+    <link rel="stylesheet" href="/css/my_personal.css">
+    <link rel="stylesheet" href="/css/login.css">
+
+</head>
+<body>
+
+
+<section>
+
+
+
+    <div id="content ">
+        <section class="section">
+            <div class="fullscreen-bg bg-dark dark">
+                <img src="/img/login_background.jpg" style="background-size: contain" />
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-8 offset-lg-4 offset-md-3 offset-sm-2">
+                    <br><br><br><br>
+                    <div class="card ">
+                        <div class="card-block" style="margin: 40px">
+                            <div class="row">
+                                <div class="col-6 offset-3">
+                                    <img src="/img/logo-horizontal-dark.png" class="img-fluid" alt="brand-logo">
+                                </div>
+                            </div>
+                            <br>
+
+                            <div id="div_SectionSignIn" class="panel-login">
+                                <div class="text-center ">
+                                    <b>Login to your account</b>
+                                </div>
+                                <br><br>
+                                <form id="form-Login" >
+                                    <div class="form-group wrap-input">
+                                        <input id="input-login-email" name="email" type="email" class="form-control email" placeholder="Email address">
+                                        <span id="input-login-email-line" class="focus-input"></span>
+                                    </div>
+                                    <div class="form-group wrap-input pwdMask">
+                                        <input id="input-login-password" name="password" type="password" class="form-control password"  placeholder="Password">
+                                        <span class="focus-input"></span>
+                                        <span class="fa fa-eye-slash pwd-toggle"></span>
+                                    </div>
+                                    <div class="row remember-row">
+                                        <div class=" offset-xs-6 offset-sm-6 col-xs-6 col-sm-6">
+                                            <p class="forgotPwd">
+                                                <a class="lnk-toggler allows-goto" data-gofrom="div_SectionSignIn" data-goto="div_SectionForgotPassword" href="#">Forgot password?</a>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <button id="Btn_Login" class="btn btn-lg btn-outline-primary btn-block btn-bg-dark" type="button" onclick="signIn();"><span class="text-white">Login</span></button>
+                                </form>
+                            </div>
+
+                            <div id="div_SectionForgotPassword" class="panel-forgot">
+                                <div class="text-center text-lg ">
+                                    <b>Reset Your Password</b><br>
+                                </div>
+                                <br>
+                                <p>Fill in your e-mail address below and we will send you an email with further instructions.</p>
+                                <form id="form-forgotPassword">
+                                    <div class="form-group wrap-input">
+                                        <input id="input-forgot-email" name="email" type="email" class="form-control" placeholder="Email address">
+                                        <span class="focus-input"></span>
+                                    </div>
+                                    <br>
+                                    <button id="Btn_ForgetPassword" class="btn btn-lg btn-primary btn-block btn-bg-dark" type="button" onclick="postGeneratePasswordResetEmail()"><span class="text-white">Send Email</span></button>
+                                </form>
+                                <br>
+                            </div>
+
+
+                            <div id="div_SectionForgotPasswordResponse" >
+                                <div class="text-center text-lg ">
+                                    <b>Reset Password</b><br>
+                                </div>
+                                <br>
+                                <p>An email containing the instructions to reset your password has been sent to your email address
+                                    Please check your email inbox</p>
+                                <br>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--These br tags are added so that when we click on some other page, the scroll up animation works correctly -->
+            <!-- Try Removing these br tags and then go from home page to about page and you will see -->
+            <br><br><br><br><br><br><br><br><br><br>
+
+        </section>
+    </div>
+</section>
+
+
+
+
+
+</body>
+<script src="/lib/jquery/jquery.js" ></script>
+<script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="/lib/bootstrap4/bootstrap.min.js" ></script>
+<script src="/lib/toastr/toastr.min.js" ></script>
+<script src="/lib/t3/t3.js"></script>
+<script src="/js/my_personal.js"></script>
+
+<script>
+    function setupPwdToggle(){
+        /* so basically pwd looks like this
+        <div class="pwdMask">
+            <input id="input-login-password" type="password" class="form-control password"  placeholder="Password">
+            <span class="focus-input"></span>
+            <span class="fa fa-eye-slash pwd-toggle"></span>
+        </div>
+
+         * So the show password icon-button is basically a span element with fa-eye-slash class
+         * on clicking it, we change the class to fa-eye and vice versa
+         * so then we check if it fa-eye or fa-eye-slash
+         * if it is fa-eye, we then change the our input type from password to text, thus making it visible.
+         */
+        $('.pwd-toggle').click(function(event){
+            event.preventDefault() ;
+            $(this).toggleClass('fa-eye-slash fa-eye') ;
+            if($(this).hasClass("fa-eye")){
+                $('.pwdMask > .form-control').attr("type","text")
+            }else{
+                $('.pwdMask > .form-control').attr("type","password")
+            }
+        }) ;
+    }
+    setupPwdToggle() ;
+
+
+    function initGotoPanel(){
+        // hides a div and show another div
+        // the location of div to be shown in is data-goto
+        // location of current div is in data-grofrom
+        $('.allows-goto').click(function(event){
+            event.preventDefault() ;
+            $('#'+$(this).attr('data-goto')).show() ;
+            $('#'+$(this).attr('data-gofrom')).hide() ;
+
+        })
+    }
+    initGotoPanel() ;
+
+
+    function postGeneratePasswordResetEmail(){
+
+        $('#form-forgotPassword').validate({
+            errorPlacement : (error, element)=>{
+                //insert the label element after the parent div
+                error.insertAfter(element) ;
+                $(error).addClass('text-danger') ;
+
+            },
+            highlight: function(element) {
+                // function is invoked on any input element when error occurs for that particular input
+                $(element).parent().addClass('has-danger') ;
+
+            },
+            unhighlight: function(element) {
+                $(element).parent().removeClass('has-danger') ;
+
+            },
+            success : (label, element)=>{
+                $(element).parent().addClass("has-success") ;
+            },
+            rules : {
+                email : {
+                    required : true,
+                    email : true
+                }
+
+            },
+            messages : {
+                email : {
+                    required : "Please provide an email address",
+                    email : "This email address is not valid"
+                }
+            },
+
+
+            submitHandler : ()=>{
+                showLoadingSpinner($('#Btn_ForgetPassword')) ;
+                fetch('/forgotPassword', {
+                    method : 'POST',
+                    body : new URLSearchParams({
+                        post_Email : $('#input-forgot-email').val(),
+                        _csrf : "{{_csrfToken}}",
+                    })
+                })
+                        .then((response)=>response.json()) //response is just http status codes, this is needed to get data
+                        .then((data)=>{
+                            hideLoadingSpinner($('#Btn_ForgetPassword')) ;
+                            if(data.status == true && data.success =="MAIL_SENT"){
+                                console.log(data) ;
+                                $('#div_SectionForgotPasswordResponse').show() ;
+                                $('#div_SectionForgotPassword').hide() ;
+                            }else{
+                                console.log(data);
+                                throw "Error sending mail" ;
+                            }
+                        })
+                        .catch((err)=>{
+                            hideLoadingSpinner($('#Btn_ForgetPassword')) ;
+                            console.log(err) ;
+                            makeToast('error', "Error in sending mail") ;
+                        }) ;
+            }
+
+        }) ;
+
+        $('#form-forgotPassword').submit() ;
+
+
+    }
+
+
+    function signIn(){
+        $('#form-Login').validate({
+            errorPlacement : (error, element)=>{
+              //insert the label element after the parent div
+                error.insertAfter(element) ;
+                $(error).addClass('text-danger') ;
+
+            },
+            highlight: function(element) {
+                // function is invoked on any input element when error occurs for that particular input
+                $(element).parent().addClass('has-danger') ;
+
+            },
+            unhighlight: function(element) {
+                $(element).parent().removeClass('has-danger') ;
+
+            },
+            success : (label, element)=>{
+                $(element).parent().addClass("has-success") ;
+            },
+            rules : {
+                email : {
+                    required : true,
+                    email : true
+                },
+                password : {
+                    required : true,
+                    minlength : 4
+                }
+            },
+            messages : {
+                email : {
+                    required : "Please provide an email address",
+                    email : "This email address is not valid"
+                },
+                password : {
+                    required : "Please type a password",
+                    minlength: "Password must be atleast 8 letters"
+                }
+
+            },
+
+
+            submitHandler : ()=>{
+                showLoadingSpinner($('#Btn_Login')) ;
+                fetch('/login', {
+                    method : 'POST',
+                    body : new URLSearchParams({
+                        email : $('#input-login-email').val(),
+                        password : $('#input-login-password').val(),
+                        _csrf : "{{_csrfToken}}",
+                    })
+                })
+                        .then((response)=>response.json()) //response is just http status codes, this is needed to get data
+                        .then((data)=>{
+                            hideLoadingSpinner($('#Btn_Login')) ;
+                            if(data.status == true){
+                                redirectBack('/menu/dishes') ;
+                            }else{
+                                console.log(data);
+                                throw "Error in logging in" ;
+                            }
+                            // return false ;
+                        })
+                        .catch((err)=>{
+                            hideLoadingSpinner($('#Btn_Login')) ;
+                            console.log(err) ;
+                            makeToast('error', "Error in logging in") ;
+                            // return false ;
+                        }) ;
+            }
+
+        }) ;
+
+        $('#form-Login').submit() ;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+</html>

@@ -1,230 +1,117 @@
-<!doctype html>
-<html lang="en">
+{{#*inline "partial_head"}}
 
-<head>
-    <meta charset="utf-8">
     <meta http-equiv="refresh" content="30">
     <meta name="csrf-token" content="{{_csrfToken}}">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Content-Language" content="en">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Analytics Dashboard - This is an example dashboard created using build-in elements and components.</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
-    <meta name="description" content="This is an example dashboard created using build-in elements and components.">
-    <meta name="msapplication-tap-highlight" content="no">
+{{/inline}}
+{{#> template_base}}
 
-    <!--<link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >-->
-    <!--<link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >-->
-    <!--<link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >-->
-    <link rel = "stylesheet" href="/lib/jquery_ui/jquery-ui.min.css" >
-    <link rel = "stylesheet" href="/lib/jquery_ui/jquery-ui.structure.min.css" >
-    <link rel = "stylesheet" href="/lib/jquery_ui/jquery-ui.theme.min.css" >
-
-    <link rel="stylesheet" href="/assets/base.css" >
-    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
-    <link rel="stylesheet" href="/css/chart.min.css" >
-
-
-</head>
-<body>
-<div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
-    {{> header}}
-    {{> theme_settings}}
-    <div class="app-main">
-        {{> sidebar}}
-        <div class="app-main__outer">
-            <div class="app-main__inner">
-
-                <!--Page Title-->
-                <div class="app-page-title">
-                    <div class="page-title-wrapper">
-                        <div class="page-title-heading">
-                            <div class="page-title-icon">
-                                <i class="fa fa-home icon-gradient bg-mean-fruit">
-                                </i>
-                            </div>
-                            <div>Analytics Dashboard
-                                <div class="page-title-subheading">This is an example dashboard created using build-in elements and components.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="page-title-actions">
-                            <button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom" class="btn-shadow mr-3 btn btn-dark">
-                                <i class="fa fa-star"></i>
-                            </button>
-                            <div class="d-inline-block dropdown">
-                                <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn-shadow dropdown-toggle btn btn-info">
-                                        <span class="btn-icon-wrapper pr-2 opacity-7">
-                                            <i class="fa fa-business-time fa-w-20"></i>
-                                        </span>
-                                    Buttons
-                                </button>
-                                <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a href="javascript:void(0);" class="nav-link">
-                                                <i class="nav-link-icon lnr-inbox"></i>
-                                                <span>
-                                                        Inbox
-                                                    </span>
-                                                <div class="ml-auto badge badge-pill badge-secondary">86</div>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="javascript:void(0);" class="nav-link">
-                                                <i class="nav-link-icon lnr-book"></i>
-                                                <span>
-                                                        Book
-                                                    </span>
-                                                <div class="ml-auto badge badge-pill badge-danger">5</div>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="javascript:void(0);" class="nav-link">
-                                                <i class="nav-link-icon lnr-picture"></i>
-                                                <span>
-                                                        Picture
-                                                    </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a disabled href="javascript:void(0);" class="nav-link disabled">
-                                                <i class="nav-link-icon lnr-file-empty"></i>
-                                                <span>
-                                                        File Disabled
-                                                    </span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>    </div>
+<!--Page Title-->
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div class="page-title-icon">
+                <i class="fa fa-home icon-gradient bg-mean-fruit">
+                </i>
+            </div>
+            <div>Order Dashboard
+                <div class="page-title-subheading">Control all the restaurant orders here. New orders will automatically show here
                 </div>
-                <!--Page Title /End-->
-
-
-                <div id="TabPanel_Header">
-                    <div id="NavTabsPanel" class="row" style="background-color: #333;left: 0; right: 0 ;position: relative; z-index: 1;">
-                        <div class="col-12" >
-                            <br><br>
-                            <div class="form-inline my-2 my-lg-0 float-right">
-                                <label class="text-white">Select Date &nbsp; </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon" style="background-color: #444"><i class="text-white fa fa-search"></i> </span>
-                                    <input id="input-datePicker" class="form-control  " type="text" placeholder="Change date" style="background-color: #444">
-                                </div>
-                            </div>
-
-                            <br><br>
-                            <div class="card-header" style="background-color: #333">
-                                <ul class="nav nav-tabs card-header-tabs nav-fill ">
-                                    <li class="nav-item">
-                                        <a id="navTab_NewOrders" class="nav-link active text-info" data-toggle="tab" href="#">
-                                            New orders <span id="span_count_NewOrders" class="badge badge-info"></span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a id="navTab_WorkingOrders" class="nav-link text-warning" data-toggle="tab" href="#">
-                                            Working orders <span id="span_count_WorkingOrders" class="badge badge-warning"></span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a id="navTab_CompletedOrders" class="nav-link text-success" data-toggle="tab" href="#">
-                                            Completed orders <span id="span_count_CompletedOrders" class="badge badge-success"></span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a id="navTab_CancelledOrders" class="nav-link text-danger" data-toggle="tab" href="#">
-                                            Cancelled orders <span id="span_count_CancelledOrders" class="badge badge-danger"></span>
-                                        </a>
-                                    </li>
-
-                                </ul>
-                            </div>
-
-                        </div>
+            </div>
+        </div>
+        <div class="page-title-actions">
+            <div class="mytheme-anchor form-inline my-2 my-lg-0">
+                <div class="input-group">
+                    <div class=" input-group-prepend">
+                        <span class="input-group-text"><i class=" fa fa-search"></i> </span>
                     </div>
-
+                    <input id="input-datePicker" class="my-datepicker-input-form-control" type="text" placeholder="Change date">
                 </div>
-
-
-
-                <br><br><br><br><br><br>
-                <table id="table-orders" class="table table-bordered table-hover"  >
-                    <tr id="tr_heading" class="table-info">
-                        <th>Order No </th>
-                        <th>User Details </th>
-                        <th>User Address</th>
-                        <th>Description</th>
-                        <th>Total Amount</th>
-                        <th>Comments</th>
-                        <th>Order Time</th>
-                        <th class="order-action-accept">Accept</th>
-                        <th class="order-action-complete">Complete</th>
-                        <th class="order-action-cancel">Cancel</th>
-                    </tr>
-                    {{#each orderData}}
-                        <tr data-order-status="{{status}}">
-                            <td class='text-sm-center'> {{id}} </td>
-                            <td class=''>{{userDetails.firstname}} {{userDetails.lastname}} <br> {{userDetails.email}} <br> {{userDetails.phone}}</td>
-                            <td class='small'> {{address.addressLine1}}<br>{{address.addressLine2}}<br>{{address.addressLine3}} </td>
-                            <td class="small">
-                                {{#each cart as |descriptionString|}}
-                                    {{{descriptionString}}}
-                                {{/each}}
-
-                            </td>
-                            <td class='text-size-small'>{{totalPrice}} </td>
-                            <td class='text-size-small'>{{comments}} </td>
-                            <td class='text-size-small'> {{datetime}} </td>
-                            <td class="order-action-accept">
-                                <button data-order-id="{{id}}" data-operation="accept" class='btn btn-info btn-sm text-white order-btn'>
-                                    Accept
-                                </button>
-                            </td>
-                            <td class="order-action-complete">
-                                <button data-order-id="{{id}}" data-operation="complete" class='btn btn-warning btn-sm text-white order-btn'>
-                                    Complete
-                                </button>
-                            </td>
-                            <td class="order-action-cancel">
-                                <button data-order-id="{{id}}" data-operation="cancel" class='btn btn-danger btn-sm text-white order-btn'>
-                                    Cancel
-                                </button>
-                            </td>
-                        </tr>
-                    {{/each}}
-                </table>
-                <br><br>
             </div>
 
-            {{> footer}}
-
         </div>
-
     </div>
 </div>
+<!--Page Title /End-->
 
 
-</body>
-<!--<script src="http://maps.google.com/maps/api/js?sensor=true"></script>-->
-<script type="text/javascript" src="/lib/jquery/jquery.js"></script>
-<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
-<script src="/lib/jquery_ui/jquery-ui.js" ></script>
-<script src="/lib/tether/dist/js/tether.min.js"></script>
 
-<script src="/lib/bootstrap4/bootstrap.min.js" ></script>
-<script src="/lib/toastr/toastr.min.js" ></script>
+<div class="card-header">
+    <ul class="nav nav-justified ">
+        <li class="nav-item">
+            <a id="navTab_NewOrders" class="nav-link active text-info" data-toggle="tab" href="#">
+                New orders <span id="span_count_NewOrders" class="badge badge-info"></span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a id="navTab_WorkingOrders" class="nav-link text-warning" data-toggle="tab" href="#">
+                Working orders <span id="span_count_WorkingOrders" class="badge badge-warning"></span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a id="navTab_CompletedOrders" class="nav-link text-success" data-toggle="tab" href="#">
+                Completed orders <span id="span_count_CompletedOrders" class="badge badge-success"></span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a id="navTab_CancelledOrders" class="nav-link text-danger" data-toggle="tab" href="#">
+                Cancelled orders <span id="span_count_CancelledOrders" class="badge badge-danger"></span>
+            </a>
+        </li>
 
-<script type="text/javascript" src="/js/demo.js"></script>
-<script type="text/javascript" src="/js/toastr.js"></script>
-<script type="text/javascript" src="/js/scrollbar.js"></script>
-<script type="text/javascript" src="/js/calendar.js"></script>
-<script type="text/javascript" src="/js/maps.js"></script>
-<script type="text/javascript" src="/js/chart.bundle.min.js"></script>
-<script type="text/javascript" src="/js/Chart.min.js"></script>
+    </ul>
+</div>
 
-<script src="/js/my_personal.js" ></script>
+<table id="table-orders" class="table table-bordered table-hover my-table-hover  bg-white"  >
+    <tr id="tr_heading" class="table-info">
+        <th>Order No </th>
+        <th>User Details </th>
+        <th>User Address</th>
+        <th>Description</th>
+        <th>Total Amount</th>
+        <th>Comments</th>
+        <th>Order Time</th>
+        <th class="order-action-accept">Accept</th>
+        <th class="order-action-complete">Complete</th>
+        <th class="order-action-cancel">Cancel</th>
+    </tr>
+    {{#each orderData}}
+        <tr data-order-status="{{status}}">
+            <td class='text-sm-center'> {{id}} </td>
+            <td class=''>{{userDetails.firstname}} {{userDetails.lastname}} <br> {{userDetails.email}} <br> {{userDetails.phone}}</td>
+            <td class='small'> {{address.addressLine1}}<br>{{address.addressLine2}}<br>{{address.addressLine3}} </td>
+            <td class="small">
+                {{#each cart as |descriptionString|}}
+                    {{{descriptionString}}}
+                {{/each}}
+
+            </td>
+            <td class='text-size-small'>{{totalPrice}} </td>
+            <td class='text-size-small'>{{comments}} </td>
+            <td class='text-size-small'> {{datetime}} </td>
+            <td class="order-action-accept">
+                <button data-order-id="{{id}}" data-operation="accept" class='btn btn-info btn-sm text-white order-btn'>
+                    Accept
+                </button>
+            </td>
+            <td class="order-action-complete">
+                <button data-order-id="{{id}}" data-operation="complete" class='btn btn-warning btn-sm text-white order-btn'>
+                    Complete
+                </button>
+            </td>
+            <td class="order-action-cancel">
+                <button data-order-id="{{id}}" data-operation="cancel" class='btn btn-danger btn-sm text-white order-btn'>
+                    Cancel
+                </button>
+            </td>
+        </tr>
+    {{/each}}
+</table>
+<br><br>
+
+
+{{/template_base}}
+
+{{#*inline "partial_body_script"}}
 
 <script>
 
@@ -233,6 +120,7 @@
         $( "#input-datePicker" ).datepicker({
             dateFormat: "yy-mm-dd",
             onSelect : function () {
+                console.log("selected") ;
                 var date = $(this).val();
                 window.location.href = location.protocol + '//' + location.host + location.pathname + "?date=" + date ;
             }
@@ -311,7 +199,7 @@
     }
 
     function clickActiveTab(){
-      console.log("click") ;
+      console.log("clicked active tab") ;
         // basically performs a click on the active tab
         if($('#navTab_NewOrders').hasClass('active')){
             $('#navTab_NewOrders').trigger('click') ;
@@ -388,6 +276,7 @@
                     }
                 })
                 .catch((err)=>{
+                    console.log("There seems to be an error") ;
                     console.log(err) ;
                     makeToast('error', "Error in Changing order status") ;
                 }) ;
@@ -395,6 +284,4 @@
 
 
 </script>
-
-
-</html>
+{{/inline}}
