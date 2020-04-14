@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="refresh" content="30">
+    <meta name="csrf-token" content="{{_csrfToken}}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Analytics Dashboard - This is an example dashboard created using build-in elements and components.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta name="description" content="This is an example dashboard created using build-in elements and components.">
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <!--<link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >-->
+    <!--<link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >-->
+    <!--<link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >-->
+    <link rel = "stylesheet" href="/lib/jquery_ui/jquery-ui.min.css" >
+    <link rel = "stylesheet" href="/lib/jquery_ui/jquery-ui.structure.min.css" >
+    <link rel = "stylesheet" href="/lib/jquery_ui/jquery-ui.theme.min.css" >
+
+    <link rel="stylesheet" href="/assets/base.css" >
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
+    <link rel="stylesheet" href="/css/chart.min.css" >
+
+
+</head>
+<body>
+<div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+    {{> header}}
+    {{> theme_settings}}
+    <div class="app-main">
+        {{> sidebar}}
+        <div class="app-main__outer">
+            <div class="app-main__inner">
+
+                <!--Page Title-->
+                <div class="app-page-title">
+                    <div class="page-title-wrapper">
+                        <div class="page-title-heading">
+                            <div class="page-title-icon">
+                                <i class="fa fa-home icon-gradient bg-mean-fruit">
+                                </i>
+                            </div>
+                            <div>Analytics Dashboard
+                                <div class="page-title-subheading">This is an example dashboard created using build-in elements and components.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="page-title-actions">
+                            <button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom" class="btn-shadow mr-3 btn btn-dark">
+                                <i class="fa fa-star"></i>
+                            </button>
+                            <div class="d-inline-block dropdown">
+                                <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn-shadow dropdown-toggle btn btn-info">
+                                        <span class="btn-icon-wrapper pr-2 opacity-7">
+                                            <i class="fa fa-business-time fa-w-20"></i>
+                                        </span>
+                                    Buttons
+                                </button>
+                                <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a href="javascript:void(0);" class="nav-link">
+                                                <i class="nav-link-icon lnr-inbox"></i>
+                                                <span>
+                                                        Inbox
+                                                    </span>
+                                                <div class="ml-auto badge badge-pill badge-secondary">86</div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="javascript:void(0);" class="nav-link">
+                                                <i class="nav-link-icon lnr-book"></i>
+                                                <span>
+                                                        Book
+                                                    </span>
+                                                <div class="ml-auto badge badge-pill badge-danger">5</div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="javascript:void(0);" class="nav-link">
+                                                <i class="nav-link-icon lnr-picture"></i>
+                                                <span>
+                                                        Picture
+                                                    </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a disabled href="javascript:void(0);" class="nav-link disabled">
+                                                <i class="nav-link-icon lnr-file-empty"></i>
+                                                <span>
+                                                        File Disabled
+                                                    </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>    </div>
+                </div>
+                <!--Page Title /End-->
+
+
+                <div id="TabPanel_Header">
+                    <div id="NavTabsPanel" class="row" style="background-color: #333;left: 0; right: 0 ;position: relative; z-index: 1;">
+                        <div class="col-12" >
+                            <br><br>
+                            <div class="form-inline my-2 my-lg-0 float-right">
+                                <label class="text-white">Select Date &nbsp; </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="background-color: #444"><i class="text-white fa fa-search"></i> </span>
+                                    <input id="input-datePicker" class="form-control  " type="text" placeholder="Change date" style="background-color: #444">
+                                </div>
+                            </div>
+
+                            <br><br>
+                            <div class="card-header" style="background-color: #333">
+                                <ul class="nav nav-tabs card-header-tabs nav-fill ">
+                                    <li class="nav-item">
+                                        <a id="navTab_NewOrders" class="nav-link active text-info" data-toggle="tab" href="#">
+                                            New orders <span id="span_count_NewOrders" class="badge badge-info"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a id="navTab_WorkingOrders" class="nav-link text-warning" data-toggle="tab" href="#">
+                                            Working orders <span id="span_count_WorkingOrders" class="badge badge-warning"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a id="navTab_CompletedOrders" class="nav-link text-success" data-toggle="tab" href="#">
+                                            Completed orders <span id="span_count_CompletedOrders" class="badge badge-success"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a id="navTab_CancelledOrders" class="nav-link text-danger" data-toggle="tab" href="#">
+                                            Cancelled orders <span id="span_count_CancelledOrders" class="badge badge-danger"></span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <br><br><br><br><br><br>
+                <table id="table-orders" class="table table-bordered table-hover"  >
+                    <tr id="tr_heading" class="table-info">
+                        <th>Order No </th>
+                        <th>User Details </th>
+                        <th>User Address</th>
+                        <th>Description</th>
+                        <th>Total Amount</th>
+                        <th>Comments</th>
+                        <th>Order Time</th>
+                        <th class="order-action-accept">Accept</th>
+                        <th class="order-action-complete">Complete</th>
+                        <th class="order-action-cancel">Cancel</th>
+                    </tr>
+                    {{#each orderData}}
+                        <tr data-order-status="{{status}}">
+                            <td class='text-sm-center'> {{id}} </td>
+                            <td class=''>{{userDetails.firstname}} {{userDetails.lastname}} <br> {{userDetails.email}} <br> {{userDetails.phone}}</td>
+                            <td class='small'> {{address.addressLine1}}<br>{{address.addressLine2}}<br>{{address.addressLine3}} </td>
+                            <td class="small">
+                                {{#each cart as |descriptionString|}}
+                                    {{{descriptionString}}}
+                                {{/each}}
+
+                            </td>
+                            <td class='text-size-small'>{{totalPrice}} </td>
+                            <td class='text-size-small'>{{comments}} </td>
+                            <td class='text-size-small'> {{datetime}} </td>
+                            <td class="order-action-accept">
+                                <button data-order-id="{{id}}" data-operation="accept" class='btn btn-info btn-sm text-white order-btn'>
+                                    Accept
+                                </button>
+                            </td>
+                            <td class="order-action-complete">
+                                <button data-order-id="{{id}}" data-operation="complete" class='btn btn-warning btn-sm text-white order-btn'>
+                                    Complete
+                                </button>
+                            </td>
+                            <td class="order-action-cancel">
+                                <button data-order-id="{{id}}" data-operation="cancel" class='btn btn-danger btn-sm text-white order-btn'>
+                                    Cancel
+                                </button>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </table>
+                <br><br>
+            </div>
+
+            {{> footer}}
+
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+<!--<script src="http://maps.google.com/maps/api/js?sensor=true"></script>-->
+<script type="text/javascript" src="/lib/jquery/jquery.js"></script>
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+<script src="/lib/jquery_ui/jquery-ui.js" ></script>
+<script src="/lib/tether/dist/js/tether.min.js"></script>
+
+<script src="/lib/bootstrap4/bootstrap.min.js" ></script>
+<script src="/lib/toastr/toastr.min.js" ></script>
+
+<script type="text/javascript" src="/js/demo.js"></script>
+<script type="text/javascript" src="/js/toastr.js"></script>
+<script type="text/javascript" src="/js/scrollbar.js"></script>
+<script type="text/javascript" src="/js/calendar.js"></script>
+<script type="text/javascript" src="/js/maps.js"></script>
+<script type="text/javascript" src="/js/chart.bundle.min.js"></script>
+<script type="text/javascript" src="/js/Chart.min.js"></script>
+
+<script src="/js/my_personal.js" ></script>
+
+<script>
+
+
+    function setupOrderDate(){
+        $( "#input-datePicker" ).datepicker({
+            dateFormat: "yy-mm-dd",
+            onSelect : function () {
+                var date = $(this).val();
+                window.location.href = location.protocol + '//' + location.host + location.pathname + "?date=" + date ;
+            }
+        }) ;
+    }
+    setupOrderDate() ;
+
+    function setupOrderTabs(){
+        /* When page loads, we hide all the table rows
+         * All the table rows i.e. 'tr' have an attribute called 'data-order-status'
+         * This data-order-status contains 1 of 4 possible order status values PENDING, PREPARING, COMPLETED, CANCELLED
+         *
+         * So at the beginning we hide all the table rows,
+         * Then for new orders, we show only those tr which have 'data-order-status'='PENDING' along with heading row
+         *
+         * the order-action-* is also assigned to all the buttons where * can be accept, complete or cancelled
+         * So for New Orders, we show accept button and cancel button, and hide the complete button
+         * Similarly for working orders, show complete button and cancel button, hide the accept button
+         * Don't show any buttons for complete or cancel.
+         *
+         * So whenever we click on any tab,
+         *    Firstly we hide all rows
+         *    Then show the rows with class corresponding to that tab, using data-order-status
+         *    show the buttons needed and hide other buttons
+         *
+         *    (extra cosmetic change)add a class to change the color of table heading
+         *
+         *  Note that this function is also called whenever we click on a tab
+         *  because it is basically assigning click handlers
+         */
+        $('#navTab_NewOrders').click(function () {
+            $('tr').hide() ; //hide all the rows
+            $('#tr_heading, tr[data-order-status=PENDING]').show() ; // show only rows with status pending
+            $('.order-action-complete').hide() ; // hide the complete order button
+            $('.order-action-accept, .order-action-cancel').show() ; //show the accept and cancel order button
+            $('#tr_heading').removeClass('table-warning table-success table-danger').addClass('table-info') ;
+        }) ;
+        $('#navTab_WorkingOrders').click(function () {
+            $('tr').hide() ;
+            $('#tr_heading, tr[data-order-status=PREPARING]').show() ;
+            $('.order-action-accept').hide() ;
+            $('.order-action-complete, .order-action-cancel').show() ;
+            $('#tr_heading').removeClass('table-info table-success table-danger').addClass('table-warning') ;
+        }) ;
+        $('#navTab_CompletedOrders').click(function () {
+            $('tr').hide() ;
+            $('#tr_heading, tr[data-order-status=COMPLETED]').show() ;
+            $('td.order-action-complete, td.order-action-accept, .order-action-cancel').hide() ;
+            $('#tr_heading').removeClass('table-info table-warning table-danger').addClass('table-success') ;
+        }) ;
+        $('#navTab_CancelledOrders').click(function () {
+            $('tr').hide() ;
+            $('#tr_heading, tr[data-order-status=CANCELLED]').show() ;
+            $('.order-action-complete, .order-action-accept, .order-action-cancel').hide() ;
+            $('#tr_heading').removeClass('table-info table-warning  table-success').addClass('table-danger') ;
+        }) ;
+
+        showOrderCounts() ; //shows the order counts as a pill in the tab
+        clickActiveTab() // clicks on the current active tab
+    }
+    setupOrderTabs() ;
+
+
+    function showOrderCounts(){
+        /* This method shows the number of orders for a particular status(PENDING/PREPARING/COMPLETED/CANCELLED)
+         * As every table row tr has as attribute data-order-status,
+         * We simply count the no of elements the that attribute
+         * For example, to calculate number of Cancelled Orders => $('tr[data-order-status=CANCELLED]').length
+         * Then simply put the count inside the span element
+         */
+        $('#span_count_NewOrders').text($('tr[data-order-status=PENDING]').length) ;
+        $('#span_count_WorkingOrders').text($('tr[data-order-status=PREPARING]').length) ;
+        $('#span_count_CompletedOrders').text($('tr[data-order-status=COMPLETED]').length) ;
+        $('#span_count_CancelledOrders').text($('tr[data-order-status=CANCELLED]').length) ;
+        document.title = "(" + $('tr[data-order-status=PENDING]').length + ") New Orders" ;
+    }
+
+    function clickActiveTab(){
+      console.log("click") ;
+        // basically performs a click on the active tab
+        if($('#navTab_NewOrders').hasClass('active')){
+            $('#navTab_NewOrders').trigger('click') ;
+        }
+        else if($('#navTab_WorkingOrders').hasClass('active')){
+            $('#navTab_WorkingOrders').trigger('click') ;
+        }
+        else if($('#navTab_CompletedOrders').hasClass('active')){
+            $('#navTab_CompletedOrders').trigger('click') ;
+        }
+        else if($('#navTab_CancelledOrders').hasClass('active')){
+            $('#navTab_CancelledOrders').trigger('click') ;
+        }
+    }
+
+
+
+    $('.order-btn').click(function () {
+        /* This function is called whenever we click on any order button i.e. accept, complete or cancel an order
+         * It sends a POST request to /order/operation with two pieces of information
+         *   The order Id
+         *   The operation i.e. accept / complete / cancel
+         *
+         * The POST request simply changes the order status and simply sends back true or false.
+         * It does NOT send the whole data again
+         * So we
+         */
+        let thisOrderButton = $(this) ;
+        let orderId = $(this).attr('data-order-id') ;
+        let operation = $(this).attr('data-operation') ;
+
+
+        fetch('/orders/operation',{
+            method : 'POST',
+            headers : {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'CSRF-Token': $("meta[name='csrf-token']").attr("content")
+            },
+            body : JSON.stringify({
+                id : orderId,
+                operation : operation
+
+            }),
+        })
+                .then((response)=>response.json())
+                .then((data)=>{
+                    // $("meta[name='csrf-token']").attr("content", data._csrf) ;
+                    if(data.status == true){
+                        console.log(data) ;
+                        switch (operation){
+                            case "accept" :
+                                // change order status to PREPARING ( order goes from new order to working orders)
+                                thisOrderButton.parent().parent().attr('data-order-status', "PREPARING") ;
+                                console.log(`Order: ${orderId} has been accepted, Added to working orders`) ;
+                                makeToast("info", `Order: ${orderId} has been accepted <br> Added to working orders`) ;
+                                break;
+                            case "complete" :
+                                thisOrderButton.parent().parent().attr('data-order-status', "COMPLETED") ;
+                                console.log(`Order: ${orderId} has been served, Added to completed orders`) ;
+                                makeToast("info", `Order: ${orderId} has been served <br> Added to completed orders`) ;
+                                break;
+                            case "cancel" :
+                                thisOrderButton.parent().parent().attr('data-order-status', "CANCELLED") ;
+                                console.log(`Order: ${orderId} has been cancelled, Added to cancelled orders`) ;
+                                makeToast("error", `Order: ${orderId} has been cancelled <br> Added to cancelled orders`) ;
+                                break;
+                        }
+                        showOrderCounts() ;
+                        clickActiveTab() ; // reformats the data of the page
+                    }else{
+                        console.log(data) ;
+                        throw data.e ;
+                    }
+                })
+                .catch((err)=>{
+                    console.log(err) ;
+                    makeToast('error', "Error in Changing order status") ;
+                }) ;
+    }) ;
+
+
+</script>
+
+
+</html>

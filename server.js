@@ -108,7 +108,7 @@ app.get('*', (req, res)=>{
 }) ;
 
 
-app.listen(3002, ()=>{
+app.listen(3006, ()=>{
   logger.info('Server is listening on port 3002') ;
     console.log("The server is listening on port 3002") ;
 }) ;

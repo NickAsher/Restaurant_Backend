@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Analytics Dashboard - This is an example dashboard created using build-in elements and components.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta name="description" content="This is an example dashboard created using build-in elements and components.">
+    <meta name="msapplication-tap-highlight" content="no">
+
+
+    <link rel = "stylesheet" href="/lib/jquery_ui/jquery-ui.min.css" >
+    <link rel = "stylesheet" href="/lib/jquery_ui/jquery-ui.structure.min.css" >
+    <link rel = "stylesheet" href="/lib/jquery_ui/jquery-ui.theme.min.css" >
+
+    <link rel="stylesheet" href="/assets/base.css" >
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
+    <link rel="stylesheet" href="/css/chart.min.css" >
+
+
+</head>
+<body>
+<div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+    {{> header}}
+    {{> theme_settings}}
+    <div class="app-main">
+        {{> sidebar}}
+        <div class="app-main__outer">
+            <div class="app-main__inner">
+
+                <!--Page Title-->
+                <div class="app-page-title">
+                    <div class="page-title-wrapper">
+                        <div class="page-title-heading">
+                            <div class="page-title-icon">
+                                <i class="fa fa-comments icon-gradient bg-mean-fruit">
+                                </i>
+                            </div>
+                            <div>Offers & Specials
+                                <div class="page-title-subheading">Put all the current offers in the restaurant on this page
+                                </div>
+                            </div>
+                        </div>
+                        <div class="page-title-actions">
+                            <a href='\specials\arrange' class="mytheme-anchor">
+                                <button type="button" class="btn-shadow btn btn-dark">
+                                    <span><i class="fa fa-sort" ></i></span>
+                                    Change Order
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--Page Title /End-->
+
+                <div class="bg-white" style="padding: 30px">
+                    <table  class='table table-bordered table-hover table-striped' >
+
+                        <tr class=''>
+
+                            <th>Display Image</th>
+                            <th>Title</th>
+                            <th>Message</th>
+                            <th>Created On</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+
+                        {{#ifEquals offerData.length 0}}
+                            {{>empty_state_table}}
+                        {{/ifEquals}}
+
+                        {{#each offerData}}
+                            <tr>
+                                <td class='addon-link-link' data-href='/specials/view/{{id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{image}}' class='img-fluid' width='90px' ></td>
+                                <td class='addon-link' data-href='/specials/view/{{id}}'>  {{title}}  </td>
+                                <td class='addon-link' data-href='/specials/view/{{id}}'>  {{message}}</td>
+                                <td class='addon-link' data-href='/specials/view/{{id}}'>  {{creation_datetime}}</td>
+
+                                <td>
+                                    <div style='display: inline-block'>
+                                        <a href="/specials/edit/{{id}}">
+                                            <button type='submit' class='btn btn-info' ><span><i class='fa fa-edit'></i></span></button>
+                                        </a>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <button class="btn btn-danger button_Delete" type="button" data-offer-id="{{id}}" data-offer-image-name="{{image}}" data-toggle="modal" data-target="#modal_Delete" >
+                                        <span><i class='fa fa-trash'></i></span>
+                                    </button>
+
+                                </td>
+                            </tr>
+                        {{/each}}
+
+
+                    </table>
+
+                    <br><br>
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <a class="col-4 btn btn-outline-info" href="/specials/add">
+                            Add New Item
+                        </a>
+                        <div class="col-4"></div>
+                    </div>
+                </div>
+                <br><br>
+
+
+
+                <div class="modal fade" id="modal_Delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this offer</h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                <form class="text-center" method='post' action='/specials/delete'>
+                                    <input id="input_OfferId" type='hidden' name='offerId'>
+                                    <input id="input_OfferImageName" type='hidden' name='offerImageFileName'>
+                                    <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+                                    <input type='submit' class='btn btn-danger ' value='Yes'>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            {{> footer}}
+
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+<!--<script src="http://maps.google.com/maps/api/js?sensor=true"></script>-->
+<script type="text/javascript" src="/lib/jquery/jquery.js"></script>
+<script src="/lib/jquery_ui/jquery-ui.js" ></script>
+<script src="/lib/tether/dist/js/tether.min.js"></script>
+
+<script src="/lib/bootstrap4/bootstrap.min.js" ></script>
+<script src="/lib/toastr/toastr.min.js" ></script>
+
+<script type="text/javascript" src="/js/demo.js"></script>
+<script type="text/javascript" src="/js/toastr.js"></script>
+<script type="text/javascript" src="/js/scrollbar.js"></script>
+<script type="text/javascript" src="/js/calendar.js"></script>
+<script type="text/javascript" src="/js/maps.js"></script>
+<script type="text/javascript" src="/js/chart.bundle.min.js"></script>
+<script type="text/javascript" src="/js/Chart.min.js"></script>
+
+<script src="/js/my_personal.js" ></script>
+
+<script>
+
+
+</script>
+
+
+</html>

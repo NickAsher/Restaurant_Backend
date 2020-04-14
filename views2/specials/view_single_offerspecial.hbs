@@ -1,0 +1,108 @@
+<html>
+<head>
+    <title>Admin | Gagneja</title>
+    <meta charset="utf-8">
+
+
+
+    <link rel="stylesheet" href="/lib/reset/reset.css" >
+
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
+
+
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
+
+    <link rel="stylesheet" href="/lib/t3/t3.css" />
+
+    <link rel="stylesheet" href="/css/my_personal.css">
+</head>
+<body>
+
+{{>header}}
+<section>
+
+    {{>sidebar}}
+
+    <div class="container-fluid t3-push" id="mainContainer">
+        <div class="row">
+            <div id = "main_Content" class="col-md-12">
+
+                <br><br><br><br>
+                <div class="page-title bg-light">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <h1 class="">Offers & Specials</h1>
+                        </div>
+                    </div>
+                </div>
+                <br><br><br>
+
+
+                <div class="row">
+                    <div class="col-10 push-1">
+                        <div class="card">
+                            <div class="card-block">
+
+                                    <div class="form-group row">
+                                        <label for="input-offer-message" class="col-3 col-form-label">Offer Title</label>
+                                        <div class="col-md-9">
+                                            <input name="__offer_title" id="input-offer-message" class="form-control" type="text" value="{{offerData.title}}" disabled >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="input-offer-message" class="col-3 col-form-label">Offer Message</label>
+                                        <div class="col-md-9">
+                                            <textarea name='offerMessage' id="input-offer-message" class="form-control" rows="2"  disabled>{{offerData.message}}</textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-3 col-form-label">Offer Image</label>
+                                        <div class="col-4 input-group">
+                                            <img src='{{IMAGE_BACKENDFRONT_LINK_PATH}}{{offerData.image}}' class='img-fluid'  >
+                                        </div>
+                                    </div>
+
+                                    <br><br><br>
+                                    <div class="form-group row">
+                                        <div class="col-4" ></div>
+                                        <a href='/specials/edit/{{offerData.id}}' class='col-4 btn btn-outline-info' >Edit this Offer</a>
+                                        <div class="col-4" ></div>
+                                    </div>
+
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="space_before_footer">
+                    <br><br><br><br><br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+{{>footer}}
+
+
+</body>
+<script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
+<script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
+<script type="text/javascript" src="/js/my_personal.js"></script>
+<script type="text/javascript" src="/lib/t3/t3.js"></script>
+
+
+
+
+
+
+
+
+</html>
