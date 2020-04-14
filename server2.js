@@ -85,7 +85,9 @@ app.get('/', async (req, res)=>{
 
 app.use(require('./routes/router_orders')) ;
 app.use(require('./routes/router_offers')) ;
-
+app.get('/modal', async (req, res)=>{
+  res.render("components-modals.hbs") ;
+}) ;
 
 
 
