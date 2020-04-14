@@ -85,6 +85,7 @@ app.get('/', async (req, res)=>{
 
 app.use(require('./routes/router_orders')) ;
 app.use(require('./routes/router_offers')) ;
+app.use(require('./routes/router_info')) ;
 
 app.get('/elements', async (req, res)=>{
   res.render("elements.hbs") ;

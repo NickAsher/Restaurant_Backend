@@ -1,0 +1,355 @@
+<html>
+<head>
+    <title>Admin | Gagneja</title>
+    <meta charset="utf-8">
+
+
+
+    <link rel="stylesheet" href="/lib/reset/reset.css" >
+
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
+
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
+
+    <link rel="stylesheet" href="/lib/t3/t3.css" />
+
+    <link rel="stylesheet" href="/css/my_personal.css">
+</head>
+<body>
+
+{{>header}}
+<section>
+
+    {{>sidebar}}
+
+    <div class="container-fluid t3-push" id="mainContainer">
+        <div class="row">
+            <div id = "main_Content" class="col-md-12 bg-grey">
+
+                <br><br><br><br>
+                <div class="page-title bg-light">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <h1 class="">Edit Contact-Us</h1>
+                        </div>
+                    </div>
+                </div>
+                <br><br><br>
+
+
+
+
+
+                <div class="row">
+                    <div id="Section_AddNewItemForm" class="col-10 push-1" >
+                        <form id="form-main" action="/contact/edit/save?_csrf={{_csrfToken}}" method="post">
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="ytext-heading">Address</h3>
+                                </div>
+                                <div class="card-block">
+
+                                    <div class="form-group row">
+                                        <label for="input-restaurant-name" class="col-3 col-form-label">Restaurant Name</label>
+                                        <div class="col-md-9">
+                                            <input id="input-restaurant-name" name="restaurantName" class="form-control" type="text" value="{{contactData.restaurant_name}}" >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="input-restaurant-addr1" class="col-3 col-form-label">Address Line 1 </label>
+                                        <div class="col-md-9">
+                                            <input id="input-restaurant-addr1" name="restaurantAddressLine1" class="form-control" type="text" value="{{contactData.restaurant_addr_1}}" >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="input-restaurant-addr2" class="col-3 col-form-label">Address Line 2</label>
+                                        <div class="col-md-9">
+                                            <input id="input-restaurant-addr2" name="restaurantAddressLine2" class="form-control" type="text" value="{{contactData.restaurant_addr_2}}" >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="input-restaurant-addr3" class="col-3 col-form-label">Address Line 3</label>
+                                        <div class="col-md-9">
+                                            <input id="input-restaurant-addr3" name="restaurantAddressLine3" class="form-control" type="text" value="{{contactData.restaurant_addr_3}}" >
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <br><br>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="ytext-heading">Contact</h3>
+                                        </div>
+                                        <div class="card-block">
+
+                                            <div class="form-group row">
+                                                <label for="input-restaurant-phone" class="col-3 col-form-label">Phone no</label>
+                                                <div class="col-md-9">
+                                                    <input id="input-restaurant-phone" name="restaurantPhone" class="form-control" type="text" value="{{contactData.restaurant_phone}}" >
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="input-restaurant-email" class="col-3 col-form-label">Email Id</label>
+                                                <div class="col-md-9">
+                                                    <input id="input-restaurant-email" name="restaurantEmail" class="form-control" type="text" value="{{contactData.restaurant_email}}" >
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="ytext-heading">For Google Maps</h3>
+                                        </div>
+                                        <div class="card-block">
+
+                                            <div class="form-group row">
+                                                <label for="input-restaurant-latitude" class="col-3 col-form-label">Latitude</label>
+                                                <div class="col-md-9">
+                                                    <input id="input-restaurant-latitude" name="restaurantLatitude" class="form-control" type="text" value="{{contactData.latitude}}" >
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="input-restaurant-longitude" class="col-3 col-form-label">Longitude</label>
+                                                <div class="col-md-9">
+                                                    <input id="input-restaurant-longitude" name="restaurantLongitude" class="form-control" type="text" value="{{contactData.longitude}}" >
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <br><br>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="ytext-heading">Social Media Links</h3>
+                                </div>
+                                <div class="card-block">
+
+
+                                    <div class="form-group row">
+                                        <label for="input-socialMedia-facebook" class="col-3 col-form-label">Facebook</label>
+                                        <div class="col-md-9">
+                                            <input id="input-socialMedia-facebook" name="restaurantLinkFacebook" class="form-control" type="text" value="{{contactData.social_info.facebook}}">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="input-socialMedia-instagram" class="col-3 col-form-label">Instagram</label>
+                                        <div class="col-md-9">
+                                            <input id="input-socialMedia-instagram" name="restaurantLinkInstagram" class="form-control" type="text" value="{{contactData.social_info.instagram}}">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="input-socialMedia-twitter" class="col-3 col-form-label">Twitter</label>
+                                        <div class="col-md-9">
+                                            <input id="input-socialMedia-twitter" name="restaurantLinkTwitter" class="form-control" type="text" value="{{contactData.social_info.twitter}}">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="input-socialMedia-youtube" class="col-3 col-form-label">Youtube </label>
+                                        <div class="col-md-9">
+                                            <input id="input-socialMedia-youtube" name="restaurantLinkYoutube" class="form-control" type="text" value="{{contactData.social_info.youtube}}">
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <br><br>
+
+                            <div class="form-group row">
+                                <div class="col-1"></div>
+                                <a href="/contact" class="col-4 btn btn-danger">Cancel</a>
+                                <div class="col-2"></div>
+                                <input type="submit" class=" col-4 btn btn-success" value="Save">
+                                <div class="col-1" ></div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+
+                <br><br><br><br><br>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+{{>footer}}
+
+
+</body>
+<script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
+<script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="/lib/jquery-validation/dist/jquery-validate-additional-methods.min.js"></script>
+<script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
+<script type="text/javascript" src="/js/my_personal.js"></script>
+<script type="text/javascript" src="/lib/t3/t3.js"></script>
+<script type="text/javascript" src="/lib/tinymce/js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="/js/my_personal.js"></script>
+
+
+<script>
+
+    jQuery.validator.addMethod("myPhoneNumber", function (value, element) {
+        console.log(value);
+        if (/^[0-9\-]+$/i.test(value)) {
+            return true;
+        } else {
+            return false;
+        };
+    }, "Numbers and dashes only");
+
+    $('#form-main').validate({
+        errorPlacement : (error, element)=>{
+            //insert the label element after the parent div
+            error.insertAfter(element) ;
+            $(error).addClass('text-danger') ;
+
+        },
+        highlight: function(element) {
+            // function is invoked on any input element when error occurs for that particular input
+            $(element).parent().addClass('has-danger') ;
+
+        },
+        unhighlight: function(element) {
+            $(element).parent().removeClass('has-danger') ;
+
+        },
+        success : (label, element)=>{
+            $(element).parent().addClass("has-success") ;
+        },
+        rules : {
+            restaurantName : {
+                required : true,
+                minlength : 3
+            },
+            restaurantAddressLine1 : {
+                required : true,
+                minlength : 10,
+            },
+            restaurantAddressLine2 : {
+                required : true,
+                minlength : 5,
+            },
+            restaurantAddressLine3 : {
+                required : true,
+                minlength : 5,
+            },
+            restaurantPhone : {
+                required : true,
+                myPhoneNumber : true
+
+            },
+            restaurantEmail : {
+                required : true,
+                email : true,
+            },
+            restaurantLatitude : {
+                required : true,
+                number :  true, //allows negative decimal number like -90.45465
+            }
+            ,restaurantLongitude : {
+                required : true,
+                number :  true, //allows negative decimal number like -90.45465
+            },
+
+            restaurantLinkFacebook : {
+                required : true,
+                url : true,
+            },
+            restaurantLinkInstagram : {
+                required : true,
+                url : true,
+            },
+            restaurantLinkTwitter : {
+                required : true,
+                url : true,
+            },
+            restaurantLinkYoutube : {
+                required : true,
+                url : true,
+            },
+
+
+        },
+        messages : {
+            restaurantName : {
+                minlength : "Restaurant Name must be atleast 3 characters"
+            },
+            restaurantAddressLine1 : {
+                minlength : "Address Line 1 must be atleast 10 characters",
+            },
+            restaurantAddressLine2 : {
+                minlength : "Address Line 1 must be atleast 5 characters",
+            },
+            restaurantAddressLine3 : {
+                minlength : "Address Line 1 must be atleast 5 characters",
+            },
+            restaurantPhone : {
+                myPhoneNumber : "Phone number can only contains digits and dashes"
+            },
+            restaurantEmail : {
+                email : "This is not a valid email address",
+            },
+            restaurantLatitude : {
+                number :  "This is not a valid longitude, can only contain positive and negative numbers", //allows negative decimal number like -90.45465
+            }
+            ,restaurantLongitude : {
+                number :  "This is not a valid longitude, can only contain positive and negative numbers", //allows negative decimal number like -90.45465
+            },
+            restaurantLinkFacebook : {
+                url : "This is not a valid URL",
+            },
+            restaurantLinkInstagram : {
+                url : "This is not a valid URL",
+            },
+            restaurantLinkTwitter : {
+                url : "This is not a valid URL",
+            },
+            restaurantLinkYoutube : {
+                url : "This is not a valid URL",
+            },
+        },
+    }) ;
+
+
+</script>
+
+
+
+
+
+
+
+
+</html>
