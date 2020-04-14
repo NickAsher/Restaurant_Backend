@@ -184,8 +184,10 @@
     -webkit-transform: scaleY(1);
   }
 }
-.input-valid {
-  border-color: #3ac47d;
+.my-app-content {
+  background-color: white;
+  padding: 30px;
+  margin-bottom: 1rem;
 }
 
 /*# sourceMappingURL=my_personal.css.map */
