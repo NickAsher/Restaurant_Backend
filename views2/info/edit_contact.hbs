@@ -1,223 +1,182 @@
-<html>
-<head>
-    <title>Admin | Gagneja</title>
-    <meta charset="utf-8">
+{{#> template_base}}
 
-
-
-    <link rel="stylesheet" href="/lib/reset/reset.css" >
-
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
-
-    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
-
-    <link rel="stylesheet" href="/lib/t3/t3.css" />
-
-    <link rel="stylesheet" href="/css/my_personal.css">
-</head>
-<body>
-
-{{>header}}
-<section>
-
-    {{>sidebar}}
-
-    <div class="container-fluid t3-push" id="mainContainer">
-        <div class="row">
-            <div id = "main_Content" class="col-md-12 bg-grey">
-
-                <br><br><br><br>
-                <div class="page-title bg-light">
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <h1 class="">Edit Contact-Us</h1>
-                        </div>
+    <!--Page Title-->
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="fa fa-info icon-gradient bg-mean-fruit"></i>
+                </div>
+                <div>Edit Contact Data
+                    <div class="page-title-subheading">Put all the current offers in the restaurant on this page
                     </div>
                 </div>
-                <br><br><br>
-
-
-
-
-
-                <div class="row">
-                    <div id="Section_AddNewItemForm" class="col-10 push-1" >
-                        <form id="form-main" action="/contact/edit/save?_csrf={{_csrfToken}}" method="post">
-
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="ytext-heading">Address</h3>
-                                </div>
-                                <div class="card-block">
-
-                                    <div class="form-group row">
-                                        <label for="input-restaurant-name" class="col-3 col-form-label">Restaurant Name</label>
-                                        <div class="col-md-9">
-                                            <input id="input-restaurant-name" name="restaurantName" class="form-control" type="text" value="{{contactData.restaurant_name}}" >
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="input-restaurant-addr1" class="col-3 col-form-label">Address Line 1 </label>
-                                        <div class="col-md-9">
-                                            <input id="input-restaurant-addr1" name="restaurantAddressLine1" class="form-control" type="text" value="{{contactData.restaurant_addr_1}}" >
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="input-restaurant-addr2" class="col-3 col-form-label">Address Line 2</label>
-                                        <div class="col-md-9">
-                                            <input id="input-restaurant-addr2" name="restaurantAddressLine2" class="form-control" type="text" value="{{contactData.restaurant_addr_2}}" >
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="input-restaurant-addr3" class="col-3 col-form-label">Address Line 3</label>
-                                        <div class="col-md-9">
-                                            <input id="input-restaurant-addr3" name="restaurantAddressLine3" class="form-control" type="text" value="{{contactData.restaurant_addr_3}}" >
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <br><br>
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h3 class="ytext-heading">Contact</h3>
-                                        </div>
-                                        <div class="card-block">
-
-                                            <div class="form-group row">
-                                                <label for="input-restaurant-phone" class="col-3 col-form-label">Phone no</label>
-                                                <div class="col-md-9">
-                                                    <input id="input-restaurant-phone" name="restaurantPhone" class="form-control" type="text" value="{{contactData.restaurant_phone}}" >
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="input-restaurant-email" class="col-3 col-form-label">Email Id</label>
-                                                <div class="col-md-9">
-                                                    <input id="input-restaurant-email" name="restaurantEmail" class="form-control" type="text" value="{{contactData.restaurant_email}}" >
-                                                </div>
-                                            </div>
-
-
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-6">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h3 class="ytext-heading">For Google Maps</h3>
-                                        </div>
-                                        <div class="card-block">
-
-                                            <div class="form-group row">
-                                                <label for="input-restaurant-latitude" class="col-3 col-form-label">Latitude</label>
-                                                <div class="col-md-9">
-                                                    <input id="input-restaurant-latitude" name="restaurantLatitude" class="form-control" type="text" value="{{contactData.latitude}}" >
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="input-restaurant-longitude" class="col-3 col-form-label">Longitude</label>
-                                                <div class="col-md-9">
-                                                    <input id="input-restaurant-longitude" name="restaurantLongitude" class="form-control" type="text" value="{{contactData.longitude}}" >
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <br><br>
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="ytext-heading">Social Media Links</h3>
-                                </div>
-                                <div class="card-block">
-
-
-                                    <div class="form-group row">
-                                        <label for="input-socialMedia-facebook" class="col-3 col-form-label">Facebook</label>
-                                        <div class="col-md-9">
-                                            <input id="input-socialMedia-facebook" name="restaurantLinkFacebook" class="form-control" type="text" value="{{contactData.social_info.facebook}}">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="input-socialMedia-instagram" class="col-3 col-form-label">Instagram</label>
-                                        <div class="col-md-9">
-                                            <input id="input-socialMedia-instagram" name="restaurantLinkInstagram" class="form-control" type="text" value="{{contactData.social_info.instagram}}">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="input-socialMedia-twitter" class="col-3 col-form-label">Twitter</label>
-                                        <div class="col-md-9">
-                                            <input id="input-socialMedia-twitter" name="restaurantLinkTwitter" class="form-control" type="text" value="{{contactData.social_info.twitter}}">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="input-socialMedia-youtube" class="col-3 col-form-label">Youtube </label>
-                                        <div class="col-md-9">
-                                            <input id="input-socialMedia-youtube" name="restaurantLinkYoutube" class="form-control" type="text" value="{{contactData.social_info.youtube}}">
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                            <br><br>
-
-                            <div class="form-group row">
-                                <div class="col-1"></div>
-                                <a href="/contact" class="col-4 btn btn-danger">Cancel</a>
-                                <div class="col-2"></div>
-                                <input type="submit" class=" col-4 btn btn-success" value="Save">
-                                <div class="col-1" ></div>
-                            </div>
-
-                        </form>
-                    </div>
-                </div>
-
-
-                <br><br><br><br><br>
+            </div>
+            <div class="page-title-actions">
+                <a href='\contact' class="mytheme-anchor">
+                    <button type="button" class="btn-shadow btn btn-dark">
+                        <span><i class="fa fa-arrow-left" ></i></span>
+                        Go Back
+                    </button>
+                </a>
             </div>
         </div>
     </div>
-
-</section>
-
+    <!--Page Title /End-->
 
 
-{{>footer}}
+    <form id="form-main" action="/contact/edit/save?_csrf={{_csrfToken}}" method="post">
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="ytext-heading">Address</h3>
+            </div>
+            <div class="card-body">
+
+                <div class="form-group row">
+                    <label for="input-restaurant-name" class="col-3 col-form-label">Restaurant Name</label>
+                    <div class="col-md-9">
+                        <input id="input-restaurant-name" name="restaurantName" class="form-control" type="text" value="{{contactData.restaurant_name}}" >
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="input-restaurant-addr1" class="col-3 col-form-label">Address Line 1 </label>
+                    <div class="col-md-9">
+                        <input id="input-restaurant-addr1" name="restaurantAddressLine1" class="form-control" type="text" value="{{contactData.restaurant_addr_1}}" >
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="input-restaurant-addr2" class="col-3 col-form-label">Address Line 2</label>
+                    <div class="col-md-9">
+                        <input id="input-restaurant-addr2" name="restaurantAddressLine2" class="form-control" type="text" value="{{contactData.restaurant_addr_2}}" >
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="input-restaurant-addr3" class="col-3 col-form-label">Address Line 3</label>
+                    <div class="col-md-9">
+                        <input id="input-restaurant-addr3" name="restaurantAddressLine3" class="form-control" type="text" value="{{contactData.restaurant_addr_3}}" >
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <br><br>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="ytext-heading">Contact</h3>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="form-group row">
+                            <label for="input-restaurant-phone" class="col-3 col-form-label">Phone no</label>
+                            <div class="col-md-9">
+                                <input id="input-restaurant-phone" name="restaurantPhone" class="form-control" type="text" value="{{contactData.restaurant_phone}}" >
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="input-restaurant-email" class="col-3 col-form-label">Email Id</label>
+                            <div class="col-md-9">
+                                <input id="input-restaurant-email" name="restaurantEmail" class="form-control" type="text" value="{{contactData.restaurant_email}}" >
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="ytext-heading">For Google Maps</h3>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="form-group row">
+                            <label for="input-restaurant-latitude" class="col-3 col-form-label">Latitude</label>
+                            <div class="col-md-9">
+                                <input id="input-restaurant-latitude" name="restaurantLatitude" class="form-control" type="text" value="{{contactData.latitude}}" >
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="input-restaurant-longitude" class="col-3 col-form-label">Longitude</label>
+                            <div class="col-md-9">
+                                <input id="input-restaurant-longitude" name="restaurantLongitude" class="form-control" type="text" value="{{contactData.longitude}}" >
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
 
 
-</body>
-<script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
-<script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="/lib/jquery-validation/dist/jquery-validate-additional-methods.min.js"></script>
-<script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
-<script type="text/javascript" src="/js/my_personal.js"></script>
-<script type="text/javascript" src="/lib/t3/t3.js"></script>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="ytext-heading">Social Media Links</h3>
+            </div>
+            <div class="card-body">
+
+                <div class="form-group row">
+                    <label for="input-socialMedia-facebook" class="col-3 col-form-label">Facebook</label>
+                    <div class="col-md-9">
+                        <input id="input-socialMedia-facebook" name="restaurantLinkFacebook" class="form-control" type="text" value="{{contactData.social_info.facebook}}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="input-socialMedia-instagram" class="col-3 col-form-label">Instagram</label>
+                    <div class="col-md-9">
+                        <input id="input-socialMedia-instagram" name="restaurantLinkInstagram" class="form-control" type="text" value="{{contactData.social_info.instagram}}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="input-socialMedia-twitter" class="col-3 col-form-label">Twitter</label>
+                    <div class="col-md-9">
+                        <input id="input-socialMedia-twitter" name="restaurantLinkTwitter" class="form-control" type="text" value="{{contactData.social_info.twitter}}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="input-socialMedia-youtube" class="col-3 col-form-label">Youtube </label>
+                    <div class="col-md-9">
+                        <input id="input-socialMedia-youtube" name="restaurantLinkYoutube" class="form-control" type="text" value="{{contactData.social_info.youtube}}">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <br><br>
+
+        <div class="form-group row">
+            <div class="col-1"></div>
+            <a href="/contact" class="col-4 btn btn-danger">Cancel</a>
+            <div class="col-2"></div>
+            <input type="submit" class=" col-4 btn btn-success" value="Save">
+            <div class="col-1" ></div>
+        </div>
+
+    </form>
+
+
+
+{{/template_base}}
+
+
+{{#*inline "partial_body_script"}}
+
+
 <script type="text/javascript" src="/lib/tinymce/js/tinymce/tinymce.min.js"></script>
-<script type="text/javascript" src="/js/my_personal.js"></script>
-
-
 <script>
 
     jQuery.validator.addMethod("myPhoneNumber", function (value, element) {
@@ -238,15 +197,15 @@
         },
         highlight: function(element) {
             // function is invoked on any input element when error occurs for that particular input
-            $(element).parent().addClass('has-danger') ;
+            $(element).addClass('is-invalid') ;
 
         },
         unhighlight: function(element) {
-            $(element).parent().removeClass('has-danger') ;
+            $(element).removeClass('is-invalid') ;
 
         },
         success : (label, element)=>{
-            $(element).parent().addClass("has-success") ;
+            $(element).addClass("is-valid") ;
         },
         rules : {
             restaurantName : {
@@ -345,11 +304,4 @@
 
 </script>
 
-
-
-
-
-
-
-
-</html>
+{{/inline}}

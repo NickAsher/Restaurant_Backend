@@ -78,6 +78,8 @@
             </a>
             <div class="col-4"></div>
         </div>
+
+
     </div>
     <br><br>
 
@@ -89,30 +91,32 @@
 
 {{/template_base}}
 
-<div class="modal fade" id="modal_Delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this offer</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <form class="text-center" method='post' action='/specials/delete'>
-                    <input id="input_OfferId" type='hidden' name='offerId'>
-                    <input id="input_OfferImageName" type='hidden' name='offerImageFileName'>
-                    <input type="hidden" name="_csrf" value="{{_csrfToken}}">
-                    <input type='submit' class='btn btn-danger ' value='Yes'>
-                </form>
+
+{{#*inline "partial_body_script"}}
+    <div class="modal fade" id="modal_Delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this offer</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <form class="text-center" method='post' action='/specials/delete'>
+                        <input id="input_OfferId" type='hidden' name='offerId'>
+                        <input id="input_OfferImageName" type='hidden' name='offerImageFileName'>
+                        <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+                        <input type='submit' class='btn btn-danger ' value='Yes'>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-{{#*inline "partial_body_script"}}
     <script>
 
         $('#modal_Delete').on('show.bs.modal', function (event) {
