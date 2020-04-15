@@ -3,8 +3,8 @@
 
 {{/inline}}
 
-{{#> template_base}}
 
+{{#> template_base}}
 
     <!--Page Title-->
     <div class="app-page-title">
@@ -13,7 +13,7 @@
                 <div class="page-title-icon">
                     <i class="fa fa-comments icon-gradient bg-mean-fruit"></i>
                 </div>
-                <div>Arrange Offers & Specials
+                <div>Arrange Gallery & Images
                     <div class="page-title-subheading">Click and drag to change order of offers
                     </div>
                 </div>
@@ -30,45 +30,42 @@
     </div>
     <!--Page Title /End-->
 
-
-    <div class="row">
-        <div class="col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    <ol id="" class="hidden-list-numbering" style="display: inline-block;float: left;">
-                        {{#each offerData}}
-                            <li style='height: 102px;'></li>
-                        {{/each}}
-                    </ol>
-                    <ol id="sorting" class="my-sortable-list" style="display: inline-block;list-style-type:none;">
-                        {{#each offerData}}
-                            <li id='{{id}}' style="margin-bottom: 5px;"><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{image}}' width='160px' height='90px' > </li>
-                        {{/each}}
-                    </ol>
-
-
+        <div class="row">
+            <div class="col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <ol id="" class="hidden-list-numbering" style="display: inline-block;float: left;">
+                            {{#each galleryData}}
+                                <li style='height: 102px;'></li>
+                            {{/each}}
+                        </ol>
+                        <ol id="sorting" class="my-sortable-list" style="display: inline-block">
+                            {{#each galleryData}}
+                                <li id='{{gallery_item_id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{gallery_item_image_name}}' width='160px' height='90px' > </li>
+                            {{/each}}
+                        </ol>
+                    </div>
                 </div>
             </div>
-
-
-
         </div>
-    </div>
+        <br><br>
 
-    <br><br>
-    <div class="row">
-        <div class="col-4"></div>
-        <button class="col-4 btn btn-primary" href="/gallery/add" onclick="saveSortOrder();">Save order</button>
-        <div class="col-4"></div>
-    </div>
-    <br><br>
+        <div class="row">
+            <div class="col-4"></div>
+            <button class="col-4 btn btn-primary"  onclick="saveSortOrder();">Save order</button>
+            <div class="col-4"></div>
+        </div>
+        <br><br>
+
 
 
 
 
 {{/template_base}}
 
+
 {{#*inline "partial_body_script"}}
+
 <script>
     $('#sorting').sortable({
         placeholder: "highlight",
@@ -80,7 +77,7 @@
     function saveSortOrder() {
         let sortedArray = $('#sorting').sortable("toArray") ;
         console.log(sortedArray) ;
-        fetch('/specials/arrange', {
+        fetch('/gallery/arrange', {
             method: 'POST',
             body: new URLSearchParams({
                 _csrf : "{{_csrfToken}}",
@@ -90,21 +87,26 @@
         .then((response)=>response.json())
         .then((data)=>{
             if(data.status == true){
-                makeToast('success', "New Order is saved <br>Taking you back to Offers page")
+                makeToast('success', "New Order is saved <br> taking you back to gallery page")
                 setTimeout(function () {
-                    window.location.href="/specials" ;
+                    window.location.href="/gallery" ;
                 }, 1000)
             }else{
-                throw data ;
+              throw data ;
             }
         })
         .catch((err)=>{
-            console.log(err) ;
-            makeToast('error', "Error in saving the new order") ;
+          console.log(err) ;
+          makeToast('error', "Error in saving the new order") ;
         }) ;
+
+
+
+
     }
 
 
 
 </script>
 {{/inline}}
+
