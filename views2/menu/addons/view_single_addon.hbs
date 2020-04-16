@@ -1,48 +1,38 @@
-<html>
-<head>
-    <title>Admin | Gagneja</title>
-    <meta charset="utf-8">
-
-
-
-    <link rel="stylesheet" href="/lib/reset/reset.css" >
-
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
+{{#*inline "partial_head"}}
     <link rel = "stylesheet" href="/lib/bootstrap-toggle/bootstrap-toggle.css" >
-    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
 
-    <link rel="stylesheet" href="/lib/t3/t3.css" />
+{{/inline}}
 
-    <link rel="stylesheet" href="/css/my_personal.css">
-</head>
-<body>
 
-{{>header}}
-<section>
+{{#> template_base}}
 
-    {{>sidebar}}
-
-    <div class="container-fluid t3-push" id="mainContainer">
-        <div class="row">
-            <div id = "main_Content" class="col-md-12">
-
-                <br><br><br><br>
-                <div class="page-title bg-light">
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <h1 class="">View Addon</h1>
-                        </div>
+    <!--Page Title-->
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="fa fa-info icon-gradient bg-mean-fruit"></i>
+                </div>
+                <div>About Us
+                    <div class="page-title-subheading">Put all the current offers in the restaurant on this page
                     </div>
                 </div>
-                <br>
+            </div>
+            <div class="page-title-actions">
+                <a href='\specials\arrange' class="mytheme-anchor">
+                    <button type="button" class="btn-shadow btn btn-dark">
+                        <span><i class="fa fa-sort" ></i></span>
+                        Change Order
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--Page Title /End-->
 
 
-                <div class="row">
-                    <div class="push-md-1 col-md-10" >
                         <div class="card">
-                            <div class="card-block">
+                            <div class="card-body">
 
                                 <div class="form-group row">
                                     <label for="input-item-name" class="col-3 col-form-label">Item Name</label>
@@ -84,7 +74,9 @@
                                             <input type="hidden" class="form-control"  value="{{addon_size_active}}" readonly >
                                             <input type='checkbox' class='form-control' {{#if addon_size_active}}checked="checked"{{/if}} disabled data-toggle='toggle' data-width='50' data-onstyle='success' data-offstyle='danger' data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
                                             <div class="input-group" style='margin-left: 20px;'>
-                                                <span class="input-group-addon"> &#x20B9; </span>
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"> &#x20B9; </span>
+                                                </div>
                                                 <input name="itemSizePrice_{{size_id}}" type='number' class='form-control' value="{{addon_price}}"  disabled >
                                             </div>
                                         </div>
@@ -100,35 +92,11 @@
 
                             </div>
                         </div>
-                    </div>
-                </div>
+
+{{/template_base}}
 
 
-                <br><br><br><br><br>
-            </div>
-        </div>
-    </div>
+{{#*inline "partial_body_script"}}
+    <script type="text/javascript" src="/lib/bootstrap-toggle/bootstrap-toggle.js" ></script>
 
-</section>
-
-
-
-{{>footer}}
-
-
-</body>
-<script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
-<script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
-<script type="text/javascript" src="/lib/bootstrap-toggle/bootstrap-toggle.js" ></script>
-
-<script type="text/javascript" src="/js/my_personal.js"></script>
-<script type="text/javascript" src="/lib/t3/t3.js"></script>
-
-
-
-
-
-
-
-
-</html>
+{{/inline}}

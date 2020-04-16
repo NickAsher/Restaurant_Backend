@@ -1,129 +1,94 @@
-<html>
-<head>
-    <title>Admin | Gagneja</title>
-    <meta charset="utf-8">
-
-
-
-    <link rel="stylesheet" href="/lib/reset/reset.css" >
-
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
+{{#*inline "partial_head"}}
     <link rel = "stylesheet" href="/lib/bootstrap-toggle/bootstrap-toggle.css" >
-    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
+{{/inline}}
 
-    <link rel="stylesheet" href="/lib/t3/t3.css" />
+{{#> template_base}}
 
-    <link rel="stylesheet" href="/css/my_personal.css">
-</head>
-<body>
-
-{{>header}}
-<section>
-
-    {{>sidebar}}
-
-    <div class="container-fluid t3-push" id="mainContainer">
-        <div class="row">
-            <div id = "main_Content" class="col-md-12 bg-grey">
-
-                <br><br><br><br>
-                <div class="page-title bg-light">
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <h1 class="">Edit Category</h1>
-                        </div>
+    <!--Page Title-->
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="fa fa-info icon-gradient bg-mean-fruit"></i>
+                </div>
+                <div>Add New Category
+                    <div class="page-title-subheading">Put all the current offers in the restaurant on this page
                     </div>
                 </div>
-                <br><br><br>
-
-
-                <div class="row">
-                    <div class="push-md-1 col-md-10" >
-                        <div class="card">
-                            <div class="card-block">
-                                <form id="form-main" action="/menu/category/edit/save?_csrf={{_csrfToken}}" method="post" enctype="multipart/form-data" >
-
-                                    <input name="categoryId" type="hidden" value="{{categoryData.category_id}}">
-                                    <input name="categoryOldImageFileName" type="hidden" value="{{categoryData.category_image}}">
-                                    <br>
-                                    <div class="form-group row">
-                                        <label for="input-category-name" class="col-3 col-form-label">Category Name</label>
-                                        <div class="col-md-9">
-                                            <input id="input-category-name" name="categoryName" class="form-control" type="text" value="{{categoryData.category_name}}">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="input-category-active" class="col-3 col-form-label">Category Active</label>
-                                        <div class="col-md-9">
-                                            <input id="input-category-isActive-hidden" name="isCategoryActive" class="form-control" type="hidden" value="{{categoryData.category_is_active}}"  >
-                                            <input id="input-category-isActive-presentation"  type="checkbox" class="form-control" {{#if categoryData.category_is_active}} checked="checked" {{/if}}  data-toggle="toggle" data-width="100" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
-                                        </div>
-                                    </div>
-                                    <br>
-
-                                    <div class="form-group row">
-                                        <label  class="col-3 col-form-label">Category Image</label>
-                                        <div class="col-md-4 ">
-                                                <img src='{{IMAGE_BACKENDFRONT_LINK_PATH}}{{categoryData.category_image}}' alt='image' class="img-fluid"  />
-                                        </div>
-                                        <div class="col-4 push-md-1 ">
-                                            <button id="btn-file-choose" class="input-group-addon" style="cursor: pointer;">Choose Image</button>
-                                            <div class="justify-content-center input-group">
-                                                <img id="preview-image"/>
-                                                <input id="hidden-file-chooser" name="post_Image" type="file" style="width:0;" >
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <br><br>
-                                    <div class="form-group row">
-                                        <div class="col-1"></div>
-                                        <a href="/menu/category" class="col-4 btn btn-danger">Cancel</a>
-                                        <div class="col-2"></div>
-                                        <input type="submit" class=" col-4 btn btn-success" value="Save Changes">
-                                        <div class="col-1" ></div>
-                                    </div>
-
-
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <br><br><br><br><br><br>
-
-
-
-                <div id="space_before_footer">
-                    <br><br><br><br><br>
-                </div>
+            </div>
+            <div class="page-title-actions">
+                <a href='\specials\arrange' class="mytheme-anchor">
+                    <button type="button" class="btn-shadow btn btn-dark">
+                        <span><i class="fa fa-sort" ></i></span>
+                        Change Order
+                    </button>
+                </a>
             </div>
         </div>
     </div>
-
-</section>
-
+    <!--Page Title /End-->
 
 
-{{>footer}}
+    <div class="card">
+        <div class="card-body">
+            <form id="form-main" action="/menu/category/edit/save?_csrf={{_csrfToken}}" method="post" enctype="multipart/form-data" >
+
+                <input name="categoryId" type="hidden" value="{{categoryData.category_id}}">
+                <input name="categoryOldImageFileName" type="hidden" value="{{categoryData.category_image}}">
+                <br>
+                <div class="form-group row">
+                    <label for="input-category-name" class="col-3 col-form-label">Category Name</label>
+                    <div class="col-md-9">
+                        <input id="input-category-name" name="categoryName" class="form-control" type="text" value="{{categoryData.category_name}}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="input-category-active" class="col-3 col-form-label">Category Active</label>
+                    <div class="col-md-9">
+                        <input id="input-category-isActive-hidden" name="isCategoryActive" class="form-control" type="hidden" value="{{categoryData.category_is_active}}"  >
+                        <input id="input-category-isActive-presentation"  type="checkbox" class="form-control" {{#if categoryData.category_is_active}} checked="checked" {{/if}}  data-toggle="toggle" data-width="100" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
+                    </div>
+                </div>
+                <br>
+
+                <div class="form-group row">
+                    <label  class="col-3 col-form-label">Category Image</label>
+                    <div class="col-md-4 ">
+                            <img src='{{IMAGE_BACKENDFRONT_LINK_PATH}}{{categoryData.category_image}}' alt='image' class="img-fluid"  />
+                    </div>
+                    <div class="col-4 push-md-1 ">
+                        <button id="btn-file-choose" class="input-group-append btn btn-outline-primary" style="cursor: pointer;">Choose Image</button>
+                        <div class="justify-content-center input-group">
+                            <img id="preview-image" class="img-fluid"/>
+                            <input id="hidden-file-chooser" name="post_Image" type="file" style="width:0;" >
+                        </div>
+                    </div>
+                </div>
+
+                <br><br>
+                <div class="form-group row">
+                    <div class="col-1"></div>
+                    <a href="/menu/category" class="col-4 btn btn-danger">Cancel</a>
+                    <div class="col-2"></div>
+                    <input type="submit" class=" col-4 btn btn-success" value="Save Changes">
+                    <div class="col-1" ></div>
+                </div>
 
 
-</body>
-<script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
-<script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="/lib/jquery-validation/dist/jquery-validate-additional-methods.min.js"></script>
-<script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
-<script type="text/javascript" src="/lib/bootstrap-toggle/bootstrap-toggle.js" ></script>
+            </form>
+        </div>
+    </div>
 
-<script type="text/javascript" src="/lib/t3/t3.js"></script>
-<script type="text/javascript" src="/js/my_personal.js"></script>
 
-<script>
+{{/template_base}}
+
+
+{{#*inline "partial_body_script"}}
+    <script type="text/javascript" src="/lib/bootstrap-toggle/bootstrap-toggle.js" ></script>
+
+
+    <script>
 
     handleBrowseButton_Preview("btn-file-choose","hidden-file-chooser", "preview-image") ;
 
@@ -138,15 +103,15 @@
         },
         highlight: function(element) {
             // function is invoked on any input element when error occurs for that particular input
-            $(element).parent().addClass('has-danger') ;
+            $(element).addClass('is-invalid') ;
 
         },
         unhighlight: function(element) {
-            $(element).parent().removeClass('has-danger') ;
+            $(element).removeClass('is-invalid') ;
 
         },
         success : (label, element)=>{
-            $(element).parent().addClass("has-success") ;
+            $(element).addClass('is-valid') ;
         },
         rules : {
             categoryName : {
@@ -170,10 +135,4 @@
 
 
 </script>
-
-
-
-
-
-
-</html>
+{{/inline}}

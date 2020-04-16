@@ -7,7 +7,8 @@
 .input-group {
   position: relative;
   display: flex;
-  flex-wrap: wrap; // For form validation feedback
+  // following line was causing errors as price input-group would go to next line in menu dishes
+  //flex-wrap: wrap; // For form validation feedback
   align-items: stretch;
   width: 100%;
 

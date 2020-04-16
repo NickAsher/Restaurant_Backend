@@ -3562,7 +3562,6 @@ input[type=button].btn-block {
 .input-group {
   position: relative;
   display: flex;
-  flex-wrap: wrap;
   align-items: stretch;
   width: 100%;
 }
@@ -10034,9 +10033,8 @@ button,
   transition: width 0.2s;
 }
 .app-header__logo .logo-src {
-  height: 23px;
-  width: 97px;
-  background: url("utils/images/logo-inverse.png");
+  height: 28px;
+  width: 128px;
 }
 
 .app-header__menu,
@@ -10135,9 +10133,6 @@ button,
 .app-header.header-text-light .search-wrapper .input-holder .search-icon span::before {
   background: rgba(255, 255, 255, 0.8);
 }
-.app-header.header-text-light .app-header__logo .logo-src {
-  background: url("utils/images/logo.png");
-}
 .app-header.header-text-light .app-header__mobile-menu .hamburger-inner,
 .app-header.header-text-light .app-header__mobile-menu .hamburger-inner::before,
 .app-header.header-text-light .app-header__mobile-menu .hamburger-inner::after {
@@ -10214,10 +10209,6 @@ button,
 .app-header.header-text-dark .search-wrapper .input-holder .search-icon span::before {
   background: rgba(0, 0, 0, 0.8);
 }
-.app-header.header-text-dark .app-header__logo .logo-src {
-  background: url("utils/images/logo-inverse.png");
-}
-
 .app-sidebar {
   width: 280px;
   display: flex;
@@ -10669,7 +10660,7 @@ button,
 .closed-sidebar.closed-sidebar-mobile .app-sidebar .app-header__logo .logo-src {
   display: block !important;
   margin: 0 auto;
-  width: 21px;
+  width: 52px;
 }
 .closed-sidebar.closed-sidebar-mobile .app-sidebar .app-header__logo .header__pane {
   display: none;
@@ -10678,7 +10669,7 @@ button,
   width: 280px;
 }
 .closed-sidebar.closed-sidebar-mobile .app-sidebar:hover .app-header__logo .logo-src {
-  width: 97px;
+  width: 128px;
   margin: 0;
 }
 .closed-sidebar.closed-sidebar-mobile .app-header {
@@ -14730,7 +14721,7 @@ be a descendant of the grid when it is being dragged.
     width: auto !important;
   }
   .sidebar-mobile-open .app-sidebar .app-header__logo .logo-src {
-    width: 97px !important;
+    width: 128px !important;
     margin-left: auto;
     margin-right: 0;
   }
