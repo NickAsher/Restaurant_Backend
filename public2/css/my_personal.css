@@ -186,8 +186,8 @@
 }
 .my-app-content {
   background-color: white;
-  padding: 30px;
   margin-bottom: 1rem;
+  padding-bottom: 1rem;
 }
 
 .my-datepicker-input-form-control {
@@ -210,6 +210,15 @@
 
 .badge-warning {
   color: #fff;
+}
+
+.my-blog-content-form-control {
+  display: block;
+  background-color: #e9ecef;
+  padding: 0.375rem 0.75rem;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
 }
 
 /*# sourceMappingURL=my_personal.css.map */

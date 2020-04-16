@@ -1,0 +1,83 @@
+{{#> template_base}}
+
+    <!--Page Title-->
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="fa fa-info icon-gradient bg-mean-fruit"></i>
+                </div>
+                <div>About Us
+                    <div class="page-title-subheading">Put all the current offers in the restaurant on this page
+                    </div>
+                </div>
+            </div>
+            <div class="page-title-actions">
+                <a href='\specials\arrange' class="mytheme-anchor">
+                    <button type="button" class="btn-shadow btn btn-dark">
+                        <span><i class="fa fa-sort" ></i></span>
+                        Change Order
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--Page Title /End-->
+
+
+    <div class="card">
+        <div class="card-body"  >
+
+            <div class="form-group row">
+                <label for="input-blog-author" class="col-3 col-form-label">Author Name</label>
+                <div class="col-md-9">
+                    <input id="input-blog-author" name="blogAuthorName" class="form-control" type="text" value="{{blogData.blog_author}}" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="input-blog-author" class="col-3 col-form-label">Creation Date</label>
+                <div class="col-md-9">
+                    <input id="input-blog-author" name="blogAuthorName" class="form-control" type="text" value="{{blogData.blog_creation_date}}" disabled >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="input-blog-title" class="col-3 col-form-label">Blog Title:</label>
+                <div class="col-md-9">
+                    <input name = 'blogTitle' id="input-blog-title" class="form-control" type="text" value="{{blogData.blog_title}}" disabled>
+                </div>
+            </div>
+            <br>
+
+            <div class="form-group row">
+                <label class="col-3 col-form-label">Blog DisplayImage:</label>
+                <div class="col-md-4">
+                    <img src='{{IMAGE_BACKENDFRONT_LINK_PATH}}{{blogData.blog_display_image}}' alt='blog image' class="img-fluid" />
+                </div>
+            </div>
+            <br>
+
+            <div class="form-group row">
+                <label for="input-blog-description" class="col-3 col-form-label">Blog Content:</label>
+                <div class="col-md-9">
+                    <div class="my-blog-content-form-control bg-grey">{{{blogData.blog_content}}}</div>
+                </div>
+            </div>
+
+            <br><br><br>
+            <div class="form-group row">
+                <div class="col-4" ></div>
+                <a href='/blogs/edit/{{blogData.blog_id}}' class='col-4 btn btn-outline-info' >Edit this BlogPost</a>
+                <div class="col-4" ></div>
+            </div>
+
+
+
+
+
+            </div>
+    </div>
+
+
+{{/template_base}}

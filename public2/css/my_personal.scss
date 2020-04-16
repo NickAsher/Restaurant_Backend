@@ -218,8 +218,8 @@ $themeColorPrimary : #ddae71;
 
 .my-app-content{
   background-color: white;
-  padding: 30px;
   margin-bottom: 1rem;
+  padding-bottom: 1rem;
 }
 
 
@@ -246,4 +246,13 @@ $themeColorPrimary : #ddae71;
 }
 .badge-warning{
   color : #fff
+}
+
+.my-blog-content-form-control{
+  display: block;
+  background-color: #e9ecef;
+  padding: .375rem .75rem;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
 }

@@ -83,11 +83,11 @@ app.get('/', async (req, res)=>{
   res.render("template.hbs") ;
 }) ;
 
+app.use(require('./routes/router_blogs')) ;
+app.use(require('./routes/router_gallery')) ;
+app.use(require('./routes/router_info')) ;
 app.use(require('./routes/router_orders')) ;
 app.use(require('./routes/router_offers')) ;
-app.use(require('./routes/router_gallery')) ;
-
-app.use(require('./routes/router_info')) ;
 
 app.get('/elements', async (req, res)=>{
   res.render("elements.hbs") ;
