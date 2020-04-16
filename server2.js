@@ -86,6 +86,8 @@ app.get('/', async (req, res)=>{
 app.use(require('./routes/router_blogs')) ;
 app.use(require('./routes/router_gallery')) ;
 app.use(require('./routes/router_info')) ;
+app.use(require('./routes/router_menu')) ;
+
 app.use(require('./routes/router_orders')) ;
 app.use(require('./routes/router_offers')) ;
 

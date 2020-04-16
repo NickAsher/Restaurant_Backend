@@ -1,0 +1,216 @@
+<html>
+<head>
+    <title>Admin | Gagneja</title>
+    <meta charset="utf-8">
+
+
+
+    <link rel="stylesheet" href="/lib/reset/reset.css" >
+
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap-toggle/bootstrap-toggle.css" >
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
+
+    <link rel="stylesheet" href="/lib/t3/t3.css" />
+
+    <link rel="stylesheet" href="/css/my_personal.css">
+</head>
+<body>
+
+{{>header}}
+<section>
+
+    {{>sidebar}}
+
+    <div class="container-fluid t3-push" id="mainContainer">
+        <div class="row">
+            <div id = "main_Content" class="col-md-12 bg-grey">
+
+                <br><br><br><br>
+                <div class="page-title bg-light">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <h1 class="">Add New Dish</h1>
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+
+                <div class="row">
+                    <div class="push-md-1 col-md-10" >
+                        <div class="card">
+                            <div class="card-block">
+                                <form id="form-main" action="/menu/dishes/add/save?_csrf={{_csrfToken}}" method="post" enctype="multipart/form-data" >
+
+                                    <input name="categoryId" type="hidden" value="{{categoryData.category_id}}">
+                                    <br>
+
+
+                                    <div class="form-group row">
+                                        <label for="input-item-name" class="col-3 col-form-label">Item Name</label>
+                                        <div class="col-md-9">
+                                            <input id="input-item-name" name="itemName" class="form-control" type="text" >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="input-item-description" class="col-3 col-form-label">Item Description</label>
+                                        <div class="col-md-9">
+                                            <textarea  id="input-item-description" name="itemDescription" class="form-control" rows="5" placeholder="describe the dish here" ></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="input-item-category" class="col-3 col-form-label">Item Category</label>
+                                        <div class="col-md-9">
+                                            <input id="input-item-category" class="form-control" type="text" value="{{categoryData.category_name}}" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="input-item-active" class="col-3 col-form-label">Item Active</label>
+                                        <div class="col-md-9">
+                                            <input id="input-item-isActive-hidden" name="isItemActive" class="form-control" type="hidden" value="1" >
+                                            <input id="input-item-isActive-presentation" type="checkbox" class="form-control"  checked="checked"  data-toggle="toggle" data-width="100" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
+                                        </div>
+                                    </div>
+
+                                    <br>
+                                    <br>
+                                    <br>
+
+                                    {{#each sizeData}}
+                                        <div class="form-group row">
+                                            <label  class="col-3 col-form-label">Item Price ({{size_name}}) </label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <input id="input-itemSize-isActive-hidden-{{size_id}}" name="isItemSizeActive_{{size_id}}" type="hidden" class="form-control"  value="1" >
+                                                    <input id="input-itemSize-isActive-presentation-{{size_id}}" type='checkbox' class='form-control' checked="checked" data-toggle='toggle' data-width='50' data-onstyle='success' data-offstyle='danger' data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
+                                                    <div class="input-group" style='margin-left: 20px;'>
+                                                        <span class="input-group-addon"> &#x20B9; </span>
+                                                        <input name="itemSizePrice_{{size_id}}" type='number' class='form-control' data-isPrice="true" required  >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {{/each}}
+
+                                    <div class="form-group row">
+                                        <label  class="col-3 col-form-label">Item Image</label>
+                                        <div class="col-5 push-2 ">
+                                            <button id="btn-file-choose" class="input-group-addon" style="cursor: pointer;">Choose Image</button>
+                                            <div class="justify-content-center input-group">
+                                                <img id="preview-image"/>
+                                                <input id="hidden-file-chooser" name="post_Image" type="file" style="width:0;" >
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br><br>
+                                    <div class="form-group row">
+                                        <div class="col-1"></div>
+                                        <a href="/menu/dishes" class="col-4 btn btn-danger">Cancel</a>
+                                        <div class="col-2"></div>
+                                        <input type="submit" class=" col-4 btn btn-success" value="Add">
+                                        <div class="col-1" ></div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <br><br><br>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+{{>footer}}
+
+
+</body>
+<script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
+<script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="/lib/jquery-validation/dist/jquery-validate-additional-methods.min.js"></script>
+<script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
+<script type="text/javascript" src="/lib/bootstrap-toggle/bootstrap-toggle.js" ></script>
+
+<script type="text/javascript" src="/js/my_personal.js"></script>
+<script type="text/javascript" src="/lib/t3/t3.js"></script>
+<script>
+
+    handleBrowseButton_Preview("btn-file-choose","hidden-file-chooser", "preview-image") ;
+
+    setupCheckboxToggleButton('input-item-isActive-presentation', 'input-item-isActive-hidden') ;
+    {{#each sizeData}}
+        setupCheckboxToggleButton('input-itemSize-isActive-presentation-{{size_id}}', 'input-itemSize-isActive-hidden-{{size_id}}' ) ;
+    {{/each}}
+
+    $('#form-main').validate({
+        errorPlacement : (error, element)=>{
+            if($(element).attr('data-isPrice') == 'true'){
+                error.insertAfter(element.parent().parent())
+            }else{
+                //insert the label element after the parent div
+                error.insertAfter(element) ;
+            }
+            $(error).addClass('text-danger') ;
+        },
+        highlight: function(element) {
+            // function is invoked on any input element when error occurs for that particular input
+            $(element).parent().addClass('has-danger') ;
+        },
+        unhighlight: function(element) {
+            $(element).parent().removeClass('has-danger') ;
+
+        },
+        success : (label, element)=>{
+            $(element).parent().addClass("has-success") ;
+        },
+        rules : {
+            itemName : {
+                required : true,
+                minlength : 3
+            },
+            itemDescription : {
+                required : true,
+                minlength : 10
+            },
+            post_Image : {
+                required : true,
+                extension : 'jpg|jpeg|png|JPG|JPEG|PNG'
+            },
+        },
+        messages : {
+            itemName : {
+                minlength : "Addon Name must be atleast min of 3 characters"
+            },
+            itemDescription : {
+                maxlength : "Item Description must be atleast 10 characters"
+            },
+            post_Image : {
+                required : "You must upload an image file",
+                extension : 'The File has the wrong extension type. Only jpg, jpeg and png extensions are allowed'
+            },
+        },
+    }) ;
+
+</script>
+
+
+
+
+
+
+
+</html>

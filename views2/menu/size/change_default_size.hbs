@@ -1,0 +1,140 @@
+<html>
+<head>
+    <title>Admin | Gagneja</title>
+    <meta charset="utf-8">
+
+
+
+    <!--<link rel="stylesheet" href="/lib/reset/reset.css" >-->
+
+    <link rel = "stylesheet" href="/lib/jquery_ui/jquery-ui.min.css" >
+    <link rel = "stylesheet" href="/lib/jquery_ui/jquery-ui.structure.min.css" >
+    <link rel = "stylesheet" href="/lib/jquery_ui/jquery-ui.theme.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
+    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
+    <link rel = "stylesheet" href="/lib/toastr/toastr.min.css" />
+
+
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
+
+    <link rel="stylesheet" href="/lib/t3/t3.css" />
+
+    <link rel="stylesheet" href="/css/my_personal.css">
+    <link rel="stylesheet" href="/css/gallery.css">
+    <link rel="stylesheet" href="/css/arrange.css">
+
+
+</head>
+<body>
+{{>header}}
+<section>
+    {{>sidebar}}
+    <div class="container-fluid t3-push" id="mainContainer">
+        <div class="row">
+            <div id = "main_Content" class="col-md-12">
+                <br>
+                <br>
+                <br>
+                <br>
+                <div class="page-title bg-light">
+                    <div class="container">
+                        <div class="text-center">
+                            <h1>Change Default Size </h1>
+                            <h5 class="text-gray-dark">Choose the default size selected value for "{{categoryData.category_name}}" </h5>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+                <div class="row">
+                    <div class="col-12 col-md-8 col-lg-6 push-md-2 push-lg-3">
+                        <div class="card">
+                            <div class="card-block text-center">
+
+                                <div>
+                                {{#each sizeList}}
+                                    <input id="someId" name='defaultSizeId'  type='radio' value='{{size_id}}' {{#if size_is_default}} checked="checked" {{/if}}>
+                                    {{size_name}}<br>
+                                {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div class="row">
+                    <div class="col-4"></div>
+                    <button class="col-4 btn btn-outline-info" onclick="saveDefaultValue()" >Save</button>
+                    <div class="col-4"></div>
+
+                </div>
+                <div id="space_before_footer">
+                    <br><br><br><br><br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+{{>footer}}
+
+
+</body>
+<script src="/lib/jquery/jquery.js" ></script>
+<script src="/lib/jquery_ui/jquery-ui.js" ></script>
+<script src="/lib/bootstrap4/bootstrap.min.js" ></script>
+<script src="/lib/toastr/toastr.min.js" ></script>
+<script src="/lib/t3/t3.js"></script>
+<script src="/js/my_personal.js"></script>
+
+<script>
+
+
+    function saveDefaultValue() {
+        let defaultSizeId = $('input[name=defaultSizeId]:checked').val() ;
+        fetch('/menu/size/change-default/save', {
+            method: 'POST',
+            body: new URLSearchParams({
+                _csrf : "{{_csrfToken}}",
+                defaultSizeId,
+                categoryId : '{{categoryData.category_id}}'
+            })
+        })
+        .then((response)=>response.json())
+        .then((data)=>{
+            if(data.status == true){
+                makeToast('success', "Default value is changed <br> taking you back to size page") ;
+                setTimeout(function () {
+                    window.location.href="/menu/size/{{categoryData.category_id}}" ;
+                }, 1000)
+            }else{
+                throw data ;
+            }
+        })
+        .catch((err)=>{
+            console.log(err) ;
+            makeToast('error', "Error in changing the default value") ;
+        }) ;
+
+
+
+
+    }
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+</html>
