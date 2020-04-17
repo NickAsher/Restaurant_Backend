@@ -31,93 +31,93 @@
     <!--Page Title /End-->
 
 
-                        <div class="card">
-                            <div class="card-block">
-                                <form id="form-main" action="/menu/dishes/edit/save?_csrf={{_csrfToken}}" method="post" enctype="multipart/form-data" >
+    <div class="card">
+        <div class="card-body">
+            <form id="form-main" action="/menu/dishes/edit/save?_csrf={{_csrfToken}}" method="post" enctype="multipart/form-data" >
 
-                                    <input name="categoryId" type="hidden" value="{{itemData.category_id}}">
-                                    <input name="itemId" type="hidden" value="{{itemData.item_id}}">
-                                    <input name="itemOldImageFileName" type="hidden" value="{{itemData.item_image_name}}">
-                                    <br>
+                <input name="categoryId" type="hidden" value="{{itemData.category_id}}">
+                <input name="itemId" type="hidden" value="{{itemData.item_id}}">
+                <input name="itemOldImageFileName" type="hidden" value="{{itemData.item_image_name}}">
+                <br>
 
 
-                                <div class="form-group row">
-                                    <label for="input-item-name" class="col-3 col-form-label">Item Name</label>
-                                    <div class="col-md-9">
-                                        <input id="input-item-name" name="itemName" class="form-control" type="text" value="{{itemData.item_name}}" >
-                                    </div>
+            <div class="form-group row">
+                <label for="input-item-name" class="col-3 col-form-label">Item Name</label>
+                <div class="col-md-9">
+                    <input id="input-item-name" name="itemName" class="form-control" type="text" value="{{itemData.item_name}}" >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="input-item-description" class="col-3 col-form-label">Item Description</label>
+                <div class="col-md-9">
+                    <textarea  id="input-item-description" name="itemDescription" class="form-control" rows="5"  >{{itemData.item_description}}</textarea>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="input-item-category" class="col-3 col-form-label">Item Category</label>
+                <div class="col-md-9">
+                    <input id="input-item-category" class="form-control" type="text" value="{{itemData.category_name}}" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="input-item-active" class="col-3 col-form-label">Item Active</label>
+                <div class="col-md-9">
+                    <input id="input-item-isActive-hidden" name="isItemActive" class="form-control" type="hidden" value="{{itemData.item_is_active}}"  >
+                    <input id="input-item-isActive-presentation" type="checkbox" class="form-control"  {{#if itemData.item_is_active}} checked="checked"{{/if}}  data-toggle="toggle" data-width="100" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
+                </div>
+            </div>
+
+            <br>
+            <br>
+            <br>
+
+            {{#each itemSizePriceData}}
+                <div class="form-group row">
+                    <label  class="col-3 col-form-label">Item Price ({{size_name}}) </label>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <input id="input-itemSize-isActive-hidden-{{size_id}}" name="isItemSizeActive_{{size_id}}" type="hidden" class="form-control"  value="{{item_size_active}}"  >
+                            <input id="input-itemSize-isActive-presentation-{{size_id}}" type='checkbox' class='form-control' {{#if item_size_active}}checked="checked"{{/if}}  data-toggle='toggle' data-width='50' data-onstyle='success' data-offstyle='danger' data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
+                            <div class="input-group" style='margin-left: 20px;'>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"> &#x20B9; </span>
                                 </div>
-
-                                <div class="form-group row">
-                                    <label for="input-item-description" class="col-3 col-form-label">Item Description</label>
-                                    <div class="col-md-9">
-                                        <textarea  id="input-item-description" name="itemDescription" class="form-control" rows="5"  >{{itemData.item_description}}</textarea>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="input-item-category" class="col-3 col-form-label">Item Category</label>
-                                    <div class="col-md-9">
-                                        <input id="input-item-category" class="form-control" type="text" value="{{itemData.category_name}}" disabled>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="input-item-active" class="col-3 col-form-label">Item Active</label>
-                                    <div class="col-md-9">
-                                        <input id="input-item-isActive-hidden" name="isItemActive" class="form-control" type="hidden" value="{{itemData.item_is_active}}"  >
-                                        <input id="input-item-isActive-presentation" type="checkbox" class="form-control"  {{#if itemData.item_is_active}} checked="checked"{{/if}}  data-toggle="toggle" data-width="100" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
-                                    </div>
-                                </div>
-
-                                <br>
-                                <br>
-                                <br>
-
-                                {{#each itemSizePriceData}}
-                                    <div class="form-group row">
-                                        <label  class="col-3 col-form-label">Item Price ({{size_name}}) </label>
-                                        <div class="col-md-9">
-                                            <div class="input-group">
-                                                <input id="input-itemSize-isActive-hidden-{{size_id}}" name="isItemSizeActive_{{size_id}}" type="hidden" class="form-control"  value="{{item_size_active}}"  >
-                                                <input id="input-itemSize-isActive-presentation-{{size_id}}" type='checkbox' class='form-control' {{#if item_size_active}}checked="checked"{{/if}}  data-toggle='toggle' data-width='50' data-onstyle='success' data-offstyle='danger' data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
-                                                <div class="input-group" style='margin-left: 20px;'>
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text"> &#x20B9; </span>
-                                                    </div>
-                                                    <input name="itemSizePrice_{{size_id}}" type='number' class='form-control' value="{{item_price}}" data-isPrice="true" required >
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {{/each}}
-
-                                <div class="form-group row">
-                                    <label  class="col-3 col-form-label">Item Image</label>
-                                    <div class="col-4 ">
-                                        <center><img src="{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{itemData.item_image_name}}" class="img-fluid" width='180'></center>
-                                    </div>
-                                    <div class="col-4 push-1 ">
-                                        <button id="btn-file-choose" class="input-group-append btn btn-outline-primary" style="cursor: pointer;">Choose Image</button>
-                                        <div class="justify-content-center input-group">
-                                            <img id="preview-image" class="img-fluid"/>
-                                            <input id="hidden-file-chooser" name="post_Image" type="file" style="width:0;" >
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <br><br>
-                                    <div class="form-group row">
-                                        <div class="col-1"></div>
-                                        <a href="/menu/dishes" class="col-4 btn btn-danger">Cancel</a>
-                                        <div class="col-2"></div>
-                                        <input type="submit" class=" col-4 btn btn-success" value="Save Changes">
-                                        <div class="col-1" ></div>
-                                    </div>
-                                </form>
-
+                                <input name="itemSizePrice_{{size_id}}" type='number' class='form-control' value="{{item_price}}" data-isPrice="true" required >
                             </div>
                         </div>
+                    </div>
+                </div>
+            {{/each}}
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label">Item Image</label>
+                <div class="col-4 ">
+                    <center><img src="{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{itemData.item_image_name}}" class="img-fluid" width='180'></center>
+                </div>
+                <div class="col-4 push-1 ">
+                    <button id="btn-file-choose" class="input-group-append btn btn-outline-primary" style="cursor: pointer;">Choose Image</button>
+                    <div class="justify-content-center input-group">
+                        <img id="preview-image" class="img-fluid"/>
+                        <input id="hidden-file-chooser" name="post_Image" type="file" style="width:0;" >
+                    </div>
+                </div>
+            </div>
+
+            <br><br>
+                <div class="form-group row">
+                    <div class="col-1"></div>
+                    <a href="/menu/dishes" class="col-4 btn btn-danger">Cancel</a>
+                    <div class="col-2"></div>
+                    <input type="submit" class=" col-4 btn btn-success" value="Save Changes">
+                    <div class="col-1" ></div>
+                </div>
+            </form>
+
+        </div>
+    </div>
 
 {{/template_base}}
 

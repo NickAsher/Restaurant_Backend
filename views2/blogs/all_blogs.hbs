@@ -8,7 +8,7 @@
                     <i class="fa fa-info icon-gradient bg-mean-fruit"></i>
                 </div>
                 <div>Blogs
-                    <div class="page-title-subheading">Put all the current offers in the restaurant on this page
+                    <div class="page-title-subheading">Manage all your blog posts from here
                     </div>
                 </div>
             </div>
@@ -39,12 +39,14 @@
                     <td class='addon-link' data-href='/blogs/view/{{blog_id}}'>  {{blog_creation_date}}</td>
                     <td>
                         <a href="/blogs/edit/{{blog_id}}">
-                            <button type='submit' class='btn btn-info' ><span><i class='fa fa-edit'></i></span> Edit Blog</button>
+                            <button type='submit' class='btn btn-info' >
+                                <span><i class='fa fa-edit'></i></span> Edit Blog
+                            </button>
                         </a>
                     </td>
                     <td>
                         <button class="btn btn-danger button_Delete" type="button" data-blog-id="{{blog_id}}" data-blog-image-name="{{blog_display_image}}" data-toggle="modal" data-target="#modal_Delete" >
-                            <span><i class='fa fa-trash'></i></span> Delete Blog
+                            <span><i class='fa fa-lg fa-trash'></i></span> Delete Blog
                         </button>
                     </td>
                 </tr>
@@ -60,8 +62,8 @@
         <br><br><br>
         <div class="row">
             <div class="col-4"></div>
-            <a class="col-4 btn btn-outline-primary" href="/blogs/add">
-                Add New Item
+            <a class="col-4 btn btn-primary" href="/blogs/add">
+                Add New Blog
             </a>
             <div class="col-4"></div>
         </div>
