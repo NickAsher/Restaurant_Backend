@@ -23,6 +23,16 @@ function setupTinyMCE(inputSelector){
   });
 }
 
+function handleNavigationForActive(){
+  // this function adds the active class to the currently selected list item
+  $('#sidebar_List > li > a').each(function() {
+    if (this.href == window.location.href) {
+      $(this).addClass("mm-active");
+      return ;
+    }
+  });
+}
+handleNavigationForActive() ;
 
 function makeToast(toastStyle, toastMessage) {
   toastr.options = {
@@ -118,3 +128,4 @@ function redirectBack(defaultRedirection){
     window.location.href = defaultRedirection ;
   }
 }
+

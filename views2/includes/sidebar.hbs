@@ -34,16 +34,16 @@
     </div>
     <div class="scrollbar-sidebar">
         <div class="app-sidebar__inner">
-            <ul class="vertical-nav-menu">
+            <ul id="sidebar_List" class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Dashboards</li>
                 <li>
-                    <a href="index.html" class="mm-active">
+                    <a href="/" >
                         <i class="metismenu-icon fa fa-home"></i>
                         Dashboard
                     </a>
                 </li>
                 <li>
-                    <a href="/orders" >
+                    <a href="/orders" {{#if active_sidebar_orders}} class="mm-active" {{/if}}>
                         <i class="metismenu-icon fa fa-opera"></i>
                         Orders
                     </a>
@@ -97,14 +97,6 @@
                     <a href="/specials">
                         <i class="metismenu-icon fa fa-commenting"></i>
                         Offers & Specials
-                    </a>
-                </li>
-                <li class="app-sidebar__heading">PRO Version</li>
-                <li>
-                    <a href="https://dashboardpack.com/theme-details/architectui-dashboard-html-pro/" target="_blank">
-                        <i class="metismenu-icon pe-7s-graph2">
-                        </i>
-                        Upgrade to PRO
                     </a>
                 </li>
             </ul>

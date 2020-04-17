@@ -117,6 +117,16 @@
 <script>
 
 
+    function showOrderDateInDatePicker(date){
+      let urlParams = new URLSearchParams(window.location.search);
+      if(urlParams.has('date')){
+          $( "#input-datePicker" ).val(urlParams.get('date')) ;
+
+      }
+    }
+    showOrderDateInDatePicker() ;
+
+
     function setupOrderDate(){
         $( "#input-datePicker" ).datepicker({
             dateFormat: "yy-mm-dd",
