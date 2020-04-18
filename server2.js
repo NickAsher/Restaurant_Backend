@@ -83,17 +83,32 @@ app.get('/', async (req, res)=>{
   res.render("template.hbs") ;
 }) ;
 
+app.use(require('./routes/routes_auth')) ;
 app.use(require('./routes/router_blogs')) ;
 app.use(require('./routes/router_gallery')) ;
 app.use(require('./routes/router_info')) ;
 app.use(require('./routes/router_menu')) ;
-
-app.use(require('./routes/router_orders')) ;
 app.use(require('./routes/router_offers')) ;
+app.use(require('./routes/router_orders')) ;
+app.use(require('./routes/router_settings')) ;
 
-app.get('/elements', async (req, res)=>{
-  res.render("elements.hbs") ;
+
+app.get('/error', async (req, res)=>{
+  res.render('general/error.hbs', {
+    error : {
+      status : false,
+      e_message : "This is some message",
+      e_toString : "This error : This is some message",
+      yo : "Beta ji koi error hai"
+    }
+  }) ;
 }) ;
+
+app.get('*', (req, res)=>{
+  res.render('general/404.hbs') ;
+}) ;
+
+
 
 
 
