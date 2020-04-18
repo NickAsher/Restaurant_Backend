@@ -1,93 +1,64 @@
-<html>
-<head>
-    <title>Admin | Gagneja</title>
-    <meta charset="utf-8">
+{{#> template_base}}
 
-
-
-    <link rel="stylesheet" href="/lib/reset/reset.css" >
-
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
-    <link rel = "stylesheet" href="/lib/toastr/toastr.min.css" />
-
-    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
-
-    <link rel="stylesheet" href="/lib/t3/t3.css" />
-
-    <link rel="stylesheet" href="/css/my_personal.css">
-</head>
-<body>
-
-{{>header}}
-<section>
-
-    {{>sidebar}}
-
-    <div class="container-fluid t3-push" id="mainContainer">
-        <div class="row">
-            <div id = "main_Content" class="col-md-12">
-
-                <br><br><br><br>
-                <div class="page-title bg-light">
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <h1 class="">Settings</h1>
-                        </div>
+    <!--Page Title-->
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="fa fa-cog icon-gradient bg-mean-fruit"></i>
+                </div>
+                <div>Settings
+                    <div class="page-title-subheading">Change the default values and configuration for the project here
                     </div>
                 </div>
-                <br><br><br>
-
-
-
-
-
-                <!--Content here-->
-                <div class="row">
-                    <div class="col-md-10 push-md-1">
-                        <div class="card">
-                            <div class="card-header">
-                                <h1 class="text-center">Restore</h1>
-                            </div>
-                            <div class="card-block">
-                                <div class="row">
-                                    <div id="Btn-DeleteImages" class="col-4 push-4 btn btn-outline-info">Delete Images</div>
-                                </div>
-                                <div class="row">
-                                    <div id="Btn-DeleteTables" class="col-4 push-4 btn btn-outline-info">Truncate Tables</div>
-                                </div>
-                                <div class="row">
-                                    <div id="Btn-RestoreImages" class="col-4 push-4 btn btn-outline-info">Restore Images</div>
-                                </div>
-                                <div class="row">
-                                    <div id="Btn-RestoreTables" class="col-4 push-4 btn btn-outline-info">Restore Table Data</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <br><br><br><br><br>
+            </div>
+            <div class="page-title-actions">
+                <a href='\' class="mytheme-anchor">
+                    <button type="button" class="btn-shadow btn btn-dark">
+                        <span><i class="fa fa-arrow-left" ></i></span>
+                        Go Back
+                    </button>
+                </a>
             </div>
         </div>
     </div>
-
-</section>
-
+    <!--Page Title /End-->
 
 
-{{>footer}}
 
 
-</body>
-<script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
-<script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
-<script type="text/javascript" src="/lib/t3/t3.js"></script>
-<script src="/lib/toastr/toastr.min.js" ></script>
+    <div class="row">
+        <div class="col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
+            <div class="card">
+            <div class="card-header justify-content-center">
+                <div class="card-header-title">Restore Database Entries</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div id="Btn-DeleteImages" class="col-4 offset-4 btn btn-outline-info">Delete Images</div>
+                </div>
+                <div class="row">
+                    <div id="Btn-DeleteTables" class="col-4 offset-4 btn btn-outline-info">Truncate Tables</div>
+                </div>
+                <div class="row">
+                    <div id="Btn-RestoreImages" class="col-4 offset-4 btn btn-outline-info">Restore Images</div>
+                </div>
+                <div class="row">
+                    <div id="Btn-RestoreTables" class="col-4 offset-4 btn btn-outline-info">Restore Table Data</div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
 
-<script src="/js/my_personal.js" ></script>
+
+
+{{/template_base}}
+
+
+{{#*inline "partial_body_script"}}
+    <script type="text/javascript" src="/lib/bootstrap-toggle/bootstrap-toggle.js" ></script>
+
 
 <script>
     $('#Btn-DeleteImages').click(function () {
@@ -193,12 +164,4 @@
     }) ;
 
 </script>
-
-
-
-
-
-
-
-
-</html>
+{{/inline}}

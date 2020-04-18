@@ -22,8 +22,8 @@
     background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
 }
 
-/* Modal Content (Image) */
-.modal-content {
+/*!* Modal Content (Image) *!*/
+.my-gallery-modal-content {
     margin: auto;
     display: block;
     width: 80%;
@@ -32,7 +32,7 @@
 
 
 /* Add Animation - Zoom in the Modal */
-.modal-content {
+.my-gallery-modal-content {
     animation-name: zoom;
     animation-duration: 0.6s;
 }

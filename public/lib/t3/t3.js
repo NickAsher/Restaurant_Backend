@@ -74,6 +74,7 @@ function handleNavigationForActive(listClass){
         }
     });
     return CorrectAnchorElementId ;
+
 }
 
 function handleNestedListNavigationForActive(listClass, nestLevel){

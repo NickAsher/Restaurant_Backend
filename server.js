@@ -9,6 +9,8 @@ const session = require('express-session') ;
 
 const csrf = require('csurf') ;
 const logger = require('./middleware/logging') ;
+const authenticationMiddleware = require('./middleware/authentication') ;
+
 
 const app = express() ;
 app.set('view engine', 'hbs') ;
@@ -77,11 +79,23 @@ app.use((req, res, next)=>{
 }) ;
 
 
-
-
-app.get('/', async (req, res)=>{
-  res.send("YOLO") ;
+app.get('/',  async (req, res)=>{
+  res.redirect('/dashboard') ;
 }) ;
+
+app.get('/dashboard', authenticationMiddleware.isAuthenticated('dashboard'), async (req, res)=>{
+  res.render("template.hbs") ;
+}) ;
+
+app.use(require('./routes/routes_auth')) ;
+app.use(require('./routes/router_blogs')) ;
+app.use(require('./routes/router_gallery')) ;
+app.use(require('./routes/router_info')) ;
+app.use(require('./routes/router_menu')) ;
+app.use(require('./routes/router_offers')) ;
+app.use(require('./routes/router_orders')) ;
+app.use(require('./routes/router_settings')) ;
+
 
 app.get('/error', async (req, res)=>{
   res.render('general/error.hbs', {
@@ -94,21 +108,16 @@ app.get('/error', async (req, res)=>{
   }) ;
 }) ;
 
-app.use(require('./routes/routes_auth')) ;
-app.use(require('./routes/router_blogs')) ;
-app.use(require('./routes/router_gallery')) ;
-app.use(require('./routes/router_offers')) ;
-app.use(require('./routes/router_info')) ;
-app.use(require('./routes/router_orders')) ;
-app.use(require('./routes/router_menu')) ;
-app.use(require('./routes/router_settings')) ;
-
 app.get('*', (req, res)=>{
   res.render('general/404.hbs') ;
 }) ;
 
 
-app.listen(3006, ()=>{
+
+
+
+
+app.listen(3002, ()=>{
   logger.info('Server is listening on port 3002') ;
     console.log("The server is listening on port 3002") ;
 }) ;

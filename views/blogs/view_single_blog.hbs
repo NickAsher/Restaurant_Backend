@@ -1,135 +1,80 @@
-<html>
-<head>
-    <title>Admin | Gagneja</title>
-    <meta charset="utf-8">
+{{#> template_base}}
 
-
-
-    <link rel="stylesheet" href="/lib/reset/reset.css" >
-
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
-
-    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
-
-    <link rel="stylesheet" href="/lib/t3/t3.css" />
-
-    <link rel="stylesheet" href="/css/my_personal.css">
-</head>
-<body>
-
-{{>header}}
-<section>
-
-    {{>sidebar}}
-
-    <div class="container-fluid t3-push" id="mainContainer">
-        <div class="row">
-            <div id = "main_Content" class="col-md-12">
-
-                <br><br><br><br>
-                <div class="page-title bg-light">
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <h1 class="">View Blog</h1>
-                        </div>
+    <!--Page Title-->
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="fa fa-newspaper-o icon-gradient bg-sunny-morning"></i>
+                </div>
+                <div>View Blog Post
+                    <div class="page-title-subheading">
+                        <!--TODO add a subheading for View Blogs Page-->
                     </div>
                 </div>
-                <br>
-
-
-                <div class="row">
-                    <div class="col-md-10 push-1">
-                        <div class="card">
-                            <div class="card-block"  >
-
-                                <div class="form-group row">
-                                    <label for="input-blog-author" class="col-3 col-form-label">Author Name</label>
-                                    <div class="col-md-9">
-                                        <input id="input-blog-author" name="blogAuthorName" class="form-control" type="text" value="{{blogData.blog_author}}" disabled>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="input-blog-author" class="col-3 col-form-label">Creation Date</label>
-                                    <div class="col-md-9">
-                                        <input id="input-blog-author" name="blogAuthorName" class="form-control" type="text" value="{{blogData.blog_creation_date}}" disabled >
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="input-blog-title" class="col-3 col-form-label">Blog Title:</label>
-                                    <div class="col-md-9">
-                                        <input name = 'blogTitle' id="input-blog-title" class="form-control" type="text" value="{{blogData.blog_title}}" disabled>
-                                    </div>
-                                </div>
-                                <br>
-
-                                <div class="form-group row">
-                                    <label class="col-3 col-form-label">Blog DisplayImage:</label>
-                                    <div class="col-md-4">
-                                        <img src='{{IMAGE_BACKENDFRONT_LINK_PATH}}{{blogData.blog_display_image}}' alt='blog image' class="img-fluid" />
-                                    </div>
-                                </div>
-                                <br>
-
-                                <div class="form-group row">
-                                    <label for="input-blog-description" class="col-3 col-form-label">Blog Content:</label>
-                                    <div class="col-md-9">
-                                        <div class="form-control bg-faded">{{{blogData.blog_content}}}</div>
-                                    </div>
-                                </div>
-
-
-
-
-
-                                    <br><br><br>
-                                    <div class="form-group row">
-                                        <div class="col-4" ></div>
-                                        <a href='/blogs/edit/{{blogData.blog_id}}' class='col-4 btn btn-outline-info' >Edit this BlogPost</a>
-                                        <div class="col-4" ></div>
-                                    </div>
-
-
-
-
-
-                                </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-                <div id="space_before_footer">
-                    <br><br><br><br><br>
-                </div>
+            </div>
+            <div class="page-title-actions">
+                <a href='\blogs' class="mytheme-anchor">
+                    <button type="button" class="btn-shadow btn btn-dark">
+                        <span><i class="fa fa-arrow-left" ></i></span>
+                        Go Back
+                    </button>
+                </a>
             </div>
         </div>
     </div>
-
-</section>
-
+    <!--Page Title /End-->
 
 
-{{>footer}}
+    <div class="card">
+        <div class="card-body"  >
+
+            <div class="form-group row">
+                <label for="input-blog-author" class="col-3 col-form-label">Author Name</label>
+                <div class="col-md-9">
+                    <input id="input-blog-author" name="blogAuthorName" class="form-control" type="text" value="{{blogData.blog_author}}" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="input-blog-author" class="col-3 col-form-label">Creation Date</label>
+                <div class="col-md-9">
+                    <input id="input-blog-author" name="blogAuthorName" class="form-control" type="text" value="{{blogData.blog_creation_date}}" disabled >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="input-blog-title" class="col-3 col-form-label">Blog Title:</label>
+                <div class="col-md-9">
+                    <input name = 'blogTitle' id="input-blog-title" class="form-control" type="text" value="{{blogData.blog_title}}" disabled>
+                </div>
+            </div>
+            <br>
+
+            <div class="form-group row">
+                <label class="col-3 col-form-label">Blog DisplayImage:</label>
+                <div class="col-md-4">
+                    <img src='{{IMAGE_BACKENDFRONT_LINK_PATH}}{{blogData.blog_display_image}}' alt='blog image' class="img-fluid" />
+                </div>
+            </div>
+            <br>
+
+            <div class="form-group row">
+                <label for="input-blog-description" class="col-3 col-form-label">Blog Content:</label>
+                <div class="col-md-9">
+                    <div class="my-blog-content-form-control bg-grey">{{{blogData.blog_content}}}</div>
+                </div>
+            </div>
+
+            <br><br><br>
+            <div class="form-group row">
+                <div class="col-4" ></div>
+                <a href='/blogs/edit/{{blogData.blog_id}}' class='col-4 btn btn-primary' >Edit this Blog</a>
+                <div class="col-4" ></div>
+            </div>
+
+        </div>
+    </div>
 
 
-</body>
-<script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
-<script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
-<script type="text/javascript" src="/js/my_personal.js"></script>
-<script type="text/javascript" src="/lib/t3/t3.js"></script>
-
-
-
-
-
-
-
-
-</html>
+{{/template_base}}

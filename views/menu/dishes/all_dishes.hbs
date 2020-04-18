@@ -1,175 +1,157 @@
-<html>
-<head>
-    <title>Admin | Gagneja</title>
-    <meta charset="utf-8">
+{{#> template_base}}
 
-
-
-    <link rel="stylesheet" href="/lib/reset/reset.css" >
-
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
-
-    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
-
-    <link rel="stylesheet" href="/lib/t3/t3.css" />
-
-    <link rel="stylesheet" href="/css/my_personal.css">
-</head>
-<body>
-
-{{>header}}
-<section>
-
-    {{>sidebar}}
-
-    <div class="container-fluid t3-push" id="mainContainer">
-        <div class="row">
-            <div id = "main_Content" class="col-12">
-                <div id="NavTabsPanel" class="row" style="background-color: #333;left: 0; right: 0 ;position: relative">
-                    <div class="col-12" >
-                        <br>
-                        <div class="card-header" style="background-color: #333">
-                            <ul class="nav nav-tabs card-header-tabs nav-fill ">
-                                {{#each menuData}}
-                                    <li class='nav-item'>
-                                        <a class='nav-link {{#if @first}}active{{/if}} text-info' data-toggle='tab' href='#Div_Table_{{category_id}}'>
-                                            {{category_name}}
-                                        </a>
-                                    </li>
-                                {{/each}}
-                            </ul>
-                        </div>
-
+    <!--Page Title-->
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="fa fa-cutlery icon-gradient bg-mixed-hopes"></i>
+                </div>
+                <div>
+                    All Dishes
+                    <div class="page-title-subheading">
+                        Manage all the dishes sold in the restaurant here
                     </div>
                 </div>
-                <br>
-                <br>
-                <br>
-                <br>
-                <div class="tab-content">
-                    {{#each menuData}}
-                    <div id="Div_Table_{{category_id}}" class = 'tab-pane fade {{#if @first}} active show{{/if}}'>
-
-                        {{#ifEquals items.length 0}}
-                            <br>
-                        {{else}}
-                            <div class="text-center">
-                                <a href='/menu/dishes/arrange/{{category_id}}' class="mytheme-anchor">Change Order</a>
-                            </div>
-                        {{/ifEquals}}
-
-                        <br>
-                        <table  class='table table-bordered table-hover' >
-                            <tr class='table-info'>
-                                <th>Sr No</th>
-                                <th>Image</th>
-                                <th>Dish Name</th>
-                                <th>Is Active</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-
-                            {{#ifEquals items.length 0}}
-                                {{>empty_state_table}}
-                            {{/ifEquals}}
-
-                            {{#each items}}
-                                <tr>
-                                    <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'>  {{increment @index}}  </td>
-                                    <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{item_image_name}}' class='img-fluid' width='90px' ></td>
-                                    <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'>  {{item_name}}  </td>
-
-                                    <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'>
-                                        {{#if item_is_active}}
-                                            <button class='btn btn-success' ><i class='fa fa-check'></i></button>
-                                        {{else}}
-                                            <button class='btn btn-danger' ><i class='fa fa-times'></i></button>
-                                        {{/if}}
-                                    </td>
-                                    <td>
-                                        <a href="/menu/dishes/edit/{{item_id}}">
-                                            <button type='submit' class='btn btn-info' ><span><i class='fa fa-edit'></i></span> Edit Dish</button>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-danger button_Delete" type="button" data-item-id="{{item_id}}" data-item-image-name="{{item_image_name}}" data-toggle="modal" data-target="#modal_Delete" >
-                                            <span><i class='fa fa-trash'></i></span> Delete Dish
-                                        </button>
-                                    </td>
-                                </tr>
-                            {{/each}}
-                        </table>
-
-                        <br>
-                        <br>
-                        <div class="text-center">
-                            <a class="col-sm-4 btn btn-outline-info" href="/menu/dishes/add/{{category_id}}">
-                                Add New Item
-                            </a>
-                        </div>
-                    </div>
-                    {{/each}}
-                </div>
-
-
-                <div class="modal fade" id="modal_Delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h6 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this dish</h6>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                <form class="text-center" method='post' action='/menu/dishes/delete'>
-                                    <input id="input-ItemId" type='hidden' name='itemId'>
-                                    <input id="input-ItemImageName" type='hidden' name='itemImageName'>
-                                    <input type="hidden" name="_csrf" value="{{_csrfToken}}">
-                                    <input type='submit' class='btn btn-danger' value='Yes'>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <div id="space_before_footer">
-                    <br><br><br><br><br>
-                </div>
-
-
-
-
-
             </div>
         </div>
     </div>
-</section>
+    <!--Page Title /End-->
 
 
 
-{{>footer}}
+    <div class="card-header">
+        <ul class="nav nav-justified ">
+            {{#each menuData}}
+                <li class='nav-item'>
+                    <a class='nav-link {{#if @first}}active{{/if}} text-info' data-toggle='tab' href='#Div_Table_{{category_id}}'>
+                        {{category_name}}
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+
+    <div class="my-app-content" style="padding: 30px">
+    <div class="tab-content ">
+        {{#each menuData}}
+            <div id="Div_Table_{{category_id}}" class = 'tab-pane fade {{#if @first}} active show{{/if}}'>
+
+                {{#ifEquals items.length 0}}
+                    <br>
+                {{else}}
+                    <div class="text-right">
+                        <a href='/menu/dishes/arrange/{{category_id}}' class="mytheme-anchor">
+                            <button type="button" class="btn-shadow btn btn-secondary">
+                                <span><i class="fa fa-sort" ></i></span>
+                                Change Order
+                            </button>
+                        </a>
+                    </div>
+                {{/ifEquals}}
+
+                <br>
+                <table  class='table table-bordered table-hover' >
+                    <tr class='bg-grey'>
+                        <th>Sr No</th>
+                        <th>Image</th>
+                        <th>Dish Name</th>
+                        <th>Is Active</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+
+                    {{#ifEquals items.length 0}}
+                        {{>empty_state_table}}
+                    {{/ifEquals}}
+
+                    {{#each items}}
+                        <tr>
+                            <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'>  {{increment @index}}  </td>
+                            <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{item_image_name}}' class='img-fluid' width='90px' ></td>
+                            <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'>  {{item_name}}  </td>
+
+                            <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'>
+                                {{#if item_is_active}}
+                                    <button class='btn btn-success' ><i class='fa fa-check'></i></button>
+                                {{else}}
+                                    <button class='btn btn-danger' ><i class='fa fa-times'></i></button>
+                                {{/if}}
+                            </td>
+                            <td>
+                                <a href="/menu/dishes/edit/{{item_id}}">
+                                    <button type='submit' class='btn btn-info' ><span><i class='fa fa-edit'></i></span> Edit Dish</button>
+                                </a>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger button_Delete" type="button" data-item-id="{{item_id}}" data-item-image-name="{{item_image_name}}" data-toggle="modal" data-target="#modal_Delete" >
+                                    <span><i class='fa fa-trash'></i></span> Delete Dish
+                                </button>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </table>
+
+                <br>
+                <br>
+                <div class="text-center">
+                    <a class="col-sm-4 btn btn-primary" href="/menu/dishes/add/{{category_id}}">
+                        Add New Item
+                    </a>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+    </div>
 
 
-</body>
-<script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
-<script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
-<script type="text/javascript" src="/js/my_personal.js"></script>
-<script type="text/javascript" src="/lib/t3/t3.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+{{/template_base}}
+
+
+{{#*inline "partial_body_script"}}
+
+<div class="modal fade" id="modal_Delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this dish</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <form class="text-center" method='post' action='/menu/dishes/delete'>
+                        <input id="input-ItemId" type='hidden' name='itemId'>
+                        <input id="input-ItemImageName" type='hidden' name='itemImageName'>
+                        <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+                        <input type='submit' class='btn btn-danger' value='Yes'>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <script>
 
 
     /* This code is needed as the active class is not removed from the nav item in bootstrap-alpha6
      */
-    $(".nav-link").click(function() {
-        $(".nav-link").removeClass('active');
-    });
+    // $(".nav-link").click(function() {
+    //     $(".nav-link").removeClass('active');
+    // });
 
 
     $('#modal_Delete').on('show.bs.modal', function (event) {
@@ -183,10 +165,4 @@
     })
 </script>
 
-
-
-
-
-
-
-</html>
+{{/inline}}

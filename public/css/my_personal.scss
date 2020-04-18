@@ -1,3 +1,17 @@
+//Remove up down arrows from number fields
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
 #mainContainer{
   background-color: #ffffff;
 
@@ -211,4 +225,48 @@ $themeColorPrimary : #ddae71;
        transform: scaleY(1.0);
        -webkit-transform: scaleY(1.0);
      }
+}
+
+
+
+
+.my-app-content{
+  background-color: white;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+}
+
+
+.my-datepicker-input-form-control {
+  display: block;
+  //width: 100%;
+  height: calc(2.25rem + 2px);
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  //transition: border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
+}
+
+.my-table-hover {
+  tr:hover{
+    background-color: #ddd !important;
+  }
+}
+.badge-warning{
+  color : #fff
+}
+
+.my-blog-content-form-control{
+  display: block;
+  background-color: #e9ecef;
+  padding: .375rem .75rem;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
 }

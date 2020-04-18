@@ -1,123 +1,92 @@
-<html>
-<head>
-    <title>Admin | Gagneja</title>
-    <meta charset="utf-8">
-
-
-
-    <link rel="stylesheet" href="/lib/reset/reset.css" >
-
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap.min.css" >
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-grid.min.css" >
-    <link rel = "stylesheet" href="/lib/bootstrap4/bootstrap-reboot.min.css" >
+{{#*inline "partial_head"}}
     <link rel = "stylesheet" href="/lib/bootstrap-toggle/bootstrap-toggle.css" >
-    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
 
-    <link rel="stylesheet" href="/lib/t3/t3.css" />
+{{/inline}}
 
-    <link rel="stylesheet" href="/css/my_personal.css">
-</head>
-<body>
 
-{{>header}}
-<section>
-
-    {{>sidebar}}
-
-    <div class="container-fluid t3-push" id="mainContainer">
-        <div class="row">
-            <div id = "main_Content" class="col-md-12 bg-grey">
-
-                <br><br><br><br>
-                <div class="page-title bg-light">
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <h1 class="">Edit Size</h1>
-                        </div>
+{{#> template_base}}
+    <!--Page Title-->
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="fa fa-book icon-gradient bg-mean-fruit"></i>
+                </div>
+                <div>
+                    Edit Size
+                    <div class="page-title-subheading">
+                        Change the details of the Size on this page
                     </div>
                 </div>
-                <br>
-
-
-                <div class="row">
-                    <div class="push-md-1 col-md-10" >
-                        <div class="card">
-                            <div class="card-block">
-                                <form id="form-main" action="/menu/size/edit/save?_csrf={{_csrfToken}}" method="post" >
-                                    <input name="sizeId" type="hidden" value="{{sizeData.size_id}}">
-                                    <input name="categoryId" type="hidden" value="{{categoryData.category_id}}">
-                                    <br>
-
-                                    <div class="form-group row">
-                                        <label for="input-item-category" class="col-3 col-form-label">Category</label>
-                                        <div class="col-md-9">
-                                            <input id="input-item-category" class="form-control" type="text" value="{{categoryData.category_name}}" disabled>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="input-item-name" class="col-3 col-form-label">Size Name</label>
-                                        <div class="col-md-9">
-                                            <input id="input-item-name" name="sizeName" class="form-control" type="text" value="{{sizeData.size_name}}" >
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="input-item-nameAbbreviated" class="col-3 col-form-label">Size Abbreviated</label>
-                                        <div class="col-md-9">
-                                            <input id="input-item-nameAbbreviated" name="sizeNameAbbreviated" class="form-control" type="text" value="{{sizeData.size_name_short}}" >
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="input-item-isActive" class="col-3 col-form-label">Is Active</label>
-                                        <div class="col-md-9">
-                                            <input id="input-item-isActive-hidden" name="isSizeActive" class="form-control" type="hidden" value="{{sizeData.size_is_active}}"  >
-                                            <input id="input-item-isActive-presentation" type="checkbox" class="form-control"  {{#if sizeData.size_is_active}} checked="checked"{{/if}} data-toggle="toggle" data-width="100" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
-                                        </div>
-                                    </div>
-
-                                    <br><br>
-                                    <div class="form-group row">
-                                        <div class="col-1"></div>
-                                        <a href="/menu/size/{{categoryData.category_id}}" class="col-4 btn btn-danger">Cancel</a>
-                                        <div class="col-2"></div>
-                                        <input type="submit" class=" col-4 btn btn-success" value="Save Changes">
-                                        <div class="col-1" ></div>
-                                    </div>
-
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-                <br><br><br><br><br>
-
+            </div>
+            <div class="page-title-actions">
+                <a href='/menu/size/{{categoryData.category_id}}' class="mytheme-anchor">
+                    <button type="button" class="btn-shadow btn btn-dark">
+                        <span><i class="fa fa-arrow-left" ></i></span>
+                        Go Back
+                    </button>
+                </a>
             </div>
         </div>
     </div>
-
-</section>
-
+    <!--Page Title /End-->
 
 
-{{>footer}}
+    <div class="card">
+        <div class="card-body">
+            <form id="form-main" action="/menu/size/edit/save?_csrf={{_csrfToken}}" method="post" >
+                <input name="sizeId" type="hidden" value="{{sizeData.size_id}}">
+                <input name="categoryId" type="hidden" value="{{categoryData.category_id}}">
+                <br>
+
+                <div class="form-group row">
+                    <label for="input-item-category" class="col-3 col-form-label">Category</label>
+                    <div class="col-md-9">
+                        <input id="input-item-category" class="form-control" type="text" value="{{categoryData.category_name}}" disabled>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="input-item-name" class="col-3 col-form-label">Size Name</label>
+                    <div class="col-md-9">
+                        <input id="input-item-name" name="sizeName" class="form-control" type="text" value="{{sizeData.size_name}}" >
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="input-item-nameAbbreviated" class="col-3 col-form-label">Size Abbreviated</label>
+                    <div class="col-md-9">
+                        <input id="input-item-nameAbbreviated" name="sizeNameAbbreviated" class="form-control" type="text" value="{{sizeData.size_name_short}}" >
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="input-item-isActive" class="col-3 col-form-label">Is Active</label>
+                    <div class="col-md-9">
+                        <input id="input-item-isActive-hidden" name="isSizeActive" class="form-control" type="hidden" value="{{sizeData.size_is_active}}"  >
+                        <input id="input-item-isActive-presentation" type="checkbox" class="form-control"  {{#if sizeData.size_is_active}} checked="checked"{{/if}} data-toggle="toggle" data-width="100" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
+                    </div>
+                </div>
+
+                <br><br>
+                <div class="form-group row">
+                    <div class="col-1"></div>
+                    <a href="/menu/size/{{categoryData.category_id}}" class="col-4 btn btn-danger">Cancel</a>
+                    <div class="col-2"></div>
+                    <input type="submit" class=" col-4 btn btn-success" value="Save Changes">
+                    <div class="col-1" ></div>
+                </div>
+
+            </form>
+        </div>
+    </div>
 
 
-</body>
-<script type="text/javascript" src="/lib/jquery/jquery.js" ></script>
-<script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="/lib/jquery-validation/dist/jquery-validate-additional-methods.min.js"></script>
-<script type="text/javascript" src="/lib/bootstrap4/bootstrap.min.js" ></script>
-<script type="text/javascript" src="/lib/bootstrap-toggle/bootstrap-toggle.js" ></script>
+{{/template_base}}
 
-<script type="text/javascript" src="/js/my_personal.js"></script>
-<script type="text/javascript" src="/lib/t3/t3.js"></script>
+
+{{#*inline "partial_body_script"}}
+    <script type="text/javascript" src="/lib/bootstrap-toggle/bootstrap-toggle.js" ></script>
 
 
 <script>
@@ -133,15 +102,15 @@
         },
         highlight: function(element) {
             // function is invoked on any input element when error occurs for that particular input
-            $(element).parent().addClass('has-danger') ;
+            $(element).addClass('is-invalid') ;
 
         },
         unhighlight: function(element) {
-            $(element).parent().removeClass('has-danger') ;
+            $(element).removeClass('is-invalid') ;
 
         },
         success : (label, element)=>{
-            $(element).parent().addClass("has-success") ;
+            $(element).addClass('is-valid') ;
         },
         rules : {
             sizeName : {
@@ -166,8 +135,4 @@
 
 </script>
 
-
-
-
-
-</html>
+{{/inline}}

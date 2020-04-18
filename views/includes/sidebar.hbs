@@ -1,106 +1,105 @@
-<div id="Dashboard_SideBar" class="t3-sidebar" >
-    <div id="Dashboard_SideBar_Header" style="background-color: #253136">
-        <br>
-        <br>
-        <div id="Sidebar_Header_Image" style=" height: 96px;">
-            <center><img src='/img/logo-light.png' alt='restaurant_logo' class="img-fluid" style="height: 100%;" ></center>
+<div class="app-sidebar sidebar-shadow">
+    <div class="app-header__logo">
+        <div class="logo-src">
+            <!--Added By Me-->
+            <img src="/img/logo.png" class="img-fluid" >
         </div>
-        <br>
-        <div id="Sidebar_Header_Text">
-            <center>
-                <h6 style="color: palegoldenrod">
-                    <span><i class="fa fa-user" aria-hidden="true"></i></span>
-                    &nbsp; Admin
-                </h6>
-            </center>
-        </div>
-        <br>
-        <br>
-        <div style="background-color: white; height: 1px; "></div>
-        <br>
-    </div>
-
-
-    <div id ="Dashboard_Sidebar_MainContent"  style="background-color: #253136; overflow-y: auto ; ">
-        <ul class="t3-list">
-
-            <li >
-                <a href="/home"><span><i class="fa fa-home" aria-hidden="true"></i></span>&nbsp;Home</a>
-            </li>
-
-
-            <li>
-                <a id="link_sublist_collapse_list_Menu" href='#collapse_list_Menu'  data-toggle="collapse">
-                    <span><i class="fa fa-book"></i></span>&nbsp; Menu
-                </a>
-            </li>
-            <div id="collapse_list_Menu" class="collapse">
-
-                <ul class="t3-sublist">
-                    <li>
-                        <a href='/menu/dishes'>
-                            <span><i class="fa fa-cutlery"></i></span>&nbsp;Menu Items
-                        </a>
-                    </li>
-                    <li>
-                        <a href='/menu/addons'>
-                            <span><i class="fa fa-plus-square"></i></span>&nbsp; Addons
-                        </a>
-                    </li>
-                    <li>
-                        <a href='/menu/category'>
-                            <span><i class="fa fa-book"></i></span>&nbsp; Category Management
-                        </a>
-                    </li>
-                </ul>
+        <div class="header__pane ml-auto">
+            <div>
+                <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
+                    <span class="hamburger-box">
+                        <span class="hamburger-inner"></span>
+                    </span>
+                </button>
             </div>
+        </div>
+    </div>
+    <div class="app-header__mobile-menu">
+        <div>
+            <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+            </button>
+        </div>
+    </div>
+    <div class="app-header__menu">
+        <span>
+            <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+                <span class="btn-icon-wrapper">
+                    <i class="fa fa-ellipsis-v fa-w-6"></i>
+                </span>
+            </button>
+        </span>
+    </div>
+    <div class="scrollbar-sidebar">
+        <div class="app-sidebar__inner">
+            <ul id="sidebar_List" class="vertical-nav-menu">
+                <li class="app-sidebar__heading">Dashboards</li>
+                <li>
+                    <a href="/dashboard" >
+                        <i class="metismenu-icon fa fa-home"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="/orders" {{#if active_sidebar_orders}} class="mm-active" {{/if}}>
+                        <i class="metismenu-icon fa fa-opera"></i>
+                        Orders
+                    </a>
+                </li>
+                <li class="app-sidebar__heading">Menu</li>
+                <li  >
+                    <a href="/menu/dishes">
+                        <i class="metismenu-icon fa fa-cutlery"></i>
+                        Dishes
+                    </a>
+                </li>
+                <li>
+                    <a href="/menu/addons">
+                        <i class="metismenu-icon fa fa-plus-square"></i>
+                        Addons
+                    </a>
+                </li>
+                <li  >
+                    <a href="/menu/category">
+                        <i class="metismenu-icon fa fa-book"></i>
+                        Category Management
+                    </a>
+                </li>
 
-            <li>
-                <a href="/orders" >
-                <span><i class="fa fa-opera"></i></span>&nbsp; Orders
-                </a>
-            </li>
-            <li>
-                <a href='/contact' >
-                    <span><i class="fa fa-phone"></i></span>&nbsp; Contact Info
-                </a>
-            </li>
-
-            <li>
-                <a href='/gallery' >
-                    <span><i class="fa fa-picture-o"></i></span>&nbsp; Gallery
-                </a>
-            </li>
-
-            <li>
-                <a href='/about' >
-                    <span><i class="fa fa-cutlery"></i></span>&nbsp; About Us
-                </a>
-            </li>
-
-            <li>
-                <a href='/blogs' >
-                    <span><i class="fa fa-newspaper-o"></i></span>&nbsp; Blog</a>
-            </li>
-
-            <li>
-                <a href='/specials' >
-                    <span><i class="fa fa-commenting"></i></span>&nbsp; Offers & Specials
-                </a>
-            </li>
-
-            <li>
-                <a href='/settings' >
-                    <span><i class="fa fa-cog"></i></span>&nbsp; Settings</a>
-            </li>
-            <div style="background-color: white; height: 1px; "></div>
-            <li>
-                <a id="link_signOut" href="/signout">
-                    <span><i class="fa fa-user"></i> Sign Out</span>
-                </a>
-            </li>
-        </ul>
-
-        <br><br><br><br>
+                <li class="app-sidebar__heading">Pages</li>
+                <li>
+                    <a href="/contact">
+                        <i class="metismenu-icon fa fa-phone"></i>
+                        Contact
+                    </a>
+                </li>
+                <li>
+                    <a href="/gallery">
+                        <i class="metismenu-icon fa fa-picture-o"></i>
+                        Gallery
+                    </a>
+                </li>
+                <li>
+                    <a href="/about">
+                        <i class="metismenu-icon fa fa-info"></i>
+                        About-Us
+                    </a>
+                </li>
+                <li>
+                    <a href="/blogs">
+                        <i class="metismenu-icon fa fa-newspaper-o"></i>
+                        Blogs
+                    </a>
+                </li>
+                <li>
+                    <a href="/specials">
+                        <i class="metismenu-icon fa fa-gift"></i>
+                        Offers & Specials
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
