@@ -9,6 +9,8 @@ const session = require('express-session') ;
 
 const csrf = require('csurf') ;
 const logger = require('./middleware/logging') ;
+const authenticationMiddleware = require('./middleware/authentication') ;
+
 
 const app = express() ;
 app.set('view engine', 'hbs') ;
@@ -77,9 +79,11 @@ app.use((req, res, next)=>{
 }) ;
 
 
+app.get('/',  async (req, res)=>{
+  res.redirect('/dashboard') ;
+}) ;
 
-
-app.get('/', async (req, res)=>{
+app.get('/dashboard', authenticationMiddleware.isAuthenticated('dashboard'), async (req, res)=>{
   res.render("template.hbs") ;
 }) ;
 

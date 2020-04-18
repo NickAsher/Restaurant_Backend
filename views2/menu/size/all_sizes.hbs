@@ -10,27 +10,28 @@
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="fa fa-info icon-gradient bg-mean-fruit"></i>
+                    <i class="fa fa-book icon-gradient bg-mean-fruit"></i>
                 </div>
-                <div>All {{categoryData.category_name}} sizes
-                    <div class="page-title-subheading">Put all the current offers in the restaurant on this page
+                <div>
+                    All {{categoryData.category_name}} sizes
+                    <div class="page-title-subheading">
+                        Manage all the Sizes for the Category:{{categoryData.category_name}} on this page
                     </div>
                 </div>
             </div>
             <div class="page-title-actions">
+                <a href='/menu/size/change-default/{{categoryData.category_id}}' class="mytheme-anchor">
+                    <button type="button" class="btn-shadow btn btn-info">
+                        <span><i class="fa fa-star" ></i></span>
+                        Change Default Size
+                    </button>
+                </a>
                 <a href='/menu/size/arrange/{{categoryData.category_id}}' class="mytheme-anchor">
-                    <button type="button" class="btn-shadow btn btn-dark">
+                    <button type="button" class="btn-shadow btn btn-secondary">
                         <span><i class="fa fa-sort" ></i></span>
                         Change Order
                     </button>
                 </a>
-                <a href='/menu/size/change-default/{{categoryData.category_id}}' class="mytheme-anchor">
-                    <button type="button" class="btn-shadow btn btn-info">
-                        <span><i class="fa fa-sort" ></i></span>
-                        Change Default Size
-                    </button>
-                </a>
-
             </div>
         </div>
     </div>

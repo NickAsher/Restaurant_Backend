@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken') ;
 
 exports.getLoginPage = async (req, res)=>{
   try{
-    res.render('general/login.hbs') ;
+    res.render('auth/login.hbs') ;
   }catch (e) {
     logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
@@ -86,7 +86,7 @@ exports.postSignout = async(req, res)=>{
   try{
     req.session.destroy() ;
     res.clearCookie('my_session_id_backend') ;
-    res.redirect('/menu') ;
+    res.redirect('/') ;
   }catch (e) {
     logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.send({
@@ -112,7 +112,7 @@ exports.getResetPasswordTokenPage = async (req, res)=>{
     if(decoded.email != userData.email){throw "invalid token : email is not same in token" ;}
 
     //our token is verified now, render the page
-    res.render('general/reset_password.hbs', {
+    res.render('auth/reset_password.hbs', {
       resetToken,
       userId : userData.id
     }) ;
