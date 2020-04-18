@@ -107,7 +107,7 @@
         .then((response)=>response.json())
         .then((data)=>{
             if(data.status == true){
-                makeToast('success', "Default value is changed <br> taking you back to size page") ;
+                makeToast('success', "Default value is changed <br> Taking you back to size page") ;
                 setTimeout(function () {
                     window.location.href="/menu/size/{{categoryData.category_id}}" ;
                 }, 1000)

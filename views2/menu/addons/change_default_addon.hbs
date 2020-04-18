@@ -44,12 +44,12 @@
                         {{item_name}}<br>
                     {{/each}}
                     </div>
-                    <br>
+                    <br><br>
 
                     <div class="row">
-                        <div class="col-4"></div>
-                        <button class="col-4 btn btn-primary" onclick="saveDefaultValue()" >Save</button>
-                        <div class="col-4"></div>
+                        <div class="col-3"></div>
+                        <button class="col-6 btn btn-primary" onclick="saveDefaultValue()" >Save</button>
+                        <div class="col-3"></div>
                     </div>
                 </div>
             </div>
@@ -78,7 +78,7 @@
         .then((response)=>response.json())
         .then((data)=>{
             if(data.status == true){
-                makeToast('success', "Default value is changed <br> taking you back to addons page") ;
+                makeToast('success', "Default value is changed <br> Taking you back to addons page") ;
                 setTimeout(function () {
                     window.location.href="/menu/addons" ;
                 }, 1000)

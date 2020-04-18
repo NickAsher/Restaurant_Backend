@@ -110,7 +110,7 @@
         .then((response)=>response.json())
         .then((data)=>{
             if(data.status == true){
-                makeToast('success', "Default value is changed <br> taking you back to addons page") ;
+                makeToast('success', "Default value is changed <br> Taking you back to addons page") ;
                 setTimeout(function () {
                     window.location.href="/menu/addons" ;
                 }, 1000)

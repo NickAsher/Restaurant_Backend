@@ -114,7 +114,7 @@
         .then((response)=>response.json())
         .then((data)=>{
             if(data.status == true){
-                makeToast('success', "New Order is saved <br> taking you back to Offers & Specials page")
+                makeToast('success', "New Order is saved <br> Taking you back to Offers & Specials page")
                 setTimeout(function () {
                     window.location.href="/specials" ;
                 }, 1000)

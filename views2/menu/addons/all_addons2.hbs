@@ -15,95 +15,70 @@
                     </div>
                 </div>
             </div>
-
+            <div class="page-title-actions">
+                <a href='\specials\arrange' class="mytheme-anchor">
+                    <button type="button" class="btn-shadow btn btn-dark">
+                        <span><i class="fa fa-sort" ></i></span>
+                        Change Order
+                    </button>
+                </a>
+            </div>
         </div>
     </div>
     <!--Page Title /End-->
 
-        <div class="card">
+
         <div class="card-header" >
-            <ul class="nav nav-justified ">
+            <ul class="nav nav-tabs card-header-tabs nav-fill ">
                 {{#each addonData}}
                     <li class='nav-item'>
-                        <a class='nav-link {{#if @first}}active{{/if}} text-info' data-toggle='tab' href='#Div_AddonGroups_{{category_id}}'>
+                        <a class='nav-link {{#if @first}}active{{/if}} text-info' data-toggle='tab' href='#Div_Table_{{category_id}}'>
                             {{category_name}}
                         </a>
                     </li>
                 {{/each}}
             </ul>
         </div>
-
-        <div class="card-body">
+        <div class="my-app-content">
             <div class="tab-content">
-            {{#each addonData}}
 
-                <div id="Div_AddonGroups_{{category_id}}" class = 'tab-pane fade {{#if @first}} active show{{/if}}'>
+                {{#each addonData}}
 
-                {{#ifEquals addonGroups.length 0}}
-                    <!--There are no addon groups. Tell the user to add some addon groups.
-                     Take them to category/addongroups page -->
-
-                    <div class="text-center">
-                        You haven't configured any Addon-Groups for this category.
-                        <a href="/menu/addongroup/{{category_id}}">
-                            <button type="button" class="btn btn-dark" >
-                                <i class="fa fa-cogs">  </i> Configure
-                            </button>
-                        </a>
-                    </div>
-                {{else}}
-                    <!--<div class="card-header">-->
-                    <ul class="tabs-animated-shadow  tabs-animated nav " >
-                        {{#each addonGroups}}
-                            <li class='nav-item'>
-                                <a class='nav-link {{#if @first}}active{{/if}} text-info' data-toggle='tab' href='#Div_TableAddonValues_{{rel_id}}'>
-                                    <span class="text-dark" style="z-index: 4">
-                                        {{addon_group_display_name}}
-                                        <div class="badge badge-alternate">
-                                            {{#ifEquals addon_group_type 'checkbox' }}Multi-Select{{else}}Single-Select{{/ifEquals}}
-                                        </div>
-                                    </span>
-
+                    <div id="Div_Table_{{category_id}}" class = 'tab-pane fade {{#if @first}} active show{{/if}}'>
+                        {{#ifEquals addonGroups.length 0}}
+                            <!--There are no addon groups. Tell the user to add some addon groups.
+                             Take them to category/addongroups page -->
+                            <br><br><br>
+                            <div class="text-center">
+                                You haven't configured any Addon-Groups for this category.
+                                <a href="/menu/addongroup/{{category_id}}">
+                                    <button type="button" class="btn btn-secondary" >
+                                        <i class="fa fa-cogs"> Configure </i>
+                                    </button>
                                 </a>
-                            </li>
-                        {{/each}}
-                    </ul>
-                <hr>
-                    <!--</div>-->
-                {{/ifEquals}}
+                            </div>
+                        {{/ifEquals}}
 
-
-                    <div class="tab-content">
-                    {{#each addonGroups}}
-
-
-                        <div id="Div_TableAddonValues_{{rel_id}}" class = 'tab-pane fade {{#if @first}} active show{{/if}}' >
-                            <br>
-                            <div id="Top_Buttons" class="float-right">
+                        {{#each addonGroups}}
+                            <div class="text-center">
+                                <h1>{{addon_group_display_name}}
+                                    {{#ifEquals addon_group_type 'checkbox' }}(Multi-Select){{else}}(Single-Select){{/ifEquals}}
+                                </h1>
 
                                 {{#ifEquals addonItems.length 0}}
+                                    <br>
                                 {{else}}
+                                    <a href='/menu/addons/arrange/{{rel_id}}' class="mytheme-anchor">Change Order</a>
                                     {{#ifEquals addon_group_type 'radio' }}
-
-                                        <a href='/menu/addons/change-default/{{rel_id}}{{rel_id}}' class="mytheme-anchor">
-                                            <button type="button" class="btn-shadow btn btn-info">
-                                                <span><i class="fa fa-star" ></i></span>
-                                                Change Default Value
-                                            </button>
-                                        </a>
+                                        <br>
+                                        <a href='/menu/addons/change-default/{{rel_id}}' class="mytheme-anchor">Change Default Value</a>
                                     {{/ifEquals}}
-                                    <a href='/menu/addons/arrange/{{rel_id}}' class="mytheme-anchor">
-                                        <button type="button" class="btn-shadow btn btn-secondary">
-                                            <span><i class="fa fa-sort" ></i></span>
-                                            Change Order
-                                        </button>
-                                    </a>
                                 {{/ifEquals}}
                             </div>
+                            <br>
 
-                            <br><br>
                             <table  class='table table-bordered table-hover' >
-                                <tr class='bg-grey'>
+                                <tr class='table-info'>
                                     <th>Sr No</th>
                                     <th>Addon Name</th>
                                     {{#ifEquals addon_group_type 'radio' }}<th>Is Default</th>{{/ifEquals}}
@@ -162,19 +137,18 @@
                                     Add New Item
                                 </a>
                             </div>
+                            {{#if @last}}{{else}}<br><br><br><hr><br><br><br>{{/if}}
 
-                        </div>
-
-                    {{/each}}
+                        {{/each}}
                     </div>
-
-                </div>
-
-            {{/each}}
+                {{/each}}
             </div>
 
         </div>
-        </div>
+
+
+
+
 {{/template_base}}
 
 

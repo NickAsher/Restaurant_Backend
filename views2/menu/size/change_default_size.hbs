@@ -32,7 +32,7 @@
                     <div class="col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
                         <div class="card">
                             <div class="card-header justify-content-center">
-                                <h3 class="">Select a Size</h3>
+                                <h5 class="font-weight-bold">Select a Size</h5>
                             </div>
                             <div class="card-body text-center">
                                 <div>
@@ -79,7 +79,7 @@
         .then((response)=>response.json())
         .then((data)=>{
             if(data.status == true){
-                makeToast('success', "Default value is changed <br> taking you back to size page") ;
+                makeToast('success', "Default value is changed <br> Taking you back to size page") ;
                 setTimeout(function () {
                     window.location.href="/menu/size/{{categoryData.category_id}}" ;
                 }, 1000)
