@@ -24,5 +24,19 @@ router.get('/admins', isAuthenticated, errorHandler, controllerAdmins.getAllAdmi
 
 router.get('/admins/add', isAuthenticated, errorHandler, controllerAdmins.getAddNewAdminPage) ;
 
+router.post('/admins/add/save', isAuthenticatedPostRequest, [
+  body('fullname', "Fullname is invalid").exists().notEmpty().trim().escape(),
+  body('email', "Email  is invalid").exists().notEmpty().isEmail().trim().normalizeEmail(),
+  body('password', "Password is invalid").exists().notEmpty().isLength({min:12}).trim(),
+  body('passwordAgain', "Password Again is invalid").exists().notEmpty().custom((value, {req})=>{
+    return value == req.body.password ;
+  }),
+  body('isAccountActive', "isAccountAcitve is invalid").exists().notEmpty().isBoolean(),
+  body('validUntill', "validUntill is invalid").exists().notEmpty().trim().escape(), //TODO check if it is a valid datetime
+  body('role', "role is invalid").exists().notEmpty().trim().isIn(['ADMIN', 'VIEWER']),
+
+
+], showValidationError, errorHandler, controllerAdmins.postAddNewAdminsPage) ;
+
 
 module.exports = router ;

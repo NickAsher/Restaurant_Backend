@@ -24,7 +24,7 @@ router.post('/login',[
 ], showValidationError, errorHandler, controllerAuth.postLoginPage) ;
 
 router.post('/forgotPassword', [
-  body('post_Email', 'Invalid Email Address').not().isEmpty().isEmail().normalizeEmail(),
+  body('post_Email', 'Invalid Email Address').exists().notEmpty().isEmail().trim().normalizeEmail(),
 ], showValidationError, errorHandler, controllerAuth.postForgotPassword) ;
 
 
