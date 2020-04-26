@@ -38,5 +38,12 @@ router.post('/admins/add/save', isAuthenticatedPostRequest, [
 
 ], showValidationError, errorHandler, controllerAdmins.postAddNewAdminsPage) ;
 
+router.get('/admins/edit/:adminId', isAuthenticated, errorHandler, controllerAdmins.getEditAdminPage) ;
+
+
+router.post('/admins/delete', isAuthenticatedPostRequest, [
+  body('adminId', "Invalid AdminId").exists().notEmpty().isNumeric({no_symbols:true}).trim(),
+], showValidationError, errorHandler, controllerAdmins.postDeletePage) ;
+
 
 module.exports = router ;

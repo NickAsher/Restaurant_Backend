@@ -1,0 +1,268 @@
+{{#*inline "partial_head"}}
+    <link rel = "stylesheet" href="/css/login.css" >
+
+    <link rel = "stylesheet" href="/lib/bootstrap-toggle/bootstrap-toggle.css" >
+    <link rel = "stylesheet" href="/lib/jquery-datetime/jquery.datetimepicker.min.css" >
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" >-->
+{{/inline}}
+
+{{#> template_base}}
+
+    <!--Page Title-->
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="fa fa-newspaper-o icon-gradient bg-sunny-morning"></i>
+                </div>
+                <div>Edit Admin
+                    <div class="page-title-subheading">Change the details of an admin account
+                    </div>
+                </div>
+            </div>
+            <div class="page-title-actions">
+                <a href='\admins' class="mytheme-anchor">
+                    <button type="button" class="btn-shadow btn btn-dark">
+                        <span><i class="fa fa-arrow-left" ></i></span>
+                        Go Back
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--Page Title /End-->
+
+
+    <div class="row">
+        <div class="col-md-12 col-lg-7">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">Edit Admin Details</div>
+                </div>
+                <div class="card-body">
+                    <form id="form-main" action="/admins/edit/save?_csrf={{_csrfToken}}" method="post">
+
+                        <div class="form-group row">
+                            <label for="input-name" class="col-3 col-form-label">Name</label>
+                            <div class="col-md-9">
+                                <input name = 'fullname' id="input-name" class="form-control" type="text" value="{{adminData.name}}" >
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="input-email" class="col-3 col-form-label">Email Address</label>
+                            <div class="col-md-9">
+                                <input name = 'email' id="input-email" class="form-control" type="email" value="{{adminData.email}}" >
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label for="input-isAccountActive-presentation" class="col-3 col-form-label">Is Active</label>
+                            <div class="col-md-9">
+                                <input id="input-isAccountActive-hidden" name="isAccountActive" class="form-control" type="hidden" value="{{adminData.account_is_active}}"  >
+                                <input id="input-isAccountActive-presentation" type="checkbox" class="form-control"   checked="checked" data-toggle="toggle" data-width="100" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="input-validUntill" class="col-3 col-form-label">Valid Untill</label>
+                            <div class="col-md-9">
+                                <input id="input-validUntill" name="validUntill" class="form-control" value="{{adminData.active_till}}"  >
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="input-role" class="col-3 col-form-label">Role</label>
+                            <div class="col-md-9">
+                                <select name = "role" id="input-role" class="form-control"  >
+                                    <option disabled>Choose a Role</option>
+                                    <option {{#ifEquals adminData.role 'ADMIN' }}selected{{/ifEquals}} value="ADMIN" >Admin</option>
+                                    <option {{#ifEquals adminData.role 'VIEWER' }}selected{{/ifEquals}} value="VIEWER" >Viewer</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+
+
+                        <br><br>
+                        <div class="form-group row">
+                            <div class="col-1"></div>
+                            <a href="/admins" class="col-4 btn btn-danger">Cancel</a>
+                            <div class="col-2"></div>
+                            <input type="submit" class=" col-4 btn btn-success" value="Add User">
+                            <div class="col-1" ></div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <br><br><Br>
+
+        <div class="col-md-12 col-lg-5">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">Edit Password</div>
+                </div>
+                <div class="card-body">
+                    <form id="form-passwordChange" class="panel-login" action="/admins/edit/password-save?_csrf={{_csrfToken}}" method="post">
+
+
+                        <div class="form-group row">
+                            <label for="input-password" class="col-3 col-form-label">Password</label>
+                            <div class="col-md-9 wrap-input pwdMask">
+                                <input id="input-password" name = 'password'  class="form-control" type="password"  >
+                                <span class="fa fa-eye-slash pwd-toggle"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="input-passwordAgain" class="col-3 col-form-label">Retype Password</label>
+                            <div class="col-md-9 wrap-input pwdMask">
+                                <input name = 'passwordAgain' id="input-passwordAgain" class="form-control" type="password"  >
+                            </div>
+                        </div>
+
+
+                        <br><br>
+                        <div class="form-group row">
+                            <div class="col-1"></div>
+                            <a href="/admins" class="col-4 btn btn-danger">Cancel</a>
+                            <div class="col-2"></div>
+                            <input type="submit" class=" col-4 btn btn-success" value="Add User">
+                            <div class="col-1" ></div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <br><br><br><br>
+
+
+
+
+{{/template_base}}
+
+
+{{#*inline "partial_body_script"}}
+    <script type="text/javascript" src="/lib/bootstrap-toggle/bootstrap-toggle.js" ></script>
+    <script src="/lib/jquery-datetime/jquery.datetimepicker.full.min.js" ></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.js" ></script>-->
+
+    <script>
+
+    setupCheckboxToggleButton('input-isAccountActive-presentation', 'input-isAccountActive-hidden') ;
+
+    $('#input-validUntill').datetimepicker({
+        format:'Y-m-d H:i:s',
+        lang:'en'
+    });
+
+    function setupPwdToggle(){
+        /* so basically pwd looks like this
+        <div class="pwdMask">
+            <input id="input-login-password" name="post_Password" type="password" class="form-control password"  placeholder="Password">
+            <span class="focus-input"></span>
+            <span class="fa fa-eye-slash pwd-toggle"></span>
+        </div>
+
+         * So the show password button is basically a span element with fa-eye-slash class
+         * on clicking it, we change the class to fa-eye and vice versa
+         * so then we check if it fa-eye or fa-eye-slash
+         * if it is fa-eye, we then change the our input type from password to text, thus making it visible.
+         */
+        $('.pwd-toggle').click(function(event){
+            event.preventDefault() ;
+            $(this).toggleClass('fa-eye-slash fa-eye') ;
+            if($(this).hasClass("fa-eye")){
+                $('.pwdMask > .form-control').attr("type","text")
+            }else{
+                $('.pwdMask > .form-control').attr("type","password")
+            }
+        }) ;
+    }
+    setupPwdToggle() ;
+
+
+
+
+
+    $('#form-main').validate({
+        errorPlacement : (error, element)=>{
+            //insert the label element after the parent div
+
+            error.insertAfter(element) ;
+            $(error).addClass('text-danger') ;
+
+
+        },
+        highlight: function(element) {
+            // function is invoked on any input element when error occurs for that particular input
+            $(element).addClass('is-invalid') ;
+
+        },
+        unhighlight: function(element) {
+            $(element).removeClass('is-invalid') ;
+
+        },
+        success : (label, element)=>{
+            $(element).addClass("is-valid") ;
+        },
+        rules : {
+            fullname : {
+                required : true,
+            },
+            email : {
+                required : true,
+                email : true
+            },
+            password : {
+                required : true,
+                minlength : 12
+            },
+            passwordAgain : {
+                required : true,
+                equalTo : '#input-password'
+            },
+            validUntill : {
+                required : true,
+            },
+            role : {
+                required : true,
+            },
+        },
+        messages : {
+            fullname : {
+                required : "You must provide a name for the admin account",
+            },
+            email : {
+                required : "An email address is required",
+                email : "This is not a valid email address"
+            },
+            password : {
+                required : "You must provide a password",
+                minlength : "Password must be atleast 12 characters and must contain 1 Uppercase letter, 1 Lowercase letter and 1 Number"
+            },
+            passwordAgain : {
+                required : "This field cannot be empty",
+                equalTo : "Two passwords do not match"
+            },
+            validUntill : {
+                required : "You must enter a valid date",
+            },
+            role : {
+                required : "You must select a role for the account",
+            },
+        },
+    }) ;
+
+</script>
+{{/inline}}

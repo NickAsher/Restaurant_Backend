@@ -10,7 +10,7 @@ const bcrypt = require('bcrypt') ;
 exports.getAllAdminsPage = async(req, res)=>{
   try{
     let dbData = await dbConnection.execute(
-      `SELECT * FROM admins_table WHERE role = 'ADMIN'`
+      `SELECT * FROM admins_table WHERE role IN ('ADMIN', 'VIEWER')  `
     ) ;
     if(dbData['status'] === false){throw dbData ;}
 
@@ -64,6 +64,53 @@ exports.postAddNewAdminsPage = async (req, res)=>{
     ) ;
 
     res.redirect('/admins') ;
+  }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
+    res.render('general/error.hbs', {
+      showBackLink : false,
+      error : e
+    }) ;
+  }
+} ;
+
+
+exports.getEditAdminPage = async(req, res)=>{
+  try{
+    let adminId = req.params.adminId ;
+    let dbData = await dbConnection.execute(
+      `SELECT * FROM admins_table WHERE id = :adminId AND role IN ('ADMIN', 'VIEWER')  `,{
+        adminId
+      }
+    ) ;
+
+    res.render('admin/edit_admin.hbs', {
+      adminData : dbData[0][0],
+    }) ;
+  }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
+    res.render('general/error.hbs', {
+      showBackLink : false,
+      error : e
+    }) ;
+  }
+} ;
+
+
+
+
+
+
+exports.postDeletePage = async (req, res)=>{
+  try{
+    let adminId = req.body.adminId ;
+
+    let dbData = await dbConnection.execute(
+      `DELETE FROM admins_table WHERE id = :adminId AND role IN ('ADMIN', 'VIEWER') `, {
+      adminId
+    }) ;
+
+    res.redirect(`/admins`) ;
+
   }catch (e) {
     logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
     res.render('general/error.hbs', {
