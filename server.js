@@ -84,10 +84,11 @@ app.get('/',  async (req, res)=>{
 }) ;
 
 app.get('/dashboard', authenticationMiddleware.isAuthenticated('dashboard'), async (req, res)=>{
-  res.render("template.hbs") ;
+  res.render("home/home_test.hbs") ;
 }) ;
 
-app.use(require('./routes/routes_auth')) ;
+app.use(require('./routes/router_admins')) ;
+app.use(require('./routes/router_auth')) ;
 app.use(require('./routes/router_blogs')) ;
 app.use(require('./routes/router_gallery')) ;
 app.use(require('./routes/router_info')) ;
