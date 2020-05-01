@@ -13,7 +13,7 @@
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="fa fa-newspaper-o icon-gradient bg-sunny-morning"></i>
+                    <i class="fa fa-user icon-gradient bg-sunny-morning"></i>
                 </div>
                 <div>Edit Admin
                     <div class="page-title-subheading">Change the details of an admin account
@@ -35,12 +35,13 @@
 
     <div class="row">
         <div class="col-md-12 col-lg-7">
-            <div class="card">
+            <div class="card mb-5">
                 <div class="card-header">
                     <div class="card-header-title">Edit Admin Details</div>
                 </div>
                 <div class="card-body">
-                    <form id="form-main" action="/admins/edit/save?_csrf={{_csrfToken}}" method="post">
+                    <form id="form-main" action="/admins/edit/save-details?_csrf={{_csrfToken}}" method="post">
+                        <input name="adminId" type="hidden" value="{{adminData.id}}">
 
                         <div class="form-group row">
                             <label for="input-name" class="col-3 col-form-label">Name</label>
@@ -91,7 +92,7 @@
                             <div class="col-1"></div>
                             <a href="/admins" class="col-4 btn btn-danger">Cancel</a>
                             <div class="col-2"></div>
-                            <input type="submit" class=" col-4 btn btn-success" value="Add User">
+                            <input type="submit" class=" col-4 btn btn-success" value="Save Changes">
                             <div class="col-1" ></div>
                         </div>
 
@@ -100,7 +101,6 @@
             </div>
         </div>
 
-        <br><br><Br>
 
         <div class="col-md-12 col-lg-5">
             <div class="card">
@@ -108,8 +108,8 @@
                     <div class="card-header-title">Edit Password</div>
                 </div>
                 <div class="card-body">
-                    <form id="form-passwordChange" class="panel-login" action="/admins/edit/password-save?_csrf={{_csrfToken}}" method="post">
-
+                    <form id="form-passwordChange" class="panel-login" action="/admins/edit/save-password?_csrf={{_csrfToken}}" method="post">
+                        <input name="adminId" type="hidden" value="{{adminData.id}}">
 
                         <div class="form-group row">
                             <label for="input-password" class="col-3 col-form-label">Password</label>
@@ -121,7 +121,7 @@
                         <div class="form-group row">
                             <label for="input-passwordAgain" class="col-3 col-form-label">Retype Password</label>
                             <div class="col-md-9 wrap-input pwdMask">
-                                <input name = 'passwordAgain' id="input-passwordAgain" class="form-control" type="password"  >
+                                <input name='passwordAgain' id="input-passwordAgain" class="form-control" type="password"  >
                             </div>
                         </div>
 
@@ -131,7 +131,7 @@
                             <div class="col-1"></div>
                             <a href="/admins" class="col-4 btn btn-danger">Cancel</a>
                             <div class="col-2"></div>
-                            <input type="submit" class=" col-4 btn btn-success" value="Add User">
+                            <input type="submit" class=" col-4 btn btn-success" value="Save Changes">
                             <div class="col-1" ></div>
                         </div>
 
@@ -224,14 +224,6 @@
                 required : true,
                 email : true
             },
-            password : {
-                required : true,
-                minlength : 12
-            },
-            passwordAgain : {
-                required : true,
-                equalTo : '#input-password'
-            },
             validUntill : {
                 required : true,
             },
@@ -247,14 +239,6 @@
                 required : "An email address is required",
                 email : "This is not a valid email address"
             },
-            password : {
-                required : "You must provide a password",
-                minlength : "Password must be atleast 12 characters and must contain 1 Uppercase letter, 1 Lowercase letter and 1 Number"
-            },
-            passwordAgain : {
-                required : "This field cannot be empty",
-                equalTo : "Two passwords do not match"
-            },
             validUntill : {
                 required : "You must enter a valid date",
             },
@@ -264,5 +248,49 @@
         },
     }) ;
 
-</script>
+
+    $('#form-passwordChange').validate({
+        errorPlacement : (error, element)=>{
+            //insert the label element after the parent div
+
+            error.insertAfter(element) ;
+            $(error).addClass('text-danger') ;
+
+
+        },
+        highlight: function(element) {
+            // function is invoked on any input element when error occurs for that particular input
+            $(element).addClass('is-invalid') ;
+
+        },
+        unhighlight: function(element) {
+            $(element).removeClass('is-invalid') ;
+
+        },
+        success : (label, element)=>{
+            $(element).addClass("is-valid") ;
+        },
+        rules : {
+            password : {
+                required : true,
+                minlength : 12
+            },
+            passwordAgain : {
+                required : true,
+                equalTo : '#input-password'
+            },
+        },
+        messages : {
+            password : {
+                required : "You must provide a password",
+                minlength : "Password must be atleast 12 characters and must contain 1 Uppercase letter, 1 Lowercase letter and 1 Number"
+            },
+            passwordAgain : {
+                required : "This field cannot be empty",
+                equalTo : "Two passwords do not match"
+            },
+        },
+    }) ;
+
+    </script>
 {{/inline}}

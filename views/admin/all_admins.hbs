@@ -11,7 +11,7 @@
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="fa fa-info icon-gradient bg-mean-fruit"></i>
+                    <i class="fa fa-user icon-gradient bg-mean-fruit"></i>
                 </div>
                 <div>Admin Management
                     <div class="page-title-subheading">Manage all the admins here
@@ -39,7 +39,6 @@
                 <th>Email</th>
                 <th>Acitve</th>
                 <th>Active Untill</th>
-                <th>Change Password</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -58,14 +57,6 @@
                     </td>
                     <td class="td-link" data-href="/admins/view/{{id}}">
                         {{active_till}}
-                    </td>
-                    <td>
-                        <a href="/admins/change-password/{{id}}">
-                            <button type='submit' class='btn btn-alternate' >
-                                <span><i class='fa fa-cogs'></i></span>
-                                Change Password
-                            </button>
-                        </a>
                     </td>
                     <td>
                         <a href="/admins/edit/{{id}}">

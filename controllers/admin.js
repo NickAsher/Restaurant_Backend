@@ -74,6 +74,27 @@ exports.postAddNewAdminsPage = async (req, res)=>{
 } ;
 
 
+exports.postDeletePage = async (req, res)=>{
+  try{
+    let adminId = req.body.adminId ;
+
+    let dbData = await dbConnection.execute(
+      `DELETE FROM admins_table WHERE id = :adminId AND role IN ('ADMIN', 'VIEWER') `, {
+      adminId
+    }) ;
+
+    res.redirect(`/admins`) ;
+
+  }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
+    res.render('general/error.hbs', {
+      showBackLink : false,
+      error : e
+    }) ;
+  }
+} ;
+
+
 exports.getEditAdminPage = async(req, res)=>{
   try{
     let adminId = req.params.adminId ;
@@ -96,20 +117,28 @@ exports.getEditAdminPage = async(req, res)=>{
 } ;
 
 
-
-
-
-
-exports.postDeletePage = async (req, res)=>{
+exports.postEditAdminDetails = async (req, res)=>{
   try{
     let adminId = req.body.adminId ;
+    let email = req.body.email ;
+    let name = req.body.fullname ;
+    let isAccountActive = req.body.isAccountActive ;
+    let activeUntill = req.body.validUntill ;
+    let role = req.body.role ;
 
-    let dbData = await dbConnection.execute(
-      `DELETE FROM admins_table WHERE id = :adminId AND role IN ('ADMIN', 'VIEWER') `, {
+    let dbData = await dbConnection.execute(`
+      UPDATE admins_table
+      SET email = :email,  name= :name, account_is_active = :isAccountActive, active_till = :activeUntill, role = :role
+      WHERE id = :adminId AND role IN ('ADMIN', 'VIEWER') `, {
+      email,
+      name,
+      isAccountActive,
+      activeUntill,
+      role,
       adminId
     }) ;
 
-    res.redirect(`/admins`) ;
+    res.redirect('/admins') ;
 
   }catch (e) {
     logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
@@ -120,8 +149,29 @@ exports.postDeletePage = async (req, res)=>{
   }
 } ;
 
+exports.postEditAdminPassword = async (req, res)=>{
+  try{
+    let adminId = req.body.adminId ;
+    let password = req.body.password ;
+    let passwordHash = await bcrypt.hash(password, 8);
+
+    let dbData = await dbConnection.execute(`
+      UPDATE admins_table SET password_hash = :passwordHash WHERE id = :adminId AND role IN ('ADMIN', 'VIEWER') `, {
+      passwordHash,
+      adminId
+    }) ;
+
+    res.redirect('/admins') ;
 
 
+  }catch (e) {
+    logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
+    res.render('general/error.hbs', {
+      showBackLink : false,
+      error : e
+    }) ;
+  }
+} ;
 
 
 

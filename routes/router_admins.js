@@ -41,6 +41,24 @@ router.post('/admins/add/save', isAuthenticatedPostRequest, [
 router.get('/admins/edit/:adminId', isAuthenticated, errorHandler, controllerAdmins.getEditAdminPage) ;
 
 
+router.post('/admins/edit/save-details', isAuthenticatedPostRequest, [
+  body('fullname', "Fullname is invalid").exists().notEmpty().trim().escape(),
+  body('email', "Email  is invalid").exists().notEmpty().isEmail().trim().normalizeEmail(),
+  body('isAccountActive', "isAccountAcitve is invalid").exists().notEmpty().isBoolean(),
+  body('validUntill', "validUntill is invalid").exists().notEmpty().trim().escape(), //TODO check if it is a valid datetime
+  body('role', "role is invalid").exists().notEmpty().trim().isIn(['ADMIN', 'VIEWER']),
+
+], showValidationError, errorHandler, controllerAdmins.postEditAdminDetails) ;
+
+
+router.post('/admins/edit/save-password', isAuthenticatedPostRequest, [
+  body('password', "Password is invalid").exists().notEmpty().isLength({min:12}).trim(),
+  body('passwordAgain', "Password Again is invalid").exists().notEmpty().custom((value, {req})=>{
+    return value == req.body.password ;
+  }),
+], showValidationError, errorHandler, controllerAdmins.postEditAdminPassword) ;
+
+
 router.post('/admins/delete', isAuthenticatedPostRequest, [
   body('adminId', "Invalid AdminId").exists().notEmpty().isNumeric({no_symbols:true}).trim(),
 ], showValidationError, errorHandler, controllerAdmins.postDeletePage) ;
