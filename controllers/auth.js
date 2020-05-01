@@ -4,6 +4,7 @@ const dbConnection = require('../utils/database') ;
 const bcrypt = require('bcrypt') ;
 const crypto =  require('crypto') ;
 const jwt = require('jsonwebtoken') ;
+const moment = require('moment') ;
 
 
 exports.getLoginPage = async (req, res)=>{
@@ -31,6 +32,10 @@ exports.postLoginPage = async (req, res)=>{
 
     let matched = await bcrypt.compare(password, userData.password_hash);
     if (!matched) {throw "Invalid password";}
+
+    if(!userData.account_is_active || !moment(new Date()).isBefore(userData.active_till)){
+      throw "Account is not active. Contact Rafique" ;
+    }
 
     req.session.isLoggedIn = true ;
     req.session.userId = userData.id ;

@@ -23,12 +23,12 @@ exports.isAuthenticated = (redirectBack)=>{
    *
    */
   return (req, res, next)=>{
-    // if(req.session.isLoggedIn != true){   // checks for both false and undefined this way
-    //   res.redirect(`/login?redirect=${redirectBack}`);
-    //   //TODO show message that you need to be logged in
-    // }else{
+    if(req.session.isLoggedIn != true){   // checks for both false and undefined this way
+      res.redirect(`/login?redirect=${redirectBack}`);
+      //TODO show message that you need to be logged in
+    }else{
       next();
-    // }
+    }
   } ;
 } ;
 
@@ -41,14 +41,14 @@ exports.isAuthenticatedPostRequest =  (req, res, next)=>{
    *    If not, it sends a status:false with error message
    */
 
-    // if(req.session.isLoggedIn != true){   // checks for both false and undefined this way
-    //   res.send({
-    //     status : false,
-    //     e : "User is not authenticated"
-    //   }) ;
-    // }else{
+    if(req.session.isLoggedIn != true){   // checks for both false and undefined this way
+      res.send({
+        status : false,
+        e : "User is not authenticated"
+      }) ;
+    }else{
       next();
-    // }
+    }
 
 } ;
 
