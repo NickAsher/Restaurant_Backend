@@ -34,6 +34,7 @@ exports.postLoginPage = async (req, res)=>{
 
     req.session.isLoggedIn = true ;
     req.session.userId = userData.id ;
+    req.session.permissionLevel = userData.role ;
     res.send({
       status : true,
       success : "USER_LOGGEDIN"

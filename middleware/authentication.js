@@ -1,3 +1,5 @@
+const logger = require('./logging') ;
+
 exports.authRedirectHome = (req, res, next)=>{
   // middleware to redirect already authenticated users to home page
   // this is used when someone who is already authenticated opens login page
@@ -48,4 +50,33 @@ exports.isAuthenticatedPostRequest =  (req, res, next)=>{
       next();
     // }
 
+} ;
+
+
+
+exports.hasMinPermissionLevel_Admin = async (req, res, next)=>{
+  if(req.session.permissionLevel == 'ADMIN' || req.session.permissionLevel == 'OWNER' ){
+    next() ;
+  }else{
+    logger.warn(`{'warn' : 'Does not have appropriate permission','permissionLevel':'${req.session.permissionLevel}'}`) ;
+
+    res.status(422).render('general/error.hbs', {
+      showBackLink : true,
+      backLink : '/dashboard',
+      error :"You do not have the required permission to access this page. Please Contact Rafique Gagneja for permissions.",
+    }) ;
+  }
+} ;
+
+exports.hasMinPermissionLevel_Owner= async (req, res, next)=>{
+  if(req.session.permissionLevel == 'OWNER'){
+    next() ;
+  }else{
+    logger.warn(`{'warn' : 'Does not have appropriate permission','permissionLevel':'${req.session.permissionLevel}'}`) ;
+    res.status(422).render('general/error.hbs', {
+      showBackLink : true,
+      backLink : '/dashboard',
+      error :"You do not have the required permission to access this page. Please Contact Rafique Gagneja for permissions.",
+    }) ;
+  }
 } ;

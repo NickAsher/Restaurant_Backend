@@ -18,13 +18,15 @@ const showValidationError = validationMiddleware.showValidationError(errorBackPa
 const errorHandler = validationMiddleware.myErrorHandler(errorBackPageLink) ;
 const isAuthenticated = authenticationMiddleware.isAuthenticated('dashboard') ;
 const isAuthenticatedPostRequest = authenticationMiddleware.isAuthenticatedPostRequest ;
+const hasMinPermissionLevel_Owner = authenticationMiddleware.hasMinPermissionLevel_Owner ;
 
 
-router.get('/admins', isAuthenticated, errorHandler, controllerAdmins.getAllAdminsPage) ;
 
-router.get('/admins/add', isAuthenticated, errorHandler, controllerAdmins.getAddNewAdminPage) ;
+router.get('/admins', isAuthenticated, hasMinPermissionLevel_Owner, errorHandler, controllerAdmins.getAllAdminsPage) ;
 
-router.post('/admins/add/save', isAuthenticatedPostRequest, [
+router.get('/admins/add', isAuthenticated, hasMinPermissionLevel_Owner, errorHandler, controllerAdmins.getAddNewAdminPage) ;
+
+router.post('/admins/add/save', isAuthenticatedPostRequest, hasMinPermissionLevel_Owner, [
   body('fullname', "Fullname is invalid").exists().notEmpty().trim().escape(),
   body('email', "Email  is invalid").exists().notEmpty().isEmail().trim().normalizeEmail(),
   body('password', "Password is invalid").exists().notEmpty().isLength({min:12}).trim(),
@@ -38,10 +40,11 @@ router.post('/admins/add/save', isAuthenticatedPostRequest, [
 
 ], showValidationError, errorHandler, controllerAdmins.postAddNewAdminsPage) ;
 
-router.get('/admins/edit/:adminId', isAuthenticated, errorHandler, controllerAdmins.getEditAdminPage) ;
+
+router.get('/admins/edit/:adminId', isAuthenticated, hasMinPermissionLevel_Owner, errorHandler, controllerAdmins.getEditAdminPage) ;
 
 
-router.post('/admins/edit/save-details', isAuthenticatedPostRequest, [
+router.post('/admins/edit/save-details', isAuthenticatedPostRequest, hasMinPermissionLevel_Owner, [
   body('fullname', "Fullname is invalid").exists().notEmpty().trim().escape(),
   body('email', "Email  is invalid").exists().notEmpty().isEmail().trim().normalizeEmail(),
   body('isAccountActive', "isAccountAcitve is invalid").exists().notEmpty().isBoolean(),
@@ -51,7 +54,7 @@ router.post('/admins/edit/save-details', isAuthenticatedPostRequest, [
 ], showValidationError, errorHandler, controllerAdmins.postEditAdminDetails) ;
 
 
-router.post('/admins/edit/save-password', isAuthenticatedPostRequest, [
+router.post('/admins/edit/save-password', isAuthenticatedPostRequest, hasMinPermissionLevel_Owner, [
   body('password', "Password is invalid").exists().notEmpty().isLength({min:12}).trim(),
   body('passwordAgain', "Password Again is invalid").exists().notEmpty().custom((value, {req})=>{
     return value == req.body.password ;
@@ -59,7 +62,7 @@ router.post('/admins/edit/save-password', isAuthenticatedPostRequest, [
 ], showValidationError, errorHandler, controllerAdmins.postEditAdminPassword) ;
 
 
-router.post('/admins/delete', isAuthenticatedPostRequest, [
+router.post('/admins/delete', isAuthenticatedPostRequest, hasMinPermissionLevel_Owner, [
   body('adminId', "Invalid AdminId").exists().notEmpty().isNumeric({no_symbols:true}).trim(),
 ], showValidationError, errorHandler, controllerAdmins.postDeletePage) ;
 
