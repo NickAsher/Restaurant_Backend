@@ -46,7 +46,11 @@
                 <label for="input-category-active" class="col-3 col-form-label">Category Active</label>
                 <div class="col-md-9">
                     <input id="input-category-active" class="form-control" type="hidden" value="{{categoryData.category_is_active}}" readonly >
-                    <input id="input-category-active-presentation" type="checkbox" class="form-control" {{#if categoryData.category_is_active}} checked="checked" {{/if}} disabled data-toggle="toggle" data-width="100" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-times'></i>" >
+                    {{#if categoryData.category_is_active}}
+                        <button class='btn btn-success active my-cursor-default pr-5 pl-5' ><i class='fa fa-check'></i></button>
+                    {{else}}
+                        <button class='btn btn-danger active my-cursor-default pr-5 pl-5' ><i class='fa fa-times'></i></button>
+                    {{/if}}
                 </div>
             </div>
             <br>

@@ -88,7 +88,9 @@ input[type=number] {
   transform: translate(-50%, -50%);
 }
 
-
+.my-cursor-default{
+  cursor: default !important;
+}
 
 .addon-btn-toggle {
   // Pure CSS switcher.

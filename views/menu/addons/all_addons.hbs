@@ -124,7 +124,7 @@
                                         {{#ifEquals ../addon_group_type 'radio' }}
                                             <td class='td-link' data-href='/menu/addons/view/{{item_id}}'>
                                                 {{#if item_is_default}}
-                                                    <button class='btn btn-success' >Yes</button>
+                                                    <button class='btn btn-success active' >Yes</button>
                                                 {{else}}
                                                 {{/if}}
                                             </td>
@@ -133,9 +133,9 @@
 
                                         <td class='td-link' data-href='/menu/addons/view/{{item_id}}'>
                                             {{#if item_is_active}}
-                                                <button class='btn btn-success' ><i class='fa fa-check'></i></button>
+                                                <button class='btn btn-success active' ><i class='fa fa-check'></i></button>
                                             {{else}}
-                                                <button class='btn btn-danger' ><i class='fa fa-times'></i></button>
+                                                <button class='btn btn-danger active' ><i class='fa fa-times'></i></button>
                                             {{/if}}
                                         </td>
                                         <td>
