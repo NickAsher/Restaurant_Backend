@@ -122,6 +122,7 @@
 </body>
 <script src="/lib/jquery/jquery.js" ></script>
 <script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="/lib/jquery-validation/dist/jquery-validate-my-methods.js"></script>
 <script src="/lib/bootstrap4/bootstrap.min.js" ></script>
 <script src="/lib/toastr/toastr.min.js" ></script>
 <script src="/lib/t3/t3.js"></script>
@@ -268,7 +269,8 @@
                 },
                 password : {
                     required : true,
-                    minlength : 4
+                    minlength : 8,
+                    // myPasswordCheck : true
                 }
             },
             messages : {
@@ -278,7 +280,7 @@
                 },
                 password : {
                     required : "Please type a password",
-                    minlength: "Password must be atleast 8 letters"
+                    minlength: "Password must be atleast 8 letters",
                 }
 
             },

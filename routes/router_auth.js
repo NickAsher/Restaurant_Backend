@@ -12,6 +12,7 @@ const upload = validationMiddleware.upload ;
 const checkFileMagicNumber = validationMiddleware.checkFileMagicNumber ;
 const showValidationError = validationMiddleware.showValidationError(errorBackPageLink) ;
 const errorHandler = validationMiddleware.myErrorHandler(errorBackPageLink) ;
+const customValidation_Password = validationMiddleware.customValidation_Password ;
 
 const authRedirectHome = authenticationMiddleware.authRedirectHome ;
 
@@ -20,7 +21,7 @@ router.get('/login', authRedirectHome, errorHandler, controllerAuth.getLoginPage
 
 router.post('/login',[
   body('email', "Invalid Email address").exists().notEmpty().isEmail().trim().normalizeEmail(),
-  body('password', "Invalid Password ").exists().notEmpty().isLength({min:8}).trim(),
+  body('password', "Invalid Password ").exists().notEmpty().trim().isLength({min:8}).custom(customValidation_Password),
 ], showValidationError, errorHandler, controllerAuth.postLoginPage) ;
 
 router.post('/forgotPassword', [
@@ -34,10 +35,8 @@ router.get('/resetPassword/:resetToken', errorHandler, controllerAuth.getResetPa
 
 router.post('/resetPassword', [
   body('post_resetToken', "ressetToken does noot exist").exists().not().isEmpty(),
-  body('post_newPassword', "Password must be 8 characters long and must contain atleast number and 1 special character")
-    .isLength({min:8}).trim(),
-  body('post_newPasswordAgain', "Passwords do not match")
-    .isLength({min:8}).custom((value, {req})=>{
+  body('post_newPassword', "Invalid Password").exists().notEmpty().trim().isLength({min:8}).custom(customValidation_Password),
+  body('post_newPasswordAgain', "Passwords do not match").exists().notEmpty().isLength({min:8}).custom((value, {req})=>{
     return value == req.body.post_newPassword ;
   }),
 ], showValidationError, errorHandler, controllerAuth.postResetPasswordToken) ;

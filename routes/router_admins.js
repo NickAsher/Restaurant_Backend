@@ -16,6 +16,8 @@ let errorBackPageLink = "/dashboard" ;
 
 const showValidationError = validationMiddleware.showValidationError(errorBackPageLink) ;
 const errorHandler = validationMiddleware.myErrorHandler(errorBackPageLink) ;
+const customValidation_Password = validationMiddleware.customValidation_Password ;
+
 const isAuthenticated = authenticationMiddleware.isAuthenticated('dashboard') ;
 const isAuthenticatedPostRequest = authenticationMiddleware.isAuthenticatedPostRequest ;
 const hasMinPermissionLevel_Owner = authenticationMiddleware.hasMinPermissionLevel_Owner ;
@@ -29,7 +31,7 @@ router.get('/admins/add', isAuthenticated, hasMinPermissionLevel_Owner, errorHan
 router.post('/admins/add/save', isAuthenticatedPostRequest, hasMinPermissionLevel_Owner, [
   body('fullname', "Fullname is invalid").exists().notEmpty().trim().escape(),
   body('email', "Email  is invalid").exists().notEmpty().isEmail().trim().normalizeEmail(),
-  body('password', "Password is invalid").exists().notEmpty().isLength({min:12}).trim(),
+  body('password', "Password is invalid").exists().notEmpty().isLength({min:12}).trim().custom(customValidation_Password),
   body('passwordAgain', "Password Again is invalid").exists().notEmpty().custom((value, {req})=>{
     return value == req.body.password ;
   }),
@@ -55,7 +57,7 @@ router.post('/admins/edit/save-details', isAuthenticatedPostRequest, hasMinPermi
 
 
 router.post('/admins/edit/save-password', isAuthenticatedPostRequest, hasMinPermissionLevel_Owner, [
-  body('password', "Password is invalid").exists().notEmpty().isLength({min:12}).trim(),
+  body('password', "Password is invalid").exists().notEmpty().isLength({min:12}).trim().custom(customValidation_Password),
   body('passwordAgain', "Password Again is invalid").exists().notEmpty().custom((value, {req})=>{
     return value == req.body.password ;
   }),
