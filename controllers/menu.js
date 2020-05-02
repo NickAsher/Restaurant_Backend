@@ -77,7 +77,7 @@ exports.postEditCategoryPage = async (req,res)=>{
     if(!req.file){
       // no image is uploaded, so keep the existing image and just change the data
       dbData = await dbConnection.execute(`
-        UPDATE menu_meta_category_table SET category_name = :categoryName, category_is_active = :categoryIsActive 
+        UPDATE menu_category_table SET category_name = :categoryName, category_is_active = :categoryIsActive 
         WHERE category_id = :categoryId `, {
         categoryName,
         categoryIsActive,
@@ -90,7 +90,7 @@ exports.postEditCategoryPage = async (req,res)=>{
 
       fs.unlinkSync(Constants.IMAGE_PATH + oldImageFileName) ;
       dbData = await dbConnection.execute(`
-        UPDATE menu_meta_category_table 
+        UPDATE menu_category_table 
         SET category_name = :categoryName, category_is_active = :categoryIsActive, category_image = :newImageFileName 
         WHERE category_id = :categoryId `, {
         categoryName,
@@ -135,9 +135,9 @@ exports.postAddCategoryPage = async (req, res)=>{
     let newImageFileName = req.myFileName ;
 
     let dbData = await dbConnection.execute(
-      `INSERT INTO menu_meta_category_table (category_sr_no, category_name, category_is_active, category_image) 
+      `INSERT INTO menu_category_table (category_sr_no, category_name, category_is_active, category_image) 
       SELECT COALESCE( (MAX( category_sr_no ) + 1), 1) , :categoryName , :categoryIsActive , :newImageFileName 
-      FROM menu_meta_category_table `, {
+      FROM menu_category_table `, {
         categoryName,
         categoryIsActive,
         newImageFileName,
@@ -177,7 +177,7 @@ exports.postDeleteCategoryPage = async (req, res)=>{
     await explicitConnection.beginTransaction() ;
 
     let dbCategoryTable = await explicitConnection.execute(
-      `DELETE FROM menu_meta_category_table WHERE category_id = :categoryId`,{
+      `DELETE FROM menu_category_table WHERE category_id = :categoryId`,{
       categoryId
     }) ;
 
@@ -202,12 +202,12 @@ exports.postDeleteCategoryPage = async (req, res)=>{
       }) ;
 
     let dbSizeTable = await explicitConnection.execute(
-      `DELETE FROM menu_meta_size_table WHERE size_category_id = :categoryId`,{
+      `DELETE FROM menu_size_table WHERE size_category_id = :categoryId`,{
         categoryId
       }) ;
 
     let dbAddonGroupTable = await explicitConnection.execute(
-      `DELETE FROM menu_meta_addongroups_table WHERE category_id = :categoryId`,{
+      `DELETE FROM menu_addongroups_table WHERE category_id = :categoryId`,{
         categoryId
       }) ;
 
@@ -255,7 +255,7 @@ exports.postArrangeCategoryPage = async (req,res)=>{
   try{
     let newArray = JSON.parse(req.body.sortedArray);
 
-    let sqlCaseString = "UPDATE menu_meta_category_table SET category_sr_no = CASE " ;
+    let sqlCaseString = "UPDATE menu_category_table SET category_sr_no = CASE " ;
     newArray.forEach((element, index)=>{
       // element is category_id
       sqlCaseString += ` WHEN category_id = ${element} THEN ${index} ` ;
@@ -1162,7 +1162,7 @@ exports.postEditSizePage = async (req, res)=>{
     let isSizeActive = req.body.isSizeActive ;
 
     let dbData = await dbConnection.execute(`
-    UPDATE menu_meta_size_table
+    UPDATE menu_size_table
      SET size_name = :sizeName, size_name_short = :sizeNameAbbreviated, size_is_active = :isSizeActive
      WHERE size_id = :sizeId`,{
       sizeName,
@@ -1224,10 +1224,10 @@ exports.postAddSizePage = async(req, res)=>{
     await explicitConnection.beginTransaction() ;
 
     let dbData = await explicitConnection.execute(`
-    INSERT INTO menu_meta_size_table
+    INSERT INTO menu_size_table
     (size_sr_no, size_category_id, size_name, size_name_short, size_is_active)
     SELECT COALESCE( (MAX( size_sr_no ) + 1), 1), :categoryId , :sizeName , :sizeNameAbbreviated , :isSizeActive 
-    FROM menu_meta_size_table WHERE size_category_id = :categoryId `,{
+    FROM menu_size_table WHERE size_category_id = :categoryId `,{
       categoryId,
       sizeName,
       sizeNameAbbreviated,
@@ -1285,7 +1285,7 @@ exports.postDeleteSizePage = async(req, res)=>{
     await explicitConnection.beginTransaction() ;
 
     let dbSizeData = await explicitConnection.execute(
-      `DELETE FROM menu_meta_size_table WHERE size_id = :sizeId`,{
+      `DELETE FROM menu_size_table WHERE size_id = :sizeId`,{
       sizeId
     }) ;
 
@@ -1342,7 +1342,7 @@ exports.postArrangeSizesPage = async (req, res)=>{
     let categoryId = req.body.categoryId ;
     let newArray = JSON.parse(req.body.sortedArray);
 
-    let sqlCaseString = "UPDATE menu_meta_size_table SET size_sr_no = CASE " ;
+    let sqlCaseString = "UPDATE menu_size_table SET size_sr_no = CASE " ;
     newArray.forEach((element, index)=>{
       // element is just the sizeId
       sqlCaseString += ` WHEN size_id = ${element} THEN ${index} ` ;
@@ -1403,7 +1403,7 @@ exports.postChangeDefaultSizePage = async (req, res)=>{
     let dbSizeData = await dbRepository.getAllSizesInCategory(categoryId, false) ;
     if(dbSizeData.status != true){throw dbSizeData ;}
 
-    let sqlCaseString = "UPDATE menu_meta_size_table SET size_is_default = CASE " ;
+    let sqlCaseString = "UPDATE menu_size_table SET size_is_default = CASE " ;
     dbSizeData.data.forEach((element)=>{
       // element is an sizeElement
       if(element.size_id == newDefaultSizeId){
@@ -1503,7 +1503,7 @@ exports.postEditAddonGroupPage = async (req, res)=>{
     let isAddonGroupActive = req.body.isAddonGroupActive ;
 
     let dbData = await dbConnection.execute(
-      `UPDATE menu_meta_addongroups_table
+      `UPDATE menu_addongroups_table
       SET addon_group_display_name = :addonGroupName, addon_group_type = :addonGroupType, addon_group_is_active = :isAddonGroupActive
       WHERE rel_id = :addonGroupId`,{
         addonGroupName,
@@ -1555,10 +1555,10 @@ exports.postAddAddonGroupPage = async(req, res)=> {
 
 
     let dbData = await dbConnection.execute(`
-    INSERT INTO menu_meta_addongroups_table
+    INSERT INTO menu_addongroups_table
     (addon_group_sr_no, category_id, addon_group_display_name, addon_group_type, addon_group_is_active)
     SELECT COALESCE( (MAX( addon_group_sr_no ) + 1), 1), :categoryId , :addonGroupName , :addonGroupType , :isAddonGroupActive 
-    FROM menu_meta_addongroups_table WHERE category_id = :categoryId `, {
+    FROM menu_addongroups_table WHERE category_id = :categoryId `, {
       categoryId,
       addonGroupName,
       addonGroupType,
@@ -1583,7 +1583,7 @@ exports.postDeleteAddonGroupPage = async (req, res)=>{
     let addonGroupId = req.body.addonGroupId ;
 
     let dbDeleteData = await dbConnection.execute(
-      `DELETE FROM menu_meta_addongroups_table WHERE rel_id = :addonGroupId`,{
+      `DELETE FROM menu_addongroups_table WHERE rel_id = :addonGroupId`,{
         addonGroupId
       }) ;
 
@@ -1632,7 +1632,7 @@ exports.postArrangeAddonGroupPage = async (req, res)=>{
     let categoryId = req.body.categoryId ;
     let newArray = JSON.parse(req.body.sortedArray);
 
-    let sqlCaseString = "UPDATE menu_meta_addongroups_table SET addon_group_sr_no = CASE " ;
+    let sqlCaseString = "UPDATE menu_addongroups_table SET addon_group_sr_no = CASE " ;
     newArray.forEach((element, index)=>{
       // element is just the addonGroupId
       sqlCaseString += ` WHEN rel_id = ${element} THEN ${index} ` ;

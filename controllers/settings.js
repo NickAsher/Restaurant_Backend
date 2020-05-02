@@ -68,14 +68,14 @@ exports.postTruncateTables = async (req, res)=>{
       TRUNCATE TABLE info_contact_table;
       TRUNCATE TABLE menu_addons_table ;
       TRUNCATE TABLE menu_items_table ;
-      TRUNCATE TABLE menu_meta_addongroups_table ;
-      TRUNCATE TABLE menu_meta_category_table ;
+      TRUNCATE TABLE menu_addongroups_table ;
+      TRUNCATE TABLE menu_category_table ;
       TRUNCATE TABLE menu_meta_rel_size_addons_table ;
       TRUNCATE TABLE menu_meta_rel_size_items_table ;
-      TRUNCATE TABLE menu_meta_size_table ;
+      TRUNCATE TABLE menu_size_table ;
       TRUNCATE TABLE menu_meta_subcategory_table ;
       TRUNCATE TABLE offer_special_table ;
-      TRUNCATE TABLE order_table2 ;
+      TRUNCATE TABLE order_table ;
     `) ;
     res.send({
       status : true,

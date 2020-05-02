@@ -314,7 +314,7 @@ exports.getAllOrders_OfToday = async(date)=>{
 
 
     let dbData = await dbConnection.execute(
-      `SELECT * FROM order_table2 WHERE datetime > :startDate AND datetime < :endDate`, {
+      `SELECT * FROM order_table WHERE datetime > :startDate AND datetime < :endDate`, {
       startDate,
       endDate
     }) ;
@@ -333,7 +333,7 @@ exports.getAllOrders_OfToday = async(date)=>{
 exports.changeOrderStatus = async(orderId, newOrderStatus)=>{
   try{
     let dbData = await dbConnection.execute(
-      ` UPDATE order_table2 SET status = :newOrderStatus WHERE id = :orderId`, {
+      ` UPDATE order_table SET status = :newOrderStatus WHERE id = :orderId`, {
         newOrderStatus,
         orderId
     }) ;
@@ -355,7 +355,7 @@ exports.changeOrderStatus = async(orderId, newOrderStatus)=>{
 exports.getAllMenuCategories = async ()=>{
   try{
     let dbData = await dbConnection.execute(
-        "SELECT * FROM `menu_meta_category_table` ORDER BY `category_sr_no` ASC"
+        "SELECT * FROM `menu_category_table` ORDER BY `category_sr_no` ASC"
     ) ;
 
     return {
@@ -377,7 +377,7 @@ exports.getAllMenuCategories = async ()=>{
 exports.getSingleMenuCategory = async (categoryId)=>{
   try{
     let dbData = await dbConnection.execute(
-        `SELECT * FROM menu_meta_category_table WHERE category_id = :categoryId `,{
+        `SELECT * FROM menu_category_table WHERE category_id = :categoryId `,{
           categoryId
       }) ;
     if(dbData[0].length != 1){
@@ -441,7 +441,7 @@ exports.getAllAddonGroups_SeperatedByCategory = async()=>{
     if(dbCategoryData.status != true){throw dbCategoryData ;}
 
     let dbAddonGroupData = await dbConnection.execute(
-      `SELECT * FROM menu_meta_addongroups_table ORDER BY category_id ASC, addon_group_sr_no ASC `
+      `SELECT * FROM menu_addongroups_table ORDER BY category_id ASC, addon_group_sr_no ASC `
     ) ;
 
     let categoryData = dbCategoryData.data ;
@@ -469,7 +469,7 @@ exports.getAllAddonGroups_SeperatedByCategory = async()=>{
 exports.getAllAddonGroupsInCategory = async (categoryId)=>{
   try{
     let dbData = await dbConnection.execute(
-        `SELECT * FROM menu_meta_addongroups_table WHERE category_id = :categoryId ORDER BY addon_group_sr_no ASC `,{
+        `SELECT * FROM menu_addongroups_table WHERE category_id = :categoryId ORDER BY addon_group_sr_no ASC `,{
           categoryId
       }) ;
     return {
@@ -490,7 +490,7 @@ exports.getAllAddonGroupsInCategory = async (categoryId)=>{
 exports.getAllAddonGroups_NamesOnly = async()=>{
   try{
     let dbData = await dbConnection.execute(
-      `SELECT rel_id, addon_group_display_name FROM menu_meta_addongroups_table `) ;
+      `SELECT rel_id, addon_group_display_name FROM menu_addongroups_table `) ;
     return {
       status : true,
       data : dbData['0'],
@@ -508,10 +508,10 @@ exports.getAllAddonGroups_NamesOnly = async()=>{
 exports.getSingleAddonGroup = async (addonGroupId)=>{
   try{
     let dbData = await dbConnection.execute(
-        `SELECT * FROM menu_meta_addongroups_table
-         INNER JOIN menu_meta_category_table
-         ON menu_meta_addongroups_table.category_id = menu_meta_category_table.category_id 
-         WHERE menu_meta_addongroups_table.rel_id = '${addonGroupId}' 
+        `SELECT * FROM menu_addongroups_table
+         INNER JOIN menu_category_table
+         ON menu_addongroups_table.category_id = menu_category_table.category_id 
+         WHERE menu_addongroups_table.rel_id = '${addonGroupId}' 
      `) ;
 
     if(dbData[0].length != 1){
@@ -633,11 +633,11 @@ exports.getAllAddonItems_NamesOnly = async()=>{
 exports.getSingleAddonItem = async(addonItemId)=>{
   try{
     let dbData = await dbConnection.execute(`
-    SELECT menu_addons_table.*, menu_meta_addongroups_table.*, menu_meta_category_table.*
-    FROM menu_addons_table INNER JOIN menu_meta_addongroups_table
-    ON menu_addons_table.item_addon_group_rel_id = menu_meta_addongroups_table.rel_id
-    INNER JOIN menu_meta_category_table
-    ON menu_meta_category_table.category_id = menu_meta_addongroups_table.category_id
+    SELECT menu_addons_table.*, menu_addongroups_table.*, menu_category_table.*
+    FROM menu_addons_table INNER JOIN menu_addongroups_table
+    ON menu_addons_table.item_addon_group_rel_id = menu_addongroups_table.rel_id
+    INNER JOIN menu_category_table
+    ON menu_category_table.category_id = menu_addongroups_table.category_id
     WHERE menu_addons_table.item_id = '${addonItemId}'
     `) ;
 
@@ -660,8 +660,8 @@ exports.getSingleAddonItem_PriceData = async (addonItemId)=>{
   try{
     let dbData = await dbConnection.execute(`
       SELECT * FROM menu_meta_rel_size_addons_table
-      INNER JOIN menu_meta_size_table 
-      ON  menu_meta_rel_size_addons_table.size_id = menu_meta_size_table.size_id
+      INNER JOIN menu_size_table 
+      ON  menu_meta_rel_size_addons_table.size_id = menu_size_table.size_id
       WHERE menu_meta_rel_size_addons_table.addon_id = '${addonItemId}'
     `) ;
     return {
@@ -689,11 +689,11 @@ exports.getAllSizesInCategory = async (categoryId, activeOnly=false)=>{
   try{
     let sqlString ;
     if(activeOnly){
-      sqlString = `SELECT * FROM menu_meta_size_table
+      sqlString = `SELECT * FROM menu_size_table
           WHERE size_category_id = '${categoryId}' AND size_is_active = '1'
           ORDER BY size_sr_no ASC ` ;
     }else{
-      sqlString = `SELECT * FROM menu_meta_size_table
+      sqlString = `SELECT * FROM menu_size_table
           WHERE size_category_id = '${categoryId}'
           ORDER BY size_sr_no ASC ` ;
     }
@@ -716,7 +716,7 @@ exports.getAllSizesInCategory = async (categoryId, activeOnly=false)=>{
 exports.getAllSizes_NamesOnly = async()=>{
   try{
     let dbData = await dbConnection.execute(
-      `SELECT size_id, size_name FROM menu_meta_size_table `) ;
+      `SELECT size_id, size_name FROM menu_size_table `) ;
     return {
       status : true,
       data : dbData['0'],
@@ -733,7 +733,7 @@ exports.getAllSizes_NamesOnly = async()=>{
 exports.getSingleSize = async (sizeId)=>{
   try{
     let dbData = await dbConnection.execute(
-      `SELECT * FROM menu_meta_size_table WHERE size_id = :sizeId`,{
+      `SELECT * FROM menu_size_table WHERE size_id = :sizeId`,{
       sizeId
     }) ;
 
@@ -829,9 +829,9 @@ exports.getAllMenuItems_NameOnly = async()=>{
 exports.getSingleMenuItem = async (itemId)=>{
   try{
     let dbData = await dbConnection.execute(
-        `SELECT * FROM menu_items_table, menu_meta_category_table
+        `SELECT * FROM menu_items_table, menu_category_table
         WHERE menu_items_table.item_id = '${itemId}'
-        AND menu_meta_category_table.category_id = menu_items_table.item_category_id `
+        AND menu_category_table.category_id = menu_items_table.item_category_id `
     ) ;
 
     if(dbData[0].length != 1){
@@ -855,8 +855,8 @@ exports.getSingleMenuItem_PriceData = async (itemId)=>{
   try{
     let dbData = await dbConnection.execute(`
       SELECT * FROM menu_meta_rel_size_items_table
-      INNER JOIN menu_meta_size_table 
-      ON  menu_meta_rel_size_items_table.size_id = menu_meta_size_table.size_id
+      INNER JOIN menu_size_table 
+      ON  menu_meta_rel_size_items_table.size_id = menu_size_table.size_id
       WHERE menu_meta_rel_size_items_table.item_id = '${itemId}'
     `) ;
     return {

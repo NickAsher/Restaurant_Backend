@@ -35,7 +35,7 @@ router.get('/resetPassword/:resetToken', errorHandler, controllerAuth.getResetPa
 router.post('/resetPassword', [
   body('post_resetToken', "ressetToken does noot exist").exists().not().isEmpty(),
   body('post_newPassword', "Password must be 8 characters long and must contain atleast number and 1 special character")
-    .isLength({min:8}),
+    .isLength({min:8}).trim(),
   body('post_newPasswordAgain', "Passwords do not match")
     .isLength({min:8}).custom((value, {req})=>{
     return value == req.body.post_newPassword ;
