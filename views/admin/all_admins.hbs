@@ -39,6 +39,7 @@
                 <th>Email</th>
                 <th>Acitve</th>
                 <th>Active Untill</th>
+                <th>Role</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -55,9 +56,8 @@
                             <button class='btn btn-danger active my-cursor-default' ><i class='fa fa-times'></i></button>
                         {{/if}}
                     </td>
-                    <td>
-                        {{active_till}}
-                    </td>
+                    <td>{{active_till}}</td>
+                    <td>{{role}}</td>
                     <td>
                         <a href="/admins/edit/{{id}}">
                             <button type='submit' class='btn btn-info' >

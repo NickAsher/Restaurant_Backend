@@ -5,7 +5,10 @@ const bcrypt = require('bcrypt') ;
 const crypto =  require('crypto') ;
 const jwt = require('jsonwebtoken') ;
 const moment = require('moment') ;
+const redis = require('redis') ;
+const session = require('express-session') ;
 
+let redisStore = require('connect-redis')(session) ;
 
 exports.getLoginPage = async (req, res)=>{
   try{
@@ -40,6 +43,7 @@ exports.postLoginPage = async (req, res)=>{
     req.session.isLoggedIn = true ;
     req.session.userId = userData.id ;
     req.session.permissionLevel = userData.role ;
+    req.session.adminName = userData.name ;
     res.send({
       status : true,
       success : "USER_LOGGEDIN"
@@ -92,6 +96,8 @@ exports.postSignout = async(req, res)=>{
   try{
     req.session.destroy() ;
     res.clearCookie('my_session_id_backend') ;
+    // res.removeHeader('Cookie') ;
+    // redisStore.
     res.redirect('/') ;
   }catch (e) {
     logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
