@@ -1,5 +1,5 @@
 const logger = require('../middleware/logging') ;
-const dbRepository = require('../utils/DbRepository') ;
+const dbRepository = require('../data/DbRepository') ;
 const dbConnection = require('../utils/database') ;
 const bcrypt = require('bcrypt') ;
 const crypto =  require('crypto') ;

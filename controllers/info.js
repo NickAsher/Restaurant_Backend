@@ -1,7 +1,7 @@
 const path = require('path') ;
 const fs = require('fs') ;
 const dbConnection = require('../utils/database') ;
-const dbRepository = require('../utils/DbRepository') ;
+const dbRepository = require('../data/DbRepository') ;
 const Constants = require('../utils/Constants') ;
 const logger = require('../middleware/logging') ;
 

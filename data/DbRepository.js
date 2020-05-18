@@ -1,5 +1,5 @@
 const express = require('express') ;
-const dbConnection  = require('./database') ;
+const dbConnection  = require('../utils/database') ;
 const _ = require('lodash') ;
 const moment = require('moment') ;
 

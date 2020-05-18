@@ -1,5 +1,5 @@
 const logger = require('../middleware/logging') ;
-const dbRepository = require('../utils/DbRepository') ;
+const dbRepository = require('../data/DbRepository') ;
 const dbConnection = require('../utils/database2') ;
 const fs = require('fs') ;
 const fs_extra = require('fs-extra') ;

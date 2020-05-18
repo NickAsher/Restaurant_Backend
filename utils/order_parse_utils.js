@@ -1,5 +1,5 @@
 const dbConnection = require('../utils/database') ;
-const dbRepository = require('../utils/DbRepository') ;
+const dbRepository = require('../data/DbRepository') ;
 const logger = require('../middleware/logging') ;
 
 
