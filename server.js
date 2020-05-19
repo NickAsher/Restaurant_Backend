@@ -11,6 +11,7 @@ const logger = require('./middleware/logging') ;
 const authenticationMiddleware = require('./middleware/authentication') ;
 const redis = require('redis') ;
 let redisStore = require('connect-redis')(session) ;
+require('dotenv').config() ;
 
 const app = express() ;
 app.set('view engine', 'hbs') ;
@@ -34,8 +35,9 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(cookieParser()) ;
 
+
 let redisClient = redis.createClient({
-  host : '127.0.0.1',
+  host : process.env.NODE_ENV == 'production' ? process.env.REDIS_HOST_PRODUCTION : process.env.REDIS_HOST_LOCAL,
   port : 6379
 }) ;
 
