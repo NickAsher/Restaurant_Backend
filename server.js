@@ -37,7 +37,8 @@ app.use(cookieParser()) ;
 
 
 let redisClient = redis.createClient({
-  host : process.env.NODE_ENV == 'production' ? process.env.REDIS_HOST_PRODUCTION : process.env.REDIS_HOST_LOCAL,
+  // host : process.env.NODE_ENV == 'production' ? process.env.REDIS_HOST_PRODUCTION : process.env.REDIS_HOST_LOCAL,
+  host : '127.0.0.1',
   port : 6379
 }) ;
 
@@ -48,7 +49,7 @@ app.use(session({
   saveUninitialized : false, //don't save an empty session
   cookie : {
     maxAge: 1000 * 60 * 60 * 24,
-    sameSite :true,
+    sameSite :'lax',
     secret : "something",
     secure :false // use it when using https
   },
@@ -106,6 +107,8 @@ app.use((req, res, next)=>{
   res.locals._csrfToken = req.csrfToken() ; // this method will create a new csrf token
   res.locals.adminName = req.session.adminName ;
   res.locals.permissionLevel = req.session.permissionLevel ;
+  res.locals.isEnvironmentProduction = process.env.NODE_ENV == 'production' ? true : false ;
+
   // res.locals.signedIn = req.session.isLoggedIn ;
   next() ;
 }) ;

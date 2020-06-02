@@ -175,8 +175,12 @@
 
 {{#*inline "partial_body_script"}}
 
+    {{#if isEnvironmentProduction}}
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/tinymce.min.js"></script>
+    {{else}}
+        <script type="text/javascript" src="/lib/tinymce/js/tinymce/tinymce.min.js"></script>
+    {{/if}}
 
-<script type="text/javascript" src="/lib/tinymce/js/tinymce/tinymce.min.js"></script>
 <script>
 
     jQuery.validator.addMethod("myPhoneNumber", function (value, element) {

@@ -1,9 +1,12 @@
 {{#*inline "partial_head"}}
     <link rel = "stylesheet" href="/css/login.css" >
 
-    <link rel = "stylesheet" href="/lib/bootstrap-toggle/bootstrap-toggle.css" >
-    <link rel = "stylesheet" href="/lib/jquery-datetime/jquery.datetimepicker.min.css" >
-    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" >-->
+    {{#if isEnvironmentProduction}}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" >
+    {{else}}
+        <link rel = "stylesheet" href="/lib/jquery-datetime/jquery.datetimepicker.min.css" >
+    {{/if}}
+
 {{/inline}}
 
 {{#> template_base}}
@@ -110,9 +113,11 @@
 
 
 {{#*inline "partial_body_script"}}
-    <script type="text/javascript" src="/lib/bootstrap-toggle/bootstrap-toggle.js" ></script>
-    <script src="/lib/jquery-datetime/jquery.datetimepicker.full.min.js" ></script>
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.js" ></script>-->
+    {{#if isEnvironmentProduction}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.js" ></script>
+    {{else}}
+        <script src="/lib/jquery-datetime/jquery.datetimepicker.full.min.js" ></script>
+    {{/if}}
 
     <script>
 

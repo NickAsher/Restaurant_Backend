@@ -1,11 +1,4 @@
-{{#*inline "partial_head"}}
-    <link rel = "stylesheet" href="/lib/bootstrap-toggle/bootstrap-toggle.css" >
-
-{{/inline}}
-
-
 {{#> template_base}}
-
     <!--Page Title-->
     <div class="app-page-title">
         <div class="page-title-wrapper">
@@ -33,80 +26,74 @@
     <!--Page Title /End-->
 
 
-                        <div class="card">
-                            <div class="card-body">
+    <div class="card">
+        <div class="card-body">
 
-                                <div class="form-group row">
-                                    <label for="input-item-name" class="col-3 col-form-label">Item Name</label>
-                                    <div class="col-md-9">
-                                        <input id="input-item-name" name="itemName" class="form-control" type="text" value="{{addonData.item_name}}" disabled>
-                                    </div>
-                                </div>
+            <div class="form-group row">
+                <label for="input-item-name" class="col-3 col-form-label">Item Name</label>
+                <div class="col-md-9">
+                    <input id="input-item-name" name="itemName" class="form-control" type="text" value="{{addonData.item_name}}" disabled>
+                </div>
+            </div>
 
-                                <div class="form-group row">
-                                    <label for="input-item-category" class="col-3 col-form-label">Item Category</label>
-                                    <div class="col-md-9">
-                                        <input id="input-item-category" class="form-control" type="text" value="{{addonData.category_name}}" disabled>
-                                    </div>
-                                </div>
+            <div class="form-group row">
+                <label for="input-item-category" class="col-3 col-form-label">Item Category</label>
+                <div class="col-md-9">
+                    <input id="input-item-category" class="form-control" type="text" value="{{addonData.category_name}}" disabled>
+                </div>
+            </div>
 
-                                <div class="form-group row">
-                                    <label for="input-item-category" class="col-3 col-form-label">Item Addon-Group</label>
-                                    <div class="col-md-9">
-                                        <input id="input-item-category" class="form-control" type="text" value="{{addonData.addon_group_display_name}}" disabled>
-                                    </div>
-                                </div>
+            <div class="form-group row">
+                <label for="input-item-category" class="col-3 col-form-label">Item Addon-Group</label>
+                <div class="col-md-9">
+                    <input id="input-item-category" class="form-control" type="text" value="{{addonData.addon_group_display_name}}" disabled>
+                </div>
+            </div>
 
-                                <div class="form-group row">
-                                    <label for="input-item-active" class="col-3 col-form-label">Item Active</label>
-                                    <div class="col-md-9">
-                                        <input id="input-item-active" name="isItemActive" class="form-control" type="hidden" value="{{addonData.item_is_active}}" disabled >
-                                        {{#if addonData.item_is_active}}
-                                            <button class='btn btn-success active my-cursor-default pr-5 pl-5' ><i class='fa fa-check'></i></button>
-                                        {{else}}
-                                            <button class='btn btn-danger active my-cursor-default pr-5 pl-5' ><i class='fa fa-times'></i></button>
-                                        {{/if}}
-                                    </div>
-                                </div>
+            <div class="form-group row">
+                <label for="input-item-active" class="col-3 col-form-label">Item Active</label>
+                <div class="col-md-9">
+                    <input id="input-item-active" name="isItemActive" class="form-control" type="hidden" value="{{addonData.item_is_active}}" disabled >
+                    {{#if addonData.item_is_active}}
+                        <button class='btn btn-success active my-cursor-default pr-5 pl-5' ><i class='fa fa-check'></i></button>
+                    {{else}}
+                        <button class='btn btn-danger active my-cursor-default pr-5 pl-5' ><i class='fa fa-times'></i></button>
+                    {{/if}}
+                </div>
+            </div>
 
-                                <br>
-                                <br>
-                                <br>
+            <br>
+            <br>
+            <br>
 
-                                {{#each addonSizePriceData}}
-                                    <div class="form-group row">
-                                        <label  class="col-3 col-form-label">Item Price ({{size_name}}) </label>
-                                        <div class="col-md-9 input-group">
-                                            <input type="hidden" class="form-control"  value="{{addon_size_active}}" readonly >
-                                            {{#if addon_size_active}}
-                                                <button class='btn btn-success active my-cursor-default pr-4 pl-4' ><i class='fa fa-check'></i></button>
-                                            {{else}}
-                                                <button class='btn btn-danger active my-cursor-default pr-4 pl-4' ><i class='fa fa-times'></i></button>
-                                            {{/if}}
-                                            <div class="input-group" style='margin-left: 20px;'>
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"> &#x20B9; </span>
-                                                </div>
-                                                <input name="itemSizePrice_{{size_id}}" type='number' class='form-control' value="{{addon_price}}"  disabled >
-                                            </div>
-                                        </div>
-                                    </div>
-                                {{/each}}
-                                <br><br>
-
-                                <div class="form-group row">
-                                    <div class="col-4" ></div>
-                                    <a href='/menu/addons/edit/{{addonData.item_id}}' class='col-4 btn btn-primary' >Edit this Item</a>
-                                    <div class="col-4" ></div>
-                                </div>
-
+            {{#each addonSizePriceData}}
+                <div class="form-group row">
+                    <label  class="col-3 col-form-label">Item Price ({{size_name}}) </label>
+                    <div class="col-md-9 input-group">
+                        <input type="hidden" class="form-control"  value="{{addon_size_active}}" readonly >
+                        {{#if addon_size_active}}
+                            <button class='btn btn-success active my-cursor-default pr-4 pl-4' ><i class='fa fa-check'></i></button>
+                        {{else}}
+                            <button class='btn btn-danger active my-cursor-default pr-4 pl-4' ><i class='fa fa-times'></i></button>
+                        {{/if}}
+                        <div class="input-group" style='margin-left: 20px;'>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> &#x20B9; </span>
                             </div>
+                            <input name="itemSizePrice_{{size_id}}" type='number' class='form-control' value="{{addon_price}}"  disabled >
                         </div>
+                    </div>
+                </div>
+            {{/each}}
+            <br><br>
+
+            <div class="form-group row">
+                <div class="col-4" ></div>
+                <a href='/menu/addons/edit/{{addonData.item_id}}' class='col-4 btn btn-primary' >Edit this Item</a>
+                <div class="col-4" ></div>
+            </div>
+
+        </div>
+    </div>
 
 {{/template_base}}
-
-
-{{#*inline "partial_body_script"}}
-    <script type="text/javascript" src="/lib/bootstrap-toggle/bootstrap-toggle.js" ></script>
-
-{{/inline}}
