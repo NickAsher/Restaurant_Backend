@@ -18,8 +18,8 @@
     {{/if}}
 
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/styles/hybrid.min.css">
-    <link rel="stylesheet" href="/css/my_personal.css">
-    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="{{publicDirectoryLocation}}/css/my_personal.css">
+    <link rel="stylesheet" href="{{publicDirectoryLocation}}/css/login.css">
 
 </head>
 <body>
@@ -28,7 +28,7 @@
 <div class="bg-grey">
     <br>
     <div class="text-center">
-        <img src="/img/meme-angry.png" class="img-fluid" style="width: 25%">
+        <img src="{{publicDirectoryLocation}}/img/meme-angry.png" class="img-fluid" style="width: 25%">
         <p>There Seems to be some kind of error here </p>
         {{#if showBackLink}}
             <a href="{{backLink}}" class="btn btn-danger">Go Back</a>
@@ -57,7 +57,7 @@
     <script src="/lib/bootstrap4/bootstrap.min.js" ></script>
 {{/if}}
 
-<script type="text/javascript" src="/js/my_personal.js"></script>
+<script src="{{publicDirectoryLocation}}/js/my_personal.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/highlight.min.js"></script>
 
 <script>

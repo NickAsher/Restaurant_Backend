@@ -33,8 +33,8 @@
 
     {{/if}}
 
-    <link rel="stylesheet" href="/assets/base.css" >
-    <link rel="stylesheet" href="/css/my_personal.css">
+    <link rel="stylesheet" href="{{publicDirectoryLocation}}/assets/base.css" >
+    <link rel="stylesheet" href="{{publicDirectoryLocation}}/css/my_personal.css">
 
     <!--<link rel="stylesheet" href="/css/compiled.css">-->
     {{#> partial_head}}
@@ -61,7 +61,7 @@
     </div>
 </div>
 
-</body>
+
 <!--<script src="http://maps.google.com/maps/api/js?sensor=true"></script>-->
 <!--<script type="text/javascript" src="/js/main.js"></script>-->
 
@@ -71,6 +71,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/additional-methods.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
 {{else}}
@@ -81,25 +82,26 @@
     <script src="/lib/jquery-validation/dist/additional-methods.min.js"></script>
     <script src="/lib/jquery-validation/dist/jquery-validate-my-methods.js"></script>
     <script src="/lib/tether/dist/js/tether.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js" ></script>
     <script src="/lib/bootstrap-toggle/bootstrap-toggle.js" ></script>
 
 {{/if}}
 
-<script type="text/javascript" src="/js/app.js"></script>
-<script type="text/javascript" src="/js/demo.js"></script>
-<script type="text/javascript" src="/js/toastr.js"></script>
-<script type="text/javascript" src="/js/scrollbar.js"></script>
-<script type="text/javascript" src="/js/calendar.js"></script>
-<script type="text/javascript" src="/js/maps.js"></script>
-<script type="text/javascript" src="/js/chart.bundle.min.js"></script>
-<script type="text/javascript" src="/js/Chart.min.js"></script>
+<script src="{{publicDirectoryLocation}}/js/app.js"></script>
+<script src="{{publicDirectoryLocation}}/js/demo.js"></script>
+<script src="{{publicDirectoryLocation}}/js/toastr.js"></script>
+<script src="{{publicDirectoryLocation}}/js/scrollbar.js"></script>
+<script src="{{publicDirectoryLocation}}/js/calendar.js"></script>
+<script src="{{publicDirectoryLocation}}/js/maps.js"></script>
+<script src="{{publicDirectoryLocation}}/js/chart.bundle.min.js"></script>
+<script src="{{publicDirectoryLocation}}/js/Chart.min.js"></script>
 
-<script src="/js/my_personal.js" ></script>
+<script src="{{publicDirectoryLocation}}/js/my_personal.js" ></script>
 
 
 {{#> partial_body_script}}
     <!--There was no partial for the body script-->
 {{/partial_body_script}}
 
-
+</body>
 </html>

@@ -108,6 +108,7 @@ app.use((req, res, next)=>{
   res.locals.adminName = req.session.adminName ;
   res.locals.permissionLevel = req.session.permissionLevel ;
   res.locals.isEnvironmentProduction = process.env.NODE_ENV == 'production' ? true : false ;
+  res.locals.publicDirectoryLocation = Constants.PUBLIC_DIRECTORY_LOCATION ;
 
   // res.locals.signedIn = req.session.isLoggedIn ;
   next() ;

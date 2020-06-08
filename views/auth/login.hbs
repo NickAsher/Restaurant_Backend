@@ -18,8 +18,8 @@
         <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css" >
     {{/if}}
 
-    <link rel="stylesheet" href="/css/my_personal.css">
-    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="{{publicDirectoryLocation}}/css/my_personal.css">
+    <link rel="stylesheet" href="{{publicDirectoryLocation}}/css/login.css">
 
 </head>
 <body>
@@ -32,7 +32,7 @@
     <div id="content ">
         <section class="section">
             <div class="fullscreen-bg bg-dark dark">
-                <img src="/img/login_background.jpg" style="background-size: contain" />
+                <img src="{{publicDirectoryLocation}}/img/login_background.jpg" style="background-size: contain" />
             </div>
 
 
@@ -43,7 +43,7 @@
                         <div class="card-block" style="margin: 40px">
                             <div class="row">
                                 <div class="col-6 offset-3">
-                                    <img src="/img/logo.png" class="img-fluid" alt="brand-logo">
+                                    <img src="{{publicDirectoryLocation}}/img/logo.png" class="img-fluid" alt="brand-logo">
                                 </div>
                             </div>
                             <br>
@@ -136,7 +136,7 @@
     <script src="/lib/bootstrap4/bootstrap.min.js" ></script>
     <script src="/lib/toastr/toastr.min.js" ></script>
 {{/if}}
-<script src="/js/my_personal.js"></script>
+<script src="{{publicDirectoryLocation}}/js/my_personal.js"></script>
 
 <script>
 

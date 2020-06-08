@@ -3,3 +3,5 @@ node_modules/*
 .idea/*
 /logs/
 /restore/
+secret/
+/secret/

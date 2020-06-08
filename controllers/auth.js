@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken') ;
 const moment = require('moment') ;
 const redis = require('redis') ;
 const session = require('express-session') ;
+const SERVER_LOCATION = require('../utils/Constants').SERVER_LOCATION ;
 
 let redisStore = require('connect-redis')(session) ;
 
@@ -75,11 +76,10 @@ exports.postForgotPassword = async (req, res)=>{
     let dbData = await dbRepository.resetPasswordToken(userData.id, resetToken);
     if (dbData.status == false) {throw dbData;}
 
-    // TODO send the mail here
     res.send({
       status: true,
       success: "MAIL_SENT",
-      link: `http://localhost:3002/resetPassword/${resetToken}`
+      link: `${SERVER_LOCATION}/resetPassword/${resetToken}`
     });
 
   }catch (e) {

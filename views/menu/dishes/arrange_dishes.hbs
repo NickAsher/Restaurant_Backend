@@ -1,5 +1,5 @@
 {{#*inline "partial_head"}}
-    <link rel="stylesheet" href="/css/arrange.css">
+    <link rel="stylesheet" href="{{publicDirectoryLocation}}/css/arrange.css">
 
 {{/inline}}
 
@@ -33,34 +33,34 @@
     <!--Page Title /End-->
 
 
-                <div class="row">
-                    <div class="col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <ol id="" class="hidden-list-numbering" style="display: inline-block;float: left;">
-                                    {{#each itemData}}
-                                        <li style='height: 125px;'></li>
-                                    {{/each}}
-                                </ol>
-                                <ol id="sorting" class="my-sortable-list" style="display: inline-block">
-                                    {{#each itemData}}
-                                        <li id='{{item_id}}'>
-                                            <img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{item_image_name}}'  height='90px'>
-                                            <div class="text-center">{{item_name}}</div>
-                                        </li>
-                                    {{/each}}
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
+    <div class="row">
+        <div class="col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <ol id="" class="hidden-list-numbering" style="display: inline-block;float: left;">
+                        {{#each itemData}}
+                            <li style='height: 125px;'></li>
+                        {{/each}}
+                    </ol>
+                    <ol id="sorting" class="my-sortable-list" style="display: inline-block">
+                        {{#each itemData}}
+                            <li id='{{item_id}}'>
+                                <img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{item_image_name}}'  height='90px'>
+                                <div class="text-center">{{item_name}}</div>
+                            </li>
+                        {{/each}}
+                    </ol>
                 </div>
-                <br>
-                <br>
-                <div class="row">
-                    <div class="col-4"></div>
-                    <button class="col-4 btn btn-primary"  onclick="saveSortOrder();">Save order</button>
-                    <div class="col-4"></div>
-                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+
+    <div class="row">
+        <div class="col-4"></div>
+        <button class="col-4 btn btn-primary"  onclick="saveSortOrder();">Save order</button>
+        <div class="col-4"></div>
+    </div>
 {{/template_base}}
 
 

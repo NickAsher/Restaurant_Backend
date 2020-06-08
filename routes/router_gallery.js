@@ -30,7 +30,8 @@ router.get('/gallery', isAuthenticated, errorHandler, controllerGallery.getAllGa
 router.get('/gallery/add', isAuthenticated, errorHandler, controllerGallery.getAddGalleryItemPage) ;
 
 router.post('/gallery/add/save', isAuthenticatedPostRequest, hasMinPermissionLevel_Admin,
-  upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber,
+  upload.single('post_Image'), checkFileIsUploaded,
+  // checkFileMagicNumber,
   showValidationError, errorHandler, controllerGallery.postAddGalleryItemPage) ;
 
 router.post('/gallery/delete', isAuthenticatedPostRequest, hasMinPermissionLevel_Admin, [

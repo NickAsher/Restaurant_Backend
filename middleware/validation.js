@@ -5,18 +5,26 @@ const fs = require('fs') ;
 const Constants = require('../utils/Constants') ;
 const FileType = require('file-type') ;
 const logger = require('./logging') ;
+const AWS = require('aws-sdk') ;
+const multerS3 = require('multer-s3') ;
+
+AWS.config.loadFromPath('./secret/aws_credentials.json');
+let myS3 = new AWS.S3() ;
 
 
 exports.upload = multer({
-  storage : multer.diskStorage({
-      destination : function(req, file, callback) {
-        callback(null, './images');
-      },
-      filename: function (req, file, callback) {
-        let newFileName = Date.now() + "_" + file.originalname ;
-        req.myFileName = newFileName ; // adding the newly created filename to my request
-        callback(null , newFileName);
-      }
+  storage : multerS3({
+    s3 : myS3,
+    bucket : 'rafique.in',
+    acl: 'public-read',
+    metadata: function (req, file, cb) {
+      cb(null, {fieldName: file.fieldname});
+    },
+    key: function (req, file, cb) {
+      let newFileName = Date.now() + "_" + file.originalname ;
+      req.myFileName = newFileName ; // adding the newly created filename to my request
+      cb(null, `restaurant-backend/images/${newFileName}`) ;
+    }
   }),
   fileFilter: function (req, file, callback) {
     /* The file filter only looks at the extension of the image. If a text file is renamed to .png,
