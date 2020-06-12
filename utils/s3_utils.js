@@ -53,11 +53,7 @@ exports.deleteImages = async (arrayOfImages)=>{
       Objects: imagesKeyArray,
       Quiet: false
     }
-  }).promise().then((data)=>{
-    console.log(data) ;
-  }).catch((err)=>{
-    throw new Error(err) ;
-  }) ;
+  }).promise() ;
 
 } ;
 

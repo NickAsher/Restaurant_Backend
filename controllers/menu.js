@@ -3,6 +3,7 @@ const dbRepository = require('../data/DbRepository') ;
 const Constants = require('../utils/Constants') ;
 const fs = require('fs') ;
 const logger = require('../middleware/logging') ;
+const s3Utils = require('../utils/s3_utils') ;
 
 exports.getAllCategoryPage = async (req, res)=>{
   try{
@@ -88,7 +89,7 @@ exports.postEditCategoryPage = async (req,res)=>{
       let oldImageFileName = req.body.categoryOldImageFileName ;
       let newImageFileName = req.myFileName ;
 
-      fs.unlinkSync(Constants.IMAGE_PATH + oldImageFileName) ;
+      s3Utils.deleteImage(oldImageFileName) ;
       dbData = await dbConnection.execute(`
         UPDATE menu_category_table 
         SET category_name = :categoryName, category_is_active = :categoryIsActive, category_image = :newImageFileName 
@@ -165,13 +166,15 @@ exports.postDeleteCategoryPage = async (req, res)=>{
 
     let dbMenuItems = await dbRepository.getAllMenuItemsInCategory(categoryId) ;
     if(dbMenuItems.status != true){throw dbMenuItems ;}
-
     let menuItemsList = dbMenuItems.data ;
-    menuItemsList.forEach((menuItem)=>{
-      fs.unlinkSync(Constants.IMAGE_PATH + menuItem.item_image_name) ;
-    }) ;
 
-    fs.unlinkSync(Constants.IMAGE_PATH + categoryImageFileName) ;
+    let arrayOfImagesToBeDeleted = [] ;
+    menuItemsList.forEach((menuItem)=>{
+      arrayOfImagesToBeDeleted.push(menuItem.item_image_name) ;
+    }) ;
+    arrayOfImagesToBeDeleted.push(categoryImageFileName) ;
+    s3Utils.deleteImages(arrayOfImagesToBeDeleted) ;
+
 
     let explicitConnection = await dbConnection.getConnection() ;
     await explicitConnection.beginTransaction() ;
@@ -419,8 +422,8 @@ exports.postEditDishPage = async (req, res)=>{
     } else {
       let oldImageFileName = req.body.itemOldImageFileName ;
       let newImageFileName = req.myFileName ;
-      fs.unlinkSync(Constants.IMAGE_PATH + oldImageFileName) ;
 
+      s3Utils.deleteImage(oldImageFileName) ;
       dbItemData = await explicitConnection.execute(`
         UPDATE menu_items_table
         SET item_name = :itemName, item_description = :itemDescription, item_is_active = :itemIsActive, item_image_name = :newImageFileName
@@ -594,7 +597,7 @@ exports.postDeleteDishPage = async (req, res)=>{
     let explicitConnection = await dbConnection.getConnection() ;
     await explicitConnection.beginTransaction() ;
 
-    fs.unlinkSync(Constants.IMAGE_PATH + imageFileName) ;
+    s3Utils.deleteImage(imageFileName) ;
     let dbItemData = await explicitConnection.execute(`DELETE FROM menu_items_table WHERE item_id = :id `, {
       id : itemId
     }) ;

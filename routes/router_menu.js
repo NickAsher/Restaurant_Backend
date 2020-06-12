@@ -3,10 +3,13 @@ const controllerMenu = require('../controllers/menu') ;
 const {body, param, validationResult} = require('express-validator') ;
 const validationMiddleware = require('../middleware/validation') ;
 const authenticationMiddleware = require('../middleware/authentication') ;
+const imageMiddleware = require('../middleware/image_manipulation') ;
 
 const router = express.Router() ;
 
 const upload = validationMiddleware.upload ;
+const uploadImageToS3 = imageMiddleware.uploadImageToS3 ;
+
 const checkFileMagicNumber = validationMiddleware.checkFileMagicNumber ;
 const showValidationError = validationMiddleware.showValidationError ;
 const checkFileIsUploaded = validationMiddleware.checkFileIsUploaded ;
@@ -28,7 +31,7 @@ router.get('/menu/category/edit/:categoryId', isAuthenticated('menu/category'), 
 ], showValidationError(errorBackPageLink_Category), controllerMenu.getEditCategoryPage) ;
 
 router.post('/menu/category/edit/save', isAuthenticatedPostRequest,  hasMinPermissionLevel_Admin,
-  upload.single('post_Image'), checkFileMagicNumber, [
+  upload.single('post_Image'), checkFileMagicNumber, uploadImageToS3, [
     body('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols:true}).trim().escape(),
     body('isCategoryActive', "Invalid boolean isCategoryActive Name").exists().notEmpty().isBoolean(),
     body('categoryName', "Invalid Category Name").exists().notEmpty().trim().escape(),
@@ -37,7 +40,7 @@ router.post('/menu/category/edit/save', isAuthenticatedPostRequest,  hasMinPermi
 router.get('/menu/category/add', isAuthenticated('menu/category'), controllerMenu.getAddCategoryPage) ;
 
 router.post('/menu/category/add/save', isAuthenticatedPostRequest, hasMinPermissionLevel_Admin,
-  upload.single('post_Image'), checkFileIsUploaded(errorBackPageLink_Category), checkFileMagicNumber, [
+  upload.single('post_Image'), checkFileIsUploaded(errorBackPageLink_Category), checkFileMagicNumber, uploadImageToS3, [
     body('isCategoryActive', "Invalid boolean isCategoryActive Name").exists().notEmpty().isBoolean(),
     body('categoryName', "Invalid Category Name").exists().notEmpty().trim().escape(),
 ], showValidationError(errorBackPageLink_Category), controllerMenu.postAddCategoryPage) ;
@@ -92,7 +95,7 @@ router.get('/menu/dishes/edit/:menuItemId', isAuthenticated('menu/dishes'), [
 ], showValidationError(errorBackPageLink_Dishes), controllerMenu.getEditDishPage) ;
 
 router.post('/menu/dishes/edit/save', isAuthenticatedPostRequest, hasMinPermissionLevel_Admin,
-  upload.single('post_Image'), checkFileMagicNumber, [
+  upload.single('post_Image'), checkFileMagicNumber, uploadImageToS3, [
     body('itemId', "Invalid MenuItemId").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
     body('isItemActive', "Invalid boolean isItemActive ").exists().notEmpty().isBoolean(),
     body('itemName', "Invalid DishItem Name").exists().notEmpty().trim().escape(),
@@ -104,7 +107,7 @@ router.get('/menu/dishes/add/:categoryId', isAuthenticated('menu/dishes'), [
 ], showValidationError(errorBackPageLink_Dishes), controllerMenu.getAddDishPage) ;
 
 router.post('/menu/dishes/add/save', isAuthenticatedPostRequest, hasMinPermissionLevel_Admin,
-  upload.single('post_Image'), checkFileIsUploaded(errorBackPageLink_Dishes), checkFileMagicNumber, [
+  upload.single('post_Image'), checkFileIsUploaded(errorBackPageLink_Dishes), checkFileMagicNumber, uploadImageToS3, [
     body('categoryId', "Invalid Category Id").exists().notEmpty().isNumeric({no_symbols: true}).trim().escape(),
     body('isItemActive', "Invalid boolean isItemActive ").exists().notEmpty().isBoolean(),
     body('itemName', "Invalid DishItem Name").exists().notEmpty().trim().escape(),
