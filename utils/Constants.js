@@ -3,8 +3,8 @@ const path = require('path') ;
 
 const SERVER_LOCATION = process.env.NODE_ENV == 'production' ?  'https://www.cms.rafique.in' : 'http://localhost:3002' ;
 
-const IMAGE_BACKENDFRONT_LINK_PATH =  `${SERVER_LOCATION}/public_images/`  ;
-// const IMAGE_BACKENDFRONT_LINK_PATH =  `https://s3.ap-south-1.amazonaws.com/rafique.in/restaurant-backend/images/`  ;
+// const IMAGE_BACKENDFRONT_LINK_PATH =  `${SERVER_LOCATION}/public_images/`  ;
+const IMAGE_BACKENDFRONT_LINK_PATH =  `https://s3.ap-south-1.amazonaws.com/rafique.in/restaurant-backend/images/`  ;
 const IMAGE_PATH = path.join(__dirname, "../images/") ;
 
 const RESTORE_IMAGES_PATH = path.join(__dirname, "../restore/images") ;

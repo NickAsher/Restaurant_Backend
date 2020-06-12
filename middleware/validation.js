@@ -13,19 +13,29 @@ let myS3 = new AWS.S3() ;
 
 
 exports.upload = multer({
-  storage : multerS3({
-    s3 : myS3,
-    bucket : 'rafique.in',
-    acl: 'public-read',
-    metadata: function (req, file, cb) {
-      cb(null, {fieldName: file.fieldname});
+  storage : multer.diskStorage({
+    destination : function(req, file, callback) {
+      callback(null, './images');
     },
-    key: function (req, file, cb) {
+    filename: function (req, file, callback) {
       let newFileName = Date.now() + "_" + file.originalname ;
       req.myFileName = newFileName ; // adding the newly created filename to my request
-      cb(null, `restaurant-backend/images/${newFileName}`) ;
+      callback(null , newFileName);
     }
   }),
+  // storage : multerS3({
+  //   s3 : myS3,
+  //   bucket : 'rafique.in',
+  //   acl: 'public-read',
+  //   metadata: function (req, file, cb) {
+  //     cb(null, {fieldName: file.fieldname});
+  //   },
+  //   key: function (req, file, cb) {
+  //     let newFileName = Date.now() + "_" + file.originalname ;
+  //     req.myFileName = newFileName ; // adding the newly created filename to my request
+  //     cb(null, `restaurant-backend/images/${newFileName}`) ;
+  //   }
+  // }),
   fileFilter: function (req, file, callback) {
     /* The file filter only looks at the extension of the image. If a text file is renamed to .png,
      * Then multer will accept its extension and its mimetype also(doesn't really checks the buffer of the file)
@@ -53,36 +63,6 @@ exports.upload = multer({
 }) ;
 
 
-exports.checkFileMagicNumber = async (req, res, next)=>{
-  //firstly check if there is a file, because in edit-something pages, there might not be a new file upload.
-  if(req.file){
-    /*check if file has correct magic number
-     * if it finds a valid file Type, then data returned is an object like this
-     * { ext : 'png', mime : 'image/png' }
-     * Otherwise, data is undefined
-     *
-     * So if we do not get a valid image mime,
-     * we set the value of req.myFileError_MagicNumber to some error
-     * Then in another middleware, where we check for errors, we also check for req.myFileError_MagicNumber
-     * If there are no errors, then this req.myFileError_MagicNumber would be undefined.
-     * otherwise, it exists, meaning there are some errors.
-      * So if it exists, we delete the file from storage and show error page to the user.
-     */
-    let data = await FileType.fromFile(req.file.path) ;
-    if(data == undefined){
-      req.myFileError_MagicNumber = "File  magic number is undefined" ;
-
-    } else{
-      if(data.mime !== 'image/png' && data.mime !== 'image/jpg' && data.mime !== 'image/jpeg'){
-        req.myFileError_MagicNumber = "File magic number is not a valid image signature " ;
-      }
-    }
-    next() ;
-
-  }else {
-    next() ;
-  }
-} ;
 
 
 exports.checkFileIsUploaded = (backPageLink)=>{
@@ -108,12 +88,46 @@ exports.checkFileIsUploaded = (backPageLink)=>{
 } ;
 
 
+exports.checkFileMagicNumber = async (req, res, next)=>{
+  //firstly check if there is a file, because in edit-something pages, there might not be a new file upload.
+  if(req.file){
+    /*check if file has correct magic number
+     * if it finds a valid file Type, then data returned is an object like this
+     * { ext : 'png', mime : 'image/png' }
+     * Otherwise, data is undefined
+     *
+     * So if we do not get a valid image mime,
+     * we set the value of req.myFileError to some error
+     * Then in another middleware, where we check for errors, we also check for req.myFileError
+     * If there are no errors, then this req.myFileError would be undefined.
+     * otherwise, it exists, meaning there are some errors.
+      * So if it exists, we delete the file from storage and show error page to the user.
+     */
+    console.log("Path is ", req.file.path) ;
+    let data = await FileType.fromFile(req.file.path) ;
+    if(data == undefined){
+      req.myFileError = "File  magic number is undefined" ;
+
+    } else{
+      if(data.mime !== 'image/png' && data.mime !== 'image/jpg' && data.mime !== 'image/jpeg'){
+        req.myFileError = "File magic number is not a valid image signature " ;
+      }
+    }
+    next() ;
+
+  }else {
+    next() ;
+  }
+} ;
+
+
+
 exports.showValidationError = (backPageLink)=>{
   return (req, res, next)=>{
 
     const errors = validationResult(req) ;
 
-    if (!errors.isEmpty()  || req.myFileError_MagicNumber) {
+    if (!errors.isEmpty()  || req.myFileError) {
 
       if(req.file){
         //deleting the image from multer
@@ -122,7 +136,7 @@ exports.showValidationError = (backPageLink)=>{
       }
 
       let errorObject = {
-        fileErrors : req.myFileError_MagicNumber,
+        fileErrors : req.myFileError,
         validationErrors : errors.array()
       } ;
 

@@ -5,6 +5,7 @@ const dbRepository = require('../data/DbRepository') ;
 const Constants = require('../utils/Constants') ;
 const Paginator = require('../utils/Paginator') ;
 const logger = require('../middleware/logging') ;
+const s3Utils = require('../utils/s3_utils') ;
 
 exports.getAllGalleryItemPage = async(req, res)=>{
   try{
@@ -71,7 +72,7 @@ exports.postDeleteGalleryItemPage = async(req, res)=>{
     let galleryImageId = req.body.galleryItemId ;
     let imageFileName = req.body.galleryImageFileName ;
 
-    fs.unlinkSync(Constants.IMAGE_PATH + imageFileName) ;
+    s3Utils.deleteImage(imageFileName) ;
     let dbData = await dbConnection.execute(`DELETE FROM gallery_table WHERE gallery_item_id = :id `, {
       id : galleryImageId
     }) ;

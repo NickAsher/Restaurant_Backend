@@ -6,6 +6,7 @@ const path = require('path') ;
 const fs = require('fs') ;
 const Constants = require('../utils/Constants') ;
 const FileType = require('file-type') ;
+const imageMiddleware = require('../middleware/image_manipulation') ;
 const validationMiddleware = require('../middleware/validation') ;
 const authenticationMiddleware = require('../middleware/authentication') ;
 
@@ -14,10 +15,13 @@ const router = express.Router() ;
 let errorBackPageLink = "/gallery" ;
 
 const upload = validationMiddleware.upload ;
+const uploadImageToS3 = imageMiddleware.uploadImageToS3 ;
+
 const checkFileMagicNumber = validationMiddleware.checkFileMagicNumber ;
 const showValidationError = validationMiddleware.showValidationError(errorBackPageLink) ;
 const checkFileIsUploaded = validationMiddleware.checkFileIsUploaded(errorBackPageLink) ;
 const errorHandler = validationMiddleware.myErrorHandler(errorBackPageLink) ;
+
 const isAuthenticated = authenticationMiddleware.isAuthenticated('gallery') ;
 const isAuthenticatedPostRequest = authenticationMiddleware.isAuthenticatedPostRequest ;
 const hasMinPermissionLevel_Admin = authenticationMiddleware.hasMinPermissionLevel_Admin ;
@@ -31,7 +35,7 @@ router.get('/gallery/add', isAuthenticated, errorHandler, controllerGallery.getA
 
 router.post('/gallery/add/save', isAuthenticatedPostRequest, hasMinPermissionLevel_Admin,
   upload.single('post_Image'), checkFileIsUploaded,
-  // checkFileMagicNumber,
+  checkFileMagicNumber, uploadImageToS3,
   showValidationError, errorHandler, controllerGallery.postAddGalleryItemPage) ;
 
 router.post('/gallery/delete', isAuthenticatedPostRequest, hasMinPermissionLevel_Admin, [
