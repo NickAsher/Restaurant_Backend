@@ -5,6 +5,7 @@ const dbRepository = require('../data/DbRepository') ;
 const Constants = require('../utils/Constants') ;
 const Paginator = require('../utils/Paginator') ;
 const logger = require('../middleware/logging') ;
+const s3Utils = require('../utils/s3_utils') ;
 
 
 
@@ -101,7 +102,7 @@ exports.postEditBlogPage = async(req, res)=>{
       // an image was uploaded, so firstly delete the previous image and then change db entries
       let newImageFileName = req.myFileName ;
 
-      fs.unlinkSync(Constants.IMAGE_PATH + oldImageFileName) ;
+      s3Utils.deleteImage(oldImageFileName) ;
       dbData = await dbConnection.execute(`
         UPDATE blogs_table SET blog_author = :author, blog_title = :title, blog_content = :content, blog_display_image = :image
         WHERE blog_id = :id `, {
@@ -173,7 +174,7 @@ exports.postDeleteBlogPage = async (req, res)=>{
     let blogId = req.body.blogId ;
     let imageFileName = req.body.blogImageFileName ;
 
-    fs.unlinkSync(Constants.IMAGE_PATH + imageFileName) ;
+    s3Utils.deleteImage(imageFileName) ;
     let dbData = await dbConnection.execute(`DELETE FROM blogs_table WHERE blog_id = :id `, {
       id : blogId
     }) ;

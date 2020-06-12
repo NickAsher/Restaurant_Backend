@@ -4,6 +4,7 @@ const dbConnection = require('../utils/database') ;
 const dbRepository = require('../data/DbRepository') ;
 const Constants = require('../utils/Constants') ;
 const logger = require('../middleware/logging') ;
+const s3Utils = require('../utils/s3_utils') ;
 
 
 
@@ -93,8 +94,8 @@ exports.postEditOfferSpecial = async(req, res)=>{
     } else {
       // a new file is uploaded, so we delete the previous file and upload a new file
       let newImageFileName = req.myFileName ;
-      fs.unlinkSync(Constants.IMAGE_PATH + oldImageFileName) ;
 
+      s3Utils.deleteImage(oldImageFileName) ;
       dbData = await dbConnection.execute(
         `UPDATE offer_special_table  SET title = :title, message = :message, image = :image WHERE id = :id`, {
           title,
@@ -173,7 +174,7 @@ exports.postDeleteOfferSpecial = async (req, res)=>{
     let offerId = req.body.offerId ;
     let imageFileName = req.body.offerImageFileName ;
 
-    fs.unlinkSync(Constants.IMAGE_PATH + imageFileName) ;
+    s3Utils.deleteImage(imageFileName) ;
     let dbData = await dbConnection.execute(`DELETE FROM offer_special_table WHERE id = :id `, {
       id : offerId
     }) ;

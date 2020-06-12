@@ -3,12 +3,15 @@ const controllerOfferSpecial = require('../controllers/offers') ;
 const {body, param, validationResult} = require('express-validator') ;
 const validationMiddleware = require('../middleware/validation') ;
 const authenticationMiddleware = require('../middleware/authentication') ;
+const imageMiddleware = require('../middleware/image_manipulation') ;
 
 const router = express.Router() ;
 
 let errorBackPageLink = "/specials" ;
 
 const upload = validationMiddleware.upload ;
+const uploadImageToS3 = imageMiddleware.uploadImageToS3 ;
+
 const checkFileMagicNumber = validationMiddleware.checkFileMagicNumber ;
 const showValidationError = validationMiddleware.showValidationError(errorBackPageLink) ;
 const checkFileIsUploaded = validationMiddleware.checkFileIsUploaded(errorBackPageLink) ;
@@ -29,7 +32,7 @@ router.get('/specials/edit/:offerId', isAuthenticated, [
 ], showValidationError, errorHandler, controllerOfferSpecial.getEditOfferSpecial) ;
 
 router.post('/specials/edit/save', isAuthenticatedPostRequest, hasMinPermissionLevel_Admin,
-  upload.single('post_Image'), checkFileMagicNumber, [
+  upload.single('post_Image'), checkFileMagicNumber, uploadImageToS3, [
     body('offerId', "Invalid OfferSpecial Id").exists().notEmpty().isNumeric({no_symbols:true}).trim().escape(),
     body('offerTitle', "Invalid OfferSpecial Title").exists().notEmpty().trim().escape(),
     body('offerMessage', "Invalid OfferSpecial Message").exists().notEmpty().trim().escape(),
@@ -39,9 +42,9 @@ router.post('/specials/edit/save', isAuthenticatedPostRequest, hasMinPermissionL
 router.get('/specials/add', isAuthenticated, errorHandler, controllerOfferSpecial.getAddOfferSpecial) ;
 
 router.post('/specials/add/save', isAuthenticatedPostRequest, hasMinPermissionLevel_Admin,
-  upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber, [
-    body('offerTitle', "Invalid OfferSpecial Title").exists().notEmpty().trim().escape(),
-    body('offerMessage', "Invalid OfferSpecial Message").exists().notEmpty().trim().escape(),
+  upload.single('post_Image'), checkFileIsUploaded, checkFileMagicNumber, uploadImageToS3, [
+      body('offerTitle', "Invalid OfferSpecial Title").exists().notEmpty().trim().escape(),
+      body('offerMessage', "Invalid OfferSpecial Message").exists().notEmpty().trim().escape(),
 ], showValidationError, errorHandler, controllerOfferSpecial.postAddOfferSpecial) ;
 
 router.post('/specials/delete', isAuthenticatedPostRequest, hasMinPermissionLevel_Admin, [
