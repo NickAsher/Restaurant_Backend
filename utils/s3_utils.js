@@ -1,13 +1,20 @@
 const AWS = require('aws-sdk') ;
-AWS.config.loadFromPath('./secret/aws_credentials.json');
 const fs = require('fs') ;
 
-
+AWS.config.loadFromPath('./secret/aws_credentials.json');
 let s3 = new AWS.S3({apiVersion: '2006-03-01'}) ;
 
+
+exports.listImages = async (folderLocation)=>{
+  return s3.listObjectsV2({
+    Bucket : 'rafique.in',
+    Prefix : `${folderLocation}`,
+    Delimiter  : ""
+  }).promise() ;
+} ;
+
+
 exports.uploadImage = async (imageName)=>{
-
-
   s3.upload({
     Bucket : 'rafique.in',
     Key : `restaurant-backend/images/${imageName}`,
@@ -28,7 +35,6 @@ exports.uploadImage = async (imageName)=>{
 } ;
 
 exports.deleteImage = (imageName)=>{
-
   return s3.deleteObject({
     Bucket : 'rafique.in',
     Key : `restaurant-backend/images/${imageName}`,
@@ -36,10 +42,7 @@ exports.deleteImage = (imageName)=>{
 } ;
 
 
-
 exports.deleteImages = async (arrayOfImages)=>{
-
-
   let imagesKeyArray = [] ;
   arrayOfImages.forEach((imageName)=>{
     imagesKeyArray.push({
@@ -54,63 +57,62 @@ exports.deleteImages = async (arrayOfImages)=>{
       Quiet: false
     }
   }).promise() ;
-
 } ;
 
 
+exports.emptyImagesFolder = async()=>{
+  let listOfImages = await this.listImages("restaurant-backend/images/") ;
+  listOfImages = listOfImages.Contents ;
+  if(listOfImages.length <= 1){
+    // it means there are no images in the folder, 0th item is always the folder itself
+    return ;
+  }
 
-exports.emptyBucket = async(directoryName)=>{
+  let deleteArray = [] ;
+  // we start from 1 because the 0th item is the folder itself. and S3 will delete the folder
+  for(let i=1;i<listOfImages.length;i++){
+    deleteArray.push({Key : listOfImages[i]['Key'] }) ;
+  }
 
-
-  return s3.listObjectsV2({
+  return s3.deleteObjects({
     Bucket : "rafique.in",
-    Prefix : "restaurant-backend/restore/",
-    Delimiter  : ""
-
-  }).promise().then((listData)=>{
-
-    if(listData.Contents.length == 0){
-      console.log("There were no items in the specified location") ;
-      return ;
+    Delete: {
+      Objects: deleteArray,
+      Quiet: false
     }
+  }).promise() ;
 
-    let deleteArray = [] ;
-    // we start from 1 because the 0th item is the folder itself. and S3 will delete the folder
-    for(let i=1;i<listData.Contents.length;i++){
-      deleteArray.push({Key : listData.Contents[i]['Key'] }) ;
-    }
-
-    console.log(deleteArray) ;
-  //   return s3.deleteObjects({
-  //     Bucket : "rafique.in",
-  //     Delete: {
-  //       Objects: deleteArray,
-  //       Quiet: false
-  //     }
-  //   }).promise() ;
-  //
-  // }).then((data)=>{
-  //   console.log("Images successfully deleted", data) ;
-
-  }).catch((err)=>{
-    console.log(err) ;
-  }) ;
 } ;
 
 
 
-exports.copyFolder = async ()=>{
+exports.restoreImages = async ()=>{
+  let listOfImages = await this.listImages("restaurant-backend/restore/") ;
+  listOfImages = listOfImages.Contents ;
+  if(listOfImages.length <= 1){
+    return ;
+  }
 
-  return s3.copyObject({
-    Bucket: 'rafique.in',
-    CopySource: "rafique.in/restaurant-backend/restore/btn_apple.png",
-    Key: "restaurant-backend/images2/btn_apple.png",
-    ACL : 'public-read'
+  for(let i=1; i<listOfImages.length; i++){
+    let fileName = this.getFileNameFromKey(listOfImages[i]['Key']) ;
 
-  }).promise().then((data)=>{
-    console.log(data) ;
-  }).catch((err)=>{
-    console.log("Error", err) ;
-  }) ;
+    s3.copyObject({
+      Bucket: 'rafique.in',
+      CopySource: `rafique.in/restaurant-backend/restore/${fileName}`,
+      Key: `restaurant-backend/images/${fileName}`,
+      ACL : 'public-read'
 
+    }, (err, data)=>{
+      if(err){
+        console.log(err) ;
+      }
+    }) ;
+  }
+
+} ;
+
+
+exports.getFileNameFromKey = (key)=>{
+  // The file name is something like this restaurant-backend/restore/something.jpg
+  return key.split('/').pop() ;
 } ;

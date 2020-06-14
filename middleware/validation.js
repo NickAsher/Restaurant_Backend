@@ -7,6 +7,7 @@ const FileType = require('file-type') ;
 const logger = require('./logging') ;
 const AWS = require('aws-sdk') ;
 const multerS3 = require('multer-s3') ;
+const s3Utils = require('../utils/s3_utils') ;
 
 AWS.config.loadFromPath('./secret/aws_credentials.json');
 let myS3 = new AWS.S3() ;
@@ -129,10 +130,12 @@ exports.showValidationError = (backPageLink)=>{
 
     if (!errors.isEmpty()  || req.myFileError) {
 
+
       if(req.file){
-        //deleting the image from multer
+        //deleting the image from s3
         let newImageFileName = req.myFileName ;
-        fs.unlinkSync(Constants.IMAGE_PATH + newImageFileName) ;
+        s3Utils.deleteImage(newImageFileName) ;
+        // fs.unlinkSync(Constants.IMAGE_PATH + newImageFileName) ;
       }
 
       let errorObject = {

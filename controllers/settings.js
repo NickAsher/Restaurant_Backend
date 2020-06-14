@@ -5,6 +5,7 @@ const fs = require('fs') ;
 const fs_extra = require('fs-extra') ;
 const path = require('path') ;
 const Constants = require('../utils/Constants') ;
+const s3Utils = require('../utils/s3_utils') ;
 
 
 exports.getSettingsPage = async(req, res)=>{
@@ -25,10 +26,11 @@ exports.getSettingsPage = async(req, res)=>{
 
 exports.postDeletePublicImages = async (req, res)=>{
   try{
-    fs_extra.emptyDirSync(Constants.IMAGE_PATH) ;
+    let listOfDeletedFiles = await s3Utils.emptyImagesFolder() ;
     res.send({
       status : true,
-      msg : "all files have been deleted in public images"
+      msg : "all files have been deleted in images folder",
+      listOfDeletedFiles
     }) ;
   }catch (e) {
     logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
@@ -43,7 +45,7 @@ exports.postDeletePublicImages = async (req, res)=>{
 
 exports.postRestorePublicImages = async (req, res)=>{
   try{
-    fs_extra.copySync(Constants.RESTORE_IMAGES_PATH, Constants.IMAGE_PATH) ;
+    await s3Utils.restoreImages() ;
     res.send({
       status : true,
       msg : "all files have been deleted in public images"
