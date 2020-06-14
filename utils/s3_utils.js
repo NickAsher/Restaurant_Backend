@@ -14,25 +14,6 @@ exports.listImages = async (folderLocation)=>{
 } ;
 
 
-exports.uploadImage = async (imageName)=>{
-  s3.upload({
-    Bucket : 'rafique.in',
-    Key : `restaurant-backend/images/${imageName}`,
-    Body : await fs.readFileSync(`../images2/${imageName}`),
-    ACL : 'public-read',
-
-  }).promise()
-    .then((data)=>{
-      //TODO File successfully uploaded, delete the file from local images folder now
-      // fs.unlinkSync(`../images2/${imageName}`) ;
-      console.log(data) ;
-    })
-    .catch((err)=>{
-      //TODO there has been an error. add a logger warning and tell the user that upload is not successfull
-      console.log('error', err) ;
-    }) ;
-
-} ;
 
 exports.deleteImage = (imageName)=>{
   return s3.deleteObject({
