@@ -306,6 +306,7 @@ exports.getUser_ByResetToken = async(resetToken)=>{
 
 
 /* ********************************************** Orders ************************************ */
+
 exports.getAllOrders_OfToday = async(date)=>{
   try{
     // let todayDate = moment(new Date()).format('YYYY-MM-DD hh:mm:ss') ;
@@ -315,9 +316,9 @@ exports.getAllOrders_OfToday = async(date)=>{
 
     let dbData = await dbConnection.execute(
       `SELECT * FROM order_table WHERE datetime > :startDate AND datetime < :endDate`, {
-      startDate,
-      endDate
-    }) ;
+        startDate,
+        endDate
+      }) ;
     return {
       status : true,
       data : dbData['0']
@@ -329,6 +330,26 @@ exports.getAllOrders_OfToday = async(date)=>{
     } ;
   }
 } ;
+
+
+exports.getAllOrders = async()=>{
+  try{
+
+    let dbData = await dbConnection.execute(
+      `SELECT * FROM order_table `
+    ) ;
+    return {
+      status : true,
+      data : dbData['0']
+    } ;
+  }catch (e) {
+    return {
+      status : false,
+      error : e,
+    } ;
+  }
+} ;
+
 
 exports.changeOrderStatus = async(orderId, newOrderStatus)=>{
   try{

@@ -70,6 +70,7 @@
         <th>Description</th>
         <th>Total Amount</th>
         <th>Comments</th>
+        <th class="order-date">Order Date</th>
         <th>Order Time</th>
         <th class="order-action-accept">Accept</th>
         <th class="order-action-complete">Complete</th>
@@ -88,6 +89,7 @@
             </td>
             <td class='text-size-small'>{{totalPrice}} </td>
             <td class='text-size-small'>{{comments}} </td>
+            <td class='text-size-small order-date'> {{date}} </td>
             <td class='text-size-small'> {{datetime}} </td>
             <td class="order-action-accept">
                 <button data-order-id="{{id}}" data-operation="accept" class='btn btn-info btn-sm order-btn'>
@@ -115,6 +117,14 @@
 {{#*inline "partial_body_script"}}
 
 <script>
+
+    function removeColumnOrderDate_OnSelectingDate(){
+        let urlParams = new URLSearchParams(window.location.search);
+        if(urlParams.has('date')){
+          $('.order-date').hide() ;
+      }
+    }
+    removeColumnOrderDate_OnSelectingDate() ;
 
 
     function showOrderDateInDatePicker(date){

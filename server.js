@@ -133,6 +133,12 @@ app.use(require('./routes/router_offers')) ;
 app.use(require('./routes/router_orders')) ;
 app.use(require('./routes/router_settings')) ;
 
+app.get('/login2', async (req, res)=>{
+  res.render('auth/login2.hbs', {
+
+  }) ;
+}) ;
+
 
 app.get('/error', async (req, res)=>{
   res.render('general/error.hbs', {

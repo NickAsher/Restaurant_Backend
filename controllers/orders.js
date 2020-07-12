@@ -9,8 +9,13 @@ const logger = require('../middleware/logging') ;
 
 exports.getOrderPage = async (req, res)=>{
   try{
-    let date = req.query.date || moment().format('YYYY-MM-DD') ;
-    let dbReturnData = await dbRepository.getAllOrders_OfToday(date) ;
+    let dbReturnData ;
+    if(req.query.date){
+      let date = req.query.date ;
+      dbReturnData = await dbRepository.getAllOrders_OfToday(date) ;
+    } else{
+      dbReturnData = await dbRepository.getAllOrders() ;
+    }
     if(dbReturnData.status == false){throw `${dbReturnData} : unable to get orders from db` ;}
 
     let menuNameData = await orderParseUtils.getMenuNameData() ;
@@ -20,12 +25,11 @@ exports.getOrderPage = async (req, res)=>{
     dbReturnData.data.map(row=>{
       row.userDetails = JSON.parse(row.userDetails) ;
       row.address = JSON.parse(row.address) ;
-      row.cart =   orderParseUtils.parseCartFromBackendToAdminOrder(menuNameData,  JSON.parse(row.cart)) ;
+      row.cart = orderParseUtils.parseCartFromBackendToAdminOrder(menuNameData,  JSON.parse(row.cart)) ;
       row.paymentData = JSON.parse(row.paymentData) ;
+      row.date = moment(row.datetime).format('ddd, Do MMM ') ;
       row.datetime = moment(row.datetime).format('h:mm a') ;
     }) ;
-
-
 
 
     res.render('orders/all_orders.hbs', {
@@ -41,6 +45,8 @@ exports.getOrderPage = async (req, res)=>{
     }) ;
   }
 } ;
+
+
 
 
 
