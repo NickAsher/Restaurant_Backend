@@ -118,19 +118,13 @@
 
 <script>
 
-    function removeColumnOrderDate_OnSelectingDate(){
-        let urlParams = new URLSearchParams(window.location.search);
-        if(urlParams.has('date')){
-          $('.order-date').hide() ;
-      }
-    }
-    removeColumnOrderDate_OnSelectingDate() ;
-
 
     function showOrderDateInDatePicker(date){
       let urlParams = new URLSearchParams(window.location.search);
       if(urlParams.has('date')){
           $( "#input-datePicker" ).val(urlParams.get('date')) ;
+          $('.order-date').hide() ; // hides the orderDate column when a date is selected
+
 
       }
     }

@@ -59,6 +59,7 @@ input[type=number] {
   left: 0;
   overflow: hidden;
   z-index: -100;
+  background-size: cover;
 }
 
 .bg-video-mine {
