@@ -28,57 +28,61 @@
 
 
     <div class="my-app-content">
-        <table  class='table table-bordered table-hover' >
-            <tr class='bg-grey'>
-                <th>Sr No</th>
-                <th>Addon-Group Name</th>
-                <th>Addon-Group Type</th>
-                <th>Is Active</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
+        <div class="table-responsive">
 
-            {{#ifEquals addonGroupData.length 0}}
-                {{>empty_state_table}}
-            {{/ifEquals}}
-
-            {{#each addonGroupData}}
-                <tr>
-                    <td>  {{increment @index}}  </td>
-                    <td>  {{addon_group_display_name}}  </td>
-                    <td>
-                        {{#ifEquals addon_group_type 'radio'}}
-                            Single-Select
-                        {{else}}
-                            Multi-Select
-                        {{/ifEquals}}
-                    </td>
-                    <td>
-                        {{#if addon_group_is_active}}
-                            <button class='btn btn-success active my-cursor-default' ><i class='fa fa-check'></i></button>
-                        {{else}}
-                            <button class='btn btn-danger active my-cursor-default' ><i class='fa fa-times'></i></button>
-                        {{/if}}
-                    </td>
-                    <td>
-                        <a href="/menu/addonGroup/edit/{{rel_id}}">
-                            <button type='submit' class='btn btn-info' >
-                                <span><i class='fa fa-edit'></i></span>
-                                Edit Addon-Group
-                            </button>
-                        </a>
-                    </td>
-                    <td>
-                        <button class="btn btn-danger button_Delete" type="button" data-addonGroup-id="{{rel_id}}" data-toggle="modal" data-target="#modal_Delete" >
-                            <span><i class='fa fa-trash'></i></span>
-                            Delete Addon-Group
-                        </button>
-                    </td>
+            <table  class='table table-bordered table-hover' >
+                <tr class='bg-grey'>
+                    <th>Sr No</th>
+                    <th>Addon-Group Name</th>
+                    <th>Addon-Group Type</th>
+                    <th>Is Active</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
-            {{/each}}
-        </table>
-        <br><br>
 
+                {{#ifEquals addonGroupData.length 0}}
+                    {{>empty_state_table}}
+                {{/ifEquals}}
+
+                {{#each addonGroupData}}
+                    <tr>
+                        <td>  {{increment @index}}  </td>
+                        <td>  {{addon_group_display_name}}  </td>
+                        <td>
+                            {{#ifEquals addon_group_type 'radio'}}
+                                Single-Select
+                            {{else}}
+                                Multi-Select
+                            {{/ifEquals}}
+                        </td>
+                        <td>
+                            {{#if addon_group_is_active}}
+                                <button class='btn btn-success active my-cursor-default' ><i class='fa fa-check'></i></button>
+                            {{else}}
+                                <button class='btn btn-danger active my-cursor-default' ><i class='fa fa-times'></i></button>
+                            {{/if}}
+                        </td>
+                        <td>
+                            <a href="/menu/addonGroup/edit/{{rel_id}}">
+                                <button type='submit' class='btn btn-info' >
+                                    <span><i class='fa fa-edit'></i></span>
+                                    Edit Addon-Group
+                                </button>
+                            </a>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger button_Delete" type="button" data-addonGroup-id="{{rel_id}}" data-toggle="modal" data-target="#modal_Delete" >
+                                <span><i class='fa fa-trash'></i></span>
+                                Delete Addon-Group
+                            </button>
+                        </td>
+                    </tr>
+                {{/each}}
+            </table>
+
+
+        </div>
+        <br><br>
         <div class="text-center">
             <a class="col-sm-4 btn btn-primary" href="/menu/addonGroup/add/{{categoryData.category_id}}">
                 Add New Item

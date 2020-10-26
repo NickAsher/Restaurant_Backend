@@ -25,55 +25,53 @@
     <!--Page Title /End-->
 
     <div class="my-app-content">
-
-        <table  class='table table-bordered table-hover' >
-            <tr class='bg-grey'>
-                <th>Sr No</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Acitve</th>
-                <th>Active Untill</th>
-                <th>Role</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-
-            {{#each adminList}}
-                <tr>
-                    <td>  {{increment @index}}  </td>
-                    <td>  {{name}}  </td>
-                    <td>  {{email}}  </td>
-                    <td>
-                        {{#if account_is_active}}
-                            <button class='btn btn-success active my-cursor-default' ><i class='fa fa-check'></i></button>
-                        {{else}}
-                            <button class='btn btn-danger active my-cursor-default' ><i class='fa fa-times'></i></button>
-                        {{/if}}
-                    </td>
-                    <td>{{active_till}}</td>
-                    <td>{{role}}</td>
-                    <td>
-                        <a href="/admins/edit/{{id}}">
-                            <button type='submit' class='btn btn-info' >
-                                <span><i class='fa fa-edit'></i></span>
-                                Edit
-                            </button>
-                        </a>
-                    </td>
-                    <td>
-                        <button class="btn btn-danger button_Delete" type="button" data-admin-id="{{id}}" data-toggle="modal" data-target="#modal_Delete" >
-                            <span><i class='fa fa-trash'></i></span>
-                            Delete
-                        </button>
-                    </td>
+        <div class="table-responsive">
+            <table  class='table table-bordered table-hover' >
+                <tr class='bg-grey'>
+                    <th>Sr No</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Acitve</th>
+                    <th>Active Untill</th>
+                    <th>Role</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
-            {{/each}}
+
+                {{#each adminList}}
+                    <tr>
+                        <td>  {{increment @index}}  </td>
+                        <td>  {{name}}  </td>
+                        <td>  {{email}}  </td>
+                        <td>
+                            {{#if account_is_active}}
+                                <button class='btn btn-success active my-cursor-default' ><i class='fa fa-check'></i></button>
+                            {{else}}
+                                <button class='btn btn-danger active my-cursor-default' ><i class='fa fa-times'></i></button>
+                            {{/if}}
+                        </td>
+                        <td>{{active_till}}</td>
+                        <td>{{role}}</td>
+                        <td>
+                            <a href="/admins/edit/{{id}}">
+                                <button type='submit' class='btn btn-info' >
+                                    <span><i class='fa fa-edit'></i></span>
+                                    Edit
+                                </button>
+                            </a>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger button_Delete" type="button" data-admin-id="{{id}}" data-toggle="modal" data-target="#modal_Delete" >
+                                <span><i class='fa fa-trash'></i></span>
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                {{/each}}
 
 
-        </table>
-
-
-
+            </table>
+        </div>
     </div>
 
 {{/template_base}}

@@ -18,44 +18,45 @@
 
 
     <div class="my-app-content">
-        <table  class='table table-bordered table-hover bg-white' >
+        <div class="table-responsive">
+            <table  class='table table-bordered table-hover bg-white' >
 
-            <tr class='bg-grey'>
-                <th>Blog Image</th>
-                <th>Blog Title</th>
-                <th>Creation Date/Time</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-
-            {{#ifEquals blogsData.length 0}}
-                {{>empty_state_table}}
-            {{/ifEquals}}
-
-            {{#each blogsData}}
-                <tr>
-                    <td class='addon-link' data-href='/blogs/view/{{blog_id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{blog_display_image}}' class='img-fluid' width='90px' ></td>
-                    <td class='addon-link' data-href='/blogs/view/{{blog_id}}'>  {{blog_title}}  </td>
-                    <td class='addon-link' data-href='/blogs/view/{{blog_id}}'>  {{blog_creation_date}}</td>
-                    <td>
-                        <a href="/blogs/edit/{{blog_id}}">
-                            <button type='submit' class='btn btn-info' >
-                                <span><i class='fa fa-edit'></i></span> Edit Blog
-                            </button>
-                        </a>
-                    </td>
-                    <td>
-                        <button class="btn btn-danger button_Delete" type="button" data-blog-id="{{blog_id}}" data-blog-image-name="{{blog_display_image}}" data-toggle="modal" data-target="#modal_Delete" >
-                            <span><i class='fa fa-lg fa-trash'></i></span> Delete Blog
-                        </button>
-                    </td>
+                <tr class='bg-grey'>
+                    <th>Blog Image</th>
+                    <th>Blog Title</th>
+                    <th>Creation Date/Time</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
 
-            {{/each}}
+                {{#ifEquals blogsData.length 0}}
+                    {{>empty_state_table}}
+                {{/ifEquals}}
+
+                {{#each blogsData}}
+                    <tr>
+                        <td class='addon-link' data-href='/blogs/view/{{blog_id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{blog_display_image}}' class='img-fluid' width='90px' ></td>
+                        <td class='addon-link' data-href='/blogs/view/{{blog_id}}'>  {{blog_title}}  </td>
+                        <td class='addon-link' data-href='/blogs/view/{{blog_id}}'>  {{blog_creation_date}}</td>
+                        <td>
+                            <a href="/blogs/edit/{{blog_id}}">
+                                <button type='submit' class='btn btn-info' >
+                                    <span><i class='fa fa-edit'></i></span> Edit Blog
+                                </button>
+                            </a>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger button_Delete" type="button" data-blog-id="{{blog_id}}" data-blog-image-name="{{blog_display_image}}" data-toggle="modal" data-target="#modal_Delete" >
+                                <span><i class='fa fa-lg fa-trash'></i></span> Delete Blog
+                            </button>
+                        </td>
+                    </tr>
+
+                {{/each}}
 
 
-        </table>
-
+            </table>
+        </div>
         <div class="float-right">
             {{{parsedPaginatorHtml}}}
         </div>

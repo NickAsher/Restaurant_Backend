@@ -120,7 +120,7 @@ app.get('/',  async (req, res)=>{
 }) ;
 
 app.get('/dashboard', authenticationMiddleware.isAuthenticated('dashboard'), async (req, res)=>{
-  res.render("home/home_test.hbs") ;
+  res.render("home/home.hbs") ;
 }) ;
 
 app.use(require('./routes/router_admins')) ;

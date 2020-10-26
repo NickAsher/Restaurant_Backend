@@ -100,59 +100,61 @@
                             </div>
 
                             <br><br>
-                            <table  class='table table-bordered table-hover' >
-                                <tr class='bg-grey'>
-                                    <th>Sr No</th>
-                                    <th>Addon Name</th>
-                                    {{#ifEquals addon_group_type 'radio' }}<th>Is Default</th>{{/ifEquals}}
-                                    <th>Is Active</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
-                                </tr>
+                            <div class="table-responsive">
+                                <table  class='table table-bordered table-hover' >
+                                    <tr class='bg-grey'>
+                                        <th>Sr No</th>
+                                        <th>Addon Name</th>
+                                        {{#ifEquals addon_group_type 'radio' }}<th>Is Default</th>{{/ifEquals}}
+                                        <th>Is Active</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
 
-                                {{#ifEquals addonItems.length 0}}
-                                    {{>empty_state_table}}
-                                {{/ifEquals}}
+                                    {{#ifEquals addonItems.length 0}}
+                                        {{>empty_state_table}}
+                                    {{/ifEquals}}
 
-                                {{#each addonItems}}
-                                    <tr>
-                                        <td class='td-link' data-href='/menu/addons/view/{{item_id}}'>  {{increment @index}}  </td>
-                                        <td class='td-link' data-href='/menu/addons/view/{{item_id}}'>  {{item_name}}  </td>
+                                    {{#each addonItems}}
+                                        <tr>
+                                            <td class='td-link' data-href='/menu/addons/view/{{item_id}}'>  {{increment @index}}  </td>
+                                            <td class='td-link' data-href='/menu/addons/view/{{item_id}}'>  {{item_name}}  </td>
 
-                                        {{#ifEquals ../addon_group_type 'radio' }}
+                                            {{#ifEquals ../addon_group_type 'radio' }}
+                                                <td class='td-link' data-href='/menu/addons/view/{{item_id}}'>
+                                                    {{#if item_is_default}}
+                                                        <button class='btn btn-success active' >Yes</button>
+                                                    {{else}}
+                                                    {{/if}}
+                                                </td>
+                                            {{/ifEquals}}
+
+
                                             <td class='td-link' data-href='/menu/addons/view/{{item_id}}'>
-                                                {{#if item_is_default}}
-                                                    <button class='btn btn-success active' >Yes</button>
+                                                {{#if item_is_active}}
+                                                    <button class='btn btn-success active' ><i class='fa fa-check'></i></button>
                                                 {{else}}
+                                                    <button class='btn btn-danger active' ><i class='fa fa-times'></i></button>
                                                 {{/if}}
                                             </td>
-                                        {{/ifEquals}}
-
-
-                                        <td class='td-link' data-href='/menu/addons/view/{{item_id}}'>
-                                            {{#if item_is_active}}
-                                                <button class='btn btn-success active' ><i class='fa fa-check'></i></button>
-                                            {{else}}
-                                                <button class='btn btn-danger active' ><i class='fa fa-times'></i></button>
-                                            {{/if}}
-                                        </td>
-                                        <td>
-                                            <a href="/menu/addons/edit/{{item_id}}">
-                                                <button type='submit' class='btn btn-info' >
-                                                    <span><i class='fa fa-edit'></i></span>
-                                                    Edit Addon
+                                            <td>
+                                                <a href="/menu/addons/edit/{{item_id}}">
+                                                    <button type='submit' class='btn btn-info' >
+                                                        <span><i class='fa fa-edit'></i></span>
+                                                        Edit Addon
+                                                    </button>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger button_Delete" type="button" data-item-id="{{item_id}}" data-toggle="modal" data-target="#modal_Delete" >
+                                                    <span><i class='fa fa-trash'></i></span>
+                                                    Delete Addon
                                                 </button>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-danger button_Delete" type="button" data-item-id="{{item_id}}" data-toggle="modal" data-target="#modal_Delete" >
-                                                <span><i class='fa fa-trash'></i></span>
-                                                Delete Addon
-                                            </button>
-                                        </td>
-                                    </tr>
-                                {{/each}}
-                            </table>
+                                            </td>
+                                        </tr>
+                                    {{/each}}
+                                </table>
+                            </div>
                             <br><br>
 
                             <div class="text-center">

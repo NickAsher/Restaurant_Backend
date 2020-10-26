@@ -39,57 +39,59 @@
 
 
     <div class="my-app-content">
-        <table  class='table table-bordered table-hover' >
-            <tr class='bg-grey'>
-                <th>Sr No</th>
-                <th>Size Name</th>
-                <th>Size Abbreviation</th>
-                <th>Is Default</th>
-                <th>Is Active</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-
-            {{#ifEquals sizeData.length 0}}
-                {{>empty_state_table Note="<br>Note : You need at least one size to add prices to dishes"}}
-            {{/ifEquals}}
-
-
-            {{#each sizeData}}
-                <tr>
-                    <td>  {{increment @index}}  </td>
-                    <td>  {{size_name}}  </td>
-                    <td>  {{size_name_short}}  </td>
-                    <td>
-                        {{#if size_is_default}}
-                            <button class='btn btn-success active my-cursor-default' >Yes</button>
-                        {{/if}}
-                    </td>
-                    <td>
-                        {{#if size_is_active}}
-                            <button class='btn btn-success active my-cursor-default' ><i class='fa fa-check'></i></button>
-                        {{else}}
-                            <button class='btn btn-danger active my-cursor-default' ><i class='fa fa-times'></i></button>
-                        {{/if}}
-                    </td>
-                    <td>
-                        <a href="/menu/size/edit/{{size_id}}">
-                            <button type='submit' class='btn btn-info' >
-                                <span><i class='fa fa-edit'></i></span>
-                                Edit Size
-                            </button>
-                        </a>
-                    </td>
-                    <td>
-                        <button class="btn btn-danger button_Delete" type="button" data-size-id="{{size_id}}" data-toggle="modal" data-target="#modal_Delete" >
-                            <span><i class='fa fa-trash'></i></span>
-                            Delete Size
-                        </button>
-                    </td>
+        <div class="table-responsive">
+            <table  class='table table-bordered table-hover' >
+                <tr class='bg-grey'>
+                    <th>Sr No</th>
+                    <th>Size Name</th>
+                    <th>Size Abbreviation</th>
+                    <th>Is Default</th>
+                    <th>Is Active</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
-            {{/each}}
-        </table>
-        <br><br>
+
+                {{#ifEquals sizeData.length 0}}
+                    {{>empty_state_table Note="<br>Note : You need at least one size to add prices to dishes"}}
+                {{/ifEquals}}
+
+
+                {{#each sizeData}}
+                    <tr>
+                        <td>  {{increment @index}}  </td>
+                        <td>  {{size_name}}  </td>
+                        <td>  {{size_name_short}}  </td>
+                        <td>
+                            {{#if size_is_default}}
+                                <button class='btn btn-success active my-cursor-default' >Yes</button>
+                            {{/if}}
+                        </td>
+                        <td>
+                            {{#if size_is_active}}
+                                <button class='btn btn-success active my-cursor-default' ><i class='fa fa-check'></i></button>
+                            {{else}}
+                                <button class='btn btn-danger active my-cursor-default' ><i class='fa fa-times'></i></button>
+                            {{/if}}
+                        </td>
+                        <td>
+                            <a href="/menu/size/edit/{{size_id}}">
+                                <button type='submit' class='btn btn-info' >
+                                    <span><i class='fa fa-edit'></i></span>
+                                    Edit Size
+                                </button>
+                            </a>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger button_Delete" type="button" data-size-id="{{size_id}}" data-toggle="modal" data-target="#modal_Delete" >
+                                <span><i class='fa fa-trash'></i></span>
+                                Delete Size
+                            </button>
+                        </td>
+                    </tr>
+                {{/each}}
+            </table>
+        </div>
+            <br><br>
 
         <div class="text-center">
             <a class="col-sm-4 btn btn-primary" href="/menu/size/add/{{categoryData.category_id}}">

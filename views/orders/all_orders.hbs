@@ -62,53 +62,55 @@
     </ul>
 </div>
 
-<table id="table-orders" class="table table-bordered table-hover my-table-hover  bg-white"  >
-    <tr id="tr_heading" class="table-info">
-        <th>Order No </th>
-        <th>User Details </th>
-        <th>User Address</th>
-        <th>Description</th>
-        <th>Total Amount</th>
-        <th>Comments</th>
-        <th class="order-date">Order Date</th>
-        <th>Order Time</th>
-        <th class="order-action-accept">Accept</th>
-        <th class="order-action-complete">Complete</th>
-        <th class="order-action-cancel">Cancel</th>
-    </tr>
-    {{#each orderData}}
-        <tr data-order-status="{{status}}">
-            <td class='text-sm-center'> {{id}} </td>
-            <td class=''>{{userDetails.firstname}} {{userDetails.lastname}} <br> {{userDetails.email}} <br> {{userDetails.phone}}</td>
-            <td class='small'> {{address.addressLine1}}<br>{{address.addressLine2}}<br>{{address.addressLine3}} </td>
-            <td class="small">
-                {{#each cart as |descriptionString|}}
-                    {{{descriptionString}}}
-                {{/each}}
-
-            </td>
-            <td class='text-size-small'>{{totalPrice}} </td>
-            <td class='text-size-small'>{{comments}} </td>
-            <td class='text-size-small order-date'> {{date}} </td>
-            <td class='text-size-small'> {{datetime}} </td>
-            <td class="order-action-accept">
-                <button data-order-id="{{id}}" data-operation="accept" class='btn btn-info btn-sm order-btn'>
-                    Accept
-                </button>
-            </td>
-            <td class="order-action-complete">
-                <button data-order-id="{{id}}" data-operation="complete" class='btn btn-warning btn-sm  order-btn'>
-                    Complete
-                </button>
-            </td>
-            <td class="order-action-cancel">
-                <button data-order-id="{{id}}" data-operation="cancel" class='btn btn-danger btn-sm  order-btn'>
-                    Cancel
-                </button>
-            </td>
+<div class="table-responsive">
+    <table id="table-orders" class="table table-bordered table-hover my-table-hover  bg-white"  >
+        <tr id="tr_heading" class="table-info">
+            <th>Order No </th>
+            <th>User Details </th>
+            <th>User Address</th>
+            <th>Description</th>
+            <th>Total Amount</th>
+            <th>Comments</th>
+            <th class="order-date">Order Date</th>
+            <th>Order Time</th>
+            <th class="order-action-accept">Accept</th>
+            <th class="order-action-complete">Complete</th>
+            <th class="order-action-cancel">Cancel</th>
         </tr>
-    {{/each}}
-</table>
+        {{#each orderData}}
+            <tr data-order-status="{{status}}">
+                <td class='text-sm-center'> {{id}} </td>
+                <td class=''>{{userDetails.firstname}} {{userDetails.lastname}} <br> {{userDetails.email}} <br> {{userDetails.phone}}</td>
+                <td class='small'> {{address.addressLine1}}<br>{{address.addressLine2}}<br>{{address.addressLine3}} </td>
+                <td class="small">
+                    {{#each cart as |descriptionString|}}
+                        {{{descriptionString}}}
+                    {{/each}}
+
+                </td>
+                <td class='text-size-small'>{{totalPrice}} </td>
+                <td class='text-size-small'>{{comments}} </td>
+                <td class='text-size-small order-date'> {{date}} </td>
+                <td class='text-size-small'> {{datetime}} </td>
+                <td class="order-action-accept">
+                    <button data-order-id="{{id}}" data-operation="accept" class='btn btn-info btn-sm order-btn'>
+                        Accept
+                    </button>
+                </td>
+                <td class="order-action-complete">
+                    <button data-order-id="{{id}}" data-operation="complete" class='btn btn-warning btn-sm  order-btn'>
+                        Complete
+                    </button>
+                </td>
+                <td class="order-action-cancel">
+                    <button data-order-id="{{id}}" data-operation="cancel" class='btn btn-danger btn-sm  order-btn'>
+                        Cancel
+                    </button>
+                </td>
+            </tr>
+        {{/each}}
+    </table>
+</div>
 <br><br>
 
 

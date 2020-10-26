@@ -51,46 +51,48 @@
                 {{/ifEquals}}
 
                 <br>
-                <table  class='table table-bordered table-hover' >
-                    <tr class='bg-grey'>
-                        <th>Sr No</th>
-                        <th>Image</th>
-                        <th>Dish Name</th>
-                        <th>Is Active</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-
-                    {{#ifEquals items.length 0}}
-                        {{>empty_state_table}}
-                    {{/ifEquals}}
-
-                    {{#each items}}
-                        <tr>
-                            <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'>  {{increment @index}}  </td>
-                            <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{item_image_name}}' class='img-fluid' width='90px' ></td>
-                            <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'>  {{item_name}}  </td>
-
-                            <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'>
-                                {{#if item_is_active}}
-                                    <button class='btn btn-success active' ><i class='fa fa-check'></i></button>
-                                {{else}}
-                                    <button class='btn btn-danger active' ><i class='fa fa-times'></i></button>
-                                {{/if}}
-                            </td>
-                            <td>
-                                <a href="/menu/dishes/edit/{{item_id}}">
-                                    <button type='submit' class='btn btn-info' ><span><i class='fa fa-edit'></i></span> Edit Dish</button>
-                                </a>
-                            </td>
-                            <td>
-                                <button class="btn btn-danger button_Delete" type="button" data-item-id="{{item_id}}" data-item-image-name="{{item_image_name}}" data-toggle="modal" data-target="#modal_Delete" >
-                                    <span><i class='fa fa-trash'></i></span> Delete Dish
-                                </button>
-                            </td>
+                <div class="table-responsive">
+                    <table  class='table table-bordered table-hover' >
+                        <tr class='bg-grey'>
+                            <th>Sr No</th>
+                            <th>Image</th>
+                            <th>Dish Name</th>
+                            <th>Is Active</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
-                    {{/each}}
-                </table>
+
+                        {{#ifEquals items.length 0}}
+                            {{>empty_state_table}}
+                        {{/ifEquals}}
+
+                        {{#each items}}
+                            <tr>
+                                <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'>  {{increment @index}}  </td>
+                                <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'><img src='{{@root.IMAGE_BACKENDFRONT_LINK_PATH}}{{item_image_name}}' class='img-fluid' width='90px' ></td>
+                                <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'>  {{item_name}}  </td>
+
+                                <td class='td-link' data-href='/menu/dishes/view/{{item_id}}'>
+                                    {{#if item_is_active}}
+                                        <button class='btn btn-success active' ><i class='fa fa-check'></i></button>
+                                    {{else}}
+                                        <button class='btn btn-danger active' ><i class='fa fa-times'></i></button>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    <a href="/menu/dishes/edit/{{item_id}}">
+                                        <button type='submit' class='btn btn-info' ><span><i class='fa fa-edit'></i></span> Edit Dish</button>
+                                    </a>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger button_Delete" type="button" data-item-id="{{item_id}}" data-item-image-name="{{item_image_name}}" data-toggle="modal" data-target="#modal_Delete" >
+                                        <span><i class='fa fa-trash'></i></span> Delete Dish
+                                    </button>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </table>
+                </div>
 
                 <br>
                 <br>
