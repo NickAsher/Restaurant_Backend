@@ -1,5 +1,7 @@
 {{#*inline "partial_head"}}
     <link rel="stylesheet" href="{{publicDirectoryLocation}}/css/arrange.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.1/jquery.mobile.min.css" />
+
 
 {{/inline}}
 
@@ -19,7 +21,7 @@
                 </div>
             </div>
             <div class="page-title-actions">
-                <a href='/specials' class="mytheme-anchor">
+                <a href='/gallery' class="mytheme-anchor">
                     <button type="button" class="btn-shadow btn btn-dark">
                         <span><i class="fa fa-arrow-left" ></i></span>
                         Go Back
@@ -65,7 +67,8 @@
 
 
 {{#*inline "partial_body_script"}}
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.1/jquery.mobile.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js" ></script>
 <script>
     $('#sorting').sortable({
         placeholder: "highlight",
