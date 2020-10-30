@@ -14787,16 +14787,6 @@ be a descendant of the grid when it is being dragged.
     background: #343a40;
   }
 
-  .popover,
-.dropdown-menu {
-    position: fixed !important;
-    z-index: 50;
-    left: 5% !important;
-    top: 50% !important;
-    width: 90% !important;
-    transform: translateY(-50%) !important;
-    min-width: 10px !important;
-  }
   .popover .btn-icon-vertical .btn-icon-wrapper,
 .dropdown-menu .btn-icon-vertical .btn-icon-wrapper {
     display: none;
@@ -14931,7 +14921,6 @@ body .card.mb-3 {
   .popover,
 .dropdown-menu {
     width: 80%;
-    left: 10%;
   }
 
   body .card-header {

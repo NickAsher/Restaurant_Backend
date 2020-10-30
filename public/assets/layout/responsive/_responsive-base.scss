@@ -177,13 +177,15 @@
 
   .popover,
   .dropdown-menu {
-    position: fixed !important;
-    z-index: 50;
-    left: 5% !important;
-    top: 50% !important;
-    width: 90% !important;
-    transform: translateY(-50%) !important;
-    min-width: 10px !important;
+
+    // following commands fuckup the positioning of the dropbox menu
+    //position: fixed !important;
+    //z-index: 50;
+    //left: 5% !important;
+    //top: 50% !important;
+    //width: 90% !important;
+    //transform: translateY(-50%) !important;
+    //min-width: 10px !important;
 
     .btn-icon-vertical .btn-icon-wrapper {
       display: none;
@@ -359,7 +361,7 @@
   .popover,
   .dropdown-menu {
     width: 80%;
-    left: 10%;
+    //left: 10%;  // this fucks the positioning of the dropbox menu
   }
 
   body .card-header {

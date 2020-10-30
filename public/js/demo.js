@@ -75,4 +75,20 @@ $(document).ready(() => {
         $(containerElement).addClass('sidebar-shadow ' + classToSwitch);
     });
 
+
+  $('#myDropdownMenu_Button').on('click', function () {
+    if($('#myDropdownMenu').hasClass('show')){
+
+      $('#myDropdownMenu').removeClass('show');
+      $(this).parent().attr('aria-expanded', 'false');
+      $(this).parent().parent().removeClass('show');
+    }else{
+
+      $('#myDropdownMenu').addClass('show');
+      $(this).parent().attr('aria-expanded', 'true');
+      $(this).parent().parent().addClass('show');
+    }
+  });
+
+
 });
