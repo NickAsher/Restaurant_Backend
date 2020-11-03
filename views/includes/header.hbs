@@ -38,12 +38,20 @@
                         <i id="myDropdownMenu_Button" class="fa fa-ellipsis-v fa-w-6 text-white" ></i>
                     </a>
                     <div id="myDropdownMenu" tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                        <button type="button" tabindex="0" class="dropdown-item">User Account</button>
-                        <button type="button" tabindex="0" class="dropdown-item">Settings</button>
-                        <h6 tabindex="-1" class="dropdown-header">Header</h6>
-                        <button type="button" tabindex="0" class="dropdown-item">Actions</button>
+                        <a href="/settings" class="dropdown-item ">
+                            <i class="nav-link-icon fa fa-lg fa-cog "></i>
+                            &nbsp; Settings
+                        </a>
+
+                        <a href="/admins" class="dropdown-item ">
+                            <i class="nav-link-icon fa fa-lg fa-user "></i>
+                            &nbsp; Admin Management
+                        </a>
                         <div tabindex="-1" class="dropdown-divider"></div>
-                        <button type="button" tabindex="0" class="dropdown-item">Dividers</button>
+                        <a href="/signout" type="button" class="dropdown-item">
+                            Sign Out
+                        </a>
+
                     </div>
                 </div>
             </div>
