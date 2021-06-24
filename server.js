@@ -37,7 +37,8 @@ app.use(cookieParser()) ;
 
 
 let redisClient = redis.createClient({
-  // host : process.env.NODE_ENV == 'production' ? process.env.REDIS_HOST_PRODUCTION : process.env.REDIS_HOST_LOCAL,
+  // host : process.env.NODE_ENV == 'production' ? process.env.REDIS_HOST_PRODUCTION2 : process.env.REDIS_HOST_LOCAL,
+  // host : process.env.REDIS_HOST_PRODUCTION2 ,
   host : '127.0.0.1',
   port : 6379
 }) ;
