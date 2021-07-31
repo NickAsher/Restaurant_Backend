@@ -1,6 +1,6 @@
 const logger = require('../middleware/logging') ;
 const dbRepository = require('../data/DbRepository') ;
-const dbConnection = require('../utils/database2') ;
+const dbConnection = require('../utils/databaseConnection_Restore') ;
 const fs = require('fs') ;
 const fs_extra = require('fs-extra') ;
 const path = require('path') ;

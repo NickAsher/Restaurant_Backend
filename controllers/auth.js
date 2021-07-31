@@ -1,6 +1,6 @@
 const logger = require('../middleware/logging') ;
 const dbRepository = require('../data/DbRepository') ;
-const dbConnection = require('../utils/database') ;
+const dbConnection = require('../utils/databaseConnection') ;
 const bcrypt = require('bcrypt') ;
 const crypto =  require('crypto') ;
 const jwt = require('jsonwebtoken') ;

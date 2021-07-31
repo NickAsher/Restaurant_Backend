@@ -1,7 +1,7 @@
 const express = require('express') ;
 const path = require('path') ;
 const hbs = require('hbs') ;
-const dbConnection = require('./utils/database') ;
+const dbConnection = require('./utils/databaseConnection') ;
 const Constants = require('./utils/Constants') ;
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser") ;
@@ -27,6 +27,10 @@ hbs.registerHelper('increment', function (arg1) {
 });
 hbs.registerHelper('toJSON', function(obj) {
   return JSON.stringify(obj, null, 4);
+});
+
+hbs.registerHelper("bold", function(options) {
+  return '<div class="font-weight-bold">' + options.fn(this) + "</div>" ;
 });
 
 app.use(express.static("public"));
@@ -163,5 +167,5 @@ app.get('*', (req, res)=>{
 
 app.listen(3002, ()=>{
   logger.info('Server is listening on port 3002') ;
-    console.log("The server is listening on port 3002") ;
+  console.log("The server is listening on port 3002") ;
 }) ;

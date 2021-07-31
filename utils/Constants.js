@@ -1,5 +1,7 @@
 const path = require('path') ;
 
+const S3_BUCKET_LOCATION = "www.rafique.in" ;
+
 
 const SERVER_LOCATION = process.env.NODE_ENV == 'production' ?  'https://www.cms.rafique.in' : 'http://localhost:3002' ;
 const IMAGE_BACKENDFRONT_LINK_PATH =  process.env.NODE_ENV == 'production' ? `https://s3.ap-south-1.amazonaws.com/www.rafique.in/restaurant-backend/images/` : "http://localhost:3002/public_images/" ;
@@ -9,6 +11,7 @@ const IMAGE_PATH = path.join(__dirname, "../images/") ;
 const RESTORE_SQL_FILE_PATH = path.join(__dirname, '../restore/restaurant.sql') ;
 
 module.exports = {
+  S3_BUCKET_LOCATION,
   SERVER_LOCATION,
   IMAGE_BACKENDFRONT_LINK_PATH,
   IMAGE_PATH,

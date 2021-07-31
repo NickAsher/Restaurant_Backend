@@ -1,6 +1,6 @@
 const path = require('path') ;
 const fs = require('fs') ;
-const dbConnection = require('../utils/database') ;
+const dbConnection = require('../utils/databaseConnection') ;
 const dbRepository = require('../data/DbRepository') ;
 const Constants = require('../utils/Constants') ;
 const Paginator = require('../utils/Paginator') ;

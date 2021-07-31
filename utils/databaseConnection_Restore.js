@@ -27,7 +27,7 @@ if(process.env.NODE_ENV == 'development'){
 const pool = mysql.createPool({
   host : host,
   user : user,
-  database : 'restaurant',
+  database : 'restaurant_db',
   password : password,
   dateStrings : true,
   multipleStatements : true

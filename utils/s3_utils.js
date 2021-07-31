@@ -1,5 +1,6 @@
 const AWS = require('aws-sdk') ;
 const fs = require('fs') ;
+const Constants = require('./Constants') ;
 
 AWS.config.loadFromPath('./secret/aws_credentials.json');
 let s3 = new AWS.S3({apiVersion: '2006-03-01'}) ;
@@ -7,7 +8,7 @@ let s3 = new AWS.S3({apiVersion: '2006-03-01'}) ;
 
 exports.listImages = async (folderLocation)=>{
   return s3.listObjectsV2({
-    Bucket : 'rafique.in',
+    Bucket : Constants.S3_BUCKET_LOCATION,
     Prefix : `${folderLocation}`,
     Delimiter  : ""
   }).promise() ;
@@ -17,7 +18,7 @@ exports.listImages = async (folderLocation)=>{
 
 exports.deleteImage = (imageName)=>{
   return s3.deleteObject({
-    Bucket : 'rafique.in',
+    Bucket : Constants.S3_BUCKET_LOCATION,
     Key : `restaurant-backend/images/${imageName}`,
   }).promise() ;
 } ;
@@ -32,7 +33,7 @@ exports.deleteImages = async (arrayOfImages)=>{
   }) ;
 
   return s3.deleteObjects({
-    Bucket: 'rafique.in',
+    Bucket: Constants.S3_BUCKET_LOCATION,
     Delete: {
       Objects: imagesKeyArray,
       Quiet: false
@@ -56,7 +57,7 @@ exports.emptyImagesFolder = async()=>{
   }
 
   return s3.deleteObjects({
-    Bucket : "rafique.in",
+    Bucket : Constants.S3_BUCKET_LOCATION,
     Delete: {
       Objects: deleteArray,
       Quiet: false
@@ -78,7 +79,7 @@ exports.restoreImages = async ()=>{
     let fileName = this.getFileNameFromKey(listOfImages[i]['Key']) ;
 
     s3.copyObject({
-      Bucket: 'rafique.in',
+      Bucket: Constants.S3_BUCKET_LOCATION,
       CopySource: `rafique.in/restaurant-backend/restore/${fileName}`,
       Key: `restaurant-backend/images/${fileName}`,
       ACL : 'public-read'
