@@ -80,7 +80,7 @@ exports.restoreImages = async ()=>{
 
     s3.copyObject({
       Bucket: Constants.S3_BUCKET_LOCATION,
-      CopySource: `rafique.in/restaurant-backend/restore/${fileName}`,
+      CopySource: `${Constants.S3_BUCKET_LOCATION}/restaurant-backend/restore/${fileName}`,
       Key: `restaurant-backend/images/${fileName}`,
       ACL : 'public-read'
 

@@ -48,7 +48,7 @@ exports.postRestorePublicImages = async (req, res)=>{
     await s3Utils.restoreImages() ;
     res.send({
       status : true,
-      msg : "all files have been deleted in public images"
+      msg : "all files have been restored in s3 images"
     }) ;
   }catch (e) {
     logger.error(`{'error' : '${JSON.stringify(e)}', 'url':'${req.originalUrl}'}`) ;
